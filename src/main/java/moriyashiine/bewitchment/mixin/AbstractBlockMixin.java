@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockBehaviour.class)
 public abstract class AbstractBlockMixin {
-	@Inject(method = "calcBlockBreakingDelta", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "getDestroyProgress", at = @At("RETURN"), cancellable = true)
 	private void calcBlockBreakingDelta(BlockState state, Player player, BlockGetter world, BlockPos pos, CallbackInfoReturnable<Float> callbackInfo) {
 		if (callbackInfo.getReturnValueF() > 0 && world.getBlockEntity(state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER ? pos.below() : pos) instanceof Lockable lockable && lockable.getLocked() && !lockable.test(player)) {
 			callbackInfo.setReturnValue(0f);

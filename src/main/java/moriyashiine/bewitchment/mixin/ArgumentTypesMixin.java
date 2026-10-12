@@ -23,7 +23,7 @@ public abstract class ArgumentTypesMixin {
 		throw new UnsupportedOperationException();
 	}
 
-	@Inject(method = "register(Lnet/minecraft/registry/Registry;)Lnet/minecraft/command/argument/serialize/ArgumentSerializer;", at = @At("RETURN"))
+	@Inject(method = "bootstrap(Lnet/minecraft/core/Registry;)Lnet/minecraft/commands/synchronization/ArgumentTypeInfo;", at = @At("RETURN"))
 	private static void bewitchemnt$registerArgumentTypes(Registry<ArgumentTypeInfo<?, ?>> registry, CallbackInfoReturnable<ArgumentTypeInfo<?, ?>> cir) {
 		register(registry, "bewitchment:fortune", BWCommands.FortuneArgumentType.class, SingletonArgumentInfo.contextFree(BWCommands.FortuneArgumentType::fortune));
 		register(registry, "bewitchment:transformation", BWCommands.TransformationArgumentType.class, SingletonArgumentInfo.contextFree(BWCommands.TransformationArgumentType::transformation));

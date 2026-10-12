@@ -27,7 +27,7 @@ public abstract class VillagerEntityMixin extends AbstractVillager {
 		super(entityType, world);
 	}
 
-	@Inject(method = "interactMob", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/entity/passive/VillagerEntity;getOffers()Lnet/minecraft/village/TradeOfferList;"), cancellable = true)
+	@Inject(method = "mobInteract", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/world/entity/npc/Villager;getOffers()Lnet/minecraft/world/item/trading/MerchantOffers;"), cancellable = true)
 	private void interactMob(Player player, InteractionHand hand, CallbackInfoReturnable<MerchantOffers> callbackInfo) {
 		if (!level().isClientSide && BWUtil.rejectTrades(this)) {
 			sayNo();

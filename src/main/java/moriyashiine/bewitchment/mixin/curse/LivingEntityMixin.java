@@ -30,7 +30,7 @@ public abstract class LivingEntityMixin extends Entity {
 		super(type, world);
 	}
 
-	@ModifyVariable(method = "addStatusEffect(Lnet/minecraft/entity/effect/StatusEffectInstance;Lnet/minecraft/entity/Entity;)Z", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z", at = @At("HEAD"), argsOnly = true)
 	private MobEffectInstance modifyStatusEffect(MobEffectInstance effect) {
 		if (!level().isClientSide && !effect.isAmbient() && effect.getEffect().getCategory() == MobEffectCategory.HARMFUL && BWComponents.CURSES_COMPONENT.get(this).hasCurse(BWCurses.COMPROMISED)) {
 			return new MobEffectInstance(effect.getEffect(), effect.getDuration(), effect.getAmplifier() + 1, false, effect.isVisible(), effect.showIcon());
@@ -38,7 +38,7 @@ public abstract class LivingEntityMixin extends Entity {
 		return effect;
 	}
 
-	@ModifyVariable(method = "applyArmorToDamage", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "getDamageAfterArmorAbsorb", at = @At("HEAD"), argsOnly = true)
 	private float modifyDamage(float amount, DamageSource source) {
 		if (!level().isClientSide) {
 			CursesComponent cursesComponent = BWComponents.CURSES_COMPONENT.get(this);
@@ -52,14 +52,14 @@ public abstract class LivingEntityMixin extends Entity {
 		return amount;
 	}
 
-	@Inject(method = "damage", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "hurt", at = @At("HEAD"), cancellable = true)
 	private void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (!level().isClientSide && (Object) this instanceof Mob mob && BWComponents.FAKE_MOB_COMPONENT.get(mob).getTarget() != null) {
 			callbackInfo.setReturnValue(false);
 		}
 	}
 
-	@Inject(method = "canHaveStatusEffect", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "canBeAffected", at = @At("RETURN"), cancellable = true)
 	private void canHaveStatusEffect(MobEffectInstance effect, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (callbackInfo.getReturnValueZ() && !level().isClientSide && !effect.isAmbient() && effect.getEffect().getCategory() == MobEffectCategory.BENEFICIAL && BWComponents.CURSES_COMPONENT.get(this).hasCurse(BWCurses.UNLUCKY) && random.nextBoolean()) {
 			callbackInfo.setReturnValue(false);

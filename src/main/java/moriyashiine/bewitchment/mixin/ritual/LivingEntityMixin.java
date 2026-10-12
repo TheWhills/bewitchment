@@ -24,7 +24,7 @@ public abstract class LivingEntityMixin extends Entity {
 		super(type, world);
 	}
 
-	@ModifyVariable(method = "applyArmorToDamage", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "getDamageAfterArmorAbsorb", at = @At("HEAD"), argsOnly = true)
 	private float modifyDamage(float amount, DamageSource source) {
 		if (!level().isClientSide && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && level().getWorldBorder().isWithinBounds(blockPosition())) {
 			for (BlockPos foundPos : BWUtil.getBlockPoses(blockPosition(), 16)) {

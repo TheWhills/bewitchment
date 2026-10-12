@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 
 @Mixin(HopperBlockEntity.class)
 public abstract class HopperBlockEntityMixin {
-	@Inject(method = "getAvailableSlots", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "getSlots", at = @At("HEAD"), cancellable = true)
 	private static void getAvailableSlots(Container inventory, Direction side, CallbackInfoReturnable<IntStream> callbackInfo) {
 		if (inventory instanceof BrazierBlockEntity) {
 			callbackInfo.setReturnValue(IntStream.empty());

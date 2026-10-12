@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @SuppressWarnings("ConstantConditions")
 @Mixin(BlockEntityType.class)
 public class BlockEntityTypeMixin {
-	@Inject(method = "supports", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "isValid", at = @At("HEAD"), cancellable = true)
 	private void supports(BlockState state, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if ((Object) this instanceof BedBlockEntity && state.getBlock() instanceof CoffinBlock) {
 			callbackInfo.setReturnValue(true);

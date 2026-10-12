@@ -23,7 +23,7 @@ public abstract class VillagerEntityMixin extends AbstractVillager {
 		super(entityType, world);
 	}
 
-	@Inject(method = "onDeath", at = @At("HEAD"))
+	@Inject(method = "die", at = @At("HEAD"))
 	private void onDeath(CallbackInfo callbackInfo) {
 		if (!level().isClientSide && lastHurtByPlayer != null) {
 			if (BWComponents.CONTRACTS_COMPONENT.get(lastHurtByPlayer).hasContract(BWContracts.ENVY) && !getOffers().isEmpty()) {

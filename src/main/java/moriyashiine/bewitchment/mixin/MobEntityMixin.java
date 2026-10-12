@@ -49,7 +49,7 @@ public abstract class MobEntityMixin extends LivingEntity {
 		return target;
 	}
 
-	@Inject(method = "interactWithItem", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/player/PlayerEntity;getStackInHand(Lnet/minecraft/util/Hand;)Lnet/minecraft/item/ItemStack;"), cancellable = true)
+	@Inject(method = "checkAndHandleImportantInteractions", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/entity/player/Player;getItemInHand(Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/item/ItemStack;"), cancellable = true)
 	private void interactWithItem(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
 		if (player.getItemInHand(hand).getItem() instanceof TaglockItem) {
 			cir.setReturnValue(TaglockItem.useTaglock(player, this, hand, true, false));

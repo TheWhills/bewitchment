@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MobEffect.class)
 public class StatusEffectMixin {
-	@Inject(method = "applyUpdateEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getHungerManager()Lnet/minecraft/entity/player/HungerManager;"))
+	@Inject(method = "applyEffectTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getFoodData()Lnet/minecraft/world/food/FoodData;"))
 	private void applyUpdateEffect(LivingEntity entity, int amplifier, CallbackInfo ci) {
 		if (BewitchmentAPI.isVampire(entity, true)) {
 			BWComponents.BLOOD_COMPONENT.maybeGet(entity).ifPresent(bloodComponent -> {

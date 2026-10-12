@@ -51,7 +51,7 @@ public abstract class MobEntityMixin extends LivingEntity {
 		return target;
 	}
 
-	@Inject(method = "dropLoot", at = @At("HEAD"))
+	@Inject(method = "dropFromLootTable", at = @At("HEAD"))
 	private void dropLoot(DamageSource source, boolean causedByPlayer, CallbackInfo callbackInfo) {
 		if (!level().isClientSide && (Object) this instanceof Spider && !spawnedByArachnophobia && source.getEntity() instanceof LivingEntity livingAttacker && BWComponents.CURSES_COMPONENT.get(livingAttacker).hasCurse(BWCurses.ARACHNOPHOBIA)) {
 			for (int i = 0; i < random.nextInt(3) + 3; i++) {
@@ -72,14 +72,14 @@ public abstract class MobEntityMixin extends LivingEntity {
 		}
 	}
 
-	@Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
+	@Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
 	private void readCustomDataFromNbt(CompoundTag nbt, CallbackInfo callbackInfo) {
 		if ((Object) this instanceof CaveSpider) {
 			spawnedByArachnophobia = nbt.getBoolean("SpawnedByArachnophobia");
 		}
 	}
 
-	@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
+	@Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
 	private void writeCustomDataToNbt(CompoundTag nbt, CallbackInfo callbackInfo) {
 		if ((Object) this instanceof CaveSpider) {
 			nbt.putBoolean("SpawnedByArachnophobia", spawnedByArachnophobia);

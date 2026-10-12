@@ -23,7 +23,7 @@ public class EndermanEntityMixin extends Monster {
 		super(entityType, world);
 	}
 
-	@Inject(method = "isPlayerStaring", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "isLookingAtMe", at = @At("RETURN"), cancellable = true)
 	private void isPlayerStaring(Player player, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (!callbackInfo.getReturnValueZ() && !player.isCreative() && getTarget() == null && BWComponents.CURSES_COMPONENT.get(player).hasCurse(BWCurses.OUTRAGE) && distanceTo(player) <= getAttributeValue(Attributes.FOLLOW_RANGE) / 4 && hasLineOfSight(player)) {
 			callbackInfo.setReturnValue(true);

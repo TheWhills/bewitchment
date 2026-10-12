@@ -10,9 +10,9 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(LivingEntity.class)
 public interface LivingEntityAccessor {
-	@Invoker("getNextAirUnderwater")
+	@Invoker("decreaseAirSupply")
 	int bw_getNextAirUnderwater(int air);
 
-	@Invoker("getNextAirOnLand")
+	@Invoker("increaseAirSupply")
 	int bw_getNextAirOnLand(int air);
 }

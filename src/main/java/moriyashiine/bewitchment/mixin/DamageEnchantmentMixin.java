@@ -23,7 +23,7 @@ public abstract class DamageEnchantmentMixin {
 	@Shadow
 	public abstract float getAttackDamage(int level, MobType group);
 
-	@Inject(method = "getAttackDamage", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "getDamageBonus", at = @At("HEAD"), cancellable = true)
 	private void getAttackDamage(int level, MobType group, CallbackInfoReturnable<Float> callbackInfo) {
 		if (typeIndex == 1 && group == BewitchmentAPI.DEMON) {
 			callbackInfo.setReturnValue(getAttackDamage(level, MobType.UNDEAD));

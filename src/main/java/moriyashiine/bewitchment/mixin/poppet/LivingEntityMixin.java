@@ -59,7 +59,7 @@ public abstract class LivingEntityMixin extends Entity {
 		super(type, world);
 	}
 
-	@Redirect(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;isSubmergedIn(Lnet/minecraft/registry/tag/TagKey;)Z"))
+	@Redirect(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isEyeInFluid(Lnet/minecraft/tags/TagKey;)Z"))
 	private boolean bewitchment$voodooDrownEffect(LivingEntity obj, TagKey<Fluid> tagKey) {
 		if (BWComponents.ADDITIONAL_WATER_DATA_COMPONENT.get(this).isSubmerged()) {
 			return true;
@@ -67,7 +67,7 @@ public abstract class LivingEntityMixin extends Entity {
 		return obj.isEyeInFluid(tagKey);
 	}
 
-	@ModifyVariable(method = "applyArmorToDamage", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "getDamageAfterArmorAbsorb", at = @At("HEAD"), argsOnly = true)
 	private float modifyDamage(float amount, DamageSource source) {
 		if (!level().isClientSide) {
 			if (amount > 0 && (Object) this instanceof Player player && !BewitchmentAPI.isVampire(this, true)) {
@@ -122,7 +122,7 @@ public abstract class LivingEntityMixin extends Entity {
 		return amount;
 	}
 
-	@Inject(method = "tryUseTotem", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "checkTotemDeathProtection", at = @At("RETURN"), cancellable = true)
 	private void tryUseTotem(DamageSource source, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (!level().isClientSide) {
 			if (!callbackInfo.getReturnValueZ()) {

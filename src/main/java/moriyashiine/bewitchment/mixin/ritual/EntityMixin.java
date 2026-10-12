@@ -13,14 +13,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
-	@Inject(method = "isWet", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "isInWaterRainOrBubble", at = @At("RETURN"), cancellable = true)
 	private void isWet(CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (!callbackInfo.getReturnValueZ() && BWComponents.ADDITIONAL_WATER_DATA_COMPONENT.get(this).getWetTimer() > 0) {
 			callbackInfo.setReturnValue(true);
 		}
 	}
 
-	@Inject(method = "isTouchingWaterOrRain", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "isInWaterOrRain", at = @At("RETURN"), cancellable = true)
 	private void isTouchingWaterOrRain(CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (!callbackInfo.getReturnValueZ() && BWComponents.ADDITIONAL_WATER_DATA_COMPONENT.get(this).getWetTimer() > 0) {
 			callbackInfo.setReturnValue(true);

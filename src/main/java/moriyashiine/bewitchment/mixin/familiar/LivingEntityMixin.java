@@ -32,7 +32,7 @@ public abstract class LivingEntityMixin extends Entity {
 		super(type, world);
 	}
 
-	@ModifyVariable(method = "addStatusEffect(Lnet/minecraft/entity/effect/StatusEffectInstance;Lnet/minecraft/entity/Entity;)Z", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z", at = @At("HEAD"), argsOnly = true)
 	private MobEffectInstance modifyStatusEffect(MobEffectInstance effect) {
 		if (!level().isClientSide && !effect.isAmbient() && effect.getEffect().getCategory() == MobEffectCategory.BENEFICIAL && (Object) this instanceof Player player && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.TOAD) {
 			return new MobEffectInstance(effect.getEffect(), (int) (effect.getDuration() * (effect.getEffect().isInstantenous() ? 1 : 1.5f)), effect.getAmplifier() + (effect.getEffect().isInstantenous() ? 1 : 0), false, effect.isVisible(), effect.showIcon());
@@ -40,7 +40,7 @@ public abstract class LivingEntityMixin extends Entity {
 		return effect;
 	}
 
-	@ModifyVariable(method = "applyArmorToDamage", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "getDamageAfterArmorAbsorb", at = @At("HEAD"), argsOnly = true)
 	private float modifyDamage(float amount, DamageSource source) {
 		if (!level().isClientSide && BWComponents.FAMILIAR_COMPONENT.get(this).isFamiliar()) {
 			amount /= 8;
@@ -48,7 +48,7 @@ public abstract class LivingEntityMixin extends Entity {
 		return amount;
 	}
 
-	@Inject(method = "onDeath", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getDamageTracker()Lnet/minecraft/entity/damage/DamageTracker;", ordinal = 1))
+	@Inject(method = "die", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getCombatTracker()Lnet/minecraft/world/damagesource/CombatTracker;", ordinal = 1))
 	private void removeFamiliar(DamageSource source, CallbackInfo ci) {
 		if (!level().isClientSide) {
 			BWUniversalWorldState universalWorldState = BWUniversalWorldState.get(level());
@@ -62,14 +62,14 @@ public abstract class LivingEntityMixin extends Entity {
 		}
 	}
 
-	@Inject(method = "handleFallDamage", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "causeFallDamage", at = @At("HEAD"), cancellable = true)
 	private void handleFallDamage(float fallDistance, float damageMultiplier, DamageSource source, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if ((Object) this instanceof Player player && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.OWL) {
 			callbackInfo.setReturnValue(false);
 		}
 	}
 
-	@Inject(method = "fall", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "checkFallDamage", at = @At("HEAD"), cancellable = true)
 	private void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition, CallbackInfo callbackInfo) {
 		if ((Object) this instanceof Player player && onGround && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.OWL) {
 			callbackInfo.cancel();

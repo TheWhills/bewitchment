@@ -28,7 +28,7 @@ public abstract class GameRendererMixin {
 	@Final
 	private Camera camera;
 
-	@Inject(method = "renderWorld", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/client/render/WorldRenderer;render(Lnet/minecraft/client/util/math/MatrixStack;FJZLnet/minecraft/client/render/Camera;Lnet/minecraft/client/render/GameRenderer;Lnet/minecraft/client/render/LightmapTextureManager;Lorg/joml/Matrix4f;)V"))
+	@Inject(method = "renderLevel", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/client/renderer/LevelRenderer;renderLevel(Lcom/mojang/blaze3d/vertex/PoseStack;FJZLnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/GameRenderer;Lnet/minecraft/client/renderer/LightTexture;Lorg/joml/Matrix4f;)V"))
 	private void renderWorld(float tickDelta, long limitTime, PoseStack matrix, CallbackInfo info) {
 		if (client.player.getVehicle() instanceof BroomEntity && !camera.isDetached()) {
 			matrix.translate(0, -(Mth.sin((client.player.getVehicle().tickCount + client.player.getVehicle().getId()) / 4f) / 16f), 0);

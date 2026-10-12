@@ -22,7 +22,7 @@ public class CreeperEntityMixin extends Monster {
 		super(entityType, world);
 	}
 
-	@Inject(method = "initGoals", at = @At("TAIL"))
+	@Inject(method = "registerGoals", at = @At("TAIL"))
 	private void initGoals(CallbackInfo callbackInfo) {
 		goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Player.class, 6, 1, 1.2, entity -> entity instanceof Player player && BewitchmentAPI.getFamiliar(player) == EntityType.CAT));
 	}

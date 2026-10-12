@@ -31,7 +31,7 @@ public abstract class PotionEntityMixin extends ThrowableItemProjectile {
 		super(entityType, world);
 	}
 
-	@Inject(method = "applySplashPotion", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILSOFT)
+	@Inject(method = "applySplash", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILSOFT)
 	private void applySplashPotion(List<MobEffectInstance> statusEffects, @Nullable Entity entity, CallbackInfo callbackInfo, AABB box) {
 		if (BWConfig.disabledPoppets.contains("bewitchment:voodoo_poppet")) {
 			return;

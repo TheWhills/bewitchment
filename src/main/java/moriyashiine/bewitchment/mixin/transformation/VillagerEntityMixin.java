@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Villager.class)
 public abstract class VillagerEntityMixin {
-	@Inject(method = "interactMob", at = @At("HEAD"))
+	@Inject(method = "mobInteract", at = @At("HEAD"))
 	private void interactMob(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> callbackInfo) {
 		BWComponents.WEREWOLF_VILLAGER_COMPONENT.get(this).setDespawnTimer(-1);
 	}

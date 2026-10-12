@@ -57,7 +57,7 @@ public abstract class LivingEntityMixin extends Entity {
 		super(type, world);
 	}
 
-	@ModifyVariable(method = "damage", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "hurt", at = @At("HEAD"), argsOnly = true)
 	private DamageSource modifyDamage0(DamageSource source) {
 		if (!level().isClientSide) {
 			Entity attacker = source.getDirectEntity();
@@ -68,7 +68,7 @@ public abstract class LivingEntityMixin extends Entity {
 		return source;
 	}
 
-	@ModifyVariable(method = "applyArmorToDamage", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "getDamageAfterArmorAbsorb", at = @At("HEAD"), argsOnly = true)
 	private float modifyDamage1(float amount, DamageSource source) {
 		if (!level().isClientSide) {
 			if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && (hasStatusEffect(BWStatusEffects.ETHEREAL) || (source.getEntity() instanceof LivingEntity livingAttacker && livingAttacker.hasEffect(BWStatusEffects.ETHEREAL)))) {
@@ -89,7 +89,7 @@ public abstract class LivingEntityMixin extends Entity {
 		return amount;
 	}
 
-	@Inject(method = "damage", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "hurt", at = @At("HEAD"), cancellable = true)
 	private void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (!level().isClientSide) {
 			Entity directSource = source.getDirectEntity();
@@ -120,7 +120,7 @@ public abstract class LivingEntityMixin extends Entity {
 		}
 	}
 
-	@Inject(method = "addStatusEffect(Lnet/minecraft/entity/effect/StatusEffectInstance;Lnet/minecraft/entity/Entity;)Z", at = @At(value = "HEAD"))
+	@Inject(method = "addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z", at = @At(value = "HEAD"))
 	private void addStatusEffect(MobEffectInstance effect, Entity source, CallbackInfoReturnable<Boolean> cir) {
 		if (effect.getEffect() == BWStatusEffects.POLYMORPH && source instanceof AreaEffectCloud) {
 			BWComponents.POLYMORPH_COMPONENT.maybeGet(source).ifPresent(sourcePolymorphComponent -> {
@@ -134,14 +134,14 @@ public abstract class LivingEntityMixin extends Entity {
 		}
 	}
 
-	@Inject(method = "canBreatheInWater", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "canBreatheUnderwater", at = @At("RETURN"), cancellable = true)
 	private void canBreatheInWater(CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (!callbackInfo.getReturnValueZ() && !level().isClientSide && hasStatusEffect(BWStatusEffects.GILLS)) {
 			callbackInfo.setReturnValue(true);
 		}
 	}
 
-	@Inject(method = "isClimbing", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "onClimbable", at = @At("RETURN"), cancellable = true)
 	private void isClimbing(CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (!callbackInfo.getReturnValueZ() && hasStatusEffect(BWStatusEffects.CLIMBING) && horizontalCollision) {
 			callbackInfo.setReturnValue(true);

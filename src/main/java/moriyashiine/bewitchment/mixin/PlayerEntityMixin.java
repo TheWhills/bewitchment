@@ -23,7 +23,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 		super(entityType, world);
 	}
 
-	@Inject(method = "eatFood", at = @At("HEAD"))
+	@Inject(method = "eat", at = @At("HEAD"))
 	private void eat(Level world, ItemStack stack, CallbackInfoReturnable<ItemStack> callbackInfo) {
 		if (!world.isClientSide) {
 			FoodProperties foodComponent = stack.getItem().getFoodProperties();

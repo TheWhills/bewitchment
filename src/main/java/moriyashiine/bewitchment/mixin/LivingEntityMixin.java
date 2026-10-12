@@ -77,7 +77,7 @@ public abstract class LivingEntityMixin extends Entity {
 		}
 	}
 
-	@ModifyVariable(method = "addStatusEffect(Lnet/minecraft/entity/effect/StatusEffectInstance;Lnet/minecraft/entity/Entity;)Z", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z", at = @At("HEAD"), argsOnly = true)
 	private MobEffectInstance modifyStatusEffect(MobEffectInstance effect) {
 		if (!level().isClientSide && !effect.isAmbient() && !effect.getEffect().isInstantenous() && effect.getEffect().getCategory() == MobEffectCategory.HARMFUL) {
 			float durationMultiplier = 1;
@@ -91,7 +91,7 @@ public abstract class LivingEntityMixin extends Entity {
 		return effect;
 	}
 
-	@ModifyVariable(method = "applyDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getHealth()F"), ordinal = 0, argsOnly = true)
+	@ModifyVariable(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getHealth()F"), ordinal = 0, argsOnly = true)
 	private float modifyDamage0(float amount, DamageSource source) {
 		if (!level().isClientSide) {
 			amount = BWDamageSources.handleDamage((LivingEntity) (Object) this, source, amount);
@@ -99,7 +99,7 @@ public abstract class LivingEntityMixin extends Entity {
 		return amount;
 	}
 
-	@ModifyVariable(method = "applyArmorToDamage", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "getDamageAfterArmorAbsorb", at = @At("HEAD"), argsOnly = true)
 	private float modifyDamage1(float amount, DamageSource source) {
 		if (!level().isClientSide) {
 			Entity attacker = source.getEntity();
@@ -134,7 +134,7 @@ public abstract class LivingEntityMixin extends Entity {
 		return amount;
 	}
 
-	@Inject(method = "damage", at = @At("HEAD"))
+	@Inject(method = "hurt", at = @At("HEAD"))
 	private void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (!level().isClientSide) {
 			Entity attacker = source.getEntity();
@@ -156,14 +156,14 @@ public abstract class LivingEntityMixin extends Entity {
 		}
 	}
 
-	@Inject(method = "dropLoot", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "dropFromLootTable", at = @At("HEAD"), cancellable = true)
 	private void dropLoot(DamageSource source, boolean causedByPlayer, CallbackInfo callbackInfo) {
 		if ((Object) this instanceof Mob mob && BWComponents.MINION_COMPONENT.get(mob).getMaster() != null) {
 			callbackInfo.cancel();
 		}
 	}
 
-	@Inject(method = "isAffectedBySplashPotions", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "isAffectedByPotions", at = @At("RETURN"), cancellable = true)
 	private void isAffectedBySplashPotions(CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (callbackInfo.getReturnValueZ() && (Object) this instanceof Mob mob && BWComponents.MINION_COMPONENT.get(mob).getMaster() != null) {
 			callbackInfo.setReturnValue(false);

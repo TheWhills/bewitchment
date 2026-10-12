@@ -39,7 +39,7 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
 		addLayer(new ContributorHornsFeatureRenderer(this, ctx.getModelSet()));
 	}
 
-	@Inject(method = "render(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "render(Lnet/minecraft/client/player/AbstractClientPlayer;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At("HEAD"), cancellable = true)
 	private void render(AbstractClientPlayer player, float yaw, float tickDelta, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, CallbackInfo callbackInfo) {
 		Optional<BlockPos> pos = player.getSleepingPos();
 		if (pos.isPresent() && player.level().getBlockState(pos.get()).getBlock() instanceof CoffinBlock) {

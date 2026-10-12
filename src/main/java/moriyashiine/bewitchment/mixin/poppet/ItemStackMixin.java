@@ -30,7 +30,7 @@ public abstract class ItemStackMixin {
 	@Shadow
 	public abstract int getMaxDamage();
 
-	@Inject(method = "damage(ILnet/minecraft/entity/LivingEntity;Ljava/util/function/Consumer;)V", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Ljava/util/function/Consumer;accept(Ljava/lang/Object;)V"), cancellable = true)
+	@Inject(method = "hurtAndBreak(ILnet/minecraft/world/entity/LivingEntity;Ljava/util/function/Consumer;)V", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Ljava/util/function/Consumer;accept(Ljava/lang/Object;)V"), cancellable = true)
 	private <T extends LivingEntity> void damage(int amount, T entity, Consumer<T> breakCallback, CallbackInfo callbackInfo) {
 		if (getDamage() == getMaxDamage()) {
 			PoppetData poppetData = BewitchmentAPI.getPoppet(entity.level(), BWObjects.MENDING_POPPET, entity);

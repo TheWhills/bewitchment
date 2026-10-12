@@ -46,7 +46,7 @@ public abstract class LivingEntityMixin extends Entity {
 		super(type, world);
 	}
 
-	@Inject(method = "damage", at = @At("HEAD"))
+	@Inject(method = "hurt", at = @At("HEAD"))
 	private void damageHead(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (!level().isClientSide) {
 			if (amount > 0 && hurtTime == 0) {
@@ -89,7 +89,7 @@ public abstract class LivingEntityMixin extends Entity {
 		}
 	}
 
-	@Inject(method = "damage", at = @At("RETURN"))
+	@Inject(method = "hurt", at = @At("RETURN"))
 	private void damageReturn(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (callbackInfo.getReturnValueZ() && !level().isClientSide && source.getDirectEntity() instanceof Player player && player.getMainHandItem().isEmpty() && TrinketsApi.getTrinketComponent(player).get().isEquipped(BWObjects.ZEPHYR_HARNESS) && BewitchmentAPI.drainMagic(player, 1, false)) {
 			push(0, 2 / 3f, 0);

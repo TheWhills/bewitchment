@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PotionItem.class)
 public abstract class PotionItemMixin {
-	@Inject(method = "finishUsing", at = @At("HEAD"))
+	@Inject(method = "finishUsingItem", at = @At("HEAD"))
 	private void finishUsing(ItemStack stack, Level world, LivingEntity user, CallbackInfoReturnable<ItemStack> callbackInfo) {
 		if (!world.isClientSide) {
 			BWComponents.POLYMORPH_COMPONENT.maybeGet(user).ifPresent(polymorphComponent -> {

@@ -40,7 +40,7 @@ public abstract class InGameHudMixin {
 	@Final
 	private Minecraft client;
 
-	@Inject(method = "renderStatusBars", at = @At(value = "INVOKE", shift = At.Shift.AFTER, ordinal = 2, target = "Lnet/minecraft/client/MinecraftClient;getProfiler()Lnet/minecraft/util/profiler/Profiler;"))
+	@Inject(method = "renderPlayerHealth", at = @At(value = "INVOKE", shift = At.Shift.AFTER, ordinal = 2, target = "Lnet/minecraft/client/Minecraft;getProfiler()Lnet/minecraft/util/profiling/ProfilerFiller;"))
 	private void renderPre(GuiGraphics context, CallbackInfo ci) {
 		BWComponents.MAGIC_COMPONENT.maybeGet(client.player).ifPresent(magicComponent -> {
 			if (magicComponent.getMagicTimer() > 0) {
@@ -62,7 +62,7 @@ public abstract class InGameHudMixin {
 		}
 	}
 
-	@ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V", ordinal = 3))
+	@ModifyArg(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V", ordinal = 3))
 	private ResourceLocation bewitchment$vampireHideFood0(ResourceLocation value) {
 		if (hidden) {
 			return EMPTY_TEXTURE;
@@ -70,7 +70,7 @@ public abstract class InGameHudMixin {
 		return value;
 	}
 
-	@ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V", ordinal = 4))
+	@ModifyArg(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V", ordinal = 4))
 	private ResourceLocation bewitchment$vampireHideFood1(ResourceLocation value) {
 		if (hidden) {
 			return EMPTY_TEXTURE;
@@ -78,7 +78,7 @@ public abstract class InGameHudMixin {
 		return value;
 	}
 
-	@ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V", ordinal = 5))
+	@ModifyArg(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V", ordinal = 5))
 	private ResourceLocation bewitchment$vampireHideFood2(ResourceLocation value) {
 		if (hidden) {
 			return EMPTY_TEXTURE;
@@ -86,7 +86,7 @@ public abstract class InGameHudMixin {
 		return value;
 	}
 
-	@Inject(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;getProfiler()Lnet/minecraft/util/profiler/Profiler;", ordinal = 3, shift = At.Shift.BEFORE))
+	@Inject(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;getProfiler()Lnet/minecraft/util/profiling/ProfilerFiller;", ordinal = 3, shift = At.Shift.BEFORE))
 	private void bewitchment$vampireShowHunger(GuiGraphics context, CallbackInfo ci) {
 		hidden = false;
 	}

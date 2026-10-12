@@ -19,7 +19,7 @@ import net.minecraft.world.item.crafting.TippedArrowRecipe;
 @SuppressWarnings("ConstantConditions")
 @Mixin(TippedArrowRecipe.class)
 public class TippedArrowRecipeMixin {
-	@Inject(method = "craft(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;", at = @At(value = "RETURN", ordinal = 1), cancellable = true)
+	@Inject(method = "assemble(Lnet/minecraft/world/inventory/CraftingContainer;Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/world/item/ItemStack;", at = @At(value = "RETURN", ordinal = 1), cancellable = true)
 	private void craft(CraftingContainer recipeInputInventory, RegistryAccess dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
 		ItemStack stack = recipeInputInventory.getItem(1 + recipeInputInventory.getWidth());
 		if (stack.hasTag() && stack.getTag().contains("BewitchmentBrew")) {

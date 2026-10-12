@@ -31,7 +31,7 @@ public abstract class LivingEntityMixin extends Entity {
 		super(type, world);
 	}
 
-	@ModifyVariable(method = "applyArmorToDamage", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "getDamageAfterArmorAbsorb", at = @At("HEAD"), argsOnly = true)
 	private float modifyDamage(float amount, DamageSource source) {
 		if (!level().isClientSide && source.is(DamageTypeTags.IS_FALL)) {
 			BWWorldState worldState = BWWorldState.get(level());
@@ -49,7 +49,7 @@ public abstract class LivingEntityMixin extends Entity {
 		return amount;
 	}
 
-	@Inject(method = "canHaveStatusEffect", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "canBeAffected", at = @At("RETURN"), cancellable = true)
 	private void canHaveStatusEffect(MobEffectInstance effect, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (callbackInfo.getReturnValueZ() && !level().isClientSide && !effect.isAmbient() && effect.getEffect().getCategory() != MobEffectCategory.HARMFUL) {
 			BWWorldState worldState = BWWorldState.get(level());

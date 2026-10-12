@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(NaturalSpawner.class)
 public abstract class SpawnHelperMixin {
-	@Inject(method = "isValidSpawn", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "isValidPositionForMob", at = @At("RETURN"), cancellable = true)
 	private static void isValidSpawn(ServerLevel world, Mob entity, double squaredDistance, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (callbackInfo.getReturnValueZ() && entity instanceof Enemy) {
 			BWWorldState worldState = BWWorldState.get(world);

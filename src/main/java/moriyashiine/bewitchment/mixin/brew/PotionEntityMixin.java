@@ -35,7 +35,7 @@ public abstract class PotionEntityMixin extends ThrowableItemProjectile {
 		super(entityType, world);
 	}
 
-	@ModifyVariable(method = "applyLingeringPotion", at = @At(value = "INVOKE_ASSIGN", target = "Ljava/util/List;iterator()Ljava/util/Iterator;"))
+	@ModifyVariable(method = "makeAreaOfEffectCloud", at = @At(value = "INVOKE_ASSIGN", target = "Ljava/util/List;iterator()Ljava/util/Iterator;"))
 	private Iterator<MobEffectInstance> modifyIterator(Iterator<MobEffectInstance> iterator, ItemStack stack) {
 		if (stack.getTag().getBoolean("BewitchmentBrew")) {
 			List<MobEffectInstance> statusEffects = new ArrayList<>();
@@ -45,7 +45,7 @@ public abstract class PotionEntityMixin extends ThrowableItemProjectile {
 		return iterator;
 	}
 
-	@Inject(method = "applySplashPotion", at = @At("HEAD"))
+	@Inject(method = "applySplash", at = @At("HEAD"))
 	private void applySplashPotion(List<MobEffectInstance> statusEffects, @Nullable Entity entity, CallbackInfo callbackInfo) {
 		if (getItemRaw().hasTag() && getItemRaw().getTag().contains("PolymorphUUID")) {
 			UUID uuid = getItemRaw().getTag().getUUID("PolymorphUUID");
@@ -59,7 +59,7 @@ public abstract class PotionEntityMixin extends ThrowableItemProjectile {
 		}
 	}
 
-	@Inject(method = "applyLingeringPotion", at = @At(value = "INVOKE", target = "net/minecraft/entity/AreaEffectCloudEntity.setPotion(Lnet/minecraft/potion/Potion;)V"), locals = LocalCapture.CAPTURE_FAILSOFT)
+	@Inject(method = "makeAreaOfEffectCloud", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/AreaEffectCloud;setPotion(Lnet/minecraft/world/item/alchemy/Potion;)V"), locals = LocalCapture.CAPTURE_FAILSOFT)
 	private void applyLingeringPotion(ItemStack stack, Potion potion, CallbackInfo callbackInfo, AreaEffectCloud cloud) {
 		if (stack.hasTag() && stack.getTag().contains("PolymorphUUID")) {
 			BWComponents.POLYMORPH_COMPONENT.maybeGet(cloud).ifPresent(polymorphComponent -> {

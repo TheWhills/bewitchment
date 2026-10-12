@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(CropBlock.class)
 public class CropBlockMixin {
-	@Inject(method = "canGrow", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "isBonemealSuccess", at = @At("RETURN"), cancellable = true)
 	private void canGrow(Level world, RandomSource random, BlockPos pos, BlockState state, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (callbackInfo.getReturnValueZ() && !world.isClientSide) {
 			for (int i = 0; i < world.getEntitiesOfClass(LivingEntity.class, new AABB(pos).inflate(16), living -> living.isAlive() && BWComponents.CURSES_COMPONENT.get(living).hasCurse(BWCurses.ARMY_OF_WORMS)).size(); i++) {

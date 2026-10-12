@@ -20,7 +20,7 @@ public abstract class EntityMixin {
 	@Shadow
 	private Level world;
 
-	@Inject(method = "setOnFireFor", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "setSecondsOnFire", at = @At("HEAD"), cancellable = true)
 	private void setOnFireFor(int seconds, CallbackInfo callbackInfo) {
 		if (!world.isClientSide && (Object) this instanceof Mob mob && BWComponents.FAKE_MOB_COMPONENT.get(mob).getTarget() != null) {
 			callbackInfo.cancel();

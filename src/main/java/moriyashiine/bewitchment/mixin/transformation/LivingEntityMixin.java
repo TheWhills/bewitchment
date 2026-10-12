@@ -26,7 +26,7 @@ public abstract class LivingEntityMixin extends Entity {
 		super(type, world);
 	}
 
-	@ModifyVariable(method = "applyArmorToDamage", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "getDamageAfterArmorAbsorb", at = @At("HEAD"), argsOnly = true)
 	private float modifyDamage(float amount, DamageSource source) {
 		if (!level().isClientSide && source.getEntity() instanceof Player player && BewitchmentAPI.isVampire(player, false)) {
 			amount /= 8;
@@ -34,7 +34,7 @@ public abstract class LivingEntityMixin extends Entity {
 		return amount;
 	}
 
-	@ModifyArg(method = "applyMovementInput", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;updateVelocity(FLnet/minecraft/util/math/Vec3d;)V"))
+	@ModifyArg(method = "handleRelativeFrictionAndCalculateMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;moveRelative(FLnet/minecraft/world/phys/Vec3;)V"))
 	private float bewitchment$werewolfAirSpeed(float value) {
 		if (!onGround() && BewitchmentAPI.isWerewolf(this, false)) {
 			return value * 1.5F;
@@ -42,14 +42,14 @@ public abstract class LivingEntityMixin extends Entity {
 		return value;
 	}
 
-	@Inject(method = "getJumpVelocity", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "getJumpPower", at = @At("RETURN"), cancellable = true)
 	private void getJumpVelocity(CallbackInfoReturnable<Float> callbackInfo) {
 		if ((Object) this instanceof Player && BewitchmentAPI.isWerewolf(this, false)) {
 			callbackInfo.setReturnValue(callbackInfo.getReturnValueF() * 1.5f);
 		}
 	}
 
-	@Inject(method = "getGroup", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "getMobType", at = @At("HEAD"), cancellable = true)
 	private void getGroup(CallbackInfoReturnable<MobType> callbackInfo) {
 		if ((Object) this instanceof Player) {
 			if (BewitchmentAPI.isVampire(this, true)) {
@@ -60,14 +60,14 @@ public abstract class LivingEntityMixin extends Entity {
 		}
 	}
 
-	@Inject(method = "blockedByShield", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "isDamageSourceBlocked", at = @At("HEAD"), cancellable = true)
 	private void blockedByShield(DamageSource source, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (BewitchmentAPI.isWerewolf(source.getDirectEntity(), false)) {
 			callbackInfo.setReturnValue(false);
 		}
 	}
 
-	@Inject(method = "handleFallDamage", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "causeFallDamage", at = @At("HEAD"), cancellable = true)
 	private void handleFallDamage(float fallDistance, float damageMultiplier, DamageSource source, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (BewitchmentAPI.isWerewolf(this, false) && fallDistance <= 6) {
 			callbackInfo.setReturnValue(false);

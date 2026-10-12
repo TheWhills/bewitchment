@@ -38,3 +38,6 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+
+# dev-only mapping tables (fetched by CI, not redistributed)
+.ci/mappings/

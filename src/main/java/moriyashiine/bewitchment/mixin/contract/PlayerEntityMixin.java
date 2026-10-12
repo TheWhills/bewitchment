@@ -29,7 +29,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 		super(entityType, world);
 	}
 
-	@ModifyVariable(method = "addExperience", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "giveExperiencePoints", at = @At("HEAD"), argsOnly = true)
 	private int modifyAddExperience(int experience) {
 		if (BWComponents.CONTRACTS_COMPONENT.get(this).hasContract(BWContracts.PRIDE)) {
 			experience *= 2;
@@ -37,7 +37,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 		return experience;
 	}
 
-	@Inject(method = "eatFood", at = @At("HEAD"))
+	@Inject(method = "eat", at = @At("HEAD"))
 	private void eatFood(Level world, ItemStack stack, CallbackInfoReturnable<ItemStack> callbackInfo) {
 		if (!world.isClientSide) {
 			FoodProperties foodComponent = stack.getItem().getFoodProperties();

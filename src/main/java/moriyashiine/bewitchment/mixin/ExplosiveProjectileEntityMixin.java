@@ -24,7 +24,7 @@ public abstract class ExplosiveProjectileEntityMixin extends Entity {
 		super(type, world);
 	}
 
-	@Inject(method = "canHit(Lnet/minecraft/entity/Entity;)Z", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "canHitEntity(Lnet/minecraft/world/entity/Entity;)Z", at = @At("RETURN"), cancellable = true)
 	private void canHit(Entity entity, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (callbackInfo.getReturnValueZ() && !level().isClientSide) {
 			Entity owner = ((Projectile) (Object) this).getOwner();

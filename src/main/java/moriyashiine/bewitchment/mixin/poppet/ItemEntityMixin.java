@@ -63,7 +63,7 @@ public abstract class ItemEntityMixin extends Entity {
 		}
 	}
 
-	@Inject(method = "damage", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "hurt", at = @At("HEAD"), cancellable = true)
 	private void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (getStack().getItem() == BWObjects.VOODOO_POPPET && !BWConfig.disabledPoppets.contains("bewitchment:voodoo_poppet")) {
 			if (!level().isClientSide) {
@@ -91,7 +91,7 @@ public abstract class ItemEntityMixin extends Entity {
 		}
 	}
 
-	@Inject(method = "applyWaterBuoyancy", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "setUnderwaterMovement", at = @At("HEAD"), cancellable = true)
 	private void bewitchment$stopPoppetsFromFloating(CallbackInfo ci) {
 		if (getStack().getItem() instanceof PoppetItem) {
 			Vec3 velocity = getDeltaMovement();

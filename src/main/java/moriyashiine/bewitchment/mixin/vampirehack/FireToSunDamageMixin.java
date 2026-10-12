@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(value = {Entity.class, LivingEntity.class, Player.class, ServerPlayer.class}, priority = 1)
 public class FireToSunDamageMixin {
-	@ModifyVariable(method = "damage", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "hurt", at = @At("HEAD"), argsOnly = true)
 	private DamageSource bewitchment$turnFireDamageIntoSunDamageForVampires(DamageSource source) {
 		if (source.is(DamageTypeTags.IS_FIRE) && BewitchmentAPI.isVampire(Entity.class.cast(this), true)) {
 			return BWDamageSources.create(Entity.class.cast(this).level(), BWDamageSources.SUN);

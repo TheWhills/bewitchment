@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerLevel.class)
 public abstract class ServerWorldMixin {
-	@Inject(method = "spawnEntity", at = @At("HEAD"))
+	@Inject(method = "addFreshEntity", at = @At("HEAD"))
 	private void spawnEntity(Entity entity, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (entity instanceof LightningBolt) {
 			LivingEntity closest = null;

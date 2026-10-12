@@ -27,7 +27,7 @@ public abstract class ActiveTargetGoalMixin<T extends LivingEntity> extends Targ
 		super(mob, checkVisibility);
 	}
 
-	@Inject(method = "findClosestTarget", at = @At("TAIL"))
+	@Inject(method = "findTarget", at = @At("TAIL"))
 	private void findClosestTarget(CallbackInfo callbackInfo) {
 		if (targetEntity instanceof Player player && BWComponents.FULL_INVISIBILITY_COMPONENT.get(player).isFullInvisible()) {
 			targetEntity = null;

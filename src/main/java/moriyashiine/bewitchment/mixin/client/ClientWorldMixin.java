@@ -33,7 +33,7 @@ public abstract class ClientWorldMixin extends Level {
 		super(properties, registryRef, registryManager, dimensionEntry, profiler, isClient, debugWorld, biomeAccess, maxChainedNeighborUpdates);
 	}
 
-	@ModifyVariable(method = "playSound(DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FFZ)V", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+	@ModifyVariable(method = "playLocalSound(DDDLnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FFZ)V", at = @At("HEAD"), ordinal = 0, argsOnly = true)
 	private float modifySound0(float volume, double x, double y, double z, SoundEvent sound, SoundSource category) {
 		if (category != SoundSource.MASTER && category != SoundSource.VOICE) {
 			LocalPlayer clientPlayer = Minecraft.getInstance().player;
@@ -44,7 +44,7 @@ public abstract class ClientWorldMixin extends Level {
 		return volume;
 	}
 
-	@ModifyVariable(method = "playSoundFromEntity", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+	@ModifyVariable(method = "playSeededSound", at = @At("HEAD"), ordinal = 0, argsOnly = true)
 	private float modifySound1(float volume, @Nullable Player except, Entity entity, Holder<SoundEvent> sound, SoundSource category) {
 		if (category != SoundSource.MASTER && category != SoundSource.VOICE) {
 			LocalPlayer clientPlayer = Minecraft.getInstance().player;

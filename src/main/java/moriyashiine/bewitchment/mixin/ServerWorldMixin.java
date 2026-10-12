@@ -35,7 +35,7 @@ public abstract class ServerWorldMixin extends Level {
 		super(properties, registryRef, registryManager, dimensionEntry, profiler, isClient, debugWorld, biomeAccess, maxChainedNeighborUpdates);
 	}
 
-	@ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;setTimeOfDay(J)V"))
+	@ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;setDayTime(J)V"))
 	private long bewitchment$coffinWakeTime(long value) {
 		boolean allInCoffins = true;
 		for (ServerPlayer player : players) {

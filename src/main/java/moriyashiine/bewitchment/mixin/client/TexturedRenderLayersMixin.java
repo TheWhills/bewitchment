@@ -18,7 +18,7 @@ import static moriyashiine.bewitchment.client.misc.SpriteIdentifiers.*;
 
 @Mixin(Sheets.class)
 public class TexturedRenderLayersMixin {
-	@Inject(method = "getChestTextureId(Lnet/minecraft/block/entity/BlockEntity;Lnet/minecraft/block/enums/ChestType;Z)Lnet/minecraft/client/util/SpriteIdentifier;", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "chooseMaterial(Lnet/minecraft/world/level/block/entity/BlockEntity;Lnet/minecraft/world/level/block/state/properties/ChestType;Z)Lnet/minecraft/client/resources/model/Material;", at = @At("HEAD"), cancellable = true)
 	private static void getChestTexture(BlockEntity blockEntity, ChestType type, boolean christmas, CallbackInfoReturnable<Material> callbackInfo) {
 		if (blockEntity instanceof BWChestBlockEntity bwChest) {
 			switch (bwChest.type) {

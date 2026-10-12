@@ -28,7 +28,7 @@ public abstract class HeldItemFeatureRendererMixin<T extends LivingEntity, M ext
 		super(context);
 	}
 
-	@Inject(method = "renderItem", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V"))
+	@Inject(method = "renderArmWithItem", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V"))
 	private void renderItem(LivingEntity entity, ItemStack stack, ItemDisplayContext transformationMode, HumanoidArm arm, PoseStack matrices, MultiBufferSource vertexConsumers, int light, CallbackInfo ci) {
 		if (entity instanceof WerewolfEntity) {
 			matrices.translate((arm == HumanoidArm.LEFT ? 0.75f : -0.75f) / 3.5f, 1 / 3f, -7 / 8f);

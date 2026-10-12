@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = ProtectionEnchantment.class, priority = 1)
 public class ProtectionEnchantmentMixin {
-	@Inject(method = "transformFireDuration", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "getFireAfterDampener", at = @At("HEAD"), cancellable = true)
 	private static void bewitchment$makeFireProtectionUselessForVampires(LivingEntity entity, int duration, CallbackInfoReturnable<Integer> callbackInfo) {
 		if (BewitchmentAPI.isVampire(entity, true)) {
 			callbackInfo.setReturnValue(duration);

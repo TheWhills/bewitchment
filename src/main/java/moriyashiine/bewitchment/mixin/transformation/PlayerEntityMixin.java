@@ -33,7 +33,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 		super(entityType, world);
 	}
 
-	@ModifyVariable(method = "applyDamage", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/entity/player/PlayerEntity;getHealth()F"), ordinal = 0, argsOnly = true)
+	@ModifyVariable(method = "actuallyHurt", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/world/entity/player/Player;getHealth()F"), ordinal = 0, argsOnly = true)
 	private float modifyDamage(float amount, DamageSource source) {
 		if (!level().isClientSide) {
 			amount = BWDamageSources.handleDamage(this, source, amount);
@@ -41,7 +41,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 		return amount;
 	}
 
-	@ModifyVariable(method = "addExhaustion", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "causeFoodExhaustion", at = @At("HEAD"), argsOnly = true)
 	private float modifyExhaustion(float exhaustion) {
 		if (!level().isClientSide) {
 			if (BewitchmentAPI.isWerewolf(this, true)) {
@@ -54,14 +54,14 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 		return exhaustion;
 	}
 
-	@Inject(method = "canFoodHeal", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "isHurt", at = @At("RETURN"), cancellable = true)
 	private void canFoodHeal(CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (callbackInfo.getReturnValueZ() && BewitchmentAPI.isVampire(this, true)) {
 			callbackInfo.setReturnValue(false);
 		}
 	}
 
-	@Inject(method = "eatFood", at = @At("HEAD"))
+	@Inject(method = "eat", at = @At("HEAD"))
 	private void eat(Level world, ItemStack stack, CallbackInfoReturnable<ItemStack> callbackInfo) {
 		if (!world.isClientSide) {
 			FoodProperties foodComponent = stack.getItem().getFoodProperties();
