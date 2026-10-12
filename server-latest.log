@@ -1,89 +1,89 @@
-[12Oct2026 18:05:14.348] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgegametestserveruserdev, --gameDir, ., --fml.forgeVersion, 47.3.0, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412, --mixin.config, bewitchment.mixins.json]
-[12Oct2026 18:05:14.352] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.20.1 by Eclipse Adoptium; OS Linux arch amd64 version 6.8.0-1064-azure
-[12Oct2026 18:05:14.443] [main/WARN] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Configuration file /home/runner/work/bewitchment/bewitchment/run/config/fml.toml is not correct. Correcting
-[12Oct2026 18:05:14.445] [main/INFO] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [earlyWindowSkipGLVersions] was corrected from null to []
-[12Oct2026 18:05:14.446] [main/INFO] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [earlyWindowSquir] was corrected from null to false
-[12Oct2026 18:05:14.446] [main/INFO] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [earlyWindowShowCPU] was corrected from null to false
-[12Oct2026 18:05:14.461] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgegametestserveruserdev
-[12Oct2026 18:05:14.511] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/home/runner/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23116!/ Service=ModLauncher Env=SERVER
-[12Oct2026 18:05:14.806] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file /home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/javafmllanguage/1.20.1-47.3.0/d7ebc62120f202109e300e084ca1a31a7b946a62/javafmllanguage-1.20.1-47.3.0.jar is missing mods.toml file
-[12Oct2026 18:05:14.807] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file /home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/lowcodelanguage/1.20.1-47.3.0/1bf3e845ea0ce750096da8c71c8364b188ab74d4/lowcodelanguage-1.20.1-47.3.0.jar is missing mods.toml file
-[12Oct2026 18:05:14.808] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file /home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/mclanguage/1.20.1-47.3.0/6093682e943ddccbabf70539319d7f2fe64db2e7/mclanguage-1.20.1-47.3.0.jar is missing mods.toml file
-[12Oct2026 18:05:14.809] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file /home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlcore/1.20.1-47.3.0/3b6be96aba3e323f3c918e8ef6a96312d82d76ad/fmlcore-1.20.1-47.3.0.jar is missing mods.toml file
-[12Oct2026 18:05:14.934] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: Found 2 dependencies adding them to mods collection
-[12Oct2026 18:05:16.349] [main/INFO] [mixin/]: Compatibility level set to JAVA_17
-[12Oct2026 18:05:16.375] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgegametestserveruserdev' with arguments [--gameDir, .]
-[12Oct2026 18:05:16.401] [main/WARN] [mixin/]: Reference map 'bewitchment.refmap.json' for bewitchment.mixins.json could not be read. If this is a development environment you can ignore this message
-[12Oct2026 18:05:16.742] [main/INFO] [mixin/]: Remapping refMap emi-xplat-refmap.json using /home/runner/work/bewitchment/bewitchment/build/createSrgToMcp/output.srg
-[12Oct2026 18:05:16.752] [main/INFO] [mixin/]: Remapping refMap Pehkui-refmap.json using /home/runner/work/bewitchment/bewitchment/build/createSrgToMcp/output.srg
-[12Oct2026 18:05:16.808] [main/INFO] [mixin/]: Remapping refMap curios.refmap.json using /home/runner/work/bewitchment/bewitchment/build/createSrgToMcp/output.srg
-[12Oct2026 18:05:16.809] [main/INFO] [mixin/]: Remapping refMap patchouli.refmap.json using /home/runner/work/bewitchment/bewitchment/build/createSrgToMcp/output.srg
-[12Oct2026 18:05:18.541] [main/INFO] [MixinExtras|Service/]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.3.6).
-[12Oct2026 18:05:23.897] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.3.0, for MC 1.20.1 with MCP 20230612.114412
-[12Oct2026 18:05:23.898] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.3.0 Initialized
-[12Oct2026 18:05:24.917] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /home/runner/work/bewitchment/bewitchment/run/config/bewitchment-common.toml is not correct. Correcting
-[12Oct2026 18:05:24.917] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:24.918] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.disabled_poppets was corrected from null to its default, []. 
-[12Oct2026 18:05:24.918] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.enable_curses was corrected from null to its default, true. 
-[12Oct2026 18:05:24.918] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.enable_polymorph was corrected from null to its default, true. 
-[12Oct2026 18:05:24.919] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.altar_distribution_radius was corrected from null to its default, 24. 
-[12Oct2026 18:05:24.919] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key worldgen was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:24.919] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key worldgen.generate_salt was corrected from null to its default, true. 
-[12Oct2026 18:05:24.919] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key worldgen.generate_silver was corrected from null to its default, true. 
-[12Oct2026 18:05:24.920] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:24.920] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.owl was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:24.920] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.owl.weight was corrected from null to its default, 10. 
-[12Oct2026 18:05:24.920] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.owl.min_group was corrected from null to its default, 1. 
-[12Oct2026 18:05:24.920] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.owl.max_group was corrected from null to its default, 2. 
-[12Oct2026 18:05:24.920] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.raven was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:24.920] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.raven.weight was corrected from null to its default, 10. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.raven.min_group was corrected from null to its default, 1. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.raven.max_group was corrected from null to its default, 3. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.snake was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.snake.weight was corrected from null to its default, 6. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.snake.min_group was corrected from null to its default, 1. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.snake.max_group was corrected from null to its default, 2. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.toad was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.toad.weight was corrected from null to its default, 10. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.toad.min_group was corrected from null to its default, 1. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.toad.max_group was corrected from null to its default, 3. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.ghost was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.ghost.weight was corrected from null to its default, 20. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.ghost.min_group was corrected from null to its default, 1. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.ghost.max_group was corrected from null to its default, 1. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.vampire was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.vampire.weight was corrected from null to its default, 20. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.vampire.min_group was corrected from null to its default, 1. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.vampire.max_group was corrected from null to its default, 1. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.werewolf was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.werewolf.weight was corrected from null to its default, 20. 
-[12Oct2026 18:05:24.921] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.werewolf.min_group was corrected from null to its default, 1. 
-[12Oct2026 18:05:24.922] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.werewolf.max_group was corrected from null to its default, 1. 
-[12Oct2026 18:05:24.922] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.hellhound was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:24.922] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.hellhound.weight was corrected from null to its default, 6. 
-[12Oct2026 18:05:24.922] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.hellhound.min_group was corrected from null to its default, 1. 
-[12Oct2026 18:05:24.922] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.hellhound.max_group was corrected from null to its default, 1. 
-[12Oct2026 18:05:24.927] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /home/runner/work/bewitchment/bewitchment/run/config/pehkui-common.toml is not correct. Correcting
-[12Oct2026 18:05:24.927] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:24.927] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledFallDamage was corrected from null to its default, true. 
-[12Oct2026 18:05:24.927] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledMotion was corrected from null to its default, true. 
-[12Oct2026 18:05:24.927] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledReach was corrected from null to its default, true. 
-[12Oct2026 18:05:24.928] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledAttack was corrected from null to its default, true. 
-[12Oct2026 18:05:24.928] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledDefense was corrected from null to its default, true. 
-[12Oct2026 18:05:24.928] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledHealth was corrected from null to its default, true. 
-[12Oct2026 18:05:24.928] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledItemDrops was corrected from null to its default, true. 
-[12Oct2026 18:05:24.928] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledProjectiles was corrected from null to its default, true. 
-[12Oct2026 18:05:24.928] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledExplosions was corrected from null to its default, true. 
-[12Oct2026 18:05:24.928] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.keepAllScalesOnRespawn was corrected from null to its default, false. 
-[12Oct2026 18:05:24.928] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.accurateNetherPortals was corrected from null to its default, true. 
-[12Oct2026 18:05:24.928] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scalesKeptOnRespawn was corrected from null to its default, []. 
-[12Oct2026 18:05:24.928] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.enableCommands was corrected from null to its default, true. 
-[12Oct2026 18:05:24.928] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.enableDebugCommands was corrected from null to its default, false. 
-[12Oct2026 18:05:24.932] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /home/runner/work/bewitchment/bewitchment/run/config/curios-common.toml is not correct. Correcting
-[12Oct2026 18:05:24.933] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key slots was corrected from null to its default, []. 
-[12Oct2026 18:05:25.131] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
-[12Oct2026 18:05:25.960] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Found status: OUTDATED Current: 47.3.0 Target: 47.4.10
-[12Oct2026 18:05:26.877] [main/ERROR] [net.minecraft.server.dedicated.Settings/]: Failed to load properties from file: server.properties
+[12Oct2026 18:13:45.803] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgegametestserveruserdev, --gameDir, ., --fml.forgeVersion, 47.3.0, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412, --mixin.config, bewitchment.mixins.json]
+[12Oct2026 18:13:45.808] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.20.1 by Eclipse Adoptium; OS Linux arch amd64 version 6.8.0-1064-azure
+[12Oct2026 18:13:45.915] [main/WARN] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Configuration file /home/runner/work/bewitchment/bewitchment/run/config/fml.toml is not correct. Correcting
+[12Oct2026 18:13:45.917] [main/INFO] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [earlyWindowSkipGLVersions] was corrected from null to []
+[12Oct2026 18:13:45.918] [main/INFO] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [earlyWindowSquir] was corrected from null to false
+[12Oct2026 18:13:45.919] [main/INFO] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [earlyWindowShowCPU] was corrected from null to false
+[12Oct2026 18:13:45.937] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgegametestserveruserdev
+[12Oct2026 18:13:45.998] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/home/runner/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23116!/ Service=ModLauncher Env=SERVER
+[12Oct2026 18:13:46.432] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file /home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/javafmllanguage/1.20.1-47.3.0/d7ebc62120f202109e300e084ca1a31a7b946a62/javafmllanguage-1.20.1-47.3.0.jar is missing mods.toml file
+[12Oct2026 18:13:46.433] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file /home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/lowcodelanguage/1.20.1-47.3.0/1bf3e845ea0ce750096da8c71c8364b188ab74d4/lowcodelanguage-1.20.1-47.3.0.jar is missing mods.toml file
+[12Oct2026 18:13:46.434] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file /home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/mclanguage/1.20.1-47.3.0/6093682e943ddccbabf70539319d7f2fe64db2e7/mclanguage-1.20.1-47.3.0.jar is missing mods.toml file
+[12Oct2026 18:13:46.436] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file /home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlcore/1.20.1-47.3.0/3b6be96aba3e323f3c918e8ef6a96312d82d76ad/fmlcore-1.20.1-47.3.0.jar is missing mods.toml file
+[12Oct2026 18:13:46.601] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: Found 2 dependencies adding them to mods collection
+[12Oct2026 18:13:48.701] [main/INFO] [mixin/]: Compatibility level set to JAVA_17
+[12Oct2026 18:13:48.757] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgegametestserveruserdev' with arguments [--gameDir, .]
+[12Oct2026 18:13:48.792] [main/WARN] [mixin/]: Reference map 'bewitchment.refmap.json' for bewitchment.mixins.json could not be read. If this is a development environment you can ignore this message
+[12Oct2026 18:13:49.141] [main/INFO] [mixin/]: Remapping refMap emi-xplat-refmap.json using /home/runner/work/bewitchment/bewitchment/build/createSrgToMcp/output.srg
+[12Oct2026 18:13:49.154] [main/INFO] [mixin/]: Remapping refMap Pehkui-refmap.json using /home/runner/work/bewitchment/bewitchment/build/createSrgToMcp/output.srg
+[12Oct2026 18:13:49.280] [main/INFO] [mixin/]: Remapping refMap curios.refmap.json using /home/runner/work/bewitchment/bewitchment/build/createSrgToMcp/output.srg
+[12Oct2026 18:13:49.282] [main/INFO] [mixin/]: Remapping refMap patchouli.refmap.json using /home/runner/work/bewitchment/bewitchment/build/createSrgToMcp/output.srg
+[12Oct2026 18:13:51.928] [main/INFO] [MixinExtras|Service/]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.3.6).
+[12Oct2026 18:13:58.191] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.3.0, for MC 1.20.1 with MCP 20230612.114412
+[12Oct2026 18:13:58.203] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.3.0 Initialized
+[12Oct2026 18:13:59.565] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /home/runner/work/bewitchment/bewitchment/run/config/bewitchment-common.toml is not correct. Correcting
+[12Oct2026 18:13:59.566] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:13:59.566] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.disabled_poppets was corrected from null to its default, []. 
+[12Oct2026 18:13:59.567] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.enable_curses was corrected from null to its default, true. 
+[12Oct2026 18:13:59.567] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.enable_polymorph was corrected from null to its default, true. 
+[12Oct2026 18:13:59.567] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.altar_distribution_radius was corrected from null to its default, 24. 
+[12Oct2026 18:13:59.567] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key worldgen was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:13:59.567] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key worldgen.generate_salt was corrected from null to its default, true. 
+[12Oct2026 18:13:59.568] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key worldgen.generate_silver was corrected from null to its default, true. 
+[12Oct2026 18:13:59.568] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:13:59.568] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.owl was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:13:59.568] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.owl.weight was corrected from null to its default, 10. 
+[12Oct2026 18:13:59.568] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.owl.min_group was corrected from null to its default, 1. 
+[12Oct2026 18:13:59.568] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.owl.max_group was corrected from null to its default, 2. 
+[12Oct2026 18:13:59.568] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.raven was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:13:59.569] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.raven.weight was corrected from null to its default, 10. 
+[12Oct2026 18:13:59.569] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.raven.min_group was corrected from null to its default, 1. 
+[12Oct2026 18:13:59.569] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.raven.max_group was corrected from null to its default, 3. 
+[12Oct2026 18:13:59.569] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.snake was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:13:59.569] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.snake.weight was corrected from null to its default, 6. 
+[12Oct2026 18:13:59.569] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.snake.min_group was corrected from null to its default, 1. 
+[12Oct2026 18:13:59.569] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.snake.max_group was corrected from null to its default, 2. 
+[12Oct2026 18:13:59.569] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.toad was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:13:59.569] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.toad.weight was corrected from null to its default, 10. 
+[12Oct2026 18:13:59.569] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.toad.min_group was corrected from null to its default, 1. 
+[12Oct2026 18:13:59.569] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.toad.max_group was corrected from null to its default, 3. 
+[12Oct2026 18:13:59.570] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.ghost was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:13:59.570] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.ghost.weight was corrected from null to its default, 20. 
+[12Oct2026 18:13:59.570] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.ghost.min_group was corrected from null to its default, 1. 
+[12Oct2026 18:13:59.570] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.ghost.max_group was corrected from null to its default, 1. 
+[12Oct2026 18:13:59.570] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.vampire was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:13:59.570] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.vampire.weight was corrected from null to its default, 20. 
+[12Oct2026 18:13:59.570] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.vampire.min_group was corrected from null to its default, 1. 
+[12Oct2026 18:13:59.570] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.vampire.max_group was corrected from null to its default, 1. 
+[12Oct2026 18:13:59.570] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.werewolf was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:13:59.570] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.werewolf.weight was corrected from null to its default, 20. 
+[12Oct2026 18:13:59.570] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.werewolf.min_group was corrected from null to its default, 1. 
+[12Oct2026 18:13:59.570] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.werewolf.max_group was corrected from null to its default, 1. 
+[12Oct2026 18:13:59.570] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.hellhound was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:13:59.570] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.hellhound.weight was corrected from null to its default, 6. 
+[12Oct2026 18:13:59.571] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.hellhound.min_group was corrected from null to its default, 1. 
+[12Oct2026 18:13:59.571] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key spawns.hellhound.max_group was corrected from null to its default, 1. 
+[12Oct2026 18:13:59.578] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /home/runner/work/bewitchment/bewitchment/run/config/pehkui-common.toml is not correct. Correcting
+[12Oct2026 18:13:59.578] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:13:59.578] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledFallDamage was corrected from null to its default, true. 
+[12Oct2026 18:13:59.578] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledMotion was corrected from null to its default, true. 
+[12Oct2026 18:13:59.578] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledReach was corrected from null to its default, true. 
+[12Oct2026 18:13:59.578] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledAttack was corrected from null to its default, true. 
+[12Oct2026 18:13:59.579] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledDefense was corrected from null to its default, true. 
+[12Oct2026 18:13:59.579] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledHealth was corrected from null to its default, true. 
+[12Oct2026 18:13:59.579] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledItemDrops was corrected from null to its default, true. 
+[12Oct2026 18:13:59.579] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledProjectiles was corrected from null to its default, true. 
+[12Oct2026 18:13:59.579] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scaledExplosions was corrected from null to its default, true. 
+[12Oct2026 18:13:59.579] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.keepAllScalesOnRespawn was corrected from null to its default, false. 
+[12Oct2026 18:13:59.579] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.accurateNetherPortals was corrected from null to its default, true. 
+[12Oct2026 18:13:59.579] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.scalesKeptOnRespawn was corrected from null to its default, []. 
+[12Oct2026 18:13:59.579] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.enableCommands was corrected from null to its default, true. 
+[12Oct2026 18:13:59.579] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key general.enableDebugCommands was corrected from null to its default, false. 
+[12Oct2026 18:13:59.585] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file /home/runner/work/bewitchment/bewitchment/run/config/curios-common.toml is not correct. Correcting
+[12Oct2026 18:13:59.585] [main/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key slots was corrected from null to its default, []. 
+[12Oct2026 18:13:59.939] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
+[12Oct2026 18:14:00.608] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Found status: OUTDATED Current: 47.3.0 Target: 47.4.10
+[12Oct2026 18:14:01.889] [main/ERROR] [net.minecraft.server.dedicated.Settings/]: Failed to load properties from file: server.properties
 java.nio.file.NoSuchFileException: server.properties
 	at sun.nio.fs.UnixException.translateToIOException(UnixException.java:92) ~[?:?]
 	at sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106) ~[?:?]
@@ -112,256 +112,204 @@ java.nio.file.NoSuchFileException: server.properties
 	at cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:26) ~[modlauncher-10.0.9.jar:?]
 	at cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:23) ~[modlauncher-10.0.9.jar:?]
 	at cpw.mods.bootstraplauncher.BootstrapLauncher.main(BootstrapLauncher.java:141) ~[bootstraplauncher-1.1.2.jar:?]
-[12Oct2026 18:05:26.903] [main/INFO] [com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService/]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
-[12Oct2026 18:05:26.966] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar%23181!/assets/.mcassetsroot' uses unexpected schema
-[12Oct2026 18:05:26.966] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar%23181!/data/.mcassetsroot' uses unexpected schema
-[12Oct2026 18:05:28.607] [main/INFO] [net.minecraft.world.item.crafting.RecipeManager/]: Loaded 14 recipes
-[12Oct2026 18:05:28.700] [main/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 1503 advancements
-[12Oct2026 18:05:28.704] [main/INFO] [top.theillusivec4.curios.Curios/]: Loaded 10 curio slots
-[12Oct2026 18:05:28.706] [main/INFO] [top.theillusivec4.curios.Curios/]: Loaded 1 curio entities
-[12Oct2026 18:05:28.707] [main/WARN] [net.minecraftforge.common.loot.LootModifierManager/]: Unable to decode loot conditions
-com.google.gson.JsonSyntaxException: Unknown type 'minecraft:alternative'
-	at net.minecraft.world.level.storage.loot.GsonAdapterFactory$JsonAdapter.deserialize(GsonAdapterFactory.java:99) ~[forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar:?]
-	at com.google.gson.internal.bind.TreeTypeAdapter.read(TreeTypeAdapter.java:76) ~[gson-2.10.jar:?]
-	at com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper.read(TypeAdapterRuntimeTypeWrapper.java:40) ~[gson-2.10.jar:?]
-	at com.google.gson.internal.bind.ArrayTypeAdapter.read(ArrayTypeAdapter.java:72) ~[gson-2.10.jar:?]
-	at com.google.gson.Gson.fromJson(Gson.java:1214) ~[gson-2.10.jar:?]
-	at com.google.gson.Gson.fromJson(Gson.java:1319) ~[gson-2.10.jar:?]
-	at com.google.gson.Gson.fromJson(Gson.java:1261) ~[gson-2.10.jar:?]
-	at net.minecraftforge.common.loot.IGlobalLootModifier.lambda$static$1(IGlobalLootModifier.java:39) ~[forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar:?]
-	at com.mojang.serialization.Decoder$1.lambda$decode$1(Decoder.java:49) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.DataResult.lambda$flatMap$11(DataResult.java:139) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.datafixers.util.Either$Left.map(Either.java:38) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.DataResult.flatMap(DataResult.java:137) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.Decoder$1.decode(Decoder.java:49) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.Codec$2.decode(Codec.java:71) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.Decoder.parse(Decoder.java:18) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.codecs.FieldDecoder.decode(FieldDecoder.java:29) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.MapCodec$1.decode(MapCodec.java:34) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.codecs.RecordCodecBuilder$Instance$3.decode(RecordCodecBuilder.java:248) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.codecs.RecordCodecBuilder$2.decode(RecordCodecBuilder.java:107) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.codecs.KeyDispatchCodec.lambda$decode$3(KeyDispatchCodec.java:67) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.DataResult.lambda$flatMap$11(DataResult.java:139) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.datafixers.util.Either$Left.map(Either.java:38) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.DataResult.flatMap(DataResult.java:137) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.codecs.KeyDispatchCodec.lambda$decode$4(KeyDispatchCodec.java:58) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.DataResult.lambda$flatMap$11(DataResult.java:139) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.datafixers.util.Either$Left.map(Either.java:38) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.DataResult.flatMap(DataResult.java:137) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.codecs.KeyDispatchCodec.decode(KeyDispatchCodec.java:56) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.MapDecoder.lambda$compressedDecode$1(MapDecoder.java:52) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.DataResult.lambda$flatMap$11(DataResult.java:139) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.datafixers.util.Either$Left.map(Either.java:38) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.DataResult.flatMap(DataResult.java:137) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.MapDecoder.compressedDecode(MapDecoder.java:52) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.MapCodec$MapCodecCodec.decode(MapCodec.java:91) ~[datafixerupper-6.0.8.jar:?]
-	at com.mojang.serialization.Decoder.parse(Decoder.java:18) ~[datafixerupper-6.0.8.jar:?]
-	at net.minecraftforge.common.loot.LootModifierManager.apply(LootModifierManager.java:79) ~[forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar:?]
-	at net.minecraftforge.common.loot.LootModifierManager.apply(LootModifierManager.java:38) ~[forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar:?]
-	at net.minecraft.server.packs.resources.SimplePreparableReloadListener.lambda$reload$1(SimplePreparableReloadListener.java:13) ~[forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar:?]
-	at java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:718) ~[?:?]
-	at java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:482) ~[?:?]
-	at net.minecraft.server.packs.resources.SimpleReloadInstance.lambda$new$3(SimpleReloadInstance.java:69) ~[forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar:?]
-	at net.minecraft.Util.blockUntilDone(Util.java:783) ~[forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar:?]
-	at net.minecraft.Util.blockUntilDone(Util.java:772) ~[forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar:?]
-	at net.minecraft.server.Main.main(Main.java:166) ~[forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar:?]
-	at net.minecraftforge.gametest.GameTestMain.main(GameTestMain.java:16) ~[forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar:?]
-	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
-	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[?:?]
-	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
-	at java.lang.reflect.Method.invoke(Method.java:569) ~[?:?]
-	at net.minecraftforge.fml.loading.targets.ForgeGametestUserdevLaunchHandler.devService(ForgeGametestUserdevLaunchHandler.java:16) ~[fmlloader-1.20.1-47.3.0.jar:?]
-	at net.minecraftforge.fml.loading.targets.CommonDevLaunchHandler.lambda$makeService$7(CommonDevLaunchHandler.java:135) ~[fmlloader-1.20.1-47.3.0.jar:?]
-	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:30) ~[modlauncher-10.0.9.jar:?]
-	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:53) ~[modlauncher-10.0.9.jar:?]
-	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:71) ~[modlauncher-10.0.9.jar:?]
-	at cpw.mods.modlauncher.Launcher.run(Launcher.java:108) ~[modlauncher-10.0.9.jar:?]
-	at cpw.mods.modlauncher.Launcher.main(Launcher.java:78) ~[modlauncher-10.0.9.jar:?]
-	at cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:26) ~[modlauncher-10.0.9.jar:?]
-	at cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:23) ~[modlauncher-10.0.9.jar:?]
-	at cpw.mods.bootstraplauncher.BootstrapLauncher.main(BootstrapLauncher.java:141) ~[bootstraplauncher-1.1.2.jar:?]
-[12Oct2026 18:05:28.720] [main/WARN] [net.minecraftforge.common.loot.LootModifierManager/]: Could not decode GlobalLootModifier with json id bewitchment:seeds_from_grass - error: Unknown type 'minecraft:alternative'
-[12Oct2026 18:05:29.617] [main/INFO] [net.minecraftforge.gametest.ForgeGameTestHooks/]: Enabled Gametest Namespaces: [bewitchment]
-[12Oct2026 18:05:29.650] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file ./world/serverconfig/pehkui-server.toml is not correct. Correcting
-[12Oct2026 18:05:29.650] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.650] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.650] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.base was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.651] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.base.minimum was corrected from null to its default, 1.2621774483536189E-29. 
-[12Oct2026 18:05:29.651] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.base.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.651] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.width was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.651] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.width.minimum was corrected from null to its default, 1.2621774483536189E-29. 
-[12Oct2026 18:05:29.651] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.width.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.651] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.height was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.652] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.height.minimum was corrected from null to its default, 1.2621774483536189E-29. 
-[12Oct2026 18:05:29.652] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.height.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.652] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.eye_height was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.652] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.eye_height.minimum was corrected from null to its default, 1.2621774483536189E-29. 
-[12Oct2026 18:05:29.652] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.eye_height.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.652] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.hitbox_width was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.652] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.hitbox_width.minimum was corrected from null to its default, 1.2621774483536189E-29. 
-[12Oct2026 18:05:29.652] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.hitbox_width.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.652] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.hitbox_height was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.652] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.hitbox_height.minimum was corrected from null to its default, 1.2621774483536189E-29. 
-[12Oct2026 18:05:29.652] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.hitbox_height.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.interaction_box_width was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.interaction_box_width.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.interaction_box_width.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.interaction_box_height was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.interaction_box_height.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.interaction_box_height.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.model_width was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.model_width.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.model_width.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.model_height was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.model_height.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.model_height.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.third_person was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.third_person.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.third_person.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.motion was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.653] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.motion.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.motion.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.falling was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.falling.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.falling.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.step_height was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.step_height.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.step_height.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.view_bobbing was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.view_bobbing.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.view_bobbing.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.visibility was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.visibility.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.visibility.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.jump_height was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.jump_height.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.654] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.jump_height.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.655] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.flight was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.655] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.flight.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.655] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.flight.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.655] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.reach was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.655] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.reach.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.655] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.reach.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.655] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.block_reach was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.655] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.block_reach.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.655] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.block_reach.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.655] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.entity_reach was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.655] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.entity_reach.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.656] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.entity_reach.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.656] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.mining_speed was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.656] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.mining_speed.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.656] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.mining_speed.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.656] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.attack_speed was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.656] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.attack_speed.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.656] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.attack_speed.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.656] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.knockback was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.656] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.knockback.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.656] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.knockback.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.656] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.attack was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.656] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.attack.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.656] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.attack.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.657] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.defense was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.657] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.defense.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.657] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.defense.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.657] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.health was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.657] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.health.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.657] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.health.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.657] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.drops was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.657] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.drops.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.657] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.drops.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.657] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.held_item was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.657] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.held_item.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.657] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.held_item.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.657] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.projectiles was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.659] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.projectiles.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.659] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.projectiles.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.659] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.explosions was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.659] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.explosions.minimum was corrected from null to its default, 1.401298464324817E-45. 
-[12Oct2026 18:05:29.660] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.explosions.maximum was corrected from null to its default, 3.4028234663852886E38. 
-[12Oct2026 18:05:29.679] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file ./world/serverconfig/curios-server.toml is not correct. Correcting
-[12Oct2026 18:05:29.680] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key keepCurios was corrected from null to its default, DEFAULT. 
-[12Oct2026 18:05:29.683] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key menu was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.683] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key menu.enableLegacyMenu was corrected from null to its default, false. 
-[12Oct2026 18:05:29.684] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key menu.experimental was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.684] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key menu.experimental.minimumColumns was corrected from null to its default, 1. 
-[12Oct2026 18:05:29.684] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key menu.experimental.maxSlotsPerPage was corrected from null to its default, 48. 
-[12Oct2026 18:05:29.692] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file ./world/serverconfig/forge-server.toml is not correct. Correcting
-[12Oct2026 18:05:29.693] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server was corrected from null to its default, SimpleCommentedConfig:{}. 
-[12Oct2026 18:05:29.693] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.removeErroringBlockEntities was corrected from null to its default, false. 
-[12Oct2026 18:05:29.693] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.removeErroringEntities was corrected from null to its default, false. 
-[12Oct2026 18:05:29.693] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.fullBoundingBoxLadders was corrected from null to its default, false. 
-[12Oct2026 18:05:29.693] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.zombieBaseSummonChance was corrected from null to its default, 0.1. 
-[12Oct2026 18:05:29.693] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.zombieBabyChance was corrected from null to its default, 0.05. 
-[12Oct2026 18:05:29.693] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.permissionHandler was corrected from null to its default, forge:default_handler. 
-[12Oct2026 18:05:29.693] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.advertiseDedicatedServerToLan was corrected from null to its default, true. 
-[12Oct2026 18:05:34.473] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
-[12Oct2026 18:05:34.945] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
-[12Oct2026 18:05:34.979] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
-[12Oct2026 18:05:35.477] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
-[12Oct2026 18:05:35.982] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
-[12Oct2026 18:05:36.483] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 1%
-[12Oct2026 18:05:37.135] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 1%
-[12Oct2026 18:05:37.474] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 2%
-[12Oct2026 18:05:38.132] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 2%
-[12Oct2026 18:05:38.477] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 3%
-[12Oct2026 18:05:38.987] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 4%
-[12Oct2026 18:05:39.519] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 6%
-[12Oct2026 18:05:39.974] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 7%
-[12Oct2026 18:05:40.477] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 9%
-[12Oct2026 18:05:40.973] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 10%
-[12Oct2026 18:05:41.474] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 11%
-[12Oct2026 18:05:41.974] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 13%
-[12Oct2026 18:05:42.475] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 15%
-[12Oct2026 18:05:42.978] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 17%
-[12Oct2026 18:05:43.499] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 21%
-[12Oct2026 18:05:43.994] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 23%
-[12Oct2026 18:05:44.474] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 25%
-[12Oct2026 18:05:44.976] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 27%
-[12Oct2026 18:05:45.476] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 31%
-[12Oct2026 18:05:45.973] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 32%
-[12Oct2026 18:05:46.474] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 35%
-[12Oct2026 18:05:46.974] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 39%
-[12Oct2026 18:05:47.494] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 42%
-[12Oct2026 18:05:47.976] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 44%
-[12Oct2026 18:05:48.474] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 46%
-[12Oct2026 18:05:48.984] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 50%
-[12Oct2026 18:05:49.477] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 52%
-[12Oct2026 18:05:49.977] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 55%
-[12Oct2026 18:05:50.495] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 58%
-[12Oct2026 18:05:50.979] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 62%
-[12Oct2026 18:05:51.480] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 65%
-[12Oct2026 18:05:51.976] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 68%
-[12Oct2026 18:05:52.475] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 70%
-[12Oct2026 18:05:52.983] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 72%
-[12Oct2026 18:05:53.484] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 74%
-[12Oct2026 18:05:53.973] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 75%
-[12Oct2026 18:05:54.493] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 79%
-[12Oct2026 18:05:54.974] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 83%
-[12Oct2026 18:05:55.493] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 85%
-[12Oct2026 18:05:55.979] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 88%
-[12Oct2026 18:05:56.499] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 92%
-[12Oct2026 18:05:56.977] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 95%
-[12Oct2026 18:05:57.475] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 99%
-[12Oct2026 18:05:57.478] [Server thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Time elapsed: 23006 ms
-[12Oct2026 18:05:57.479] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: Started game test server
-[12Oct2026 18:05:57.487] [Server thread/INFO] [net.minecraftforge.server.permission.PermissionAPI/]: Successfully initialized permission handler forge:default_handler
-[12Oct2026 18:05:57.487] [Server thread/INFO] [patchouli/]: Sending reload packet to clients
-[12Oct2026 18:05:58.217] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestBatchRunner/]: Running test batch 'entities:1' (21 tests)...
-[12Oct2026 18:05:58.318] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: 23 tests are now running!
-[12Oct2026 18:05:59.850] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: [_____________________  ]
-[12Oct2026 18:06:00.121] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestBatchRunner/]: Running test batch 'defaultBatch:1' (2 tests)...
-[12Oct2026 18:06:00.326] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: [+++++++++++++++++++++++]
-[12Oct2026 18:06:00.326] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: ========= 23 GAME TESTS COMPLETE ======================
-[12Oct2026 18:06:00.326] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: All 23 required tests passed :)
-[12Oct2026 18:06:00.327] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: ====================================================
-[12Oct2026 18:06:00.327] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
-[12Oct2026 18:06:00.327] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
-[12Oct2026 18:06:00.327] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
-[12Oct2026 18:06:06.523] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
-[12Oct2026 18:06:09.343] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
-[12Oct2026 18:06:09.344] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
-[12Oct2026 18:06:09.367] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (world): All chunks are saved
-[12Oct2026 18:06:09.367] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
-[12Oct2026 18:06:09.367] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
-[12Oct2026 18:06:09.367] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
-[12Oct2026 18:06:10.120] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: Game test server shutting down
+[12Oct2026 18:14:01.919] [main/INFO] [com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService/]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[12Oct2026 18:14:01.956] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar%23181!/assets/.mcassetsroot' uses unexpected schema
+[12Oct2026 18:14:01.956] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar%23181!/data/.mcassetsroot' uses unexpected schema
+[12Oct2026 18:14:04.101] [main/INFO] [net.minecraft.world.item.crafting.RecipeManager/]: Loaded 14 recipes
+[12Oct2026 18:14:04.206] [main/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 1503 advancements
+[12Oct2026 18:14:04.213] [main/INFO] [top.theillusivec4.curios.Curios/]: Loaded 10 curio slots
+[12Oct2026 18:14:04.216] [main/INFO] [top.theillusivec4.curios.Curios/]: Loaded 1 curio entities
+[12Oct2026 18:14:05.364] [main/INFO] [net.minecraftforge.gametest.ForgeGameTestHooks/]: Enabled Gametest Namespaces: [bewitchment]
+[12Oct2026 18:14:05.402] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file ./world/serverconfig/pehkui-server.toml is not correct. Correcting
+[12Oct2026 18:14:05.403] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.403] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.403] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.base was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.403] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.base.minimum was corrected from null to its default, 1.2621774483536189E-29. 
+[12Oct2026 18:14:05.404] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.base.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.404] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.width was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.404] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.width.minimum was corrected from null to its default, 1.2621774483536189E-29. 
+[12Oct2026 18:14:05.405] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.width.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.405] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.height was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.405] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.height.minimum was corrected from null to its default, 1.2621774483536189E-29. 
+[12Oct2026 18:14:05.405] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.height.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.405] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.eye_height was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.405] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.eye_height.minimum was corrected from null to its default, 1.2621774483536189E-29. 
+[12Oct2026 18:14:05.405] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.eye_height.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.405] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.hitbox_width was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.405] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.hitbox_width.minimum was corrected from null to its default, 1.2621774483536189E-29. 
+[12Oct2026 18:14:05.406] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.hitbox_width.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.406] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.hitbox_height was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.406] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.hitbox_height.minimum was corrected from null to its default, 1.2621774483536189E-29. 
+[12Oct2026 18:14:05.406] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.hitbox_height.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.407] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.interaction_box_width was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.407] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.interaction_box_width.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.407] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.interaction_box_width.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.407] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.interaction_box_height was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.407] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.interaction_box_height.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.407] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.interaction_box_height.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.408] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.model_width was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.408] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.model_width.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.408] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.model_width.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.408] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.model_height was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.408] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.model_height.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.409] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.model_height.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.410] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.third_person was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.410] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.third_person.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.410] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.third_person.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.410] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.motion was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.410] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.motion.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.410] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.motion.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.411] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.falling was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.412] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.falling.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.413] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.falling.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.414] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.step_height was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.414] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.step_height.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.414] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.step_height.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.414] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.view_bobbing was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.414] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.view_bobbing.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.414] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.view_bobbing.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.414] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.visibility was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.414] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.visibility.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.414] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.visibility.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.415] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.jump_height was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.415] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.jump_height.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.415] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.jump_height.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.415] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.flight was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.415] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.flight.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.415] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.flight.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.415] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.reach was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.415] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.reach.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.415] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.reach.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.416] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.block_reach was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.416] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.block_reach.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.419] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.block_reach.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.419] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.entity_reach was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.419] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.entity_reach.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.421] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.entity_reach.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.421] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.mining_speed was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.421] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.mining_speed.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.421] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.mining_speed.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.421] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.attack_speed was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.422] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.attack_speed.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.422] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.attack_speed.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.422] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.knockback was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.422] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.knockback.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.422] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.knockback.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.423] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.attack was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.423] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.attack.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.423] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.attack.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.423] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.defense was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.423] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.defense.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.423] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.defense.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.423] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.health was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.424] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.health.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.424] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.health.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.424] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.drops was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.424] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.drops.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.424] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.drops.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.424] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.held_item was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.424] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.held_item.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.424] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.held_item.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.424] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.projectiles was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.425] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.projectiles.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.425] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.projectiles.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.425] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.explosions was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.425] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.explosions.minimum was corrected from null to its default, 1.401298464324817E-45. 
+[12Oct2026 18:14:05.425] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.scale_limits.explosions.maximum was corrected from null to its default, 3.4028234663852886E38. 
+[12Oct2026 18:14:05.442] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file ./world/serverconfig/curios-server.toml is not correct. Correcting
+[12Oct2026 18:14:05.443] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key keepCurios was corrected from null to its default, DEFAULT. 
+[12Oct2026 18:14:05.450] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key menu was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.450] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key menu.enableLegacyMenu was corrected from null to its default, false. 
+[12Oct2026 18:14:05.451] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key menu.experimental was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.451] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key menu.experimental.minimumColumns was corrected from null to its default, 1. 
+[12Oct2026 18:14:05.451] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key menu.experimental.maxSlotsPerPage was corrected from null to its default, 48. 
+[12Oct2026 18:14:05.453] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Configuration file ./world/serverconfig/forge-server.toml is not correct. Correcting
+[12Oct2026 18:14:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server was corrected from null to its default, SimpleCommentedConfig:{}. 
+[12Oct2026 18:14:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.removeErroringBlockEntities was corrected from null to its default, false. 
+[12Oct2026 18:14:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.removeErroringEntities was corrected from null to its default, false. 
+[12Oct2026 18:14:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.fullBoundingBoxLadders was corrected from null to its default, false. 
+[12Oct2026 18:14:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.zombieBaseSummonChance was corrected from null to its default, 0.1. 
+[12Oct2026 18:14:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.zombieBabyChance was corrected from null to its default, 0.05. 
+[12Oct2026 18:14:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.permissionHandler was corrected from null to its default, forge:default_handler. 
+[12Oct2026 18:14:05.454] [Server thread/WARN] [net.minecraftforge.common.ForgeConfigSpec/CORE]: Incorrect key server.advertiseDedicatedServerToLan was corrected from null to its default, true. 
+[12Oct2026 18:14:11.575] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
+[12Oct2026 18:14:12.390] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[12Oct2026 18:14:12.391] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[12Oct2026 18:14:12.591] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[12Oct2026 18:14:13.082] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[12Oct2026 18:14:13.682] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[12Oct2026 18:14:14.142] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[12Oct2026 18:14:14.585] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[12Oct2026 18:14:15.099] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 1%
+[12Oct2026 18:14:15.646] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 1%
+[12Oct2026 18:14:16.080] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 2%
+[12Oct2026 18:14:16.583] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 3%
+[12Oct2026 18:14:17.110] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 3%
+[12Oct2026 18:14:17.579] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 4%
+[12Oct2026 18:14:18.081] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 5%
+[12Oct2026 18:14:18.579] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 6%
+[12Oct2026 18:14:19.085] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 7%
+[12Oct2026 18:14:19.580] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 9%
+[12Oct2026 18:14:20.080] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 10%
+[12Oct2026 18:14:20.581] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 12%
+[12Oct2026 18:14:21.141] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 14%
+[12Oct2026 18:14:21.580] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 15%
+[12Oct2026 18:14:22.097] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 17%
+[12Oct2026 18:14:22.582] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 18%
+[12Oct2026 18:14:23.080] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 20%
+[12Oct2026 18:14:23.579] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 23%
+[12Oct2026 18:14:24.082] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 25%
+[12Oct2026 18:14:24.582] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 27%
+[12Oct2026 18:14:25.088] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 29%
+[12Oct2026 18:14:25.599] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 31%
+[12Oct2026 18:14:26.080] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 33%
+[12Oct2026 18:14:26.579] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 36%
+[12Oct2026 18:14:27.081] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 38%
+[12Oct2026 18:14:27.589] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 40%
+[12Oct2026 18:14:28.080] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 42%
+[12Oct2026 18:14:28.583] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 45%
+[12Oct2026 18:14:29.116] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 47%
+[12Oct2026 18:14:29.600] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 50%
+[12Oct2026 18:14:30.080] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 53%
+[12Oct2026 18:14:30.600] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 55%
+[12Oct2026 18:14:31.088] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 57%
+[12Oct2026 18:14:31.589] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 59%
+[12Oct2026 18:14:32.081] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 62%
+[12Oct2026 18:14:32.582] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 65%
+[12Oct2026 18:14:33.098] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 68%
+[12Oct2026 18:14:33.584] [Worker-Main-3/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 70%
+[12Oct2026 18:14:34.099] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 71%
+[12Oct2026 18:14:34.581] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 73%
+[12Oct2026 18:14:35.102] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 76%
+[12Oct2026 18:14:35.589] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 80%
+[12Oct2026 18:14:36.107] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 83%
+[12Oct2026 18:14:36.588] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 84%
+[12Oct2026 18:14:37.080] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 86%
+[12Oct2026 18:14:37.579] [Worker-Main-1/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 87%
+[12Oct2026 18:14:38.087] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 90%
+[12Oct2026 18:14:38.586] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 93%
+[12Oct2026 18:14:39.095] [Worker-Main-2/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 96%
+[12Oct2026 18:14:39.544] [Server thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Time elapsed: 27966 ms
+[12Oct2026 18:14:39.545] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: Started game test server
+[12Oct2026 18:14:39.552] [Server thread/INFO] [net.minecraftforge.server.permission.PermissionAPI/]: Successfully initialized permission handler forge:default_handler
+[12Oct2026 18:14:39.552] [Server thread/INFO] [patchouli/]: Sending reload packet to clients
+[12Oct2026 18:14:49.327] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestBatchRunner/]: Running test batch 'entities:1' (21 tests)...
+[12Oct2026 18:14:49.518] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: 23 tests are now running!
+[12Oct2026 18:14:49.537] [Server thread/WARN] [net.minecraft.server.MinecraftServer/]: Can't keep up! Is the server overloaded? Running 9934ms or 198 ticks behind
+[12Oct2026 18:14:50.861] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: [_____________________  ]
+[12Oct2026 18:14:51.039] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestBatchRunner/]: Running test batch 'defaultBatch:1' (2 tests)...
+[12Oct2026 18:14:51.385] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: [+++++++++++++++++++++++]
+[12Oct2026 18:14:51.385] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: ========= 23 GAME TESTS COMPLETE ======================
+[12Oct2026 18:14:51.386] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: All 23 required tests passed :)
+[12Oct2026 18:14:51.389] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: ====================================================
+[12Oct2026 18:14:51.389] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
+[12Oct2026 18:14:51.389] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
+[12Oct2026 18:14:51.390] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
+[12Oct2026 18:15:04.006] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[12Oct2026 18:15:05.235] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[12Oct2026 18:15:05.236] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[12Oct2026 18:15:05.275] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[12Oct2026 18:15:05.275] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[12Oct2026 18:15:05.275] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[12Oct2026 18:15:05.275] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[12Oct2026 18:15:06.258] [Server thread/INFO] [net.minecraft.gametest.framework.GameTestServer/]: Game test server shutting down
