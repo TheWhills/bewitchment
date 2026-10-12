@@ -30,28 +30,6 @@ src/main/java/moriyashiine/bewitchment/api/event/AllowVampireBurn.java:10: error
 src/main/java/moriyashiine/bewitchment/api/event/AllowVampireBurn.java:13: error: cannot find symbol
 src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:7: error: package com.jamieswhiteshirt.reachentityattributes does not exist
 src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:8: error: package dev.emi.stepheightentityattribute does not exist
-src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:9: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
-src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:10: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
-src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:36: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:36: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/api/component/PledgeComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
-src/main/java/moriyashiine/bewitchment/api/component/PledgeComponent.java:8: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
-src/main/java/moriyashiine/bewitchment/api/component/PledgeComponent.java:14: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/api/component/PledgeComponent.java:14: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/api/component/ContractsComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
-src/main/java/moriyashiine/bewitchment/api/component/ContractsComponent.java:20: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/api/component/BloodComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
-src/main/java/moriyashiine/bewitchment/api/component/BloodComponent.java:8: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
-src/main/java/moriyashiine/bewitchment/api/component/BloodComponent.java:16: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/api/component/BloodComponent.java:16: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/api/component/MagicComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
-src/main/java/moriyashiine/bewitchment/api/component/MagicComponent.java:8: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
-src/main/java/moriyashiine/bewitchment/api/component/MagicComponent.java:13: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/api/component/MagicComponent.java:13: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/api/component/FortuneComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
-src/main/java/moriyashiine/bewitchment/api/component/FortuneComponent.java:15: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/api/component/CursesComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
-src/main/java/moriyashiine/bewitchment/api/component/CursesComponent.java:18: error: cannot find symbol
 src/main/java/moriyashiine/bewitchment/common/item/HornedSpearItem.java:9: error: package com.jamieswhiteshirt.reachentityattributes does not exist
 src/main/java/moriyashiine/bewitchment/common/item/PricklyBeltItem.java:7: error: package dev.emi.trinkets.api does not exist
 src/main/java/moriyashiine/bewitchment/common/item/PricklyBeltItem.java:20: error: cannot find symbol
@@ -92,65 +70,7 @@ src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:17
 src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:98: error: cannot find symbol
 src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:28: error: package dev.emi.trinkets.api does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:53: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:7: error: package dev.onyxstudios.cca.api.v3.component does not exist
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:8: error: package dev.onyxstudios.cca.api.v3.component does not exist
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:9: error: package dev.onyxstudios.cca.api.v3.entity does not exist
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:10: error: package dev.onyxstudios.cca.api.v3.entity does not exist
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:11: error: package dev.onyxstudios.cca.api.v3.entity does not exist
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:23: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:24: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:25: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:26: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:27: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:28: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:29: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:30: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:32: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/AdditionalWerewolfDataComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/AdditionalWerewolfDataComponent.java:12: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:33: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/RespawnTimerComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/RespawnTimerComponent.java:10: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:34: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/TeleportTimerComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/TeleportTimerComponent.java:10: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:35: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/FullInvisibilityComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/FullInvisibilityComponent.java:8: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/FullInvisibilityComponent.java:14: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/FullInvisibilityComponent.java:14: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:36: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/BroomUserComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/BroomUserComponent.java:12: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:37: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/PolymorphComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
 src/main/java/moriyashiine/bewitchment/common/component/entity/PolymorphComponent.java:8: error: package io.github.ladysnake.impersonate does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/PolymorphComponent.java:18: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:38: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/AdditionalWaterDataComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/AdditionalWaterDataComponent.java:8: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/AdditionalWaterDataComponent.java:13: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/AdditionalWaterDataComponent.java:13: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:39: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/FamiliarComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/FamiliarComponent.java:8: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/FamiliarComponent.java:15: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/FamiliarComponent.java:15: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:40: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/MinionComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/MinionComponent.java:17: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:41: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/FakeMobComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/FakeMobComponent.java:8: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/FakeMobComponent.java:18: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/FakeMobComponent.java:18: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:42: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/WerewolfVillagerComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/WerewolfVillagerComponent.java:20: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:43: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/component/entity/CaduceusFireballComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component does not exist
-src/main/java/moriyashiine/bewitchment/common/component/entity/CaduceusFireballComponent.java:10: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:46: error: cannot find symbol
 src/main/java/moriyashiine/bewitchment/common/block/entity/BrazierBlockEntity.java:7: error: package dev.emi.trinkets.api does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:7: error: package com.terraformersmc.terraform.boat.api does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:8: error: package com.terraformersmc.terraform.boat.api does not exist
