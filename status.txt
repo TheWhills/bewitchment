@@ -1,4 +1,4 @@
-commit: 50464be
-result: cancelled
-java errors: 0
-files with errors: 0
+commit: 2dbe241
+result: failure
+java errors: 1
+files with errors: 1
