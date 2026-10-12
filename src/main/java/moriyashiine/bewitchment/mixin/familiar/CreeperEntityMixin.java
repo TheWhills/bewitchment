@@ -5,25 +5,25 @@
 package moriyashiine.bewitchment.mixin.familiar;
 
 import moriyashiine.bewitchment.api.BewitchmentAPI;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.FleeEntityGoal;
-import net.minecraft.entity.mob.CreeperEntity;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(CreeperEntity.class)
-public class CreeperEntityMixin extends HostileEntity {
-	protected CreeperEntityMixin(EntityType<? extends HostileEntity> entityType, World world) {
+@Mixin(Creeper.class)
+public class CreeperEntityMixin extends Monster {
+	protected CreeperEntityMixin(EntityType<? extends Monster> entityType, Level world) {
 		super(entityType, world);
 	}
 
 	@Inject(method = "initGoals", at = @At("TAIL"))
 	private void initGoals(CallbackInfo callbackInfo) {
-		goalSelector.add(3, new FleeEntityGoal<>(this, PlayerEntity.class, 6, 1, 1.2, entity -> entity instanceof PlayerEntity player && BewitchmentAPI.getFamiliar(player) == EntityType.CAT));
+		goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Player.class, 6, 1, 1.2, entity -> entity instanceof Player player && BewitchmentAPI.getFamiliar(player) == EntityType.CAT));
 	}
 }

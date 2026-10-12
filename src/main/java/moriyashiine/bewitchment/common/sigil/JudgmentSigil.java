@@ -6,11 +6,11 @@ package moriyashiine.bewitchment.common.sigil;
 
 import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.api.registry.Sigil;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 
 public class JudgmentSigil extends Sigil {
 	public JudgmentSigil(boolean active, int uses) {
@@ -18,9 +18,9 @@ public class JudgmentSigil extends Sigil {
 	}
 
 	@Override
-	public ActionResult use(World world, BlockPos pos, LivingEntity user, Hand hand) {
-		if (BewitchmentAPI.isWeakToSilver(user) && user.damage(world.getDamageSources().magic(), 8)) {
-			return ActionResult.SUCCESS;
+	public InteractionResult use(Level world, BlockPos pos, LivingEntity user, InteractionHand hand) {
+		if (BewitchmentAPI.isWeakToSilver(user) && user.hurt(world.damageSources().magic(), 8)) {
+			return InteractionResult.SUCCESS;
 		}
 		return super.use(world, pos, user, hand);
 	}

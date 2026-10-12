@@ -7,36 +7,36 @@ package moriyashiine.bewitchment.common.registry;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.api.component.BloodComponent;
 import moriyashiine.bewitchment.common.Bewitchment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageType;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.DamageTypeTags;
-import net.minecraft.world.World;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class BWDamageSources {
-	public static final RegistryKey<DamageType> MAGIC_COPY = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Bewitchment.id("magic_copy"));
-	public static final RegistryKey<DamageType> WEDNESDAY = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Bewitchment.id("wednesday"));
-	public static final RegistryKey<DamageType> DEATH = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Bewitchment.id("death"));
-	public static final RegistryKey<DamageType> VAMPIRE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Bewitchment.id("vampire"));
-	public static final RegistryKey<DamageType> SUN = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Bewitchment.id("sun"));
+	public static final ResourceKey<DamageType> MAGIC_COPY = ResourceKey.create(Registries.DAMAGE_TYPE, Bewitchment.id("magic_copy"));
+	public static final ResourceKey<DamageType> WEDNESDAY = ResourceKey.create(Registries.DAMAGE_TYPE, Bewitchment.id("wednesday"));
+	public static final ResourceKey<DamageType> DEATH = ResourceKey.create(Registries.DAMAGE_TYPE, Bewitchment.id("death"));
+	public static final ResourceKey<DamageType> VAMPIRE = ResourceKey.create(Registries.DAMAGE_TYPE, Bewitchment.id("vampire"));
+	public static final ResourceKey<DamageType> SUN = ResourceKey.create(Registries.DAMAGE_TYPE, Bewitchment.id("sun"));
 
-	public static DamageSource create(World world, RegistryKey<DamageType> key, @Nullable Entity source, @Nullable Entity attacker) {
-		return new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(key), source, attacker);
+	public static DamageSource create(Level world, ResourceKey<DamageType> key, @Nullable Entity source, @Nullable Entity attacker) {
+		return new DamageSource(world.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(key), source, attacker);
 	}
 
-	public static DamageSource create(World world, RegistryKey<DamageType> key, @Nullable Entity attacker) {
-		return new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(key), attacker);
+	public static DamageSource create(Level world, ResourceKey<DamageType> key, @Nullable Entity attacker) {
+		return new DamageSource(world.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(key), attacker);
 	}
 
-	public static DamageSource create(World world, RegistryKey<DamageType> key) {
-		return new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(key));
+	public static DamageSource create(Level world, ResourceKey<DamageType> key) {
+		return new DamageSource(world.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(key));
 	}
 
 	public static float handleDamage(LivingEntity entity, DamageSource source, float amount) {
@@ -51,14 +51,14 @@ public class BWDamageSources {
 	}
 
 	public static boolean isEffective(DamageSource source, boolean vampire) {
-		if (source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY) || (vampire && (source.isOf(MAGIC_COPY) || source.isOf(SUN)))) {
+		if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) || (vampire && (source.is(MAGIC_COPY) || source.is(SUN)))) {
 			return true;
 		}
-		Entity attacker = source.getSource();
+		Entity attacker = source.getDirectEntity();
 		if (attacker != null) {
-			if (attacker.getType().isIn(BWTags.TAGLOCK_BLACKLIST) || BewitchmentAPI.isVampire(attacker, true) || BewitchmentAPI.isWerewolf(attacker, true)) {
+			if (attacker.getType().is(BWTags.TAGLOCK_BLACKLIST) || BewitchmentAPI.isVampire(attacker, true) || BewitchmentAPI.isWerewolf(attacker, true)) {
 				return true;
-			} else if (attacker instanceof LivingEntity && EnchantmentHelper.getEquipmentLevel(Enchantments.SMITE, (LivingEntity) attacker) > 0) {
+			} else if (attacker instanceof LivingEntity && EnchantmentHelper.getEnchantmentLevel(Enchantments.SMITE, (LivingEntity) attacker) > 0) {
 				return true;
 			}
 		}

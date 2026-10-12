@@ -5,12 +5,12 @@
 package moriyashiine.bewitchment.common.contract;
 
 import moriyashiine.bewitchment.api.registry.Contract;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class SlothContract extends Contract {
 	@Override
-	public void tick(PlayerEntity target) {
-		if (target.age % 10 == 0 && target.isOnGround() && !target.isSprinting()) {
+	public void tick(Player target) {
+		if (target.tickCount % 10 == 0 && target.onGround() && !target.isSprinting()) {
 			target.heal(1);
 		}
 	}

@@ -12,7 +12,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import moriyashiine.bewitchment.client.integration.emi.BWEmiIntegration;
 import moriyashiine.bewitchment.common.recipe.OilRecipe;
-import net.minecraft.recipe.Ingredient;
+import net.minecraft.world.item.crafting.Ingredient;
 
 public class EmiOilRecipe extends BasicEmiRecipe {
 	public EmiOilRecipe(OilRecipe recipe) {

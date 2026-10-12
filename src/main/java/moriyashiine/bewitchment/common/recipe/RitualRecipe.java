@@ -10,30 +10,29 @@ import com.google.gson.JsonParseException;
 import moriyashiine.bewitchment.api.registry.RitualFunction;
 import moriyashiine.bewitchment.common.registry.BWRecipeTypes;
 import moriyashiine.bewitchment.common.registry.BWRegistries;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
-
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RitualRecipe implements Recipe<Inventory> {
-	private final Identifier identifier;
-	public final DefaultedList<Ingredient> input;
+public class RitualRecipe implements Recipe<Container> {
+	private final ResourceLocation identifier;
+	public final NonNullList<Ingredient> input;
 	public final String inner, outer;
 	public final RitualFunction ritualFunction;
 	public final int cost, runningTime;
 
-	public RitualRecipe(Identifier identifier, DefaultedList<Ingredient> input, String inner, String outer, RitualFunction ritualFunction, int cost, int runningTime) {
+	public RitualRecipe(ResourceLocation identifier, NonNullList<Ingredient> input, String inner, String outer, RitualFunction ritualFunction, int cost, int runningTime) {
 		this.identifier = identifier;
 		this.input = input;
 		this.inner = inner;
@@ -44,27 +43,27 @@ public class RitualRecipe implements Recipe<Inventory> {
 	}
 
 	@Override
-	public boolean matches(Inventory inv, World world) {
+	public boolean matches(Container inv, Level world) {
 		return matches(inv, input);
 	}
 
 	@Override
-	public ItemStack craft(Inventory inventory, DynamicRegistryManager registryManager) {
+	public ItemStack assemble(Container inventory, RegistryAccess registryManager) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public boolean fits(int width, int height) {
+	public boolean canCraftInDimensions(int width, int height) {
 		return true;
 	}
 
 	@Override
-	public ItemStack getOutput(DynamicRegistryManager registryManager) {
+	public ItemStack getResultItem(RegistryAccess registryManager) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public Identifier getId() {
+	public ResourceLocation getId() {
 		return identifier;
 	}
 
@@ -78,10 +77,10 @@ public class RitualRecipe implements Recipe<Inventory> {
 		return BWRecipeTypes.RITUAL_RECIPE_TYPE;
 	}
 
-	public static boolean matches(Inventory inv, DefaultedList<Ingredient> input) {
+	public static boolean matches(Container inv, NonNullList<Ingredient> input) {
 		List<ItemStack> checklist = new ArrayList<>();
-		for (int i = 0; i < inv.size(); i++) {
-			ItemStack stack = inv.getStack(i);
+		for (int i = 0; i < inv.getContainerSize(); i++) {
+			ItemStack stack = inv.getItem(i);
 			if (!stack.isEmpty()) {
 				checklist.add(stack);
 			}
@@ -108,42 +107,42 @@ public class RitualRecipe implements Recipe<Inventory> {
 	@SuppressWarnings("ConstantConditions")
 	public static class Serializer implements RecipeSerializer<RitualRecipe> {
 		@Override
-		public RitualRecipe read(Identifier id, JsonObject json) {
-			DefaultedList<Ingredient> ingredients = getIngredients(JsonHelper.getArray(json, "ingredients"));
+		public RitualRecipe fromJson(ResourceLocation id, JsonObject json) {
+			NonNullList<Ingredient> ingredients = getIngredients(GsonHelper.getAsJsonArray(json, "ingredients"));
 			if (ingredients.isEmpty()) {
 				throw new JsonParseException("No ingredients for ritual recipe");
 			} else if (ingredients.size() > 6) {
 				throw new JsonParseException("Too many ingredients for ritual recipe");
 			}
-			String inner = JsonHelper.getString(json, "inner");
+			String inner = GsonHelper.getAsString(json, "inner");
 			if (inner.isEmpty()) {
 				throw new JsonParseException("Inner circle is empty");
 			}
-			return new RitualRecipe(id, ingredients, inner, JsonHelper.getString(json, "outer", ""), BWRegistries.RITUAL_FUNCTION.get(new Identifier(JsonHelper.getString(json, "ritual_function"))), JsonHelper.getInt(json, "cost"), JsonHelper.getInt(json, "running_time", 0));
+			return new RitualRecipe(id, ingredients, inner, GsonHelper.getAsString(json, "outer", ""), BWRegistries.RITUAL_FUNCTION.get(new ResourceLocation(GsonHelper.getAsString(json, "ritual_function"))), GsonHelper.getAsInt(json, "cost"), GsonHelper.getAsInt(json, "running_time", 0));
 		}
 
 		@Override
-		public RitualRecipe read(Identifier id, PacketByteBuf buf) {
-			DefaultedList<Ingredient> defaultedList = DefaultedList.ofSize(buf.readVarInt(), Ingredient.EMPTY);
-			defaultedList.replaceAll(ignored -> Ingredient.fromPacket(buf));
-			return new RitualRecipe(id, defaultedList, buf.readString(), buf.readString(), BWRegistries.RITUAL_FUNCTION.get(new Identifier(buf.readString())), buf.readInt(), buf.readInt());
+		public RitualRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+			NonNullList<Ingredient> defaultedList = NonNullList.withSize(buf.readVarInt(), Ingredient.EMPTY);
+			defaultedList.replaceAll(ignored -> Ingredient.fromNetwork(buf));
+			return new RitualRecipe(id, defaultedList, buf.readUtf(), buf.readUtf(), BWRegistries.RITUAL_FUNCTION.get(new ResourceLocation(buf.readUtf())), buf.readInt(), buf.readInt());
 		}
 
 		@Override
-		public void write(PacketByteBuf buf, RitualRecipe recipe) {
+		public void write(FriendlyByteBuf buf, RitualRecipe recipe) {
 			buf.writeVarInt(recipe.input.size());
 			for (Ingredient ingredient : recipe.input) {
-				ingredient.write(buf);
+				ingredient.toNetwork(buf);
 			}
-			buf.writeString(recipe.inner);
-			buf.writeString(recipe.outer);
-			buf.writeString(BWRegistries.RITUAL_FUNCTION.getId(recipe.ritualFunction).toString());
+			buf.writeUtf(recipe.inner);
+			buf.writeUtf(recipe.outer);
+			buf.writeUtf(BWRegistries.RITUAL_FUNCTION.getKey(recipe.ritualFunction).toString());
 			buf.writeInt(recipe.cost);
 			buf.writeInt(recipe.runningTime);
 		}
 
-		public static DefaultedList<Ingredient> getIngredients(JsonArray json) {
-			DefaultedList<Ingredient> ingredients = DefaultedList.of();
+		public static NonNullList<Ingredient> getIngredients(JsonArray json) {
+			NonNullList<Ingredient> ingredients = NonNullList.create();
 			for (int i = 0; i < json.size(); i++) {
 				Ingredient ingredient = Ingredient.fromJson(json.get(i));
 				if (!ingredient.isEmpty()) {

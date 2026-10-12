@@ -7,27 +7,27 @@ package moriyashiine.bewitchment.api.component;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
 import moriyashiine.bewitchment.common.registry.BWComponents;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 
 public class MagicComponent implements AutoSyncedComponent, ServerTickingComponent {
 	public static final int MAX_MAGIC = 100;
 
-	private final PlayerEntity obj;
+	private final Player obj;
 	private int magic = 0, magicTimer = 60;
 
-	public MagicComponent(PlayerEntity obj) {
+	public MagicComponent(Player obj) {
 		this.obj = obj;
 	}
 
 	@Override
-	public void readFromNbt(NbtCompound tag) {
+	public void readFromNbt(CompoundTag tag) {
 		setMagic(tag.getInt("Magic"));
 		setMagicTimer(tag.getInt("MagicTimer"));
 	}
 
 	@Override
-	public void writeToNbt(NbtCompound tag) {
+	public void writeToNbt(CompoundTag tag) {
 		tag.putInt("Magic", getMagic());
 		tag.putInt("MagicTimer", getMagicTimer());
 	}

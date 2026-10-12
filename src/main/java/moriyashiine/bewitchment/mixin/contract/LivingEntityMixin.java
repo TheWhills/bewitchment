@@ -6,14 +6,14 @@ package moriyashiine.bewitchment.mixin.contract;
 
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWContracts;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,26 +23,26 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
 	@Shadow
-	public abstract boolean addStatusEffect(StatusEffectInstance effect);
+	public abstract boolean addStatusEffect(MobEffectInstance effect);
 
-	public LivingEntityMixin(EntityType<?> type, World world) {
+	public LivingEntityMixin(EntityType<?> type, Level world) {
 		super(type, world);
 	}
 
 	@ModifyVariable(method = "applyArmorToDamage", at = @At("HEAD"), argsOnly = true)
 	private float modifyDamage(float amount, DamageSource source) {
-		if (!getWorld().isClient) {
-			Entity directSource = source.getSource();
-			if ((Object) this instanceof PlayerEntity player && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.FAMINE)) {
-				amount /= (2 - (player.getHungerManager().getFoodLevel() / 20f));
+		if (!level().isClientSide) {
+			Entity directSource = source.getDirectEntity();
+			if ((Object) this instanceof Player player && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.FAMINE)) {
+				amount /= (2 - (player.getFoodData().getFoodLevel() / 20f));
 			}
-			if (directSource instanceof PlayerEntity player && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.WRATH)) {
+			if (directSource instanceof Player player && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.WRATH)) {
 				amount *= (3 - 2 * (player.getHealth() / player.getMaxHealth()));
 			}
-			if (directSource instanceof PlayerEntity player && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.PESTILENCE)) {
-				addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100));
-				addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 100));
-				addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 100));
+			if (directSource instanceof Player player && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.PESTILENCE)) {
+				addStatusEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100));
+				addStatusEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100));
+				addStatusEffect(new MobEffectInstance(MobEffects.WITHER, 100));
 			}
 		}
 		return amount;

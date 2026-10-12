@@ -5,14 +5,14 @@
 package moriyashiine.bewitchment.common.sigil;
 
 import moriyashiine.bewitchment.api.registry.Sigil;
-import net.minecraft.block.PressurePlateBlock;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.PressurePlateBlock;
 
 public class MendingSigil extends Sigil {
 	public MendingSigil(boolean active, int uses) {
@@ -20,26 +20,26 @@ public class MendingSigil extends Sigil {
 	}
 
 	@Override
-	public ActionResult use(World world, BlockPos pos, LivingEntity user, Hand hand) {
-		ActionResult result = super.use(world, pos, user, hand);
+	public InteractionResult use(Level world, BlockPos pos, LivingEntity user, InteractionHand hand) {
+		InteractionResult result = super.use(world, pos, user, hand);
 		boolean flag = true;
 		if (world.getBlockState(pos).getBlock() instanceof PressurePlateBlock) {
-			flag = user.age % 20 == 0;
+			flag = user.tickCount % 20 == 0;
 		}
 		if (flag) {
-			StatusEffectInstance regeneration = new StatusEffectInstance(StatusEffects.REGENERATION, 200);
-			if (user.canHaveStatusEffect(regeneration)) {
-				if (!world.isClient) {
-					user.addStatusEffect(regeneration);
+			MobEffectInstance regeneration = new MobEffectInstance(MobEffects.REGENERATION, 200);
+			if (user.canBeAffected(regeneration)) {
+				if (!world.isClientSide) {
+					user.addEffect(regeneration);
 				}
-				result = ActionResult.SUCCESS;
+				result = InteractionResult.SUCCESS;
 			}
-			StatusEffectInstance resistance = new StatusEffectInstance(StatusEffects.RESISTANCE, 200);
-			if (user.canHaveStatusEffect(resistance)) {
-				if (!world.isClient) {
-					user.addStatusEffect(resistance);
+			MobEffectInstance resistance = new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200);
+			if (user.canBeAffected(resistance)) {
+				if (!world.isClientSide) {
+					user.addEffect(resistance);
 				}
-				result = ActionResult.SUCCESS;
+				result = InteractionResult.SUCCESS;
 			}
 		}
 		return result;

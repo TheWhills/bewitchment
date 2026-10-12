@@ -7,34 +7,34 @@ package moriyashiine.bewitchment.common.component.entity;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
 import moriyashiine.bewitchment.common.registry.BWComponents;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Player;
 
 public class FullInvisibilityComponent implements AutoSyncedComponent, ServerTickingComponent {
-	private final PlayerEntity obj;
+	private final Player obj;
 	private boolean fullInvisible = false;
 
-	public FullInvisibilityComponent(PlayerEntity obj) {
+	public FullInvisibilityComponent(Player obj) {
 		this.obj = obj;
 	}
 
 	@Override
-	public void readFromNbt(NbtCompound tag) {
+	public void readFromNbt(CompoundTag tag) {
 		setFullInvisible(tag.getBoolean("FullInvisible"));
 	}
 
 	@Override
-	public void writeToNbt(NbtCompound tag) {
+	public void writeToNbt(CompoundTag tag) {
 		tag.putBoolean("FullInvisible", isFullInvisible());
 	}
 
 	@Override
 	public void serverTick() {
-		if (isFullInvisible() && !obj.isSneaking()) {
+		if (isFullInvisible() && !obj.isShiftKeyDown()) {
 			setFullInvisible(false);
 			obj.setInvisible(false);
-			obj.removeStatusEffect(StatusEffects.INVISIBILITY);
+			obj.removeEffect(MobEffects.INVISIBILITY);
 		}
 	}
 

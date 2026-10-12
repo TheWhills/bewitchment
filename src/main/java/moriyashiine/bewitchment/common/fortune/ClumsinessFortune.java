@@ -5,10 +5,10 @@
 package moriyashiine.bewitchment.common.fortune;
 
 import moriyashiine.bewitchment.api.registry.Fortune;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Hand;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class ClumsinessFortune extends Fortune {
 	public ClumsinessFortune(boolean positive) {
@@ -16,10 +16,10 @@ public class ClumsinessFortune extends Fortune {
 	}
 
 	@Override
-	public boolean finish(ServerWorld world, PlayerEntity target) {
-		boolean drop = target.dropItem(target.getMainHandStack(), false, true) != null;
+	public boolean finish(ServerLevel world, Player target) {
+		boolean drop = target.drop(target.getMainHandItem(), false, true) != null;
 		if (drop) {
-			target.setStackInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
+			target.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
 			return true;
 		}
 		return false;

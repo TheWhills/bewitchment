@@ -7,89 +7,89 @@ package moriyashiine.bewitchment.common.entity.projectile;
 import moriyashiine.bewitchment.common.entity.living.HerneEntity;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWEntityTypes;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("ConstantConditions")
-public class HornedSpearEntity extends PersistentProjectileEntity {
+public class HornedSpearEntity extends AbstractArrow {
 	public ItemStack spear = ItemStack.EMPTY;
 	private boolean dealtDamage = false;
 
-	public HornedSpearEntity(EntityType<? extends PersistentProjectileEntity> entityType, World world) {
+	public HornedSpearEntity(EntityType<? extends AbstractArrow> entityType, Level world) {
 		super(entityType, world);
 	}
 
-	public HornedSpearEntity(World world, double x, double y, double z) {
+	public HornedSpearEntity(Level world, double x, double y, double z) {
 		super(BWEntityTypes.HORNED_SPEAR, x, y, z, world);
 	}
 
-	public HornedSpearEntity(EntityType<? extends PersistentProjectileEntity> type, LivingEntity owner, World world, ItemStack stack) {
+	public HornedSpearEntity(EntityType<? extends AbstractArrow> type, LivingEntity owner, Level world, ItemStack stack) {
 		super(type, owner, world);
 		spear = stack;
 	}
 
 	@Override
-	protected ItemStack asItemStack() {
+	protected ItemStack getPickupItem() {
 		return spear;
 	}
 
 	@Override
-	protected void onEntityHit(EntityHitResult result) {
+	protected void onHitEntity(EntityHitResult result) {
 		Entity owner = getOwner();
 		Entity entity = result.getEntity();
 		float damage = 7;
 		if (entity instanceof LivingEntity livingEntity) {
-			damage += EnchantmentHelper.getAttackDamage(spear, livingEntity.getGroup());
+			damage += EnchantmentHelper.getDamageBonus(spear, livingEntity.getMobType());
 		}
 		if (owner instanceof HerneEntity) {
 			damage *= 3;
 		}
 		dealtDamage = true;
-		if (entity.damage(entity.getWorld().getDamageSources().trident(owner == null ? this : owner, owner == null ? this : owner), damage)) {
+		if (entity.hurt(entity.level().damageSources().trident(owner == null ? this : owner, owner == null ? this : owner), damage)) {
 			if (entity.getType() == EntityType.ENDERMAN) {
 				return;
 			}
 			if (entity instanceof LivingEntity livingEntity) {
 				if (owner instanceof LivingEntity livingOwner) {
-					EnchantmentHelper.onUserDamaged(livingEntity, owner);
-					EnchantmentHelper.onTargetDamaged(livingOwner, livingEntity);
+					EnchantmentHelper.doPostHurtEffects(livingEntity, owner);
+					EnchantmentHelper.doPostDamageEffects(livingOwner, livingEntity);
 				}
-				onHit(livingEntity);
+				doPostHurtEffects(livingEntity);
 			}
 		}
-		setVelocity(getVelocity().multiply(-0.01, -0.1, -0.01));
+		setDeltaMovement(getDeltaMovement().multiply(-0.01, -0.1, -0.01));
 	}
 
 	@Nullable
 	@Override
-	protected EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
+	protected EntityHitResult findHitEntity(Vec3 currentPosition, Vec3 nextPosition) {
 		if (isOwnerAlive()) {
-			EntityHitResult collision = ProjectileUtil.getEntityCollision(getWorld(), this, currentPosition, nextPosition, getBoundingBox().stretch(getVelocity()).expand(1), this::canHit);
-			if (collision != null && collision.getEntity() instanceof MobEntity mob && getOwner().getUuid().equals(BWComponents.MINION_COMPONENT.get(mob).getMaster())) {
+			EntityHitResult collision = ProjectileUtil.getEntityHitResult(level(), this, currentPosition, nextPosition, getBoundingBox().expandTowards(getDeltaMovement()).inflate(1), this::canHitEntity);
+			if (collision != null && collision.getEntity() instanceof Mob mob && getOwner().getUUID().equals(BWComponents.MINION_COMPONENT.get(mob).getMaster())) {
 				return null;
 			}
 		}
-		return dealtDamage ? null : super.getEntityCollision(currentPosition, nextPosition);
+		return dealtDamage ? null : super.findHitEntity(currentPosition, nextPosition);
 	}
 
 	@Override
-	public void onPlayerCollision(PlayerEntity player) {
+	public void playerTouch(Player player) {
 		Entity owner = getOwner();
-		if (owner == null || owner.getUuid() == player.getUuid()) {
-			super.onPlayerCollision(player);
+		if (owner == null || owner.getUUID() == player.getUUID()) {
+			super.playerTouch(player);
 		}
 	}
 
@@ -99,29 +99,29 @@ public class HornedSpearEntity extends PersistentProjectileEntity {
 			dealtDamage = true;
 		}
 		Entity entity = getOwner();
-		if (entity instanceof PlayerEntity && (dealtDamage || isNoClip() || getY() <= getWorld().getBottomY())) {
+		if (entity instanceof Player && (dealtDamage || isNoPhysics() || getY() <= level().getMinBuildHeight())) {
 			if (!isOwnerAlive()) {
-				if (!getWorld().isClient && pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
-					dropStack(asItemStack(), 0.1f);
+				if (!level().isClientSide && pickup == AbstractArrow.Pickup.ALLOWED) {
+					spawnAtLocation(getPickupItem(), 0.1f);
 				}
 				remove(RemovalReason.DISCARDED);
 			} else {
-				setNoClip(true);
-				Vec3d vec3d = new Vec3d(entity.getX() - getX(), entity.getEyeY() - getY(), entity.getZ() - getZ());
-				setPos(getX(), getY() + vec3d.y * 0.1, getZ());
-				if (getWorld().isClient) {
-					lastRenderY = getY();
+				setNoPhysics(true);
+				Vec3 vec3d = new Vec3(entity.getX() - getX(), entity.getEyeY() - getY(), entity.getZ() - getZ());
+				setPosRaw(getX(), getY() + vec3d.y * 0.1, getZ());
+				if (level().isClientSide) {
+					yOld = getY();
 				}
-				setVelocity(getVelocity().multiply(0.95d).add(vec3d.normalize().multiply(0.3)));
+				setDeltaMovement(getDeltaMovement().scale(0.95d).add(vec3d.normalize().scale(0.3)));
 			}
 		}
 		super.tick();
 	}
 
 	@Override
-	protected void age() {
-		if (pickupType != PickupPermission.ALLOWED) {
-			super.age();
+	protected void tickDespawn() {
+		if (pickup != Pickup.ALLOWED) {
+			super.tickDespawn();
 		}
 	}
 
@@ -131,23 +131,23 @@ public class HornedSpearEntity extends PersistentProjectileEntity {
 	}
 
 	@Override
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
-		spear = ItemStack.fromNbt(nbt.getCompound("Spear"));
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
+		spear = ItemStack.of(nbt.getCompound("Spear"));
 		dealtDamage = nbt.getBoolean("DealtDamage");
 	}
 
 	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
-		nbt.put("Spear", spear.writeNbt(new NbtCompound()));
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		super.addAdditionalSaveData(nbt);
+		nbt.put("Spear", spear.save(new CompoundTag()));
 		nbt.putBoolean("DealtDamage", dealtDamage);
 	}
 
 	private boolean isOwnerAlive() {
 		Entity entity = getOwner();
 		if (entity != null && entity.isAlive()) {
-			return !(entity instanceof ServerPlayerEntity) || !entity.isSpectator();
+			return !(entity instanceof ServerPlayer) || !entity.isSpectator();
 		} else {
 			return false;
 		}

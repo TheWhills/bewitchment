@@ -4,13 +4,13 @@
 
 package moriyashiine.bewitchment.common.block.util.interfaces;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 public interface SpecialDoor {
-	ActionResult onSpecialUse(BlockState state, World world, BlockPos pos, LivingEntity user, Hand hand);
+	InteractionResult onSpecialUse(BlockState state, Level world, BlockPos pos, LivingEntity user, InteractionHand hand);
 }

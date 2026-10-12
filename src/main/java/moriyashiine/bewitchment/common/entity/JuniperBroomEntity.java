@@ -5,11 +5,11 @@
 package moriyashiine.bewitchment.common.entity;
 
 import moriyashiine.bewitchment.api.entity.BroomEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.Level;
 
 public class JuniperBroomEntity extends BroomEntity {
-	public JuniperBroomEntity(EntityType<?> type, World world) {
+	public JuniperBroomEntity(EntityType<?> type, Level world) {
 		super(type, world);
 	}
 

@@ -12,43 +12,56 @@ import moriyashiine.bewitchment.common.registry.BWMaterials;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
 import moriyashiine.bewitchment.common.registry.BWTags;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.minecraft.block.Blocks;
+import net.minecraft.core.BlockPos;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.Nullable;
 
 public class HellhoundEntity extends BWHostileEntity {
-	public HellhoundEntity(EntityType<? extends HostileEntity> entityType, World world) {
+	public HellhoundEntity(EntityType<? extends Monster> entityType, Level world) {
 		super(entityType, world);
 	}
 
-	public static DefaultAttributeContainer.Builder createAttributes() {
-		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 30).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.425);
+	public static AttributeSupplier.Builder createAttributes() {
+		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 30).add(Attributes.ATTACK_DAMAGE, 3).add(Attributes.MOVEMENT_SPEED, 0.425);
 	}
 
-	public static boolean canSpawn(EntityType<HellhoundEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
-		return !world.getBlockState(pos.down()).isOf(Blocks.NETHER_WART_BLOCK) && world.getBiome(pos).isIn(BWTags.SPAWNS_HELLHOUNDS);
+	public static boolean canSpawn(EntityType<HellhoundEntity> type, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+		return !world.getBlockState(pos.below()).is(Blocks.NETHER_WART_BLOCK) && world.getBiome(pos).is(BWTags.SPAWNS_HELLHOUNDS);
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
-		if (!getWorld().isClient && isWet() && damage(getWorld().getDamageSources().magic(), 1)) {
+		if (!level().isClientSide && isInWaterRainOrBubble() && hurt(level().damageSources().magic(), 1)) {
 			PlayerLookup.tracking(this).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, this));
-			getWorld().playSound(null, getBlockPos(), SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, getSoundCategory(), getSoundVolume(), getSoundPitch());
+			level().playSound(null, blockPosition(), SoundEvents.GENERIC_EXTINGUISH_FIRE, getSoundSource(), getSoundVolume(), getVoicePitch());
 		}
 	}
 
@@ -63,7 +76,7 @@ public class HellhoundEntity extends BWHostileEntity {
 	}
 
 	@Override
-	public EntityGroup getGroup() {
+	public MobType getMobType() {
 		return BewitchmentAPI.DEMON;
 	}
 
@@ -84,23 +97,23 @@ public class HellhoundEntity extends BWHostileEntity {
 	}
 
 	@Override
-	public boolean tryAttack(Entity target) {
-		boolean flag = super.tryAttack(target);
+	public boolean doHurtTarget(Entity target) {
+		boolean flag = super.doHurtTarget(target);
 		if (flag && target instanceof LivingEntity) {
-			target.setOnFireFor(3);
+			target.setSecondsOnFire(3);
 		}
 		return flag;
 	}
 
 	@Override
-	protected void initGoals() {
-		goalSelector.add(0, new SwimGoal(this));
-		goalSelector.add(1, new PounceAtTargetGoal(this, 0.4f));
-		goalSelector.add(2, new MeleeAttackGoal(this, 1, true));
-		goalSelector.add(3, new WanderAroundFarGoal(this, 1));
-		goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8));
-		goalSelector.add(4, new LookAroundGoal(this));
-		targetSelector.add(0, new RevengeGoal(this).setGroupRevenge());
-		targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, entity -> BWUtil.getArmorPieces(entity, stack -> stack.getItem() instanceof ArmorItem && ((ArmorItem) stack.getItem()).getMaterial() == BWMaterials.BESMIRCHED_ARMOR) < 3));
+	protected void registerGoals() {
+		goalSelector.addGoal(0, new FloatGoal(this));
+		goalSelector.addGoal(1, new LeapAtTargetGoal(this, 0.4f));
+		goalSelector.addGoal(2, new MeleeAttackGoal(this, 1, true));
+		goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1));
+		goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8));
+		goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+		targetSelector.addGoal(0, new HurtByTargetGoal(this).setAlertOthers());
+		targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, entity -> BWUtil.getArmorPieces(entity, stack -> stack.getItem() instanceof ArmorItem && ((ArmorItem) stack.getItem()).getMaterial() == BWMaterials.BESMIRCHED_ARMOR) < 3));
 	}
 }

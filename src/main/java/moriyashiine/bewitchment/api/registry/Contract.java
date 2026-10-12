@@ -4,10 +4,10 @@
 
 package moriyashiine.bewitchment.api.registry;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class Contract {
-	public void tick(PlayerEntity player) {
+	public void tick(Player player) {
 	}
 
 	public static class Instance {

@@ -8,8 +8,8 @@ import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.common.entity.living.BaphometEntity;
 import moriyashiine.bewitchment.common.entity.living.DemonEntity;
 import moriyashiine.bewitchment.common.registry.BWPledges;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -20,16 +20,16 @@ public interface DemonMerchant {
 	LivingEntity getDemonTrader();
 
 	default void trade(DemonEntity.DemonTradeOffer offer) {
-		if (!getDemonTrader().getWorld().isClient) {
+		if (!getDemonTrader().level().isClientSide) {
 			offer.apply(this);
 		}
 	}
 
 	void onSell(DemonEntity.DemonTradeOffer offer);
 
-	void setCurrentCustomer(PlayerEntity customer);
+	void setCurrentCustomer(Player customer);
 
-	@Nullable PlayerEntity getCurrentCustomer();
+	@Nullable Player getCurrentCustomer();
 
 	default boolean isDiscount() {
 		return this instanceof BaphometEntity && getCurrentCustomer() != null && BewitchmentAPI.isPledged(getCurrentCustomer(), BWPledges.BAPHOMET);

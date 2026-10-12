@@ -5,24 +5,24 @@
 package moriyashiine.bewitchment.common.transformation;
 
 import moriyashiine.bewitchment.api.registry.Transformation;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.Registries;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Player;
 
 public class VampireTransformation extends Transformation {
 	@Override
-	public void onAdded(PlayerEntity player) {
-		Registries.STATUS_EFFECT.stream().forEach(effect -> {
-			StatusEffectInstance effectInstance = player.getStatusEffect(effect);
-			if (effectInstance != null && !player.canHaveStatusEffect(effectInstance)) {
-				player.removeStatusEffect(effect);
+	public void onAdded(Player player) {
+		BuiltInRegistries.MOB_EFFECT.stream().forEach(effect -> {
+			MobEffectInstance effectInstance = player.getEffect(effect);
+			if (effectInstance != null && !player.canBeAffected(effectInstance)) {
+				player.removeEffect(effect);
 			}
 		});
 	}
 
 	@Override
-	public void onRemoved(PlayerEntity player) {
-		player.removeStatusEffect(StatusEffects.NIGHT_VISION);
+	public void onRemoved(Player player) {
+		player.removeEffect(MobEffects.NIGHT_VISION);
 	}
 }

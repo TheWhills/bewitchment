@@ -15,42 +15,41 @@ import moriyashiine.bewitchment.common.world.BWWorldState;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import java.util.Map;
 
 public class CauldronTeleportPacket {
-	public static final Identifier ID = Bewitchment.id("cauldron_teleport");
+	public static final ResourceLocation ID = Bewitchment.id("cauldron_teleport");
 
 	public static void send(BlockPos cauldronPos, String message) {
-		PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
 		buf.writeBlockPos(cauldronPos);
-		buf.writeString(message);
+		buf.writeUtf(message);
 		ClientPlayNetworking.send(ID, buf);
 	}
 
 	@SuppressWarnings("ConstantConditions")
 	public static class Receiver implements ServerPlayNetworking.PlayChannelHandler {
 		@Override
-		public void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+		public void receive(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf, PacketSender responseSender) {
 			BlockPos cauldronPos = buf.readBlockPos();
-			String message = buf.readString(Short.MAX_VALUE);
+			String message = buf.readUtf(Short.MAX_VALUE);
 			server.execute(() -> {
-				World world = player.getWorld();
+				Level world = player.level();
 				BlockPos closest = null;
 				BWWorldState worldState = BWWorldState.get(world);
 				for (Map.Entry<Long, String> entry : worldState.witchCauldrons.entrySet()) {
 					if (message.equals(entry.getValue())) {
-						BlockPos foundCauldronPos = BlockPos.fromLong(entry.getKey());
-						if (closest == null || cauldronPos.getSquaredDistance(player.getPos()) < closest.getSquaredDistance(player.getPos())) {
+						BlockPos foundCauldronPos = BlockPos.of(entry.getKey());
+						if (closest == null || cauldronPos.distToCenterSqr(player.position()) < closest.distToCenterSqr(player.position())) {
 							closest = foundCauldronPos;
 						}
 					}
@@ -61,7 +60,7 @@ public class CauldronTeleportPacket {
 						BlockPos altarPos = ((UsesAltarPower) world.getBlockEntity(cauldronPos)).getAltarPos();
 						if (altarPos != null) {
 							BlockEntity altarBE = world.getBlockEntity(altarPos);
-							if (altarBE instanceof WitchAltarBlockEntity altar && altar.drain((int) Math.sqrt(closest.getSquaredDistance(player.getPos())) / 2, false)) {
+							if (altarBE instanceof WitchAltarBlockEntity altar && altar.drain((int) Math.sqrt(closest.distToCenterSqr(player.position())) / 2, false)) {
 								hasPower = true;
 							}
 						}
@@ -69,10 +68,10 @@ public class CauldronTeleportPacket {
 					if (hasPower) {
 						BWUtil.teleport(player, closest.getX() + 0.5, closest.getY() - 0.4375, closest.getZ() + 0.5, true);
 					} else {
-						player.sendMessage(Text.translatable(Bewitchment.MOD_ID + ".message.insufficent_altar_power", message), true);
+						player.displayClientMessage(Component.translatable(Bewitchment.MOD_ID + ".message.insufficent_altar_power", message), true);
 					}
 				} else {
-					player.sendMessage(Text.translatable(Bewitchment.MOD_ID + ".message.invalid_cauldron", message), true);
+					player.displayClientMessage(Component.translatable(Bewitchment.MOD_ID + ".message.invalid_cauldron", message), true);
 				}
 			});
 		}

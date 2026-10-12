@@ -6,21 +6,21 @@ package moriyashiine.bewitchment.api.misc;
 
 import moriyashiine.bewitchment.common.block.entity.PoppetShelfBlockEntity;
 import moriyashiine.bewitchment.common.world.BWWorldState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 public record PoppetData(ItemStack stack, Long longPos, Integer index) {
 	public static final PoppetData EMPTY = new PoppetData(ItemStack.EMPTY, null, null);
 
-	public void update(World world, boolean sync) {
-		if (longPos != null && world instanceof ServerWorld serverWorld) {
-			for (ServerWorld foundWorld : serverWorld.getServer().getWorlds()) {
+	public void update(Level world, boolean sync) {
+		if (longPos != null && world instanceof ServerLevel serverWorld) {
+			for (ServerLevel foundWorld : serverWorld.getServer().getAllLevels()) {
 				BWWorldState worldState = BWWorldState.get(foundWorld);
-				DefaultedList<ItemStack> shelf = worldState.poppetShelves.get(longPos);
+				NonNullList<ItemStack> shelf = worldState.poppetShelves.get(longPos);
 				if (shelf != null) {
 					for (int i = shelf.size() - 1; i >= 0; i--) {
 						if (i == index) {
@@ -35,9 +35,9 @@ public record PoppetData(ItemStack stack, Long longPos, Integer index) {
 							if (empty) {
 								worldState.poppetShelves.remove(longPos);
 							}
-							worldState.markDirty();
+							worldState.setDirty();
 							if (sync) {
-								BlockPos pos = BlockPos.fromLong(longPos);
+								BlockPos pos = BlockPos.of(longPos);
 								BlockEntity blockEntity = foundWorld.getBlockEntity(pos);
 								if (blockEntity instanceof PoppetShelfBlockEntity poppetShelfBlockEntity) {
 									poppetShelfBlockEntity.sync();

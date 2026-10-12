@@ -6,7 +6,7 @@ package moriyashiine.bewitchment.api.event;
 
 import moriyashiine.bewitchment.api.registry.Transformation;
 import net.fabricmc.fabric.api.event.Event;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
 
@@ -17,5 +17,5 @@ public interface OnTransformationSet {
 		}
 	});
 
-	void onTransformationSet(PlayerEntity player, Transformation transformation);
+	void onTransformationSet(Player player, Transformation transformation);
 }

@@ -4,7 +4,7 @@
 
 package moriyashiine.bewitchment.api.block.entity;
 
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 
 public interface UsesAltarPower {
 	BlockPos getAltarPos();

@@ -5,16 +5,15 @@
 package moriyashiine.bewitchment.common.ritualfunction;
 
 import moriyashiine.bewitchment.api.registry.RitualFunction;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LightningEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import java.util.function.Predicate;
 
 public class SpawnLightningRitualFunction extends RitualFunction {
@@ -23,21 +22,21 @@ public class SpawnLightningRitualFunction extends RitualFunction {
 	}
 
 	@Override
-	public void start(ServerWorld world, BlockPos glyphPos, BlockPos effectivePos, Inventory inventory, boolean catFamiliar) {
+	public void start(ServerLevel world, BlockPos glyphPos, BlockPos effectivePos, Container inventory, boolean catFamiliar) {
 		summonLightning(world, effectivePos);
 		if (catFamiliar) {
-			for (int i = 0; i < MathHelper.nextInt(world.random, 2, 4); i++) {
-				summonLightning(world, effectivePos.add(MathHelper.nextInt(world.random, -4, 4), 0, MathHelper.nextInt(world.random, -4, 4)));
+			for (int i = 0; i < Mth.nextInt(world.random, 2, 4); i++) {
+				summonLightning(world, effectivePos.offset(Mth.nextInt(world.random, -4, 4), 0, Mth.nextInt(world.random, -4, 4)));
 			}
 		}
 		super.start(world, glyphPos, effectivePos, inventory, catFamiliar);
 	}
 
-	private void summonLightning(World world, BlockPos pos) {
-		LightningEntity entity = EntityType.LIGHTNING_BOLT.create(world);
+	private void summonLightning(Level world, BlockPos pos) {
+		LightningBolt entity = EntityType.LIGHTNING_BOLT.create(world);
 		if (entity != null) {
-			entity.updatePositionAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, world.random.nextFloat() * 360, 0);
-			world.spawnEntity(entity);
+			entity.absMoveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, world.random.nextFloat() * 360, 0);
+			world.addFreshEntity(entity);
 		}
 	}
 }

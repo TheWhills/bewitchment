@@ -10,14 +10,13 @@ import moriyashiine.bewitchment.api.registry.RitualFunction;
 import moriyashiine.bewitchment.common.item.TaglockItem;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.mixin.ritual.ZombieVillagerEntityAccessor;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.ZombieVillagerEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.ZombieVillager;
+import net.minecraft.world.item.ItemStack;
 import java.util.function.Predicate;
 
 public class CleanseRitualFunction extends RitualFunction {
@@ -31,11 +30,11 @@ public class CleanseRitualFunction extends RitualFunction {
 	}
 
 	@Override
-	public boolean isValid(ServerWorld world, BlockPos pos, Inventory inventory) {
+	public boolean isValid(ServerLevel world, BlockPos pos, Container inventory) {
 		ItemStack taglock = null;
-		for (int i = 0; i < inventory.size(); i++) {
-			ItemStack stack = inventory.getStack(i);
-			if (inventory.getStack(i).getItem() instanceof TaglockItem && TaglockItem.hasTaglock(stack)) {
+		for (int i = 0; i < inventory.getContainerSize(); i++) {
+			ItemStack stack = inventory.getItem(i);
+			if (inventory.getItem(i).getItem() instanceof TaglockItem && TaglockItem.hasTaglock(stack)) {
 				taglock = stack;
 				break;
 			}
@@ -44,11 +43,11 @@ public class CleanseRitualFunction extends RitualFunction {
 	}
 
 	@Override
-	public void start(ServerWorld world, BlockPos glyphPos, BlockPos effectivePos, Inventory inventory, boolean catFamiliar) {
+	public void start(ServerLevel world, BlockPos glyphPos, BlockPos effectivePos, Container inventory, boolean catFamiliar) {
 		ItemStack taglock = null;
-		for (int i = 0; i < inventory.size(); i++) {
-			ItemStack stack = inventory.getStack(i);
-			if (inventory.getStack(i).getItem() instanceof TaglockItem) {
+		for (int i = 0; i < inventory.getContainerSize(); i++) {
+			ItemStack stack = inventory.getItem(i);
+			if (inventory.getItem(i).getItem() instanceof TaglockItem) {
 				taglock = stack;
 				break;
 			}
@@ -62,7 +61,7 @@ public class CleanseRitualFunction extends RitualFunction {
 					}
 				}
 			});
-			if (livingEntity instanceof ZombieVillagerEntity) {
+			if (livingEntity instanceof ZombieVillager) {
 				((ZombieVillagerEntityAccessor) livingEntity).bw_finishConversion(world);
 			}
 		}

@@ -9,30 +9,30 @@ import moriyashiine.bewitchment.client.packet.SyncDemonTradesPacket;
 import moriyashiine.bewitchment.common.entity.DemonMerchant;
 import moriyashiine.bewitchment.common.entity.living.DemonEntity;
 import moriyashiine.bewitchment.common.registry.*;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DemonScreenHandler extends ScreenHandler {
+public class DemonScreenHandler extends AbstractContainerMenu {
 	public final DemonMerchant demonMerchant;
-	public final Inventory demonInventory = new SimpleInventory(getOfferCount());
+	public final Container demonInventory = new SimpleContainer(getOfferCount());
 
 	public DemonScreenHandler(int syncId, DemonMerchant merchant) {
 		this(BWScreenHandlerTypes.DEMON_SCREEN_HANDLER, syncId, merchant);
 	}
 
-	protected DemonScreenHandler(ScreenHandlerType<?> type, int syncId, DemonMerchant merchant) {
+	protected DemonScreenHandler(MenuType<?> type, int syncId, DemonMerchant merchant) {
 		super(type, syncId);
 		this.demonMerchant = merchant;
 		addSlot(new DemonTradeSlot(demonInventory, 0, 41, 96));
@@ -45,18 +45,18 @@ public class DemonScreenHandler extends ScreenHandler {
 	}
 
 	@Override
-	public void onClosed(PlayerEntity player) {
-		super.onClosed(player);
+	public void removed(Player player) {
+		super.removed(player);
 		demonMerchant.setCurrentCustomer(null);
 	}
 
 	@Override
-	public ItemStack quickMove(PlayerEntity player, int slot) {
+	public ItemStack quickMoveStack(Player player, int slot) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player) {
+	public void clicked(int slotIndex, int button, ClickType actionType, Player player) {
 		if (slotIndex == -999) {
 			return;
 		}
@@ -67,28 +67,28 @@ public class DemonScreenHandler extends ScreenHandler {
 				if (!contractsComponent.hasContract(offer.getContract())) {
 					demonMerchant.onSell(offer);
 					demonMerchant.trade(offer);
-					if (player instanceof ServerPlayerEntity serverPlayer) {
+					if (player instanceof ServerPlayer serverPlayer) {
 						SyncContractsPacket.send(serverPlayer);
-						SyncDemonTradesPacket.send(serverPlayer, demonMerchant, syncId);
+						SyncDemonTradesPacket.send(serverPlayer, demonMerchant, containerId);
 						if (player.getMaxHealth() - offer.getCost(demonMerchant) <= 0) {
 							contractsComponent.getContracts().clear();
-							player.damage(BWDamageSources.create(demonMerchant.getDemonTrader().getWorld(), BWDamageSources.DEATH), Float.MAX_VALUE);
+							player.hurt(BWDamageSources.create(demonMerchant.getDemonTrader().level(), BWDamageSources.DEATH), Float.MAX_VALUE);
 						}
 					}
 				}
 			});
 			return;
 		}
-		super.onSlotClick(slotIndex, button, actionType, player);
+		super.clicked(slotIndex, button, actionType, player);
 	}
 
 	@Override
-	public void onContentChanged(Inventory inventory) {
-		super.onContentChanged(inventory);
+	public void slotsChanged(Container inventory) {
+		super.slotsChanged(inventory);
 	}
 
 	@Override
-	public boolean canUse(PlayerEntity player) {
+	public boolean stillValid(Player player) {
 		return !player.isSpectator();
 	}
 
@@ -96,23 +96,23 @@ public class DemonScreenHandler extends ScreenHandler {
 	public class DemonTradeSlot extends Slot {
 		private final int contractIndex;
 
-		public DemonTradeSlot(Inventory inventory, int index, int x, int y) {
+		public DemonTradeSlot(Container inventory, int index, int x, int y) {
 			super(inventory, index, x, y);
 			contractIndex = index;
 		}
 
 		@Override
-		public boolean isEnabled() {
-			return getOffer() != null && super.isEnabled();
+		public boolean isActive() {
+			return getOffer() != null && super.isActive();
 		}
 
 		@Override
-		public ItemStack getStack() {
+		public ItemStack getItem() {
 			DemonEntity.DemonTradeOffer offer = getOffer();
 			if (offer != null) {
 				ItemStack contract = new ItemStack(BWObjects.DEMONIC_CONTRACT);
-				contract.getOrCreateNbt().putString("Contract", BWRegistries.CONTRACT.getId(getOffer().getContract()).toString());
-				contract.getOrCreateNbt().putInt("Duration", getOffer().getDuration());
+				contract.getOrCreateTag().putString("Contract", BWRegistries.CONTRACT.getKey(getOffer().getContract()).toString());
+				contract.getOrCreateTag().putInt("Duration", getOffer().getDuration());
 				return contract;
 			}
 			return ItemStack.EMPTY;
@@ -125,7 +125,7 @@ public class DemonScreenHandler extends ScreenHandler {
 
 	public static class DemonMerchantImpl implements DemonMerchant {
 		private List<DemonEntity.DemonTradeOffer> offers = new ArrayList<>();
-		private PlayerEntity costumer;
+		private Player costumer;
 		private LivingEntity trader;
 		private boolean discount;
 
@@ -148,12 +148,12 @@ public class DemonScreenHandler extends ScreenHandler {
 		}
 
 		@Override
-		public void setCurrentCustomer(PlayerEntity customer) {
+		public void setCurrentCustomer(Player customer) {
 			costumer = customer;
 		}
 
 		@Override
-		public @Nullable PlayerEntity getCurrentCustomer() {
+		public @Nullable Player getCurrentCustomer() {
 			return costumer;
 		}
 

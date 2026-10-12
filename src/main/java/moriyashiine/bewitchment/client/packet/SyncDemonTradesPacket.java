@@ -12,21 +12,20 @@ import moriyashiine.bewitchment.common.entity.living.DemonEntity;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import java.util.List;
 
 public class SyncDemonTradesPacket {
-	public static final Identifier ID = Bewitchment.id("sync_demon_trades");
+	public static final ResourceLocation ID = Bewitchment.id("sync_demon_trades");
 
-	public static void send(ServerPlayerEntity player, DemonMerchant merchant, int syncId) {
-		PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+	public static void send(ServerPlayer player, DemonMerchant merchant, int syncId) {
+		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
 		buf.writeInt(syncId);
 		DemonEntity.DemonTradeOffer.toPacket(merchant.getOffers(), buf);
 		buf.writeInt(merchant.getDemonTrader().getId());
@@ -36,18 +35,18 @@ public class SyncDemonTradesPacket {
 
 	public static class Receiver implements ClientPlayNetworking.PlayChannelHandler {
 		@Override
-		public void receive(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+		public void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
 			int syncId = buf.readInt();
 			List<DemonEntity.DemonTradeOffer> offers = DemonEntity.DemonTradeOffer.fromPacket(buf);
 			int traderId = buf.readInt();
 			boolean discount = buf.readBoolean();
 			client.execute(() -> {
 				if (client.player != null) {
-					ScreenHandler screenHandler = client.player.currentScreenHandler;
-					if (syncId == screenHandler.syncId && screenHandler instanceof DemonScreenHandler) {
+					AbstractContainerMenu screenHandler = client.player.containerMenu;
+					if (syncId == screenHandler.containerId && screenHandler instanceof DemonScreenHandler) {
 						((DemonScreenHandler) screenHandler).demonMerchant.setCurrentCustomer(client.player);
 						((DemonScreenHandler) screenHandler).demonMerchant.setOffersClientside(offers);
-						((DemonScreenHandler) screenHandler).demonMerchant.setDemonTraderClientside((LivingEntity) client.world.getEntityById(traderId));
+						((DemonScreenHandler) screenHandler).demonMerchant.setDemonTraderClientside((LivingEntity) client.level.getEntity(traderId));
 						((DemonScreenHandler) screenHandler).demonMerchant.setDiscountClientside(discount);
 					}
 				}

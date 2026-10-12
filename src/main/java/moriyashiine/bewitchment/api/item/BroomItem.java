@@ -5,44 +5,44 @@
 package moriyashiine.bewitchment.api.item;
 
 import moriyashiine.bewitchment.api.entity.BroomEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 
 public class BroomItem extends Item {
 	private final EntityType<?> broom;
 
-	public BroomItem(Settings settings, EntityType<?> broom) {
+	public BroomItem(Properties settings, EntityType<?> broom) {
 		super(settings);
 		this.broom = broom;
 	}
 
 	@Override
-	public ActionResult useOnBlock(ItemUsageContext context) {
-		World world = context.getWorld();
-		BlockPos pos = context.getBlockPos().offset(context.getSide());
-		boolean client = world.isClient;
+	public InteractionResult useOn(UseOnContext context) {
+		Level world = context.getLevel();
+		BlockPos pos = context.getClickedPos().relative(context.getClickedFace());
+		boolean client = world.isClientSide;
 		if (world.getBlockState(pos).isAir()) {
 			if (!client) {
 				Entity entity = broom.create(world);
 				if (entity instanceof BroomEntity broomEntity) {
-					entity.updatePositionAndAngles(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, context.getPlayerYaw(), context.getPlayer() == null ? 0 : context.getPlayer().getPitch());
+					entity.absMoveTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, context.getRotation(), context.getPlayer() == null ? 0 : context.getPlayer().getXRot());
 					if (context.getPlayer() != null) {
-						context.getStack().getOrCreateNbt().putUuid("OwnerUUID", context.getPlayer().getUuid());
+						context.getItemInHand().getOrCreateTag().putUUID("OwnerUUID", context.getPlayer().getUUID());
 					}
-					ItemStack stack = context.getStack().split(1);
+					ItemStack stack = context.getItemInHand().split(1);
 					broomEntity.init(stack);
 					broomEntity.stack = stack;
-					world.spawnEntity(entity);
+					world.addFreshEntity(entity);
 				}
 			}
-			return ActionResult.success(client);
+			return InteractionResult.sidedSuccess(client);
 		}
-		return super.useOnBlock(context);
+		return super.useOn(context);
 	}
 }

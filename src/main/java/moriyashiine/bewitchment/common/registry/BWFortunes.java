@@ -7,14 +7,13 @@ package moriyashiine.bewitchment.common.registry;
 import moriyashiine.bewitchment.api.registry.Fortune;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.fortune.*;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BWFortunes {
-	private static final Map<Fortune, Identifier> FORTUNES = new LinkedHashMap<>();
+	private static final Map<Fortune, ResourceLocation> FORTUNES = new LinkedHashMap<>();
 
 	public static final Fortune POWER = create("power", new PowerFortune(true));
 	public static final Fortune WISDOM = create("wisdom", new WisdomFortune(true));

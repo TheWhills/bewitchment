@@ -8,24 +8,24 @@ import moriyashiine.bewitchment.client.BewitchmentClient;
 import moriyashiine.bewitchment.client.model.entity.living.WerewolfEntityModel;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.entity.living.WerewolfEntity;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
+import net.minecraft.resources.ResourceLocation;
 
-public class WerewolfEntityRenderer extends MobEntityRenderer<WerewolfEntity, WerewolfEntityModel<WerewolfEntity>> {
-	private static Identifier[] TEXTURES;
+public class WerewolfEntityRenderer extends MobRenderer<WerewolfEntity, WerewolfEntityModel<WerewolfEntity>> {
+	private static ResourceLocation[] TEXTURES;
 
-	public WerewolfEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new WerewolfEntityModel<>(context.getPart(BewitchmentClient.WEREWOLF_MODEL_LAYER)), 0.5f);
-		addFeature(new HeldItemFeatureRenderer<>(this, context.getHeldItemRenderer()));
+	public WerewolfEntityRenderer(EntityRendererProvider.Context context) {
+		super(context, new WerewolfEntityModel<>(context.bakeLayer(BewitchmentClient.WEREWOLF_MODEL_LAYER)), 0.5f);
+		addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
 	}
 
 	@Override
-	public Identifier getTexture(WerewolfEntity entity) {
+	public ResourceLocation getTexture(WerewolfEntity entity) {
 		if (TEXTURES == null) {
 			int variants = entity.getVariants();
-			TEXTURES = new Identifier[variants];
+			TEXTURES = new ResourceLocation[variants];
 			for (int i = 0; i < variants; i++) {
 				TEXTURES[i] = Bewitchment.id("textures/entity/living/werewolf/" + i + ".png");
 			}

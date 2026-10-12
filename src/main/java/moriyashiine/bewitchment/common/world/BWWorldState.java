@@ -5,103 +5,102 @@
 package moriyashiine.bewitchment.common.world;
 
 import moriyashiine.bewitchment.common.Bewitchment;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.PersistentState;
-import net.minecraft.world.World;
-
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.saveddata.SavedData;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BWWorldState extends PersistentState {
-	public final Map<Long, DefaultedList<ItemStack>> poppetShelves = new LinkedHashMap<>();
+public class BWWorldState extends SavedData {
+	public final Map<Long, NonNullList<ItemStack>> poppetShelves = new LinkedHashMap<>();
 	public final Map<Long, String> witchCauldrons = new LinkedHashMap<>();
 
 	public final List<Long> potentialCandelabras = new ArrayList<>();
 	public final List<Long> potentialSigils = new ArrayList<>();
 	public final List<Long> glowingBrambles = new ArrayList<>();
 
-	public static BWWorldState readNbt(NbtCompound nbt) {
+	public static BWWorldState readNbt(CompoundTag nbt) {
 		BWWorldState worldState = new BWWorldState();
-		NbtList poppetShelvesList = nbt.getList("PoppetShelves", NbtElement.COMPOUND_TYPE);
+		ListTag poppetShelvesList = nbt.getList("PoppetShelves", Tag.TAG_COMPOUND);
 		for (int i = 0; i < poppetShelvesList.size(); i++) {
-			NbtCompound poppetShelfCompound = poppetShelvesList.getCompound(i);
-			DefaultedList<ItemStack> inventory = null;
+			CompoundTag poppetShelfCompound = poppetShelvesList.getCompound(i);
+			NonNullList<ItemStack> inventory = null;
 			if (poppetShelfCompound.contains("Inventory")) {
-				inventory = DefaultedList.ofSize(9, ItemStack.EMPTY);
-				Inventories.readNbt(poppetShelfCompound.getCompound("Inventory"), inventory);
+				inventory = NonNullList.withSize(9, ItemStack.EMPTY);
+				ContainerHelper.loadAllItems(poppetShelfCompound.getCompound("Inventory"), inventory);
 			}
 			worldState.poppetShelves.put(poppetShelfCompound.getLong("Pos"), inventory);
 		}
-		NbtList witchCauldronsList = nbt.getList("WitchCauldrons", NbtElement.COMPOUND_TYPE);
+		ListTag witchCauldronsList = nbt.getList("WitchCauldrons", Tag.TAG_COMPOUND);
 		for (int i = 0; i < witchCauldronsList.size(); i++) {
-			NbtCompound cauldronCompound = witchCauldronsList.getCompound(i);
+			CompoundTag cauldronCompound = witchCauldronsList.getCompound(i);
 			if (cauldronCompound.contains("Name")) {
 				worldState.witchCauldrons.put(cauldronCompound.getLong("Pos"), cauldronCompound.getString("Name"));
 			}
 		}
-		NbtList potentialCandelabrasList = nbt.getList("PotentialCandelabras", NbtElement.COMPOUND_TYPE);
+		ListTag potentialCandelabrasList = nbt.getList("PotentialCandelabras", Tag.TAG_COMPOUND);
 		for (int i = 0; i < potentialCandelabrasList.size(); i++) {
-			NbtCompound posCompound = potentialCandelabrasList.getCompound(i);
+			CompoundTag posCompound = potentialCandelabrasList.getCompound(i);
 			worldState.potentialCandelabras.add(posCompound.getLong("Pos"));
 		}
-		NbtList potentialSigilsList = nbt.getList("PotentialSigils", NbtElement.COMPOUND_TYPE);
+		ListTag potentialSigilsList = nbt.getList("PotentialSigils", Tag.TAG_COMPOUND);
 		for (int i = 0; i < potentialSigilsList.size(); i++) {
-			NbtCompound posCompound = potentialSigilsList.getCompound(i);
+			CompoundTag posCompound = potentialSigilsList.getCompound(i);
 			worldState.potentialSigils.add(posCompound.getLong("Pos"));
 		}
-		NbtList glowingBramblesList = nbt.getList("GlowingBrambles", NbtElement.COMPOUND_TYPE);
+		ListTag glowingBramblesList = nbt.getList("GlowingBrambles", Tag.TAG_COMPOUND);
 		for (int i = 0; i < glowingBramblesList.size(); i++) {
-			NbtCompound posCompound = glowingBramblesList.getCompound(i);
+			CompoundTag posCompound = glowingBramblesList.getCompound(i);
 			worldState.glowingBrambles.add(posCompound.getLong("Pos"));
 		}
 		return worldState;
 	}
 
 	@Override
-	public NbtCompound writeNbt(NbtCompound nbt) {
-		NbtList poppetShelvesList = new NbtList();
+	public CompoundTag save(CompoundTag nbt) {
+		ListTag poppetShelvesList = new ListTag();
 		this.poppetShelves.forEach((pos, inventory) -> {
-			NbtCompound poppetShelfCompound = new NbtCompound();
+			CompoundTag poppetShelfCompound = new CompoundTag();
 			poppetShelfCompound.putLong("Pos", pos);
 			if (inventory != null) {
-				poppetShelfCompound.put("Inventory", Inventories.writeNbt(new NbtCompound(), inventory));
+				poppetShelfCompound.put("Inventory", ContainerHelper.saveAllItems(new CompoundTag(), inventory));
 			}
 			poppetShelvesList.add(poppetShelfCompound);
 		});
 		nbt.put("PoppetShelves", poppetShelvesList);
-		NbtList witchCauldronsList = new NbtList();
+		ListTag witchCauldronsList = new ListTag();
 		this.witchCauldrons.forEach((pos, name) -> {
-			NbtCompound cauldronCompound = new NbtCompound();
+			CompoundTag cauldronCompound = new CompoundTag();
 			cauldronCompound.putLong("Pos", pos);
 			cauldronCompound.putString("Name", name);
 			witchCauldronsList.add(cauldronCompound);
 		});
 		nbt.put("WitchCauldrons", witchCauldronsList);
-		NbtList potentialCandelabrasList = new NbtList();
+		ListTag potentialCandelabrasList = new ListTag();
 		for (long pos : this.potentialCandelabras) {
-			NbtCompound posCompound = new NbtCompound();
+			CompoundTag posCompound = new CompoundTag();
 			posCompound.putLong("Pos", pos);
 			potentialCandelabrasList.add(posCompound);
 		}
 		nbt.put("PotentialCandelabras", potentialCandelabrasList);
-		NbtList potentialSigilsList = new NbtList();
+		ListTag potentialSigilsList = new ListTag();
 		for (long pos : this.potentialSigils) {
-			NbtCompound posCompound = new NbtCompound();
+			CompoundTag posCompound = new CompoundTag();
 			posCompound.putLong("Pos", pos);
 			potentialSigilsList.add(posCompound);
 		}
 		nbt.put("PotentialSigils", potentialSigilsList);
-		NbtList glowingBramblesList = new NbtList();
+		ListTag glowingBramblesList = new ListTag();
 		for (long pos : this.glowingBrambles) {
-			NbtCompound posCompound = new NbtCompound();
+			CompoundTag posCompound = new CompoundTag();
 			posCompound.putLong("Pos", pos);
 			glowingBramblesList.add(posCompound);
 		}
@@ -109,7 +108,7 @@ public class BWWorldState extends PersistentState {
 		return nbt;
 	}
 
-	public static BWWorldState get(World world) {
-		return ((ServerWorld) world).getPersistentStateManager().getOrCreate(BWWorldState::readNbt, BWWorldState::new, Bewitchment.MOD_ID + "_universal");
+	public static BWWorldState get(Level world) {
+		return ((ServerLevel) world).getDataStorage().computeIfAbsent(BWWorldState::readNbt, BWWorldState::new, Bewitchment.MOD_ID + "_universal");
 	}
 }

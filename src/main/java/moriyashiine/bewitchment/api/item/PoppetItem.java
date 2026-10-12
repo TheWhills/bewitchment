@@ -5,26 +5,26 @@
 package moriyashiine.bewitchment.api.item;
 
 import moriyashiine.bewitchment.common.item.TaglockItem;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.tag.DamageTypeTags;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Predicate;
 
 public class PoppetItem extends Item {
-	public static final Predicate<DamageSource> PROTECTION_POPPET_SOURCES = source -> source.isIn(DamageTypeTags.IS_FIRE) || source.isOf(DamageTypes.FALLING_BLOCK) || source.isOf(DamageTypes.FALLING_STALACTITE) || source.isOf(DamageTypes.FALLING_ANVIL) || source.isIn(DamageTypeTags.IS_FALL) || source.isOf(DamageTypes.CACTUS) || source.isOf(DamageTypes.CRAMMING) || source.isOf(DamageTypes.DROWN) || source.isOf(DamageTypes.DRY_OUT) || source.isOf(DamageTypes.FLY_INTO_WALL) || source.isOf(DamageTypes.FREEZE) || source.isOf(DamageTypes.IN_WALL) || source.isOf(DamageTypes.LIGHTNING_BOLT) || source.isOf(DamageTypes.SWEET_BERRY_BUSH) || source.isOf(DamageTypes.STARVE);
+	public static final Predicate<DamageSource> PROTECTION_POPPET_SOURCES = source -> source.is(DamageTypeTags.IS_FIRE) || source.is(DamageTypes.FALLING_BLOCK) || source.is(DamageTypes.FALLING_STALACTITE) || source.is(DamageTypes.FALLING_ANVIL) || source.is(DamageTypeTags.IS_FALL) || source.is(DamageTypes.CACTUS) || source.is(DamageTypes.CRAMMING) || source.is(DamageTypes.DROWN) || source.is(DamageTypes.DRY_OUT) || source.is(DamageTypes.FLY_INTO_WALL) || source.is(DamageTypes.FREEZE) || source.is(DamageTypes.IN_WALL) || source.is(DamageTypes.LIGHTNING_BOLT) || source.is(DamageTypes.SWEET_BERRY_BUSH) || source.is(DamageTypes.STARVE);
 
 	public final boolean worksInShelf;
 
-	public PoppetItem(Settings settings, boolean worksInShelf) {
+	public PoppetItem(Properties settings, boolean worksInShelf) {
 		super(settings);
 		this.worksInShelf = worksInShelf;
 	}
@@ -35,9 +35,9 @@ public class PoppetItem extends Item {
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
 		if (TaglockItem.hasTaglock(stack)) {
-			tooltip.add(Text.literal(TaglockItem.getTaglockName(stack)).formatted(Formatting.GRAY));
+			tooltip.add(Component.literal(TaglockItem.getTaglockName(stack)).withStyle(ChatFormatting.GRAY));
 		}
 	}
 }

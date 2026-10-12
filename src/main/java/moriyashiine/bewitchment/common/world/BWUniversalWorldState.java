@@ -5,49 +5,48 @@
 package moriyashiine.bewitchment.common.world;
 
 import moriyashiine.bewitchment.common.Bewitchment;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.util.Pair;
-import net.minecraft.world.PersistentState;
-import net.minecraft.world.World;
-
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.util.Tuple;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.saveddata.SavedData;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class BWUniversalWorldState extends PersistentState {
+public class BWUniversalWorldState extends SavedData {
 	public final List<UUID> pledgesToRemove = new ArrayList<>();
-	public final List<Pair<UUID, NbtCompound>> familiars = new ArrayList<>();
+	public final List<Tuple<UUID, CompoundTag>> familiars = new ArrayList<>();
 
-	public static BWUniversalWorldState readNbt(NbtCompound nbt) {
+	public static BWUniversalWorldState readNbt(CompoundTag nbt) {
 		BWUniversalWorldState universalWorldState = new BWUniversalWorldState();
-		NbtList pledgesToRemoveList = nbt.getList("PledgesToRemove", NbtElement.COMPOUND_TYPE);
+		ListTag pledgesToRemoveList = nbt.getList("PledgesToRemove", Tag.TAG_COMPOUND);
 		for (int i = 0; i < pledgesToRemoveList.size(); i++) {
-			universalWorldState.pledgesToRemove.add(pledgesToRemoveList.getCompound(i).getUuid("UUID"));
+			universalWorldState.pledgesToRemove.add(pledgesToRemoveList.getCompound(i).getUUID("UUID"));
 		}
-		NbtList familiarsList = nbt.getList("Familiars", NbtElement.COMPOUND_TYPE);
+		ListTag familiarsList = nbt.getList("Familiars", Tag.TAG_COMPOUND);
 		for (int i = 0; i < familiarsList.size(); i++) {
-			NbtCompound familiarCompound = familiarsList.getCompound(i);
-			universalWorldState.familiars.add(new Pair<>(familiarCompound.getUuid("Player"), familiarCompound.getCompound("Familiar")));
+			CompoundTag familiarCompound = familiarsList.getCompound(i);
+			universalWorldState.familiars.add(new Tuple<>(familiarCompound.getUUID("Player"), familiarCompound.getCompound("Familiar")));
 		}
 		return universalWorldState;
 	}
 
 	@Override
-	public NbtCompound writeNbt(NbtCompound nbt) {
-		NbtList pledgesToRemoveList = new NbtList();
+	public CompoundTag save(CompoundTag nbt) {
+		ListTag pledgesToRemoveList = new ListTag();
 		for (UUID uuid : this.pledgesToRemove) {
-			NbtCompound pledgeCompound = new NbtCompound();
-			pledgeCompound.putUuid("UUID", uuid);
+			CompoundTag pledgeCompound = new CompoundTag();
+			pledgeCompound.putUUID("UUID", uuid);
 			pledgesToRemoveList.add(pledgeCompound);
 		}
 		nbt.put("PledgesToRemove", pledgesToRemoveList);
-		NbtList familiarsList = new NbtList();
-		for (Pair<UUID, NbtCompound> pair : this.familiars) {
-			NbtCompound familiarCompound = new NbtCompound();
-			familiarCompound.putUuid("Player", pair.getLeft());
-			familiarCompound.put("Familiar", pair.getRight());
+		ListTag familiarsList = new ListTag();
+		for (Tuple<UUID, CompoundTag> pair : this.familiars) {
+			CompoundTag familiarCompound = new CompoundTag();
+			familiarCompound.putUUID("Player", pair.getA());
+			familiarCompound.put("Familiar", pair.getB());
 			familiarsList.add(familiarCompound);
 		}
 		nbt.put("Familiars", familiarsList);
@@ -55,7 +54,7 @@ public class BWUniversalWorldState extends PersistentState {
 	}
 
 	@SuppressWarnings("ConstantConditions")
-	public static BWUniversalWorldState get(World world) {
-		return world.getServer().getOverworld().getPersistentStateManager().getOrCreate(BWUniversalWorldState::readNbt, BWUniversalWorldState::new, Bewitchment.MOD_ID);
+	public static BWUniversalWorldState get(Level world) {
+		return world.getServer().overworld().getDataStorage().computeIfAbsent(BWUniversalWorldState::readNbt, BWUniversalWorldState::new, Bewitchment.MOD_ID);
 	}
 }

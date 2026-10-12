@@ -7,18 +7,18 @@ package moriyashiine.bewitchment.client.render.entity;
 import moriyashiine.bewitchment.api.client.renderer.BroomEntityRenderer;
 import moriyashiine.bewitchment.api.entity.BroomEntity;
 import moriyashiine.bewitchment.common.Bewitchment;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
 
 public class CypressBroomEntityRenderer extends BroomEntityRenderer<BroomEntity> {
-	private static final Identifier TEXTURE = Bewitchment.id("textures/entity/broom/cypress.png");
+	private static final ResourceLocation TEXTURE = Bewitchment.id("textures/entity/broom/cypress.png");
 
-	public CypressBroomEntityRenderer(EntityRendererFactory.Context context) {
+	public CypressBroomEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
 	}
 
 	@Override
-	public Identifier getTexture(BroomEntity entity) {
+	public ResourceLocation getTexture(BroomEntity entity) {
 		return TEXTURE;
 	}
 }

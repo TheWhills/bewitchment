@@ -7,10 +7,10 @@ package moriyashiine.bewitchment.common.component.entity;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
 import moriyashiine.bewitchment.common.registry.BWComponents;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
 
 public class FamiliarComponent implements AutoSyncedComponent, CommonTickingComponent {
 	private final LivingEntity obj;
@@ -21,24 +21,24 @@ public class FamiliarComponent implements AutoSyncedComponent, CommonTickingComp
 	}
 
 	@Override
-	public void readFromNbt(NbtCompound tag) {
+	public void readFromNbt(CompoundTag tag) {
 		setFamiliar(tag.getBoolean("Familiar"));
 	}
 
 	@Override
-	public void writeToNbt(NbtCompound tag) {
+	public void writeToNbt(CompoundTag tag) {
 		tag.putBoolean("Familiar", isFamiliar());
 	}
 
 	@Override
 	public void tick() {
 		if (isFamiliar()) {
-			if (!obj.getWorld().isClient) {
-				if (obj.age % 100 == 0) {
+			if (!obj.level().isClientSide) {
+				if (obj.tickCount % 100 == 0) {
 					obj.heal(1);
 				}
 			} else if (obj.getRandom().nextFloat() < 0.25f) {
-				obj.getWorld().addParticle(ParticleTypes.ENCHANT, obj.getParticleX(obj.getWidth()), obj.getY() + MathHelper.nextFloat(obj.getRandom(), 0, obj.getHeight()), obj.getParticleZ(obj.getWidth()), 0, 0, 0);
+				obj.level().addParticle(ParticleTypes.ENCHANT, obj.getRandomX(obj.getBbWidth()), obj.getY() + Mth.nextFloat(obj.getRandom(), 0, obj.getBbHeight()), obj.getRandomZ(obj.getBbWidth()), 0, 0, 0);
 			}
 		}
 	}

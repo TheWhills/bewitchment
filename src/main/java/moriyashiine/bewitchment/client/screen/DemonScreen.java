@@ -4,32 +4,32 @@
 
 package moriyashiine.bewitchment.client.screen;
 
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.entity.living.DemonEntity;
 import moriyashiine.bewitchment.common.registry.BWComponents;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.client.util.Window;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.Slot;
 
 @SuppressWarnings("ConstantConditions")
-public class DemonScreen extends HandledScreen<DemonScreenHandler> {
-	private static final Identifier HEARTS = new Identifier("textures/gui/icons.png");
+public class DemonScreen extends AbstractContainerScreen<DemonScreenHandler> {
+	private static final ResourceLocation HEARTS = new ResourceLocation("textures/gui/icons.png");
 
-	public DemonScreen(DemonScreenHandler handler, PlayerInventory inventory, Text title) {
+	public DemonScreen(DemonScreenHandler handler, Inventory inventory, Component title) {
 		super(handler, inventory, title);
 	}
 
 	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		renderBackground(context);
 		super.render(context, mouseX, mouseY, delta);
-		for (Slot slot : getScreenHandler().slots) {
+		for (Slot slot : getMenu().slots) {
 			if (slot instanceof DemonScreenHandler.DemonTradeSlot tradeSlot) {
 				DemonEntity.DemonTradeOffer offer = tradeSlot.getOffer();
 				if (offer != null) {
@@ -38,24 +38,24 @@ public class DemonScreen extends HandledScreen<DemonScreenHandler> {
 			}
 		}
 		drawPortrait(context, mouseX, mouseY);
-		drawMouseoverTooltip(context, mouseX, mouseY);
+		renderTooltip(context, mouseX, mouseY);
 	}
 
-	private void drawPortrait(DrawContext context, int mouseX, int mouseY) {
-		if (handler.demonMerchant.getDemonTrader() == null) {
+	private void drawPortrait(GuiGraphics context, int mouseX, int mouseY) {
+		if (menu.demonMerchant.getDemonTrader() == null) {
 			return;
 		}
-		int x = (width - backgroundWidth) / 2 + 56;
-		int y = (height - backgroundHeight) / 2 + 16;
-		Window window = client.getWindow();
-		int scissorX = unscale(x, window.getScaledWidth(), window.getWidth());
-		int scissorY = unscale(window.getScaledHeight() - (y + 68), window.getScaledHeight(), window.getHeight());
-		int scissorWidth = unscale(64, window.getScaledWidth(), window.getWidth());
-		int scissorHeight = unscale(64, window.getScaledHeight(), window.getHeight());
+		int x = (width - imageWidth) / 2 + 56;
+		int y = (height - imageHeight) / 2 + 16;
+		Window window = minecraft.getWindow();
+		int scissorX = unscale(x, window.getGuiScaledWidth(), window.getScreenWidth());
+		int scissorY = unscale(window.getGuiScaledHeight() - (y + 68), window.getGuiScaledHeight(), window.getScreenHeight());
+		int scissorWidth = unscale(64, window.getGuiScaledWidth(), window.getScreenWidth());
+		int scissorHeight = unscale(64, window.getGuiScaledHeight(), window.getScreenHeight());
 		RenderSystem.enableScissor(scissorX, scissorY, scissorWidth, scissorHeight);
-		context.drawTexture(getBackground(), x, y, 176, 16, 64, 72);
-		int height = (int) (handler.demonMerchant.getDemonTrader().getHeight() * 55);
-		InventoryScreen.drawEntity(context, x + 32, y + height, 50, (float) (x + 32) - mouseX, (float) (y + 105 - 50) - mouseY, handler.demonMerchant.getDemonTrader());
+		context.blit(getBackground(), x, y, 176, 16, 64, 72);
+		int height = (int) (menu.demonMerchant.getDemonTrader().getBbHeight() * 55);
+		InventoryScreen.renderEntityInInventoryFollowsMouse(context, x + 32, y + height, 50, (float) (x + 32) - mouseX, (float) (y + 105 - 50) - mouseY, menu.demonMerchant.getDemonTrader());
 		RenderSystem.disableScissor();
 	}
 
@@ -64,49 +64,49 @@ public class DemonScreen extends HandledScreen<DemonScreenHandler> {
 	}
 
 	@Override
-	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-		int x = (width - backgroundWidth) / 2;
-		int y = (height - backgroundHeight) / 2;
-		context.drawTexture(getBackground(), x, y, 0, 0, backgroundWidth, backgroundHeight);
+	protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
+		int x = (width - imageWidth) / 2;
+		int y = (height - imageHeight) / 2;
+		context.blit(getBackground(), x, y, 0, 0, imageWidth, imageHeight);
 	}
 
 	@Override
-	protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
-		context.drawText(textRenderer, this.title, this.titleX, this.titleY, 4210752, false);
+	protected void renderLabels(GuiGraphics context, int mouseX, int mouseY) {
+		context.drawString(font, this.title, this.titleLabelX, this.titleLabelY, 4210752, false);
 	}
 
-	private void drawHearts(DrawContext context, int x, int y, DemonEntity.DemonTradeOffer offer) {
-		int cost = offer.getCost(handler.demonMerchant);
+	private void drawHearts(GuiGraphics context, int x, int y, DemonEntity.DemonTradeOffer offer) {
+		int cost = offer.getCost(menu.demonMerchant);
 		int fullGroups = cost / 2;
-		int heartX = (this.x + x - 6 - ((cost - 1) / 2 * 4));
-		int heartY = this.y + y + 18;
-		context.getMatrices().push();
+		int heartX = (this.leftPos + x - 6 - ((cost - 1) / 2 * 4));
+		int heartY = this.topPos + y + 18;
+		context.pose().pushPose();
 		for (int i = 0; i < cost; i++) {
 			heartX += 9;
-			context.drawTexture(HEARTS, heartX, heartY, 16, 0, 9, 9);
-			if (!BWComponents.CONTRACTS_COMPONENT.get(client.player).hasContract(offer.getContract())) {
+			context.blit(HEARTS, heartX, heartY, 16, 0, 9, 9);
+			if (!BWComponents.CONTRACTS_COMPONENT.get(minecraft.player).hasContract(offer.getContract())) {
 				if (fullGroups > 0) {
 					fullGroups--;
 					i++;
-					context.drawTexture(HEARTS, heartX, heartY, 52, 0, 9, 9);
+					context.blit(HEARTS, heartX, heartY, 52, 0, 9, 9);
 				} else {
-					context.drawTexture(HEARTS, heartX, heartY, 61, 0, 9, 9);
+					context.blit(HEARTS, heartX, heartY, 61, 0, 9, 9);
 				}
 			} else if (fullGroups > 0) {
 				fullGroups--;
 				i++;
 			}
 		}
-		context.getMatrices().pop();
+		context.pose().popPose();
 	}
 
 	@Override
 	protected void init() {
 		super.init();
-		titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
+		titleLabelX = (imageWidth - font.width(title)) / 2;
 	}
 
-	private Identifier getBackground() {
-		return Bewitchment.id(String.format("textures/gui/demon_trade_%d.png", handler.getOfferCount()));
+	private ResourceLocation getBackground() {
+		return Bewitchment.id(String.format("textures/gui/demon_trade_%d.png", menu.getOfferCount()));
 	}
 }

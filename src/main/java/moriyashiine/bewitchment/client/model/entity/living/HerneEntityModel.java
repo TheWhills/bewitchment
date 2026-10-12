@@ -4,17 +4,23 @@
 
 package moriyashiine.bewitchment.client.model.entity.living;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import moriyashiine.bewitchment.common.entity.living.HerneEntity;
 import moriyashiine.bewitchment.common.registry.BWObjects;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Arm;
-import net.minecraft.util.Hand;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.item.ItemStack;
 
-public class HerneEntityModel<T extends HerneEntity> extends BipedEntityModel<T> {
+public class HerneEntityModel<T extends HerneEntity> extends HumanoidModel<T> {
 	public static final ItemStack HORNED_SPEAR = new ItemStack(BWObjects.HORNED_SPEAR);
 
 	private final ModelPart chest;
@@ -44,117 +50,117 @@ public class HerneEntityModel<T extends HerneEntity> extends BipedEntityModel<T>
 		neck00 = root.getChild("neck00");
 	}
 
-	public static TexturedModelData getTexturedModelData() {
-		ModelData data = BipedEntityModel.getModelData(Dilation.NONE, 0);
-		ModelPartData root = data.getRoot();
-		ModelPartData bipedLeftLeg = root.addChild("bipedLeftLeg", ModelPartBuilder.create().uv(0, 16).cuboid(-2.5F, -0.7F, -3.0F, 5.0F, 12.0F, 6.0F, new Dilation(-0.2F, -0.2F, -0.2F)), ModelTransform.of(2.5F, -0.2F, 0.6F, 0.0F, 0.0F, 0.0F));
-		ModelPartData lLeg02 = bipedLeftLeg.addChild("lLeg02", ModelPartBuilder.create().uv(0, 34).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 8.0F, 4.0F, new Dilation(-0.3F, -0.3F, -0.3F)), ModelTransform.of(0.0F, 9.5F, -0.7F, 0.733F, 0.0F, 0.0873F));
-		ModelPartData lLeg03 = lLeg02.addChild("lLeg03", ModelPartBuilder.create().uv(0, 47).cuboid(-1.5F, 0.0F, -1.5F, 3.0F, 9.0F, 3.0F, new Dilation(-0.15F, -0.15F, -0.15F)), ModelTransform.of(0.0F, 7.1F, 0.1F, -0.4538F, 0.0F, 0.0F));
-		ModelPartData lHoofClaw01a = lLeg03.addChild("lHoofClaw01a", ModelPartBuilder.create().uv(9, 60).cuboid(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F), ModelTransform.of(0.7F, 8.4F, -1.4F, 0.0524F, -0.1047F, 0.0F));
-		lHoofClaw01a.addChild("lHoofClaw01b", ModelPartBuilder.create().uv(0, 59).cuboid(-0.49F, -1.1F, -1.2F, 1.0F, 1.0F, 3.0F), ModelTransform.of(0.0F, 0.0F, -0.8F, 0.3491F, 0.0F, 0.0F));
-		ModelPartData lHoofClaw02a = lLeg03.addChild("lHoofClaw02a", ModelPartBuilder.create().uv(9, 60).cuboid(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F), ModelTransform.of(-0.6F, 8.4F, -1.4F, 0.0524F, 0.0524F, 0.0F));
-		lHoofClaw02a.addChild("lHoofClaw02b", ModelPartBuilder.create().uv(0, 59).cuboid(-0.49F, -1.1F, -1.2F, 1.0F, 1.0F, 3.0F), ModelTransform.of(0.0F, 0.0F, -0.8F, 0.3491F, 0.0F, 0.0F));
-		ModelPartData bipedRightArm = root.addChild("bipedRightArm", ModelPartBuilder.create().uv(58, 18).mirrored(true).cuboid(-2.0F, -1.0F, -2.5F, 4.0F, 20.0F, 4.0F), ModelTransform.of(-5.5F, -15.7F, 1.0F, 0.0F, 0.0F, 0.0F));
-		bipedRightArm.addChild("rMantle", ModelPartBuilder.create().uv(69, 45).mirrored(true).cuboid(-2.5F, -2.0F, -3.0F, 5.0F, 8.0F, 6.0F), ModelTransform.of(0.1F, -0.3F, -0.5F, 0.0F, 0.0F, 0.1309F));
-		ModelPartData chest = root.addChild("chest", ModelPartBuilder.create().uv(23, 15).cuboid(-4.9F, -8.0F, -3.5F, 10.0F, 8.0F, 7.0F), ModelTransform.of(0.0F, -9.4F, 0.0F, 0.0F, 0.0F, 0.0F));
-		chest.addChild("lPec", ModelPartBuilder.create().uv(19, 50).cuboid(-3.0F, -3.0F, -3.0F, 6.0F, 6.0F, 3.0F), ModelTransform.of(2.6F, -4.8F, -1.2F, 0.0F, -0.1047F, 0.0873F));
-		chest.addChild("rPec", ModelPartBuilder.create().uv(19, 50).mirrored(true).cuboid(-3.0F, -3.0F, -3.0F, 6.0F, 6.0F, 3.0F), ModelTransform.of(-2.6F, -4.8F, -1.2F, 0.0F, 0.1047F, -0.0873F));
-		ModelPartData stomach = chest.addChild("stomach", ModelPartBuilder.create().uv(19, 31).cuboid(-4.5F, -6.5F, -3.0F, 9.0F, 10.0F, 6.0F), ModelTransform.of(0.0F, 6.2F, 0.5F, 0.0F, 0.0F, 0.0F));
-		stomach.addChild("moss01", ModelPartBuilder.create().uv(92, 45).cuboid(-5.0F, 0.0F, -0.5F, 10.0F, 9.0F, 1.0F), ModelTransform.of(0.0F, 1.4F, -2.5F, -0.3665F, 0.0F, 0.0F));
-		stomach.addChild("moss02", ModelPartBuilder.create().uv(39, 53).cuboid(-5.0F, 0.0F, -0.5F, 10.0F, 9.0F, 1.0F), ModelTransform.of(0.0F, 1.4F, 2.8F, 0.0F, 0.0F, 0.0F));
-		stomach.addChild("mossL", ModelPartBuilder.create().uv(111, 48).mirrored(true).cuboid(-0.5F, -0.7F, -3.5F, 1.0F, 9.0F, 7.0F), ModelTransform.of(-4.7F, 2.1F, -0.1F, -0.1745F, 0.0F, 0.1745F));
-		stomach.addChild("mossR", ModelPartBuilder.create().uv(111, 48).cuboid(-0.5F, -0.7F, -3.5F, 1.0F, 9.0F, 7.0F), ModelTransform.of(4.7F, 2.1F, -0.1F, -0.1745F, 0.0F, -0.1745F));
-		chest.addChild("mMantle", ModelPartBuilder.create().uv(75, 26).cuboid(-6.0F, 0.0F, -4.5F, 12.0F, 10.0F, 9.0F), ModelTransform.of(0.0F, -8.8F, -0.5F, 0.0F, 0.0F, 0.0F));
-		ModelPartData bipedLeftArm = root.addChild("bipedLeftArm", ModelPartBuilder.create().uv(58, 18).cuboid(-2.0F, -1.0F, -2.5F, 4.0F, 20.0F, 4.0F), ModelTransform.of(5.5F, -15.7F, 1.0F, 0.0F, 0.0F, 0.0F));
-		bipedLeftArm.addChild("lMantle", ModelPartBuilder.create().uv(69, 45).cuboid(-2.5F, -2.0F, -3.0F, 5.0F, 8.0F, 6.0F), ModelTransform.of(-0.1F, -0.3F, -0.5F, 0.0F, 0.0F, -0.1309F));
-		ModelPartData bipedRightLeg = root.addChild("bipedRightLeg", ModelPartBuilder.create().uv(0, 16).mirrored(true).cuboid(-2.5F, -0.7F, -3.0F, 5.0F, 12.0F, 6.0F, new Dilation(-0.2F, -0.2F, -0.2F)), ModelTransform.of(-2.5F, -0.2F, 0.6F, 0.0F, 0.0F, 0.0F));
-		ModelPartData rLeg02 = bipedRightLeg.addChild("rLeg02", ModelPartBuilder.create().uv(0, 34).mirrored(true).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 8.0F, 4.0F, new Dilation(-0.3F, -0.3F, -0.3F)), ModelTransform.of(0.0F, 9.5F, -0.7F, 0.733F, 0.0F, -0.0873F));
-		ModelPartData rLeg03 = rLeg02.addChild("rLeg03", ModelPartBuilder.create().uv(0, 47).mirrored(true).cuboid(-1.5F, 0.0F, -1.5F, 3.0F, 9.0F, 3.0F, new Dilation(-0.15F, -0.15F, -0.15F)), ModelTransform.of(0.0F, 7.1F, 0.1F, -0.4538F, 0.0F, 0.0F));
-		ModelPartData rHoofClaw01a = rLeg03.addChild("rHoofClaw01a", ModelPartBuilder.create().uv(9, 60).mirrored(true).cuboid(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F), ModelTransform.of(-0.7F, 8.4F, -1.4F, 0.0524F, 0.1047F, 0.0F));
-		rHoofClaw01a.addChild("rHoofClaw01b", ModelPartBuilder.create().uv(0, 59).mirrored(true).cuboid(-0.51F, -1.1F, -1.2F, 1.0F, 1.0F, 3.0F), ModelTransform.of(0.0F, 0.0F, -0.8F, 0.3491F, 0.0F, 0.0F));
-		ModelPartData rHoofClaw02a = rLeg03.addChild("rHoofClaw02a", ModelPartBuilder.create().uv(9, 60).mirrored(true).cuboid(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F), ModelTransform.of(0.6F, 8.4F, -1.4F, 0.0524F, -0.0524F, 0.0F));
-		rHoofClaw02a.addChild("rHoofClaw02b", ModelPartBuilder.create().uv(0, 59).mirrored(true).cuboid(-0.51F, -1.1F, -1.2F, 1.0F, 1.0F, 3.0F), ModelTransform.of(0.0F, 0.0F, -0.8F, 0.3491F, 0.0F, 0.0F));
-		ModelPartData neck00 = root.addChild("neck00", ModelPartBuilder.create().uv(51, 0).cuboid(-3.5F, -1.7F, -3.0F, 7.0F, 3.0F, 6.0F), ModelTransform.of(0.0F, -17.5F, -0.1F, 0.0F, 0.0F, 0.0F));
-		ModelPartData neck01 = neck00.addChild("neck01", ModelPartBuilder.create().uv(28, 0).cuboid(-3.11F, -3.0F, -2.5F, 6.0F, 3.0F, 5.0F), ModelTransform.of(0.0F, -1.2206F, -0.584F, 0.2182F, 0.0F, 0.0F));
-		ModelPartData realHead = neck01.addChild("realHead", ModelPartBuilder.create().cuboid(-3.0F, -4.8F, -3.6F, 6.0F, 5.0F, 6.0F), ModelTransform.of(0.0F, -2.8F, 0.2F, -0.1396F, 0.0F, 0.0F));
-		realHead.addChild("snout", ModelPartBuilder.create().uv(78, 0).cuboid(-2.0F, -1.35F, -3.9F, 4.0F, 2.0F, 5.0F), ModelTransform.of(0.0F, -3.2F, -4.1F, 0.2793F, 0.0F, 0.0F));
-		realHead.addChild("lowerJaw", ModelPartBuilder.create().uv(97, 10).cuboid(-2.0F, -0.4F, -3.6F, 4.0F, 1.0F, 4.0F), ModelTransform.of(0.0F, -0.5F, -3.9F, 0.0F, 0.0F, 0.0F));
-		realHead.addChild("lEar", ModelPartBuilder.create().uv(20, 0).mirrored(true).cuboid(0.0F, -1.0F, -0.5F, 3.0F, 2.0F, 1.0F), ModelTransform.of(2.3F, -3.4F, 0.9F, 0.1745F, -0.3491F, -0.4538F));
-		realHead.addChild("rEar", ModelPartBuilder.create().uv(20, 0).mirrored(true).cuboid(-3.0F, -1.0F, -0.5F, 3.0F, 2.0F, 1.0F), ModelTransform.of(-2.3F, -3.4F, 0.9F, 0.1745F, 0.3491F, 0.4538F));
-		ModelPartData lAntler01 = realHead.addChild("lAntler01", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-1.0F, -2.3F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.of(1.5F, -4.6F, -0.6F, -0.3491F, 0.0F, 0.2793F));
-		ModelPartData lAntler02a = lAntler01.addChild("lAntler02a", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.2F, -0.5F, 0.0F, 1.0F, 1.0F, 6.0F), ModelTransform.of(-0.2F, -1.7F, -0.3F, 0.7854F, 0.5236F, 0.1396F));
-		ModelPartData lAntler02b = lAntler02a.addChild("lAntler02b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.7F, -0.5F, 0.0F, 1.0F, 1.0F, 6.0F), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-		ModelPartData lAntler03 = lAntler02b.addChild("lAntler03", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 5.0F), ModelTransform.of(0.2F, 0.0F, 5.4F, 0.6109F, -0.2618F, 0.0F));
-		ModelPartData lAntler04 = lAntler03.addChild("lAntler04", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 5.0F), ModelTransform.of(0.0F, 0.0F, 4.8F, -0.5236F, 0.0F, 0.0F));
-		lAntler04.addChild("lAntler04b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F), ModelTransform.of(0.0F, 0.0F, 4.8F, 0.3491F, -0.2618F, 0.0F));
-		ModelPartData lAntler07a = lAntler03.addChild("lAntler07a", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), ModelTransform.of(0.0F, 0.1F, 1.0F, 0.8727F, 0.0F, -0.5934F));
-		lAntler07a.addChild("lAntler07b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), ModelTransform.of(0.0F, 2.9F, 0.0F, 0.2793F, 0.0F, 0.0F));
-		ModelPartData lAntler08a = lAntler03.addChild("lAntler08a", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), ModelTransform.of(0.0F, 0.1F, 1.2F, 0.6981F, 0.0F, 0.3491F));
-		lAntler08a.addChild("lAntler08b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, 0.0F, -0.5F, 1.0F, 5.0F, 1.0F), ModelTransform.of(0.0F, 2.9F, 0.0F, 0.2793F, 0.0F, 0.3491F));
-		ModelPartData lAntler09a = lAntler03.addChild("lAntler09a", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, 0.0F, -0.5F, 1.0F, 5.0F, 1.0F), ModelTransform.of(0.0F, -0.4F, -1.0F, 0.6109F, -0.1222F, 0.4363F));
-		lAntler09a.addChild("lAntler09b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), ModelTransform.of(0.0F, 4.8F, 0.0F, 0.2793F, 0.0F, 0.3491F));
-		ModelPartData lAntler05a = lAntler02a.addChild("lAntler05a", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -3.5F, -0.4F, 1.0F, 3.0F, 1.0F), ModelTransform.of(0.0F, 0.4F, 4.8F, -0.5236F, 0.0F, 0.3665F));
-		ModelPartData lAntler05b = lAntler05a.addChild("lAntler05b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -3.5F, -0.9F, 1.0F, 3.0F, 1.0F), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-		ModelPartData lAntler05c = lAntler05b.addChild("lAntler05c", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -3.5F, -0.5F, 1.0F, 4.0F, 1.0F), ModelTransform.of(-0.1F, -2.9F, -0.2F, 0.0F, 0.0F, -0.1745F));
-		lAntler05c.addChild("lAntler05d", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F), ModelTransform.of(0.1F, -3.1F, 0.0F, 0.0F, 0.0F, -0.3491F));
-		ModelPartData lAntler10a = lAntler02a.addChild("lAntler10a", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -3.5F, -0.5F, 1.0F, 4.0F, 1.0F), ModelTransform.of(0.4F, -0.4F, 0.7F, 0.0F, 0.0F, 0.3665F));
-		lAntler10a.addChild("lAntler10b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F), ModelTransform.of(0.1F, -3.1F, 0.0F, 0.0F, 0.0F, -0.3142F));
-		ModelPartData lAntler11a = lAntler02a.addChild("lAntler11a", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F), ModelTransform.of(0.4F, 0.0F, -0.2F, 0.4363F, 0.0F, 0.4363F));
-		lAntler11a.addChild("lAntler11b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F), ModelTransform.of(0.1F, -2.8F, 0.0F, 0.0F, 0.0F, -0.3142F));
-		ModelPartData rAntler01 = realHead.addChild("rAntler01", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-1.0F, -2.2F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.of(-1.5F, -4.7F, -0.6F, -0.3491F, 0.0F, -0.2793F));
-		ModelPartData rAntler02a = rAntler01.addChild("rAntler02a", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.2F, -0.5F, 0.0F, 1.0F, 1.0F, 6.0F), ModelTransform.of(0.2F, -1.7F, -0.3F, 0.7854F, -0.5236F, -0.1396F));
-		ModelPartData rAntler02b = rAntler02a.addChild("rAntler02b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.7F, -0.5F, 0.0F, 1.0F, 1.0F, 6.0F), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-		ModelPartData rAntler03 = rAntler02b.addChild("rAntler03", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 5.0F), ModelTransform.of(-0.2F, 0.0F, 5.4F, 0.6109F, 0.2618F, 0.0F));
-		ModelPartData rAntler04 = rAntler03.addChild("rAntler04", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 5.0F), ModelTransform.of(0.0F, 0.0F, 4.8F, -0.5236F, 0.0F, 0.0F));
-		rAntler04.addChild("rAntler04b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F), ModelTransform.of(0.0F, 0.0F, 4.8F, 0.3491F, 0.2618F, 0.0F));
-		ModelPartData rAntler07a = rAntler03.addChild("rAntler07a", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), ModelTransform.of(0.0F, 0.1F, 1.0F, 0.8727F, 0.0F, 0.5934F));
-		rAntler07a.addChild("rAntler07b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), ModelTransform.of(0.0F, 2.9F, 0.0F, 0.2793F, 0.0F, 0.0F));
-		ModelPartData rAntler08a = rAntler03.addChild("rAntler08a", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), ModelTransform.of(0.0F, 0.1F, 1.2F, 0.6981F, 0.0F, -0.3491F));
-		rAntler08a.addChild("rAntler08b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, 0.0F, -0.5F, 1.0F, 5.0F, 1.0F), ModelTransform.of(0.0F, 2.9F, 0.0F, 0.2793F, 0.0F, -0.3491F));
-		ModelPartData rAntler09a = rAntler03.addChild("rAntler09a", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, 0.0F, -0.5F, 1.0F, 5.0F, 1.0F), ModelTransform.of(0.0F, -0.4F, -1.0F, 0.6109F, 0.1222F, -0.4363F));
-		rAntler09a.addChild("rAntler09b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), ModelTransform.of(0.0F, 4.8F, 0.0F, 0.2793F, 0.0F, -0.3491F));
-		ModelPartData rAntler05a = rAntler02a.addChild("rAntler05a", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -3.5F, -0.4F, 1.0F, 3.0F, 1.0F), ModelTransform.of(0.0F, 0.4F, 4.8F, -0.5236F, 0.0F, -0.3665F));
-		ModelPartData rAntler05b = rAntler05a.addChild("rAntler05b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -3.5F, -0.9F, 1.0F, 3.0F, 1.0F), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-		ModelPartData rAntler05c = rAntler05b.addChild("rAntler05c", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -3.5F, -0.5F, 1.0F, 4.0F, 1.0F), ModelTransform.of(0.1F, -2.9F, -0.2F, 0.0F, 0.0F, 0.1745F));
-		rAntler05c.addChild("rAntler05d", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F), ModelTransform.of(-0.1F, -3.1F, 0.0F, 0.0F, 0.0F, 0.3491F));
-		ModelPartData rAntler10a = rAntler02a.addChild("rAntler10a", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -3.5F, -0.5F, 1.0F, 4.0F, 1.0F), ModelTransform.of(-0.4F, -0.4F, 0.7F, 0.0F, 0.0F, -0.3665F));
-		rAntler10a.addChild("rAntler10b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F), ModelTransform.of(-0.1F, -3.1F, 0.0F, 0.0F, 0.0F, 0.3142F));
-		ModelPartData rAntler11a = rAntler02a.addChild("rAntler11a", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F), ModelTransform.of(-0.4F, 0.0F, -0.2F, 0.4363F, 0.0F, -0.4363F));
-		rAntler11a.addChild("rAntler11b", ModelPartBuilder.create().uv(107, 0).mirrored(true).cuboid(-0.5F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F), ModelTransform.of(0.1F, -2.8F, 0.0F, 0.0F, 0.0F, 0.3142F));
-		realHead.addChild("upperJaw00", ModelPartBuilder.create().uv(76, 8).cuboid(-2.5F, -0.7F, -3.7F, 5.0F, 2.0F, 5.0F), ModelTransform.of(0.0F, -2.0F, -4.1F, 0.0F, 0.0F, 0.0F));
-		neck00.addChild("neckFur01", ModelPartBuilder.create().uv(79, 17).cuboid(-2.0F, -1.0F, -1.8F, 4.0F, 5.0F, 2.0F, new Dilation(0.1F, 0.1F, 0.1F)), ModelTransform.of(0.0F, -1.75F, -1.9F, -0.6109F, 0.0F, 0.0F));
-		neck00.addChild("neckFur02", ModelPartBuilder.create().uv(110, 16).cuboid(-3.0F, -1.0F, -1.9F, 6.0F, 8.0F, 2.0F, new Dilation(0.15F, 0.15F, 0.15F)), ModelTransform.of(0.0F, 0.5F, -2.9F, -0.1309F, 0.0F, 0.0F));
-		return TexturedModelData.of(data, 128, 64);
+	public static LayerDefinition getTexturedModelData() {
+		MeshDefinition data = HumanoidModel.createMesh(CubeDeformation.NONE, 0);
+		PartDefinition root = data.getRoot();
+		PartDefinition bipedLeftLeg = root.addOrReplaceChild("bipedLeftLeg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.5F, -0.7F, -3.0F, 5.0F, 12.0F, 6.0F, new CubeDeformation(-0.2F, -0.2F, -0.2F)), PartPose.offsetAndRotation(2.5F, -0.2F, 0.6F, 0.0F, 0.0F, 0.0F));
+		PartDefinition lLeg02 = bipedLeftLeg.addOrReplaceChild("lLeg02", CubeListBuilder.create().texOffs(0, 34).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 8.0F, 4.0F, new CubeDeformation(-0.3F, -0.3F, -0.3F)), PartPose.offsetAndRotation(0.0F, 9.5F, -0.7F, 0.733F, 0.0F, 0.0873F));
+		PartDefinition lLeg03 = lLeg02.addOrReplaceChild("lLeg03", CubeListBuilder.create().texOffs(0, 47).addBox(-1.5F, 0.0F, -1.5F, 3.0F, 9.0F, 3.0F, new CubeDeformation(-0.15F, -0.15F, -0.15F)), PartPose.offsetAndRotation(0.0F, 7.1F, 0.1F, -0.4538F, 0.0F, 0.0F));
+		PartDefinition lHoofClaw01a = lLeg03.addOrReplaceChild("lHoofClaw01a", CubeListBuilder.create().texOffs(9, 60).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F), PartPose.offsetAndRotation(0.7F, 8.4F, -1.4F, 0.0524F, -0.1047F, 0.0F));
+		lHoofClaw01a.addOrReplaceChild("lHoofClaw01b", CubeListBuilder.create().texOffs(0, 59).addBox(-0.49F, -1.1F, -1.2F, 1.0F, 1.0F, 3.0F), PartPose.offsetAndRotation(0.0F, 0.0F, -0.8F, 0.3491F, 0.0F, 0.0F));
+		PartDefinition lHoofClaw02a = lLeg03.addOrReplaceChild("lHoofClaw02a", CubeListBuilder.create().texOffs(9, 60).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F), PartPose.offsetAndRotation(-0.6F, 8.4F, -1.4F, 0.0524F, 0.0524F, 0.0F));
+		lHoofClaw02a.addOrReplaceChild("lHoofClaw02b", CubeListBuilder.create().texOffs(0, 59).addBox(-0.49F, -1.1F, -1.2F, 1.0F, 1.0F, 3.0F), PartPose.offsetAndRotation(0.0F, 0.0F, -0.8F, 0.3491F, 0.0F, 0.0F));
+		PartDefinition bipedRightArm = root.addOrReplaceChild("bipedRightArm", CubeListBuilder.create().texOffs(58, 18).mirror(true).addBox(-2.0F, -1.0F, -2.5F, 4.0F, 20.0F, 4.0F), PartPose.offsetAndRotation(-5.5F, -15.7F, 1.0F, 0.0F, 0.0F, 0.0F));
+		bipedRightArm.addOrReplaceChild("rMantle", CubeListBuilder.create().texOffs(69, 45).mirror(true).addBox(-2.5F, -2.0F, -3.0F, 5.0F, 8.0F, 6.0F), PartPose.offsetAndRotation(0.1F, -0.3F, -0.5F, 0.0F, 0.0F, 0.1309F));
+		PartDefinition chest = root.addOrReplaceChild("chest", CubeListBuilder.create().texOffs(23, 15).addBox(-4.9F, -8.0F, -3.5F, 10.0F, 8.0F, 7.0F), PartPose.offsetAndRotation(0.0F, -9.4F, 0.0F, 0.0F, 0.0F, 0.0F));
+		chest.addOrReplaceChild("lPec", CubeListBuilder.create().texOffs(19, 50).addBox(-3.0F, -3.0F, -3.0F, 6.0F, 6.0F, 3.0F), PartPose.offsetAndRotation(2.6F, -4.8F, -1.2F, 0.0F, -0.1047F, 0.0873F));
+		chest.addOrReplaceChild("rPec", CubeListBuilder.create().texOffs(19, 50).mirror(true).addBox(-3.0F, -3.0F, -3.0F, 6.0F, 6.0F, 3.0F), PartPose.offsetAndRotation(-2.6F, -4.8F, -1.2F, 0.0F, 0.1047F, -0.0873F));
+		PartDefinition stomach = chest.addOrReplaceChild("stomach", CubeListBuilder.create().texOffs(19, 31).addBox(-4.5F, -6.5F, -3.0F, 9.0F, 10.0F, 6.0F), PartPose.offsetAndRotation(0.0F, 6.2F, 0.5F, 0.0F, 0.0F, 0.0F));
+		stomach.addOrReplaceChild("moss01", CubeListBuilder.create().texOffs(92, 45).addBox(-5.0F, 0.0F, -0.5F, 10.0F, 9.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 1.4F, -2.5F, -0.3665F, 0.0F, 0.0F));
+		stomach.addOrReplaceChild("moss02", CubeListBuilder.create().texOffs(39, 53).addBox(-5.0F, 0.0F, -0.5F, 10.0F, 9.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 1.4F, 2.8F, 0.0F, 0.0F, 0.0F));
+		stomach.addOrReplaceChild("mossL", CubeListBuilder.create().texOffs(111, 48).mirror(true).addBox(-0.5F, -0.7F, -3.5F, 1.0F, 9.0F, 7.0F), PartPose.offsetAndRotation(-4.7F, 2.1F, -0.1F, -0.1745F, 0.0F, 0.1745F));
+		stomach.addOrReplaceChild("mossR", CubeListBuilder.create().texOffs(111, 48).addBox(-0.5F, -0.7F, -3.5F, 1.0F, 9.0F, 7.0F), PartPose.offsetAndRotation(4.7F, 2.1F, -0.1F, -0.1745F, 0.0F, -0.1745F));
+		chest.addOrReplaceChild("mMantle", CubeListBuilder.create().texOffs(75, 26).addBox(-6.0F, 0.0F, -4.5F, 12.0F, 10.0F, 9.0F), PartPose.offsetAndRotation(0.0F, -8.8F, -0.5F, 0.0F, 0.0F, 0.0F));
+		PartDefinition bipedLeftArm = root.addOrReplaceChild("bipedLeftArm", CubeListBuilder.create().texOffs(58, 18).addBox(-2.0F, -1.0F, -2.5F, 4.0F, 20.0F, 4.0F), PartPose.offsetAndRotation(5.5F, -15.7F, 1.0F, 0.0F, 0.0F, 0.0F));
+		bipedLeftArm.addOrReplaceChild("lMantle", CubeListBuilder.create().texOffs(69, 45).addBox(-2.5F, -2.0F, -3.0F, 5.0F, 8.0F, 6.0F), PartPose.offsetAndRotation(-0.1F, -0.3F, -0.5F, 0.0F, 0.0F, -0.1309F));
+		PartDefinition bipedRightLeg = root.addOrReplaceChild("bipedRightLeg", CubeListBuilder.create().texOffs(0, 16).mirror(true).addBox(-2.5F, -0.7F, -3.0F, 5.0F, 12.0F, 6.0F, new CubeDeformation(-0.2F, -0.2F, -0.2F)), PartPose.offsetAndRotation(-2.5F, -0.2F, 0.6F, 0.0F, 0.0F, 0.0F));
+		PartDefinition rLeg02 = bipedRightLeg.addOrReplaceChild("rLeg02", CubeListBuilder.create().texOffs(0, 34).mirror(true).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 8.0F, 4.0F, new CubeDeformation(-0.3F, -0.3F, -0.3F)), PartPose.offsetAndRotation(0.0F, 9.5F, -0.7F, 0.733F, 0.0F, -0.0873F));
+		PartDefinition rLeg03 = rLeg02.addOrReplaceChild("rLeg03", CubeListBuilder.create().texOffs(0, 47).mirror(true).addBox(-1.5F, 0.0F, -1.5F, 3.0F, 9.0F, 3.0F, new CubeDeformation(-0.15F, -0.15F, -0.15F)), PartPose.offsetAndRotation(0.0F, 7.1F, 0.1F, -0.4538F, 0.0F, 0.0F));
+		PartDefinition rHoofClaw01a = rLeg03.addOrReplaceChild("rHoofClaw01a", CubeListBuilder.create().texOffs(9, 60).mirror(true).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F), PartPose.offsetAndRotation(-0.7F, 8.4F, -1.4F, 0.0524F, 0.1047F, 0.0F));
+		rHoofClaw01a.addOrReplaceChild("rHoofClaw01b", CubeListBuilder.create().texOffs(0, 59).mirror(true).addBox(-0.51F, -1.1F, -1.2F, 1.0F, 1.0F, 3.0F), PartPose.offsetAndRotation(0.0F, 0.0F, -0.8F, 0.3491F, 0.0F, 0.0F));
+		PartDefinition rHoofClaw02a = rLeg03.addOrReplaceChild("rHoofClaw02a", CubeListBuilder.create().texOffs(9, 60).mirror(true).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F), PartPose.offsetAndRotation(0.6F, 8.4F, -1.4F, 0.0524F, -0.0524F, 0.0F));
+		rHoofClaw02a.addOrReplaceChild("rHoofClaw02b", CubeListBuilder.create().texOffs(0, 59).mirror(true).addBox(-0.51F, -1.1F, -1.2F, 1.0F, 1.0F, 3.0F), PartPose.offsetAndRotation(0.0F, 0.0F, -0.8F, 0.3491F, 0.0F, 0.0F));
+		PartDefinition neck00 = root.addOrReplaceChild("neck00", CubeListBuilder.create().texOffs(51, 0).addBox(-3.5F, -1.7F, -3.0F, 7.0F, 3.0F, 6.0F), PartPose.offsetAndRotation(0.0F, -17.5F, -0.1F, 0.0F, 0.0F, 0.0F));
+		PartDefinition neck01 = neck00.addOrReplaceChild("neck01", CubeListBuilder.create().texOffs(28, 0).addBox(-3.11F, -3.0F, -2.5F, 6.0F, 3.0F, 5.0F), PartPose.offsetAndRotation(0.0F, -1.2206F, -0.584F, 0.2182F, 0.0F, 0.0F));
+		PartDefinition realHead = neck01.addOrReplaceChild("realHead", CubeListBuilder.create().addBox(-3.0F, -4.8F, -3.6F, 6.0F, 5.0F, 6.0F), PartPose.offsetAndRotation(0.0F, -2.8F, 0.2F, -0.1396F, 0.0F, 0.0F));
+		realHead.addOrReplaceChild("snout", CubeListBuilder.create().texOffs(78, 0).addBox(-2.0F, -1.35F, -3.9F, 4.0F, 2.0F, 5.0F), PartPose.offsetAndRotation(0.0F, -3.2F, -4.1F, 0.2793F, 0.0F, 0.0F));
+		realHead.addOrReplaceChild("lowerJaw", CubeListBuilder.create().texOffs(97, 10).addBox(-2.0F, -0.4F, -3.6F, 4.0F, 1.0F, 4.0F), PartPose.offsetAndRotation(0.0F, -0.5F, -3.9F, 0.0F, 0.0F, 0.0F));
+		realHead.addOrReplaceChild("lEar", CubeListBuilder.create().texOffs(20, 0).mirror(true).addBox(0.0F, -1.0F, -0.5F, 3.0F, 2.0F, 1.0F), PartPose.offsetAndRotation(2.3F, -3.4F, 0.9F, 0.1745F, -0.3491F, -0.4538F));
+		realHead.addOrReplaceChild("rEar", CubeListBuilder.create().texOffs(20, 0).mirror(true).addBox(-3.0F, -1.0F, -0.5F, 3.0F, 2.0F, 1.0F), PartPose.offsetAndRotation(-2.3F, -3.4F, 0.9F, 0.1745F, 0.3491F, 0.4538F));
+		PartDefinition lAntler01 = realHead.addOrReplaceChild("lAntler01", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-1.0F, -2.3F, -1.0F, 2.0F, 3.0F, 2.0F), PartPose.offsetAndRotation(1.5F, -4.6F, -0.6F, -0.3491F, 0.0F, 0.2793F));
+		PartDefinition lAntler02a = lAntler01.addOrReplaceChild("lAntler02a", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.2F, -0.5F, 0.0F, 1.0F, 1.0F, 6.0F), PartPose.offsetAndRotation(-0.2F, -1.7F, -0.3F, 0.7854F, 0.5236F, 0.1396F));
+		PartDefinition lAntler02b = lAntler02a.addOrReplaceChild("lAntler02b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.7F, -0.5F, 0.0F, 1.0F, 1.0F, 6.0F), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+		PartDefinition lAntler03 = lAntler02b.addOrReplaceChild("lAntler03", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 5.0F), PartPose.offsetAndRotation(0.2F, 0.0F, 5.4F, 0.6109F, -0.2618F, 0.0F));
+		PartDefinition lAntler04 = lAntler03.addOrReplaceChild("lAntler04", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 5.0F), PartPose.offsetAndRotation(0.0F, 0.0F, 4.8F, -0.5236F, 0.0F, 0.0F));
+		lAntler04.addOrReplaceChild("lAntler04b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F), PartPose.offsetAndRotation(0.0F, 0.0F, 4.8F, 0.3491F, -0.2618F, 0.0F));
+		PartDefinition lAntler07a = lAntler03.addOrReplaceChild("lAntler07a", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 0.1F, 1.0F, 0.8727F, 0.0F, -0.5934F));
+		lAntler07a.addOrReplaceChild("lAntler07b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 2.9F, 0.0F, 0.2793F, 0.0F, 0.0F));
+		PartDefinition lAntler08a = lAntler03.addOrReplaceChild("lAntler08a", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 0.1F, 1.2F, 0.6981F, 0.0F, 0.3491F));
+		lAntler08a.addOrReplaceChild("lAntler08b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 5.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 2.9F, 0.0F, 0.2793F, 0.0F, 0.3491F));
+		PartDefinition lAntler09a = lAntler03.addOrReplaceChild("lAntler09a", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 5.0F, 1.0F), PartPose.offsetAndRotation(0.0F, -0.4F, -1.0F, 0.6109F, -0.1222F, 0.4363F));
+		lAntler09a.addOrReplaceChild("lAntler09b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 4.8F, 0.0F, 0.2793F, 0.0F, 0.3491F));
+		PartDefinition lAntler05a = lAntler02a.addOrReplaceChild("lAntler05a", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -3.5F, -0.4F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 0.4F, 4.8F, -0.5236F, 0.0F, 0.3665F));
+		PartDefinition lAntler05b = lAntler05a.addOrReplaceChild("lAntler05b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -3.5F, -0.9F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+		PartDefinition lAntler05c = lAntler05b.addOrReplaceChild("lAntler05c", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -3.5F, -0.5F, 1.0F, 4.0F, 1.0F), PartPose.offsetAndRotation(-0.1F, -2.9F, -0.2F, 0.0F, 0.0F, -0.1745F));
+		lAntler05c.addOrReplaceChild("lAntler05d", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(0.1F, -3.1F, 0.0F, 0.0F, 0.0F, -0.3491F));
+		PartDefinition lAntler10a = lAntler02a.addOrReplaceChild("lAntler10a", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -3.5F, -0.5F, 1.0F, 4.0F, 1.0F), PartPose.offsetAndRotation(0.4F, -0.4F, 0.7F, 0.0F, 0.0F, 0.3665F));
+		lAntler10a.addOrReplaceChild("lAntler10b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F), PartPose.offsetAndRotation(0.1F, -3.1F, 0.0F, 0.0F, 0.0F, -0.3142F));
+		PartDefinition lAntler11a = lAntler02a.addOrReplaceChild("lAntler11a", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(0.4F, 0.0F, -0.2F, 0.4363F, 0.0F, 0.4363F));
+		lAntler11a.addOrReplaceChild("lAntler11b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F), PartPose.offsetAndRotation(0.1F, -2.8F, 0.0F, 0.0F, 0.0F, -0.3142F));
+		PartDefinition rAntler01 = realHead.addOrReplaceChild("rAntler01", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-1.0F, -2.2F, -1.0F, 2.0F, 3.0F, 2.0F), PartPose.offsetAndRotation(-1.5F, -4.7F, -0.6F, -0.3491F, 0.0F, -0.2793F));
+		PartDefinition rAntler02a = rAntler01.addOrReplaceChild("rAntler02a", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.2F, -0.5F, 0.0F, 1.0F, 1.0F, 6.0F), PartPose.offsetAndRotation(0.2F, -1.7F, -0.3F, 0.7854F, -0.5236F, -0.1396F));
+		PartDefinition rAntler02b = rAntler02a.addOrReplaceChild("rAntler02b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.7F, -0.5F, 0.0F, 1.0F, 1.0F, 6.0F), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+		PartDefinition rAntler03 = rAntler02b.addOrReplaceChild("rAntler03", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 5.0F), PartPose.offsetAndRotation(-0.2F, 0.0F, 5.4F, 0.6109F, 0.2618F, 0.0F));
+		PartDefinition rAntler04 = rAntler03.addOrReplaceChild("rAntler04", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 5.0F), PartPose.offsetAndRotation(0.0F, 0.0F, 4.8F, -0.5236F, 0.0F, 0.0F));
+		rAntler04.addOrReplaceChild("rAntler04b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F), PartPose.offsetAndRotation(0.0F, 0.0F, 4.8F, 0.3491F, 0.2618F, 0.0F));
+		PartDefinition rAntler07a = rAntler03.addOrReplaceChild("rAntler07a", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 0.1F, 1.0F, 0.8727F, 0.0F, 0.5934F));
+		rAntler07a.addOrReplaceChild("rAntler07b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 2.9F, 0.0F, 0.2793F, 0.0F, 0.0F));
+		PartDefinition rAntler08a = rAntler03.addOrReplaceChild("rAntler08a", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 0.1F, 1.2F, 0.6981F, 0.0F, -0.3491F));
+		rAntler08a.addOrReplaceChild("rAntler08b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 5.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 2.9F, 0.0F, 0.2793F, 0.0F, -0.3491F));
+		PartDefinition rAntler09a = rAntler03.addOrReplaceChild("rAntler09a", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 5.0F, 1.0F), PartPose.offsetAndRotation(0.0F, -0.4F, -1.0F, 0.6109F, 0.1222F, -0.4363F));
+		rAntler09a.addOrReplaceChild("rAntler09b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 4.8F, 0.0F, 0.2793F, 0.0F, -0.3491F));
+		PartDefinition rAntler05a = rAntler02a.addOrReplaceChild("rAntler05a", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -3.5F, -0.4F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 0.4F, 4.8F, -0.5236F, 0.0F, -0.3665F));
+		PartDefinition rAntler05b = rAntler05a.addOrReplaceChild("rAntler05b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -3.5F, -0.9F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+		PartDefinition rAntler05c = rAntler05b.addOrReplaceChild("rAntler05c", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -3.5F, -0.5F, 1.0F, 4.0F, 1.0F), PartPose.offsetAndRotation(0.1F, -2.9F, -0.2F, 0.0F, 0.0F, 0.1745F));
+		rAntler05c.addOrReplaceChild("rAntler05d", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(-0.1F, -3.1F, 0.0F, 0.0F, 0.0F, 0.3491F));
+		PartDefinition rAntler10a = rAntler02a.addOrReplaceChild("rAntler10a", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -3.5F, -0.5F, 1.0F, 4.0F, 1.0F), PartPose.offsetAndRotation(-0.4F, -0.4F, 0.7F, 0.0F, 0.0F, -0.3665F));
+		rAntler10a.addOrReplaceChild("rAntler10b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F), PartPose.offsetAndRotation(-0.1F, -3.1F, 0.0F, 0.0F, 0.0F, 0.3142F));
+		PartDefinition rAntler11a = rAntler02a.addOrReplaceChild("rAntler11a", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 3.0F, 1.0F), PartPose.offsetAndRotation(-0.4F, 0.0F, -0.2F, 0.4363F, 0.0F, -0.4363F));
+		rAntler11a.addOrReplaceChild("rAntler11b", CubeListBuilder.create().texOffs(107, 0).mirror(true).addBox(-0.5F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F), PartPose.offsetAndRotation(0.1F, -2.8F, 0.0F, 0.0F, 0.0F, 0.3142F));
+		realHead.addOrReplaceChild("upperJaw00", CubeListBuilder.create().texOffs(76, 8).addBox(-2.5F, -0.7F, -3.7F, 5.0F, 2.0F, 5.0F), PartPose.offsetAndRotation(0.0F, -2.0F, -4.1F, 0.0F, 0.0F, 0.0F));
+		neck00.addOrReplaceChild("neckFur01", CubeListBuilder.create().texOffs(79, 17).addBox(-2.0F, -1.0F, -1.8F, 4.0F, 5.0F, 2.0F, new CubeDeformation(0.1F, 0.1F, 0.1F)), PartPose.offsetAndRotation(0.0F, -1.75F, -1.9F, -0.6109F, 0.0F, 0.0F));
+		neck00.addOrReplaceChild("neckFur02", CubeListBuilder.create().texOffs(110, 16).addBox(-3.0F, -1.0F, -1.9F, 6.0F, 8.0F, 2.0F, new CubeDeformation(0.15F, 0.15F, 0.15F)), PartPose.offsetAndRotation(0.0F, 0.5F, -2.9F, -0.1309F, 0.0F, 0.0F));
+		return LayerDefinition.create(data, 128, 64);
 	}
 
 	@Override
 	public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float realHeadYaw, float realHeadPitch) {
-		entity.setStackInHand(Hand.MAIN_HAND, HORNED_SPEAR);
+		entity.setItemInHand(InteractionHand.MAIN_HAND, HORNED_SPEAR);
 		realArm = false;
-		super.setAngles(entity, limbAngle, limbDistance, animationProgress, realHeadYaw, realHeadPitch);
+		super.setupAnim(entity, limbAngle, limbDistance, animationProgress, realHeadYaw, realHeadPitch);
 		realArm = true;
 		copyRotation(neck00, super.head);
 		copyRotation(chest, super.body);
 		copyRotation(bipedLeftArm, super.leftArm);
-		bipedLeftArm.roll -= 0.1309f;
+		bipedLeftArm.zRot -= 0.1309f;
 		copyRotation(bipedRightArm, super.rightArm);
-		bipedRightArm.roll += 0.1309f;
+		bipedRightArm.zRot += 0.1309f;
 		copyRotation(bipedLeftLeg, super.leftLeg);
-		bipedLeftLeg.pitch /= 2;
-		bipedLeftLeg.pitch -= 0.2793f;
-		bipedLeftLeg.roll -= 0.1047f;
+		bipedLeftLeg.xRot /= 2;
+		bipedLeftLeg.xRot -= 0.2793f;
+		bipedLeftLeg.zRot -= 0.1047f;
 		copyRotation(bipedRightLeg, super.rightLeg);
-		bipedRightLeg.pitch /= 2;
-		bipedRightLeg.pitch -= 0.2793f;
-		bipedRightLeg.roll += 0.1047f;
-		moss01.pitch = Math.min(bipedLeftLeg.pitch, bipedRightLeg.pitch);
-		mossL.pitch = moss01.pitch;
-		mossR.pitch = moss01.pitch;
-		moss02.pitch = Math.max(bipedLeftLeg.pitch, bipedRightLeg.pitch) + 1 / 3f;
+		bipedRightLeg.xRot /= 2;
+		bipedRightLeg.xRot -= 0.2793f;
+		bipedRightLeg.zRot += 0.1047f;
+		moss01.xRot = Math.min(bipedLeftLeg.xRot, bipedRightLeg.xRot);
+		mossL.xRot = moss01.xRot;
+		mossR.xRot = moss01.xRot;
+		moss02.xRot = Math.max(bipedLeftLeg.xRot, bipedRightLeg.xRot) + 1 / 3f;
 	}
 
 	@Override
-	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+	public void renderToBuffer(PoseStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
 		neck00.render(matrices, vertices, light, overlay, red, green, blue, alpha);
 		chest.render(matrices, vertices, light, overlay, red, green, blue, alpha);
 		bipedLeftArm.render(matrices, vertices, light, overlay, red, green, blue, alpha);
@@ -164,13 +170,13 @@ public class HerneEntityModel<T extends HerneEntity> extends BipedEntityModel<T>
 	}
 
 	@Override
-	protected ModelPart getArm(Arm arm) {
-		return realArm ? (arm == Arm.LEFT ? bipedLeftArm : bipedRightArm) : super.getArm(arm);
+	protected ModelPart getArm(HumanoidArm arm) {
+		return realArm ? (arm == HumanoidArm.LEFT ? bipedLeftArm : bipedRightArm) : super.getArm(arm);
 	}
 
 	private void copyRotation(ModelPart to, ModelPart from) {
-		to.pitch = from.pitch;
-		to.yaw = from.yaw;
-		to.roll = from.roll;
+		to.xRot = from.xRot;
+		to.yRot = from.yRot;
+		to.zRot = from.zRot;
 	}
 }

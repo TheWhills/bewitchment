@@ -5,13 +5,13 @@
 package moriyashiine.bewitchment.mixin.brew;
 
 import moriyashiine.bewitchment.common.registry.BWComponents;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,18 +25,18 @@ import java.util.Collection;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
-@Mixin(ArrowEntity.class)
+@Mixin(Arrow.class)
 public abstract class ArrowEntityMixin extends Entity {
-	public ArrowEntityMixin(EntityType<?> type, World world) {
+	public ArrowEntityMixin(EntityType<?> type, Level world) {
 		super(type, world);
 	}
 
 	@ModifyVariable(method = "initFromStack", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/potion/PotionUtil;getCustomPotionEffects(Lnet/minecraft/item/ItemStack;)Ljava/util/List;"))
-	private Collection<StatusEffectInstance> modifyGetCustomPotionEffects(Collection<StatusEffectInstance> collection, ItemStack stack) {
-		if (stack.getNbt().getBoolean("BewitchmentBrew")) {
-			List<StatusEffectInstance> statusEffects = new ArrayList<>(collection);
+	private Collection<MobEffectInstance> modifyGetCustomPotionEffects(Collection<MobEffectInstance> collection, ItemStack stack) {
+		if (stack.getTag().getBoolean("BewitchmentBrew")) {
+			List<MobEffectInstance> statusEffects = new ArrayList<>(collection);
 			for (int i = collection.size() - 1; i >= 0; i--) {
-				statusEffects.set(i, new StatusEffectInstance(statusEffects.get(i).getEffectType(), statusEffects.get(i).getDuration() / 8, statusEffects.get(i).getAmplifier(), statusEffects.get(i).isAmbient(), statusEffects.get(i).shouldShowParticles(), statusEffects.get(i).shouldShowIcon()));
+				statusEffects.set(i, new MobEffectInstance(statusEffects.get(i).getEffect(), statusEffects.get(i).getDuration() / 8, statusEffects.get(i).getAmplifier(), statusEffects.get(i).isAmbient(), statusEffects.get(i).isVisible(), statusEffects.get(i).showIcon()));
 			}
 			return statusEffects;
 		}
@@ -47,8 +47,8 @@ public abstract class ArrowEntityMixin extends Entity {
 	private void asItemStack(CallbackInfoReturnable<ItemStack> callbackInfo, ItemStack stack) {
 		BWComponents.POLYMORPH_COMPONENT.maybeGet(this).ifPresent(polymorphComponent -> {
 			if (polymorphComponent.getUuid() != null) {
-				stack.getOrCreateNbt().putUuid("PolymorphUUID", polymorphComponent.getUuid());
-				stack.getOrCreateNbt().putString("PolymorphName", polymorphComponent.getName());
+				stack.getOrCreateTag().putUUID("PolymorphUUID", polymorphComponent.getUuid());
+				stack.getOrCreateTag().putString("PolymorphName", polymorphComponent.getName());
 			}
 		});
 	}
@@ -69,9 +69,9 @@ public abstract class ArrowEntityMixin extends Entity {
 	@Inject(method = "initFromStack", at = @At("TAIL"))
 	private void initFromStack(ItemStack stack, CallbackInfo callbackInfo) {
 		BWComponents.POLYMORPH_COMPONENT.maybeGet(this).ifPresent(polymorphComponent -> {
-			if (stack.hasNbt() && stack.getNbt().contains("PolymorphUUID")) {
-				polymorphComponent.setUuid(stack.getNbt().getUuid("PolymorphUUID"));
-				polymorphComponent.setName(stack.getNbt().getString("PolymorphName"));
+			if (stack.hasTag() && stack.getTag().contains("PolymorphUUID")) {
+				polymorphComponent.setUuid(stack.getTag().getUUID("PolymorphUUID"));
+				polymorphComponent.setName(stack.getTag().getString("PolymorphName"));
 			}
 		});
 	}

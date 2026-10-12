@@ -5,56 +5,61 @@
 package moriyashiine.bewitchment.common.entity.living.util;
 
 import net.minecraft.entity.*;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.CreeperEntity;
-import net.minecraft.entity.mob.GhastEntity;
-import net.minecraft.entity.passive.AbstractHorseEntity;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.world.EntityView;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Ghast;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.EntityGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class BWTameableEntity extends TameableEntity {
-	public static final TrackedData<Integer> VARIANT = DataTracker.registerData(BWTameableEntity.class, TrackedDataHandlerRegistry.INTEGER);
+public abstract class BWTameableEntity extends TamableAnimal {
+	public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(BWTameableEntity.class, EntityDataSerializers.INT);
 
-	protected BWTameableEntity(EntityType<? extends TameableEntity> type, World world) {
+	protected BWTameableEntity(EntityType<? extends TamableAnimal> type, Level world) {
 		super(type, world);
 	}
 
 	@Override
-	public EntityView method_48926() {
-		return getWorld();
+	public EntityGetter level() {
+		return level();
 	}
 
 	@Override
-	public boolean damage(DamageSource source, float amount) {
+	public boolean hurt(DamageSource source, float amount) {
 		if (isInvulnerableTo(source)) {
 			return false;
 		} else {
-			Entity entity = source.getAttacker();
-			setSitting(false);
-			if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof PersistentProjectileEntity)) {
+			Entity entity = source.getEntity();
+			setOrderedToSit(false);
+			if (entity != null && !(entity instanceof Player) && !(entity instanceof AbstractArrow)) {
 				amount = (amount + 1) / 2f;
 			}
-			return super.damage(source, amount);
+			return super.hurt(source, amount);
 		}
 	}
 
 	@Override
-	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData, @Nullable CompoundTag entityTag) {
 		initializeVariant();
-		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
+		return super.finalizeSpawn(world, difficulty, spawnReason, entityData, entityTag);
 	}
 
 	public void initializeVariant() {
@@ -62,90 +67,90 @@ public abstract class BWTameableEntity extends TameableEntity {
 		if (variants > 1) {
 			if (hasShiny()) {
 				if (random.nextInt(8192) == 0) {
-					dataTracker.set(VARIANT, 0);
+					entityData.set(VARIANT, 0);
 				} else {
-					dataTracker.set(VARIANT, random.nextInt(variants - 1) + 1);
+					entityData.set(VARIANT, random.nextInt(variants - 1) + 1);
 				}
 			} else {
-				dataTracker.set(VARIANT, random.nextInt(variants));
+				entityData.set(VARIANT, random.nextInt(variants));
 			}
 		}
 	}
 
 	@Override
-	public ActionResult interactMob(PlayerEntity player, Hand hand) {
-		boolean client = getWorld().isClient;
-		ItemStack stack = player.getStackInHand(hand);
-		if (isBreedingItem(stack)) {
+	public InteractionResult mobInteract(Player player, InteractionHand hand) {
+		boolean client = level().isClientSide;
+		ItemStack stack = player.getItemInHand(hand);
+		if (isFood(stack)) {
 			if (getHealth() < getMaxHealth()) {
 				if (!client) {
-					eat(player, hand, stack);
+					usePlayerItem(player, hand, stack);
 					heal(4);
 				}
-				return ActionResult.success(client);
+				return InteractionResult.sidedSuccess(client);
 			}
 		} else {
-			if (!isTamed()) {
+			if (!isTame()) {
 				if (isTamingItem(stack)) {
 					if (!client) {
-						eat(player, hand, stack);
+						usePlayerItem(player, hand, stack);
 						if (random.nextInt(4) == 0) {
-							setOwner(player);
-							setSitting(true);
+							tame(player);
+							setOrderedToSit(true);
 							setTarget(null);
 							navigation.stop();
-							getWorld().sendEntityStatus(this, (byte) 7);
+							level().broadcastEntityEvent(this, (byte) 7);
 						} else {
-							getWorld().sendEntityStatus(this, (byte) 6);
+							level().broadcastEntityEvent(this, (byte) 6);
 						}
 					}
-					return ActionResult.success(client);
+					return InteractionResult.sidedSuccess(client);
 				}
-			} else if (isOwner(player)) {
+			} else if (isOwnedBy(player)) {
 				if (!client) {
-					setSitting(!isSitting());
+					setOrderedToSit(!isOrderedToSit());
 				}
-				return ActionResult.success(client);
+				return InteractionResult.sidedSuccess(client);
 			}
 		}
-		return super.interactMob(player, hand);
+		return super.mobInteract(player, hand);
 	}
 
 	@Override
-	public boolean canAttackWithOwner(LivingEntity target, LivingEntity owner) {
-		if (target instanceof TameableEntity && ((TameableEntity) target).isTamed()) {
+	public boolean wantsToAttack(LivingEntity target, LivingEntity owner) {
+		if (target instanceof TamableAnimal && ((TamableAnimal) target).isTame()) {
 			return false;
 		}
-		if (target instanceof AbstractHorseEntity horse && horse.isTame()) {
+		if (target instanceof AbstractHorse horse && horse.isTamed()) {
 			return false;
 		}
-		if (target instanceof PlayerEntity targetPlayer && owner instanceof PlayerEntity ownerPlayer && !ownerPlayer.shouldDamagePlayer(targetPlayer)) {
+		if (target instanceof Player targetPlayer && owner instanceof Player ownerPlayer && !ownerPlayer.canHarmPlayer(targetPlayer)) {
 			return false;
 		}
-		return !(target instanceof CreeperEntity) && !(target instanceof GhastEntity);
+		return !(target instanceof Creeper) && !(target instanceof Ghast);
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
+	protected void defineSynchedData() {
+		super.defineSynchedData();
 		if (getVariants() > 1) {
-			dataTracker.startTracking(VARIANT, 1);
+			entityData.define(VARIANT, 1);
 		}
 	}
 
 	@Override
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
 		if (getVariants() > 1) {
-			dataTracker.set(VARIANT, nbt.getInt("Variant"));
+			entityData.set(VARIANT, nbt.getInt("Variant"));
 		}
 	}
 
 	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		super.addAdditionalSaveData(nbt);
 		if (getVariants() > 1) {
-			nbt.putInt("Variant", dataTracker.get(VARIANT));
+			nbt.putInt("Variant", entityData.get(VARIANT));
 		}
 	}
 
@@ -154,8 +159,8 @@ public abstract class BWTameableEntity extends TameableEntity {
 	public abstract int getVariants();
 
 	public int getVariant() {
-		if (this.getDataTracker().get(BWTameableEntity.VARIANT) < 0) initializeVariant();
-		return this.getDataTracker().get(BWTameableEntity.VARIANT);
+		if (this.getEntityData().get(BWTameableEntity.VARIANT) < 0) initializeVariant();
+		return this.getEntityData().get(BWTameableEntity.VARIANT);
 	}
 
 	protected abstract boolean isTamingItem(ItemStack stack);

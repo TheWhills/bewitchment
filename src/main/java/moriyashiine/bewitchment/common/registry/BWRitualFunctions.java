@@ -7,16 +7,15 @@ package moriyashiine.bewitchment.common.registry;
 import moriyashiine.bewitchment.api.registry.RitualFunction;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.ritualfunction.*;
-import net.minecraft.entity.passive.SheepEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.animal.Sheep;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BWRitualFunctions {
-	private static final Map<RitualFunction, Identifier> RITUAL_FUNCTIONS = new LinkedHashMap<>();
+	private static final Map<RitualFunction, ResourceLocation> RITUAL_FUNCTIONS = new LinkedHashMap<>();
 
 	public static final RitualFunction TURN_TO_DAY = create("turn_to_day", new TurnToDayRitualFunction(ParticleTypes.FLAME, null));
 	public static final RitualFunction CLEANSE = create("cleanse", new CleanseRitualFunction(ParticleTypes.ITEM_SNOWBALL, null));
@@ -40,9 +39,9 @@ public class BWRitualFunctions {
 	public static final RitualFunction BIND_FAMILIAR = create("bind_familiar", new BindFamiliarRitualFunction(ParticleTypes.PORTAL, null));
 	public static final RitualFunction UNBIND_FAMILIAR = create("unbind_familiar", new UnbindFamiliarRitualFunction(ParticleTypes.PORTAL, null));
 	public static final RitualFunction SUMMON_WITHER = create("summon_wither", new SummonWitherRitualFunction(ParticleTypes.FLAME, null));
-	public static final RitualFunction SUMMON_DEMON = create("summon_demon", new SummonDemonRitualFunction(ParticleTypes.FLAME, livingEntity -> livingEntity.getType().isIn(BWTags.HAS_BLOOD)));
-	public static final RitualFunction SUMMON_LEONARD = create("summon_leonard", new SummonLeonardRitualFunction(ParticleTypes.FLAME, livingEntity -> livingEntity instanceof SheepEntity));
-	public static final RitualFunction SUMMON_BAPHOMET = create("summon_baphomet", new SummonBaphometRitualFunction(ParticleTypes.FLAME, livingEntity -> livingEntity instanceof SheepEntity));
+	public static final RitualFunction SUMMON_DEMON = create("summon_demon", new SummonDemonRitualFunction(ParticleTypes.FLAME, livingEntity -> livingEntity.getType().is(BWTags.HAS_BLOOD)));
+	public static final RitualFunction SUMMON_LEONARD = create("summon_leonard", new SummonLeonardRitualFunction(ParticleTypes.FLAME, livingEntity -> livingEntity instanceof Sheep));
+	public static final RitualFunction SUMMON_BAPHOMET = create("summon_baphomet", new SummonBaphometRitualFunction(ParticleTypes.FLAME, livingEntity -> livingEntity instanceof Sheep));
 
 	public static final RitualFunction WEDNESDAY = create("wednesday", new WednesdayRitualFunction(ParticleTypes.ITEM_SLIME, null));
 

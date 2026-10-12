@@ -5,59 +5,59 @@
 package moriyashiine.bewitchment.client.particle;
 
 import moriyashiine.bewitchment.common.block.WitchCauldronBlock;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.DefaultParticleType;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.SimpleParticleType;
 
-public class CauldronBubbleParticle extends SpriteBillboardParticle {
-	public CauldronBubbleParticle(ClientWorld clientWorld, double posX, double posY, double posZ, double velocityX, double velocityY, double velocityZ) {
+public class CauldronBubbleParticle extends TextureSheetParticle {
+	public CauldronBubbleParticle(ClientLevel clientWorld, double posX, double posY, double posZ, double velocityX, double velocityY, double velocityZ) {
 		super(clientWorld, posX, posY, posZ, velocityX, velocityY, velocityZ);
-		setBoundingBoxSpacing(0.02f, 0.02f);
-		scale *= random.nextFloat() * 0.3F + 0.3F;
-		this.velocityX *= 0.1;
-		this.velocityY *= 0.1;
-		this.velocityZ *= 0.1;
-		red = (float) velocityX;
-		green = (float) velocityY;
-		blue = (float) velocityZ;
-		maxAge = (int) (4 / (Math.random() * 0.8 + 0.2));
+		setSize(0.02f, 0.02f);
+		quadSize *= random.nextFloat() * 0.3F + 0.3F;
+		this.xd *= 0.1;
+		this.yd *= 0.1;
+		this.zd *= 0.1;
+		rCol = (float) velocityX;
+		gCol = (float) velocityY;
+		bCol = (float) velocityZ;
+		lifetime = (int) (4 / (Math.random() * 0.8 + 0.2));
 	}
 
 	@Override
-	public ParticleTextureSheet getType() {
-		return ParticleTextureSheet.PARTICLE_SHEET_OPAQUE;
+	public ParticleRenderType getRenderType() {
+		return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
 	}
 
 	@Override
 	public void tick() {
-		prevPosX = x;
-		prevPosY = y;
-		prevPosZ = z;
-		if (maxAge-- <= 0) {
-			markDead();
+		xo = x;
+		yo = y;
+		zo = z;
+		if (lifetime-- <= 0) {
+			remove();
 		} else {
-			move(velocityX, velocityY, velocityZ);
-			velocityX *= 0.7;
-			velocityY *= 0.7;
-			velocityZ *= 0.7;
-			if (!(world.getBlockState(new BlockPos((int) x, (int) y, (int) z)).getBlock() instanceof WitchCauldronBlock)) {
-				markDead();
+			move(xd, yd, zd);
+			xd *= 0.7;
+			yd *= 0.7;
+			zd *= 0.7;
+			if (!(level.getBlockState(new BlockPos((int) x, (int) y, (int) z)).getBlock() instanceof WitchCauldronBlock)) {
+				remove();
 			}
 		}
 	}
 
-	public static class Factory implements ParticleFactory<DefaultParticleType> {
-		private final SpriteProvider spriteProvider;
+	public static class Factory implements ParticleProvider<SimpleParticleType> {
+		private final SpriteSet spriteProvider;
 
-		public Factory(SpriteProvider spriteProvider) {
+		public Factory(SpriteSet spriteProvider) {
 			this.spriteProvider = spriteProvider;
 		}
 
 		@Override
-		public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double posX, double posY, double posZ, double velocityX, double velocityY, double velocityZ) {
+		public Particle createParticle(SimpleParticleType defaultParticleType, ClientLevel clientWorld, double posX, double posY, double posZ, double velocityX, double velocityY, double velocityZ) {
 			CauldronBubbleParticle particle = new CauldronBubbleParticle(clientWorld, posX, posY, posZ, velocityX, velocityY, velocityZ);
-			particle.setSprite(spriteProvider);
+			particle.pickSprite(spriteProvider);
 			return particle;
 		}
 	}

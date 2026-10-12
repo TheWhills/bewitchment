@@ -5,9 +5,9 @@
 package moriyashiine.bewitchment.api.event;
 
 import net.fabricmc.fabric.api.event.Event;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
 
@@ -28,10 +28,10 @@ public final class ReviveEvents {
 	});
 
 	public interface OnRevive {
-		void onRevive(PlayerEntity player, DamageSource source, ItemStack poppet);
+		void onRevive(Player player, DamageSource source, ItemStack poppet);
 	}
 
 	public interface CancelRevive {
-		boolean shouldCancel(PlayerEntity player, DamageSource source, ItemStack poppet);
+		boolean shouldCancel(Player player, DamageSource source, ItemStack poppet);
 	}
 }

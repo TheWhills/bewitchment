@@ -8,60 +8,67 @@ import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.common.entity.living.util.BWHostileEntity;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
-import net.minecraft.entity.EntityGroup;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.core.BlockPos;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.MerchantEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.npc.AbstractVillager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
 public class VampireEntity extends BWHostileEntity {
-	public static final TrackedData<Boolean> HAS_TARGET = DataTracker.registerData(VampireEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> HAS_TARGET = SynchedEntityData.defineId(VampireEntity.class, EntityDataSerializers.BOOLEAN);
 
 	private boolean onFireFromSun = false;
 
-	public VampireEntity(EntityType<? extends HostileEntity> entityType, World world) {
+	public VampireEntity(EntityType<? extends Monster> entityType, Level world) {
 		super(entityType, world);
 	}
 
-	public static DefaultAttributeContainer.Builder createAttributes() {
-		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 20).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5).add(EntityAttributes.GENERIC_ARMOR, 8).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35);
+	public static AttributeSupplier.Builder createAttributes() {
+		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20).add(Attributes.ATTACK_DAMAGE, 5).add(Attributes.ARMOR, 8).add(Attributes.MOVEMENT_SPEED, 0.35);
 	}
 
-	public static boolean canSpawn(EntityType<VampireEntity> type, ServerWorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
-		return world.toServerWorld().isNight() && BewitchmentAPI.getMoonPhase(world.toServerWorld()) == 4 && HostileEntity.canSpawnInDark(type, world, spawnReason, pos, random);
+	public static boolean canSpawn(EntityType<VampireEntity> type, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+		return world.getLevel().isNight() && BewitchmentAPI.getMoonPhase(world.getLevel()) == 4 && Monster.checkMonsterSpawnRules(type, world, spawnReason, pos, random);
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
-		if (!getWorld().isClient) {
+		if (!level().isClientSide) {
 			BWComponents.BLOOD_COMPONENT.maybeGet(this).ifPresent(bloodComponent -> {
-				if (getHealth() < getMaxHealth() && (age + getId()) % 40 == 0 && bloodComponent.getBlood() > 0) {
+				if (getHealth() < getMaxHealth() && (tickCount + getId()) % 40 == 0 && bloodComponent.getBlood() > 0) {
 					heal(1);
 					if (random.nextFloat() < 1 / 4f) {
 						bloodComponent.drainBlood(1, false);
 					}
 				}
 			});
-			if (!hasCustomName() && getWorld().isDay() && !getWorld().isRaining() && getWorld().isSkyVisible(getBlockPos())) {
-				setOnFireFor(8);
+			if (!hasCustomName() && level().isDay() && !level().isRaining() && level().canSeeSky(blockPosition())) {
+				setSecondsOnFire(8);
 				onFireFromSun = true;
 			}
 		}
@@ -78,8 +85,8 @@ public class VampireEntity extends BWHostileEntity {
 	}
 
 	@Override
-	public EntityGroup getGroup() {
-		return EntityGroup.UNDEAD;
+	public MobType getMobType() {
+		return MobType.UNDEAD;
 	}
 
 	@Nullable
@@ -106,35 +113,35 @@ public class VampireEntity extends BWHostileEntity {
 	@Override
 	public void setTarget(@Nullable LivingEntity target) {
 		super.setTarget(target);
-		dataTracker.set(HAS_TARGET, target != null);
+		entityData.set(HAS_TARGET, target != null);
 	}
 
 	@Override
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
 		onFireFromSun = nbt.getBoolean("OnFireFromSun");
 	}
 
 	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		super.addAdditionalSaveData(nbt);
 		nbt.putBoolean("OnFireFromSun", onFireFromSun);
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		dataTracker.startTracking(HAS_TARGET, false);
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		entityData.define(HAS_TARGET, false);
 	}
 
 	@Override
-	protected void initGoals() {
-		goalSelector.add(0, new SwimGoal(this));
-		goalSelector.add(1, new MeleeAttackGoal(this, 1, true));
-		goalSelector.add(2, new WanderAroundFarGoal(this, 1));
-		goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 8));
-		goalSelector.add(3, new LookAroundGoal(this));
-		targetSelector.add(0, new RevengeGoal(this));
-		targetSelector.add(1, new ActiveTargetGoal<>(this, LivingEntity.class, 10, true, false, entity -> entity instanceof PlayerEntity || entity instanceof MerchantEntity || entity.getGroup() == EntityGroup.ILLAGER));
+	protected void registerGoals() {
+		goalSelector.addGoal(0, new FloatGoal(this));
+		goalSelector.addGoal(1, new MeleeAttackGoal(this, 1, true));
+		goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 1));
+		goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8));
+		goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+		targetSelector.addGoal(0, new HurtByTargetGoal(this));
+		targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, entity -> entity instanceof Player || entity instanceof AbstractVillager || entity.getMobType() == MobType.ILLAGER));
 	}
 }

@@ -9,20 +9,19 @@ import moriyashiine.bewitchment.common.block.entity.DragonsBloodChestBlockEntity
 import moriyashiine.bewitchment.common.block.entity.SigilBlockEntity;
 import moriyashiine.bewitchment.common.registry.BWObjects;
 import moriyashiine.bewitchment.common.registry.BWRegistries;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,56 +45,56 @@ public interface SigilHolder {
 
 	void setModeOnWhitelist(boolean modeOnWhitelist);
 
-	default void fromNbtSigil(NbtCompound nbt) {
-		NbtList entitiesList = nbt.getList("Entities", NbtElement.COMPOUND_TYPE);
+	default void fromNbtSigil(CompoundTag nbt) {
+		ListTag entitiesList = nbt.getList("Entities", Tag.TAG_COMPOUND);
 		for (int i = 0; i < entitiesList.size(); i++) {
 			getEntities().add(UUID.fromString(entitiesList.getString(i)));
 		}
 		if (nbt.contains("Owner")) {
-			setOwner(nbt.getUuid("Owner"));
+			setOwner(nbt.getUUID("Owner"));
 		}
-		setSigil(BWRegistries.SIGIL.get(new Identifier(nbt.getString("Sigil"))));
+		setSigil(BWRegistries.SIGIL.get(new ResourceLocation(nbt.getString("Sigil"))));
 		setUses(nbt.getInt("Uses"));
 		setModeOnWhitelist(nbt.getBoolean("ModeOnWhitelist"));
 	}
 
-	default void toNbtSigil(NbtCompound nbt) {
-		NbtList entitiesList = new NbtList();
+	default void toNbtSigil(CompoundTag nbt) {
+		ListTag entitiesList = new ListTag();
 		for (int i = 0; i < getEntities().size(); i++) {
-			entitiesList.add(NbtString.of(getEntities().get(i).toString()));
+			entitiesList.add(StringTag.valueOf(getEntities().get(i).toString()));
 		}
 		nbt.put("Entities", entitiesList);
 		if (getOwner() != null) {
-			nbt.putUuid("Owner", getOwner());
+			nbt.putUUID("Owner", getOwner());
 		}
 		if (getSigil() != null) {
-			nbt.putString("Sigil", BWRegistries.SIGIL.getId(getSigil()).toString());
+			nbt.putString("Sigil", BWRegistries.SIGIL.getKey(getSigil()).toString());
 		}
 		nbt.putInt("Uses", getUses());
 		nbt.putBoolean("ModeOnWhitelist", getModeOnWhitelist());
 	}
 
-	default void use(World world, BlockPos pos, LivingEntity user, Hand hand) {
+	default void use(Level world, BlockPos pos, LivingEntity user, InteractionHand hand) {
 		if (getSigil() != null && getSigil().active && test(user)) {
-			ActionResult result = getSigil().use(world, pos, user, hand);
-			if (result == ActionResult.SUCCESS) {
+			InteractionResult result = getSigil().use(world, pos, user, hand);
+			if (result == InteractionResult.SUCCESS) {
 				BlockEntity blockEntity = world.getBlockEntity(pos);
 				setUses(getUses() - 1);
 				syncSigilHolder(blockEntity);
-				blockEntity.markDirty();
+				blockEntity.setChanged();
 			}
 		}
 	}
 
-	default void tick(World world, BlockPos pos, BlockEntity blockEntity) {
-		if (world != null && !world.isClient) {
+	default void tick(Level world, BlockPos pos, BlockEntity blockEntity) {
+		if (world != null && !world.isClientSide) {
 			if (getSigil() != null) {
 				if (!getSigil().active) {
 					int used = getSigil().tick(world, pos);
 					if (used > 0) {
 						setUses(getUses() - used);
 						syncSigilHolder(blockEntity);
-						blockEntity.markDirty();
+						blockEntity.setChanged();
 					}
 				}
 				if (getUses() <= 0) {
@@ -105,9 +104,9 @@ public interface SigilHolder {
 					setUses(0);
 					setModeOnWhitelist(false);
 					syncSigilHolder(blockEntity);
-					blockEntity.markDirty();
-					if (blockEntity.getCachedState().getBlock() == BWObjects.SIGIL) {
-						world.setBlockState(pos, Blocks.AIR.getDefaultState());
+					blockEntity.setChanged();
+					if (blockEntity.getBlockState().getBlock() == BWObjects.SIGIL) {
+						world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 					}
 				}
 			}
@@ -117,9 +116,9 @@ public interface SigilHolder {
 	default boolean test(Entity entity) {
 		if (!getEntities().isEmpty()) {
 			if (getModeOnWhitelist()) {
-				return getEntities().contains(entity.getUuid());
+				return getEntities().contains(entity.getUUID());
 			}
-			return !getEntities().contains(entity.getUuid());
+			return !getEntities().contains(entity.getUUID());
 		}
 		return true;
 	}
@@ -132,7 +131,7 @@ public interface SigilHolder {
 		}
 	}
 
-	static void onUse(World world, BlockPos pos, LivingEntity user, Hand hand) {
+	static void onUse(Level world, BlockPos pos, LivingEntity user, InteractionHand hand) {
 		if (world.getBlockEntity(pos) instanceof SigilHolder sigilHolder && sigilHolder.test(user)) {
 			sigilHolder.use(world, pos, user, hand);
 		}

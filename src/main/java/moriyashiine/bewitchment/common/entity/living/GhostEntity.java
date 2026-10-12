@@ -12,68 +12,79 @@ import moriyashiine.bewitchment.common.registry.BWSoundEvents;
 import moriyashiine.bewitchment.common.registry.BWStatusEffects;
 import moriyashiine.bewitchment.common.world.BWWorldState;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.command.argument.EntityAnchorArgumentType;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
+import net.minecraft.core.BlockPos;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.Pair;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.Tuple;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 
 public class GhostEntity extends BWHostileEntity {
-	public static final TrackedData<Boolean> HAS_TARGET = DataTracker.registerData(GhostEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> HAS_TARGET = SynchedEntityData.defineId(GhostEntity.class, EntityDataSerializers.BOOLEAN);
 
-	public GhostEntity(EntityType<? extends HostileEntity> entityType, World world) {
+	public GhostEntity(EntityType<? extends Monster> entityType, Level world) {
 		super(entityType, world);
 		moveControl = new GhostMoveControl(this);
 	}
 
-	public static DefaultAttributeContainer.Builder createAttributes() {
-		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 20).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.25).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 8);
+	public static AttributeSupplier.Builder createAttributes() {
+		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20).add(Attributes.FLYING_SPEED, 0.25).add(Attributes.KNOCKBACK_RESISTANCE, 1).add(Attributes.FOLLOW_RANGE, 8);
 	}
 
-	public static boolean canSpawn(EntityType<GhostEntity> type, ServerWorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
-		return findPos(world, pos) == null && HostileEntity.canSpawnInDark(type, world, spawnReason, pos, random);
+	public static boolean canSpawn(EntityType<GhostEntity> type, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+		return findPos(world, pos) == null && Monster.checkMonsterSpawnRules(type, world, spawnReason, pos, random);
 	}
 
 	@Override
 	public void tick() {
-		noClip = true;
+		noPhysics = true;
 		super.tick();
-		noClip = false;
+		noPhysics = false;
 		setNoGravity(true);
-		if (!getWorld().isClient) {
-			if (age % 20 == 0 && getTarget() != null) {
-				int type = dataTracker.get(VARIANT);
+		if (!level().isClientSide) {
+			if (tickCount % 20 == 0 && getTarget() != null) {
+				int type = entityData.get(VARIANT);
 				if (type == 0) {
 					type = random.nextInt(getVariants() - 1) + 1;
 				}
-				getTarget().addStatusEffect(getEffect(type, 100));
+				getTarget().addEffect(getEffect(type, 100));
 			}
-			if (!hasCustomName() && getWorld().isDay() && !getWorld().isRaining() && getWorld().isSkyVisibleAllowingSea(getBlockPos())) {
+			if (!hasCustomName() && level().isDay() && !level().isRaining() && level().canSeeSkyFromBelowWater(blockPosition())) {
 				PlayerLookup.tracking(this).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, this));
 				remove(RemovalReason.DISCARDED);
 			}
@@ -91,8 +102,8 @@ public class GhostEntity extends BWHostileEntity {
 	}
 
 	@Override
-	public EntityGroup getGroup() {
-		return EntityGroup.UNDEAD;
+	public MobType getMobType() {
+		return MobType.UNDEAD;
 	}
 
 	@Nullable
@@ -112,17 +123,17 @@ public class GhostEntity extends BWHostileEntity {
 	}
 
 	@Override
-	public float getBrightnessAtEyes() {
+	public float getLightLevelDependentMagicValue() {
 		return 1;
 	}
 
 	@Override
-	public boolean canHaveStatusEffect(StatusEffectInstance effect) {
+	public boolean canBeAffected(MobEffectInstance effect) {
 		return false;
 	}
 
 	@Override
-	public boolean isTouchingWater() {
+	public boolean isInWater() {
 		return false;
 	}
 
@@ -132,64 +143,64 @@ public class GhostEntity extends BWHostileEntity {
 	}
 
 	@Override
-	protected boolean canStartRiding(Entity entity) {
+	protected boolean canRide(Entity entity) {
 		return false;
 	}
 
 	@Override
 	public void setTarget(@Nullable LivingEntity target) {
-		if (getWorld() instanceof ServerWorldAccess serverWorldAccess && findPos(serverWorldAccess, getBlockPos()) != null) {
+		if (level() instanceof ServerLevelAccessor serverWorldAccess && findPos(serverWorldAccess, blockPosition()) != null) {
 			target = null;
 		}
 		super.setTarget(target);
-		if (!getWorld().isClient) {
-			dataTracker.set(HAS_TARGET, target != null);
+		if (!level().isClientSide) {
+			entityData.set(HAS_TARGET, target != null);
 		}
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		dataTracker.startTracking(HAS_TARGET, false);
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		entityData.define(HAS_TARGET, false);
 	}
 
 	@Override
-	protected void initGoals() {
-		goalSelector.add(0, new SwimGoal(this));
-		goalSelector.add(1, new FlyRandomlyGoal());
-		goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 8));
-		goalSelector.add(3, new LookAroundGoal(this));
-		targetSelector.add(1, new RevengeGoal(this));
-		targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+	protected void registerGoals() {
+		goalSelector.addGoal(0, new FloatGoal(this));
+		goalSelector.addGoal(1, new FlyRandomlyGoal());
+		goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 8));
+		goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+		targetSelector.addGoal(1, new HurtByTargetGoal(this));
+		targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
 	}
 
-	public static StatusEffectInstance getEffect(int type, int duration) {
-		return new StatusEffectInstance(type == 1 ? StatusEffects.HUNGER : type == 2 ? StatusEffects.SLOWNESS : type == 3 ? BWStatusEffects.CORROSION : BWStatusEffects.SINKING, duration);
+	public static MobEffectInstance getEffect(int type, int duration) {
+		return new MobEffectInstance(type == 1 ? MobEffects.HUNGER : type == 2 ? MobEffects.MOVEMENT_SLOWDOWN : type == 3 ? BWStatusEffects.CORROSION : BWStatusEffects.SINKING, duration);
 	}
 
 	private class GhostMoveControl extends MoveControl {
-		public GhostMoveControl(MobEntity entity) {
+		public GhostMoveControl(Mob entity) {
 			super(entity);
 		}
 
 		@Override
 		public void tick() {
-			if (state == MoveControl.State.MOVE_TO && (getTarget() == null || (!canSee(getTarget())))) {
-				Vec3d targetPosition = new Vec3d(targetX - getX(), targetY - getY(), targetZ - getZ());
+			if (operation == MoveControl.Operation.MOVE_TO && (getTarget() == null || (!hasLineOfSight(getTarget())))) {
+				Vec3 targetPosition = new Vec3(wantedX - getX(), wantedY - getY(), wantedZ - getZ());
 				double distance = targetPosition.length();
-				if (distance < getBoundingBox().getAverageSideLength()) {
-					state = MoveControl.State.WAIT;
-					setVelocity(getVelocity().multiply(0.5));
+				if (distance < getBoundingBox().getSize()) {
+					operation = MoveControl.Operation.WAIT;
+					setDeltaMovement(getDeltaMovement().scale(0.5));
 				} else {
-					setVelocity(getVelocity().add(targetPosition.multiply(speed * 0.05 / distance)));
+					setDeltaMovement(getDeltaMovement().add(targetPosition.scale(speedModifier * 0.05 / distance)));
 					if (getTarget() == null) {
-						Vec3d velocity = getVelocity();
+						Vec3 velocity = getDeltaMovement();
 						//noinspection SuspiciousNameCombination
-						setYaw(-((float) MathHelper.atan2(velocity.x, velocity.z)) * 57);
+						setYRot(-((float) Mth.atan2(velocity.x, velocity.z)) * 57);
 					} else {
-						setYaw(-((float) MathHelper.atan2(getTarget().getX() - getX(), getTarget().getZ() - getZ())) * 57);
+						setYRot(-((float) Mth.atan2(getTarget().getX() - getX(), getTarget().getZ() - getZ())) * 57);
 					}
-					bodyYaw = getYaw();
+					yBodyRot = getYRot();
 				}
 			}
 		}
@@ -197,19 +208,19 @@ public class GhostEntity extends BWHostileEntity {
 
 	private class FlyRandomlyGoal extends Goal {
 		public FlyRandomlyGoal() {
-			this.setControls(EnumSet.of(Goal.Control.MOVE));
+			this.setFlags(EnumSet.of(Goal.Flag.MOVE));
 		}
 
 		@Override
-		public boolean canStart() {
-			if (getTarget() == null || !canSee(getTarget())) {
+		public boolean canUse() {
+			if (getTarget() == null || !hasLineOfSight(getTarget())) {
 				MoveControl moveControl = getMoveControl();
-				if (!moveControl.isMoving()) {
+				if (!moveControl.hasWanted()) {
 					return true;
 				} else {
-					double distanceX = moveControl.getTargetX() - getX();
-					double distanceY = moveControl.getTargetY() - getY();
-					double distanceZ = moveControl.getTargetZ() - getZ();
+					double distanceX = moveControl.getWantedX() - getX();
+					double distanceY = moveControl.getWantedY() - getY();
+					double distanceZ = moveControl.getWantedZ() - getZ();
 					double fin = distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ;
 					return fin < 1 || fin > 3600;
 				}
@@ -218,65 +229,65 @@ public class GhostEntity extends BWHostileEntity {
 		}
 
 		@Override
-		public boolean shouldContinue() {
+		public boolean canContinueToUse() {
 			return false;
 		}
 
 		@Override
 		public void start() {
-			BlockPos target = findTarget(new BlockPos.Mutable(getX() + MathHelper.nextDouble(random, -8, 8), getY() + MathHelper.nextDouble(random, -4, 4), getZ() + MathHelper.nextDouble(random, -8, 8)), 0);
+			BlockPos target = findTarget(new BlockPos.MutableBlockPos(getX() + Mth.nextDouble(random, -8, 8), getY() + Mth.nextDouble(random, -4, 4), getZ() + Mth.nextDouble(random, -8, 8)), 0);
 			if (target != null) {
-				getMoveControl().moveTo(target.getX(), target.getY(), target.getZ(), 0.2);
-				lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, new Vec3d(target.getX(), target.getY(), target.getZ()));
+				getMoveControl().setWantedPosition(target.getX(), target.getY(), target.getZ(), 0.2);
+				lookAt(EntityAnchorArgument.Anchor.EYES, new Vec3(target.getX(), target.getY(), target.getZ()));
 			}
 		}
 
-		private BlockPos findTarget(BlockPos.Mutable target, int tries) {
+		private BlockPos findTarget(BlockPos.MutableBlockPos target, int tries) {
 			if (tries <= 8) {
-				while (isInsideBuildLimit(getWorld(), target) && getWorld().getBlockState(target).isSolid()) {
+				while (isInsideBuildLimit(level(), target) && level().getBlockState(target).isSolid()) {
 					target.set(target.getX(), target.getY() + 1, target.getZ());
 				}
-				while (isInsideBuildLimit(getWorld(), target) && !getWorld().getBlockState(target).isSolid()) {
+				while (isInsideBuildLimit(level(), target) && !level().getBlockState(target).isSolid()) {
 					target.set(target.getX(), target.getY() - 1, target.getZ());
 				}
 				target.set(target.getX(), target.getY() + random.nextInt(8), target.getZ());
-				Pair<BlockPos, Integer> validSpot = findPos((ServerWorldAccess) getWorld(), target);
+				Tuple<BlockPos, Integer> validSpot = findPos((ServerLevelAccessor) level(), target);
 				if (validSpot != null) {
-					int radius = validSpot.getRight();
-					return findTarget(target.set(validSpot.getLeft().getX() + MathHelper.nextDouble(random, -radius, radius), validSpot.getLeft().getY() + MathHelper.nextDouble(random, -radius, radius), validSpot.getLeft().getZ() + MathHelper.nextDouble(random, -radius, radius)), ++tries);
+					int radius = validSpot.getB();
+					return findTarget(target.set(validSpot.getA().getX() + Mth.nextDouble(random, -radius, radius), validSpot.getA().getY() + Mth.nextDouble(random, -radius, radius), validSpot.getA().getZ() + Mth.nextDouble(random, -radius, radius)), ++tries);
 				}
-				return target.toImmutable();
+				return target.immutable();
 			}
 			return null;
 		}
 
-		private static boolean isInsideBuildLimit(World world, BlockPos pos) {
-			return pos.getY() >= world.getBottomY() && pos.getY() <= world.getTopY();
+		private static boolean isInsideBuildLimit(Level world, BlockPos pos) {
+			return pos.getY() >= world.getMinBuildHeight() && pos.getY() <= world.getMaxBuildHeight();
 		}
 	}
 
-	private static Pair<BlockPos, Integer> findPos(ServerWorldAccess world, BlockPos pos) {
-		BWWorldState worldState = BWWorldState.get(world.toServerWorld());
+	private static Tuple<BlockPos, Integer> findPos(ServerLevelAccessor world, BlockPos pos) {
+		BWWorldState worldState = BWWorldState.get(world.getLevel());
 		for (Long longPos : worldState.potentialCandelabras) {
-			BlockPos candelabraPos = BlockPos.fromLong(longPos);
-			double distance = Math.sqrt(candelabraPos.getSquaredDistance(pos));
+			BlockPos candelabraPos = BlockPos.of(longPos);
+			double distance = Math.sqrt(candelabraPos.distSqr(pos));
 			if (distance <= Byte.MAX_VALUE) {
 				int radius = -1;
 				BlockEntity blockEntity = world.getBlockEntity(candelabraPos);
 				BlockState state = world.getBlockState(candelabraPos);
 				if (blockEntity instanceof WitchAltarBlockEntity witchAltar) {
-					for (int i = 0; i < witchAltar.size(); i++) {
-						Block block = Block.getBlockFromItem(witchAltar.getStack(i).getItem());
+					for (int i = 0; i < witchAltar.getContainerSize(); i++) {
+						Block block = Block.byItem(witchAltar.getItem(i).getItem());
 						if (block instanceof CandelabraBlock candelabraBlock) {
 							radius = candelabraBlock.repellentRadius;
 							break;
 						}
 					}
-				} else if (state.getBlock() instanceof CandelabraBlock candelabra && state.get(Properties.LIT)) {
+				} else if (state.getBlock() instanceof CandelabraBlock candelabra && state.getValue(BlockStateProperties.LIT)) {
 					radius = candelabra.repellentRadius;
 				}
 				if (distance <= radius) {
-					return new Pair<>(candelabraPos, radius);
+					return new Tuple<>(candelabraPos, radius);
 				}
 			}
 		}

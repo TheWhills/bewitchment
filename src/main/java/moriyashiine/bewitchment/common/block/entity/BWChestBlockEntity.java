@@ -5,11 +5,11 @@
 package moriyashiine.bewitchment.common.block.entity;
 
 import moriyashiine.bewitchment.common.registry.BWBlockEntityTypes;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.ChestBlockEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class BWChestBlockEntity extends ChestBlockEntity {
 	public final Type type;
@@ -26,10 +26,10 @@ public class BWChestBlockEntity extends ChestBlockEntity {
 	}
 
 	@Override
-	protected void onViewerCountUpdate(World world, BlockPos pos, BlockState state, int oldViewerCount, int newViewerCount) {
-		super.onViewerCountUpdate(world, pos, state, oldViewerCount, newViewerCount);
+	protected void signalOpenCount(Level world, BlockPos pos, BlockState state, int oldViewerCount, int newViewerCount) {
+		super.signalOpenCount(world, pos, state, oldViewerCount, newViewerCount);
 		if (trapped && world != null) {
-			world.updateNeighborsAlways(pos.down(), getCachedState().getBlock());
+			world.updateNeighborsAt(pos.below(), getBlockState().getBlock());
 		}
 	}
 

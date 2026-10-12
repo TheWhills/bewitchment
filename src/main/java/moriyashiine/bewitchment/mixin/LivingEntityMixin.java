@@ -12,24 +12,24 @@ import moriyashiine.bewitchment.common.entity.living.LeonardEntity;
 import moriyashiine.bewitchment.common.entity.living.LilithEntity;
 import moriyashiine.bewitchment.common.misc.BWUtil;
 import moriyashiine.bewitchment.common.registry.*;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.FireballEntity;
-import net.minecraft.entity.projectile.WitherSkullEntity;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.tag.DamageTypeTags;
-import net.minecraft.world.World;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.LargeFireball;
+import net.minecraft.world.entity.projectile.WitherSkull;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -42,50 +42,50 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
 	@Shadow
-	public abstract boolean removeStatusEffect(StatusEffect type);
+	public abstract boolean removeStatusEffect(MobEffect type);
 
 	@Shadow
-	public abstract Iterable<ItemStack> getArmorItems();
+	public abstract Iterable<ItemStack> getArmorSlots();
 
 	@Shadow
-	public abstract boolean damage(DamageSource source, float amount);
+	public abstract boolean hurt(DamageSource source, float amount);
 
-	public LivingEntityMixin(EntityType<?> type, World world) {
+	public LivingEntityMixin(EntityType<?> type, Level world) {
 		super(type, world);
 	}
 
 	@Inject(method = "tick", at = @At("TAIL"))
 	private void tick(CallbackInfo callbackInfo) {
-		if (!getWorld().isClient) {
+		if (!level().isClientSide) {
 			LivingEntity living = (LivingEntity) (Object) this;
 			int damage = 0;
-			if (living.getMainHandStack().getItem() == BWObjects.GARLIC && BewitchmentAPI.isVampire(this, true)) {
+			if (living.getMainHandItem().getItem() == BWObjects.GARLIC && BewitchmentAPI.isVampire(this, true)) {
 				damage++;
 			}
-			if (living.getOffHandStack().getItem() == BWObjects.GARLIC && BewitchmentAPI.isVampire(this, true)) {
+			if (living.getOffhandItem().getItem() == BWObjects.GARLIC && BewitchmentAPI.isVampire(this, true)) {
 				damage++;
 			}
-			if (living.getMainHandStack().getItem() == BWObjects.ACONITE && BewitchmentAPI.isWerewolf(this, true)) {
+			if (living.getMainHandItem().getItem() == BWObjects.ACONITE && BewitchmentAPI.isWerewolf(this, true)) {
 				damage++;
 			}
-			if (living.getOffHandStack().getItem() == BWObjects.ACONITE && BewitchmentAPI.isWerewolf(this, true)) {
+			if (living.getOffhandItem().getItem() == BWObjects.ACONITE && BewitchmentAPI.isWerewolf(this, true)) {
 				damage++;
 			}
 			if (damage > 0) {
-				damage(BWDamageSources.create(getWorld(), BWDamageSources.MAGIC_COPY), damage);
+				hurt(BWDamageSources.create(level(), BWDamageSources.MAGIC_COPY), damage);
 			}
 		}
 	}
 
 	@ModifyVariable(method = "addStatusEffect(Lnet/minecraft/entity/effect/StatusEffectInstance;Lnet/minecraft/entity/Entity;)Z", at = @At("HEAD"), argsOnly = true)
-	private StatusEffectInstance modifyStatusEffect(StatusEffectInstance effect) {
-		if (!getWorld().isClient && !effect.isAmbient() && !effect.getEffectType().isInstant() && effect.getEffectType().getCategory() == StatusEffectCategory.HARMFUL) {
+	private MobEffectInstance modifyStatusEffect(MobEffectInstance effect) {
+		if (!level().isClientSide && !effect.isAmbient() && !effect.getEffect().isInstantenous() && effect.getEffect().getCategory() == MobEffectCategory.HARMFUL) {
 			float durationMultiplier = 1;
-			for (ItemStack stack : getArmorItems()) {
-				durationMultiplier -= EnchantmentHelper.getLevel(BWEnchantments.MAGIC_PROTECTION, stack) / 32f;
+			for (ItemStack stack : getArmorSlots()) {
+				durationMultiplier -= EnchantmentHelper.getItemEnchantmentLevel(BWEnchantments.MAGIC_PROTECTION, stack) / 32f;
 			}
 			if (durationMultiplier < 1) {
-				return new StatusEffectInstance(effect.getEffectType(), (int) (effect.getDuration() * durationMultiplier), effect.getAmplifier(), false, effect.shouldShowParticles(), effect.shouldShowIcon());
+				return new MobEffectInstance(effect.getEffect(), (int) (effect.getDuration() * durationMultiplier), effect.getAmplifier(), false, effect.isVisible(), effect.showIcon());
 			}
 		}
 		return effect;
@@ -93,7 +93,7 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@ModifyVariable(method = "applyDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getHealth()F"), ordinal = 0, argsOnly = true)
 	private float modifyDamage0(float amount, DamageSource source) {
-		if (!getWorld().isClient) {
+		if (!level().isClientSide) {
 			amount = BWDamageSources.handleDamage((LivingEntity) (Object) this, source, amount);
 		}
 		return amount;
@@ -101,21 +101,21 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@ModifyVariable(method = "applyArmorToDamage", at = @At("HEAD"), argsOnly = true)
 	private float modifyDamage1(float amount, DamageSource source) {
-		if (!getWorld().isClient) {
-			Entity attacker = source.getAttacker();
-			Entity directSource = source.getSource();
-			if (directSource instanceof FireballEntity fireball) {
-				if (attacker instanceof PlayerEntity && BWComponents.CADUCEUS_FIREBALL_COMPONENT.get(fireball).isFromCaduceus()) {
+		if (!level().isClientSide) {
+			Entity attacker = source.getEntity();
+			Entity directSource = source.getDirectEntity();
+			if (directSource instanceof LargeFireball fireball) {
+				if (attacker instanceof Player && BWComponents.CADUCEUS_FIREBALL_COMPONENT.get(fireball).isFromCaduceus()) {
 					amount *= 1.5f;
 				}
 				if (attacker instanceof BaphometEntity) {
 					amount *= 3;
 				}
 			}
-			if (directSource instanceof WitherSkullEntity && attacker instanceof LilithEntity) {
+			if (directSource instanceof WitherSkull && attacker instanceof LilithEntity) {
 				amount *= 3;
 			}
-			if (source.isIn(DamageTypeTags.WITCH_RESISTANT_TO) && (Object) this instanceof LivingEntity living) {
+			if (source.is(DamageTypeTags.WITCH_RESISTANT_TO) && (Object) this instanceof LivingEntity living) {
 				int armorPieces = BWUtil.getArmorPieces(living, stack -> {
 					if (stack.getItem() instanceof ArmorItem armorItem) {
 						ArmorMaterial material = armorItem.getMaterial();
@@ -127,7 +127,7 @@ public abstract class LivingEntityMixin extends Entity {
 					amount *= (1 - (0.2f * armorPieces));
 				}
 			}
-			if ((getVehicle() != null && getVehicle().getType() == BWEntityTypes.CYPRESS_BROOM) || (source.getAttacker() != null && source.getAttacker().getVehicle() != null && source.getAttacker().getVehicle().getType() == BWEntityTypes.CYPRESS_BROOM)) {
+			if ((getVehicle() != null && getVehicle().getType() == BWEntityTypes.CYPRESS_BROOM) || (source.getEntity() != null && source.getEntity().getVehicle() != null && source.getEntity().getVehicle().getType() == BWEntityTypes.CYPRESS_BROOM)) {
 				amount *= 0.2f;
 			}
 		}
@@ -136,19 +136,19 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "damage", at = @At("HEAD"))
 	private void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (!getWorld().isClient) {
-			Entity attacker = source.getAttacker();
+		if (!level().isClientSide) {
+			Entity attacker = source.getEntity();
 			if (attacker instanceof LeonardEntity) {
 				removeStatusEffect(BWStatusEffects.MAGIC_SPONGE);
 			}
 			if (attacker instanceof BaphometEntity) {
-				removeStatusEffect(StatusEffects.FIRE_RESISTANCE);
+				removeStatusEffect(MobEffects.FIRE_RESISTANCE);
 			}
 			if (attacker instanceof LilithEntity) {
-				removeStatusEffect(StatusEffects.STRENGTH);
+				removeStatusEffect(MobEffects.DAMAGE_BOOST);
 			}
 			if (attacker instanceof HerneEntity) {
-				removeStatusEffect(StatusEffects.RESISTANCE);
+				removeStatusEffect(MobEffects.DAMAGE_RESISTANCE);
 			}
 			if (attacker instanceof Pledgeable pledgeable) {
 				pledgeable.setTimeSinceLastAttack(0);
@@ -158,14 +158,14 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "dropLoot", at = @At("HEAD"), cancellable = true)
 	private void dropLoot(DamageSource source, boolean causedByPlayer, CallbackInfo callbackInfo) {
-		if ((Object) this instanceof MobEntity mob && BWComponents.MINION_COMPONENT.get(mob).getMaster() != null) {
+		if ((Object) this instanceof Mob mob && BWComponents.MINION_COMPONENT.get(mob).getMaster() != null) {
 			callbackInfo.cancel();
 		}
 	}
 
 	@Inject(method = "isAffectedBySplashPotions", at = @At("RETURN"), cancellable = true)
 	private void isAffectedBySplashPotions(CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (callbackInfo.getReturnValueZ() && (Object) this instanceof MobEntity mob && BWComponents.MINION_COMPONENT.get(mob).getMaster() != null) {
+		if (callbackInfo.getReturnValueZ() && (Object) this instanceof Mob mob && BWComponents.MINION_COMPONENT.get(mob).getMaster() != null) {
 			callbackInfo.setReturnValue(false);
 		}
 	}

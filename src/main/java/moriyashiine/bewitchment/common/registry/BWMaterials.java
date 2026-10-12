@@ -5,24 +5,29 @@
 package moriyashiine.bewitchment.common.registry;
 
 import net.minecraft.item.*;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.ArmorMaterials;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.crafting.Ingredient;
 
 public class BWMaterials {
 	public static final ArmorMaterial HEDGEWITCH_ARMOR = new ArmorMaterial() {
 		@Override
-		public int getDurability(ArmorItem.Type type) {
-			return ArmorMaterials.CHAIN.getDurability(type);
+		public int getDurabilityForType(ArmorItem.Type type) {
+			return ArmorMaterials.CHAIN.getDurabilityForType(type);
 		}
 
 		@Override
-		public int getProtection(ArmorItem.Type type) {
-			return ArmorMaterials.CHAIN.getProtection(type);
+		public int getDefenseForType(ArmorItem.Type type) {
+			return ArmorMaterials.CHAIN.getDefenseForType(type);
 		}
 
 		@Override
-		public int getEnchantability() {
-			return ArmorMaterials.GOLD.getEnchantability();
+		public int getEnchantmentValue() {
+			return ArmorMaterials.GOLD.getEnchantmentValue();
 		}
 
 		@Override
@@ -32,7 +37,7 @@ public class BWMaterials {
 
 		@Override
 		public Ingredient getRepairIngredient() {
-			return Ingredient.ofItems(BWObjects.HEDGEWITCH_WOOL);
+			return Ingredient.of(BWObjects.HEDGEWITCH_WOOL);
 		}
 
 		@Override
@@ -53,18 +58,18 @@ public class BWMaterials {
 
 	public static final ArmorMaterial ALCHEMIST_ARMOR = new ArmorMaterial() {
 		@Override
-		public int getDurability(ArmorItem.Type type) {
-			return HEDGEWITCH_ARMOR.getDurability(type);
+		public int getDurabilityForType(ArmorItem.Type type) {
+			return HEDGEWITCH_ARMOR.getDurabilityForType(type);
 		}
 
 		@Override
-		public int getProtection(ArmorItem.Type type) {
-			return HEDGEWITCH_ARMOR.getProtection(type);
+		public int getDefenseForType(ArmorItem.Type type) {
+			return HEDGEWITCH_ARMOR.getDefenseForType(type);
 		}
 
 		@Override
-		public int getEnchantability() {
-			return HEDGEWITCH_ARMOR.getEnchantability();
+		public int getEnchantmentValue() {
+			return HEDGEWITCH_ARMOR.getEnchantmentValue();
 		}
 
 		@Override
@@ -74,7 +79,7 @@ public class BWMaterials {
 
 		@Override
 		public Ingredient getRepairIngredient() {
-			return Ingredient.ofItems(BWObjects.ALCHEMIST_WOOL);
+			return Ingredient.of(BWObjects.ALCHEMIST_WOOL);
 		}
 
 		@Override
@@ -95,18 +100,18 @@ public class BWMaterials {
 
 	public static final ArmorMaterial BESMIRCHED_ARMOR = new ArmorMaterial() {
 		@Override
-		public int getDurability(ArmorItem.Type type) {
-			return HEDGEWITCH_ARMOR.getDurability(type);
+		public int getDurabilityForType(ArmorItem.Type type) {
+			return HEDGEWITCH_ARMOR.getDurabilityForType(type);
 		}
 
 		@Override
-		public int getProtection(ArmorItem.Type type) {
-			return HEDGEWITCH_ARMOR.getProtection(type);
+		public int getDefenseForType(ArmorItem.Type type) {
+			return HEDGEWITCH_ARMOR.getDefenseForType(type);
 		}
 
 		@Override
-		public int getEnchantability() {
-			return HEDGEWITCH_ARMOR.getEnchantability();
+		public int getEnchantmentValue() {
+			return HEDGEWITCH_ARMOR.getEnchantmentValue();
 		}
 
 		@Override
@@ -116,7 +121,7 @@ public class BWMaterials {
 
 		@Override
 		public Ingredient getRepairIngredient() {
-			return Ingredient.ofItems(BWObjects.BESMIRCHED_WOOL);
+			return Ingredient.of(BWObjects.BESMIRCHED_WOOL);
 		}
 
 		@Override
@@ -137,18 +142,18 @@ public class BWMaterials {
 
 	public static final ArmorMaterial HARBINGER_ARMOR = new ArmorMaterial() {
 		@Override
-		public int getDurability(ArmorItem.Type type) {
-			return HEDGEWITCH_ARMOR.getDurability(type);
+		public int getDurabilityForType(ArmorItem.Type type) {
+			return HEDGEWITCH_ARMOR.getDurabilityForType(type);
 		}
 
 		@Override
-		public int getProtection(ArmorItem.Type type) {
-			return HEDGEWITCH_ARMOR.getProtection(type);
+		public int getDefenseForType(ArmorItem.Type type) {
+			return HEDGEWITCH_ARMOR.getDefenseForType(type);
 		}
 
 		@Override
-		public int getEnchantability() {
-			return HEDGEWITCH_ARMOR.getEnchantability();
+		public int getEnchantmentValue() {
+			return HEDGEWITCH_ARMOR.getEnchantmentValue();
 		}
 
 		@Override
@@ -177,35 +182,35 @@ public class BWMaterials {
 		}
 	};
 
-	public static final ToolMaterial SILVER_TOOL = new ToolMaterial() {
+	public static final Tier SILVER_TOOL = new Tier() {
 		@Override
-		public int getDurability() {
-			return ToolMaterials.IRON.getDurability();
+		public int getUses() {
+			return Tiers.IRON.getUses();
 		}
 
 		@Override
-		public float getMiningSpeedMultiplier() {
-			return ToolMaterials.GOLD.getMiningSpeedMultiplier();
+		public float getSpeed() {
+			return Tiers.GOLD.getSpeed();
 		}
 
 		@Override
-		public float getAttackDamage() {
-			return ToolMaterials.IRON.getAttackDamage();
+		public float getAttackDamageBonus() {
+			return Tiers.IRON.getAttackDamageBonus();
 		}
 
 		@Override
-		public int getMiningLevel() {
-			return ToolMaterials.IRON.getMiningLevel();
+		public int getLevel() {
+			return Tiers.IRON.getLevel();
 		}
 
 		@Override
-		public int getEnchantability() {
-			return ToolMaterials.GOLD.getEnchantability();
+		public int getEnchantmentValue() {
+			return Tiers.GOLD.getEnchantmentValue();
 		}
 
 		@Override
 		public Ingredient getRepairIngredient() {
-			return Ingredient.ofItems(BWObjects.SILVER_INGOT);
+			return Ingredient.of(BWObjects.SILVER_INGOT);
 		}
 	};
 }

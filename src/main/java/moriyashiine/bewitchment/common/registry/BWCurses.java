@@ -7,14 +7,13 @@ package moriyashiine.bewitchment.common.registry;
 import moriyashiine.bewitchment.api.registry.Curse;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.curse.*;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BWCurses {
-	private static final Map<Curse, Identifier> CURSES = new LinkedHashMap<>();
+	private static final Map<Curse, ResourceLocation> CURSES = new LinkedHashMap<>();
 
 	public static final Curse SOLAR_HATRED = create("solar_hatred", new SolarHatredCurse(Curse.Type.LESSER));
 	public static final Curse MISFORTUNE = create("misfortune", new MisfortuneCurse(Curse.Type.LESSER));

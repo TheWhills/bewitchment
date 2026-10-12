@@ -6,22 +6,22 @@ package moriyashiine.bewitchment.common.block.entity;
 
 import moriyashiine.bewitchment.common.block.entity.interfaces.TaglockHolder;
 import moriyashiine.bewitchment.common.registry.BWBlockEntityTypes;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
 public class TaglockHolderBlockEntity extends BlockEntity implements TaglockHolder {
-	private final DefaultedList<ItemStack> taglockInventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
+	private final NonNullList<ItemStack> taglockInventory = NonNullList.withSize(3, ItemStack.EMPTY);
 	private UUID owner = null;
 
 	public TaglockHolderBlockEntity(BlockPos pos, BlockState state) {
@@ -29,7 +29,7 @@ public class TaglockHolderBlockEntity extends BlockEntity implements TaglockHold
 	}
 
 	@Override
-	public DefaultedList<ItemStack> getTaglockInventory() {
+	public NonNullList<ItemStack> getTaglockInventory() {
 		return taglockInventory;
 	}
 
@@ -44,33 +44,33 @@ public class TaglockHolderBlockEntity extends BlockEntity implements TaglockHold
 	}
 
 	@Override
-	public NbtCompound toInitialChunkDataNbt() {
-		NbtCompound nbt = super.toInitialChunkDataNbt();
-		writeNbt(nbt);
+	public CompoundTag getUpdateTag() {
+		CompoundTag nbt = super.getUpdateTag();
+		saveAdditional(nbt);
 		return nbt;
 	}
 
 	@Nullable
 	@Override
-	public Packet<ClientPlayPacketListener> toUpdatePacket() {
-		return BlockEntityUpdateS2CPacket.create(this);
+	public Packet<ClientGamePacketListener> getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt) {
-		super.readNbt(nbt);
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
 		fromNbtTaglock(nbt);
 	}
 
 	@Override
-	protected void writeNbt(NbtCompound nbt) {
-		super.writeNbt(nbt);
+	protected void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
 		toNbtTaglock(nbt);
 	}
 
 	public void sync() {
-		if (world != null && !world.isClient) {
-			world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
+		if (level != null && !level.isClientSide) {
+			level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
 		}
 	}
 }

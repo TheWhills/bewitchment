@@ -6,26 +6,26 @@ package moriyashiine.bewitchment.common.recipe;
 
 import com.google.gson.JsonObject;
 import moriyashiine.bewitchment.common.registry.BWRecipeTypes;
-import net.minecraft.block.Block;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.ShapedRecipe;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
-import net.minecraft.world.World;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 
-public class AthameStrippingRecipe implements Recipe<Inventory> {
-	private final Identifier identifier;
+public class AthameStrippingRecipe implements Recipe<Container> {
+	private final ResourceLocation identifier;
 	public final Block log, strippedLog;
 	private final ItemStack output;
 
-	public AthameStrippingRecipe(Identifier identifier, Block log, Block strippedLog, ItemStack output) {
+	public AthameStrippingRecipe(ResourceLocation identifier, Block log, Block strippedLog, ItemStack output) {
 		this.identifier = identifier;
 		this.log = log;
 		this.strippedLog = strippedLog;
@@ -33,27 +33,27 @@ public class AthameStrippingRecipe implements Recipe<Inventory> {
 	}
 
 	@Override
-	public boolean matches(Inventory inv, World world) {
+	public boolean matches(Container inv, Level world) {
 		return false;
 	}
 
 	@Override
-	public ItemStack craft(Inventory inventory, DynamicRegistryManager registryManager) {
+	public ItemStack assemble(Container inventory, RegistryAccess registryManager) {
 		return output;
 	}
 
 	@Override
-	public boolean fits(int width, int height) {
+	public boolean canCraftInDimensions(int width, int height) {
 		return false;
 	}
 
 	@Override
-	public ItemStack getOutput(DynamicRegistryManager registryManager) {
+	public ItemStack getResultItem(RegistryAccess registryManager) {
 		return output;
 	}
 
 	@Override
-	public Identifier getId() {
+	public ResourceLocation getId() {
 		return identifier;
 	}
 
@@ -69,20 +69,20 @@ public class AthameStrippingRecipe implements Recipe<Inventory> {
 
 	public static class Serializer implements RecipeSerializer<AthameStrippingRecipe> {
 		@Override
-		public AthameStrippingRecipe read(Identifier id, JsonObject json) {
-			return new AthameStrippingRecipe(id, Registries.BLOCK.get(new Identifier(JsonHelper.getString(json, "log"))), Registries.BLOCK.get(new Identifier(JsonHelper.getString(json, "stripped_log"))), ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result")));
+		public AthameStrippingRecipe fromJson(ResourceLocation id, JsonObject json) {
+			return new AthameStrippingRecipe(id, BuiltInRegistries.BLOCK.get(new ResourceLocation(GsonHelper.getAsString(json, "log"))), BuiltInRegistries.BLOCK.get(new ResourceLocation(GsonHelper.getAsString(json, "stripped_log"))), ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result")));
 		}
 
 		@Override
-		public AthameStrippingRecipe read(Identifier id, PacketByteBuf buf) {
-			return new AthameStrippingRecipe(id, Registries.BLOCK.get(new Identifier(buf.readString())), Registries.BLOCK.get(new Identifier(buf.readString())), buf.readItemStack());
+		public AthameStrippingRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+			return new AthameStrippingRecipe(id, BuiltInRegistries.BLOCK.get(new ResourceLocation(buf.readUtf())), BuiltInRegistries.BLOCK.get(new ResourceLocation(buf.readUtf())), buf.readItem());
 		}
 
 		@Override
-		public void write(PacketByteBuf buf, AthameStrippingRecipe recipe) {
-			buf.writeString(Registries.BLOCK.getId(recipe.log).toString());
-			buf.writeString(Registries.BLOCK.getId(recipe.strippedLog).toString());
-			buf.writeItemStack(recipe.getOutput(null));
+		public void write(FriendlyByteBuf buf, AthameStrippingRecipe recipe) {
+			buf.writeUtf(BuiltInRegistries.BLOCK.getKey(recipe.log).toString());
+			buf.writeUtf(BuiltInRegistries.BLOCK.getKey(recipe.strippedLog).toString());
+			buf.writeItem(recipe.getResultItem(null));
 		}
 	}
 }

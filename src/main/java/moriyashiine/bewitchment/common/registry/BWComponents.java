@@ -12,13 +12,13 @@ import dev.onyxstudios.cca.api.v3.entity.RespawnCopyStrategy;
 import moriyashiine.bewitchment.api.component.*;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.component.entity.*;
-import net.minecraft.entity.AreaEffectCloudEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.entity.projectile.FireballEntity;
+import net.minecraft.world.entity.AreaEffectCloud;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.LargeFireball;
 
 public class BWComponents implements EntityComponentInitializer {
 	public static final ComponentKey<ContractsComponent> CONTRACTS_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("contracts"), ContractsComponent.class);
@@ -57,13 +57,13 @@ public class BWComponents implements EntityComponentInitializer {
 		registry.registerForPlayers(POLYMORPH_COMPONENT, PolymorphComponent::new, RespawnCopyStrategy.LOSSLESS_ONLY);
 		registry.registerForPlayers(RESPAWN_TIMER_COMPONENT, player -> new RespawnTimerComponent(), RespawnCopyStrategy.LOSSLESS_ONLY);
 		registry.registerForPlayers(TELEPORT_TIMER_COMPONENT, player -> new TeleportTimerComponent(), RespawnCopyStrategy.LOSSLESS_ONLY);
-		registry.beginRegistration(ArrowEntity.class, POLYMORPH_COMPONENT).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(PolymorphComponent::new);
-		registry.beginRegistration(AreaEffectCloudEntity.class, POLYMORPH_COMPONENT).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(PolymorphComponent::new);
+		registry.beginRegistration(Arrow.class, POLYMORPH_COMPONENT).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(PolymorphComponent::new);
+		registry.beginRegistration(AreaEffectCloud.class, POLYMORPH_COMPONENT).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(PolymorphComponent::new);
 		registry.beginRegistration(Entity.class, ADDITIONAL_WATER_DATA_COMPONENT).respawnStrategy(RespawnCopyStrategy.LOSSLESS_ONLY).end(AdditionalWaterDataComponent::new);
 		registry.beginRegistration(LivingEntity.class, FAMILIAR_COMPONENT).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(FamiliarComponent::new);
-		registry.beginRegistration(MobEntity.class, MINION_COMPONENT).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(MinionComponent::new);
-		registry.beginRegistration(MobEntity.class, FAKE_MOB_COMPONENT).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(FakeMobComponent::new);
-		registry.beginRegistration(VillagerEntity.class, WEREWOLF_VILLAGER_COMPONENT).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(WerewolfVillagerComponent::new);
-		registry.beginRegistration(FireballEntity.class, CADUCEUS_FIREBALL_COMPONENT).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(fireballEntity -> new CaduceusFireballComponent());
+		registry.beginRegistration(Mob.class, MINION_COMPONENT).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(MinionComponent::new);
+		registry.beginRegistration(Mob.class, FAKE_MOB_COMPONENT).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(FakeMobComponent::new);
+		registry.beginRegistration(Villager.class, WEREWOLF_VILLAGER_COMPONENT).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(WerewolfVillagerComponent::new);
+		registry.beginRegistration(LargeFireball.class, CADUCEUS_FIREBALL_COMPONENT).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(fireballEntity -> new CaduceusFireballComponent());
 	}
 }

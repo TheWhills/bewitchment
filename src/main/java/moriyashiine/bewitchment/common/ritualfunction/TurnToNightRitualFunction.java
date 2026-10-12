@@ -5,12 +5,11 @@
 package moriyashiine.bewitchment.common.ritualfunction;
 
 import moriyashiine.bewitchment.api.registry.RitualFunction;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.LivingEntity;
 import java.util.function.Predicate;
 
 public class TurnToNightRitualFunction extends RitualFunction {
@@ -24,14 +23,14 @@ public class TurnToNightRitualFunction extends RitualFunction {
 	}
 
 	@Override
-	public boolean isValid(ServerWorld world, BlockPos pos, Inventory inventory) {
+	public boolean isValid(ServerLevel world, BlockPos pos, Container inventory) {
 		return world.isDay();
 	}
 
 	@Override
-	public void start(ServerWorld world, BlockPos glyphPos, BlockPos effectivePos, Inventory inventory, boolean catFamiliar) {
-		while (world.getTimeOfDay() % 24000 < 13000) {
-			world.setTimeOfDay(world.getTimeOfDay() + 1);
+	public void start(ServerLevel world, BlockPos glyphPos, BlockPos effectivePos, Container inventory, boolean catFamiliar) {
+		while (world.getDayTime() % 24000 < 13000) {
+			world.setDayTime(world.getDayTime() + 1);
 		}
 		super.start(world, glyphPos, effectivePos, inventory, catFamiliar);
 	}

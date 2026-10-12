@@ -10,26 +10,26 @@ import moriyashiine.bewitchment.api.registry.Curse;
 import moriyashiine.bewitchment.common.registry.BWObjects;
 import moriyashiine.bewitchment.common.registry.BWRecipeTypes;
 import moriyashiine.bewitchment.common.registry.BWRegistries;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 
-public class CurseRecipe implements Recipe<Inventory> {
-	private final Identifier identifier;
-	public final DefaultedList<Ingredient> input;
+public class CurseRecipe implements Recipe<Container> {
+	private final ResourceLocation identifier;
+	public final NonNullList<Ingredient> input;
 	public final Curse curse;
 	public final int cost;
 
-	public CurseRecipe(Identifier identifier, DefaultedList<Ingredient> input, Curse curse, int cost) {
+	public CurseRecipe(ResourceLocation identifier, NonNullList<Ingredient> input, Curse curse, int cost) {
 		this.identifier = identifier;
 		this.input = input;
 		this.curse = curse;
@@ -37,27 +37,27 @@ public class CurseRecipe implements Recipe<Inventory> {
 	}
 
 	@Override
-	public boolean matches(Inventory inv, World world) {
+	public boolean matches(Container inv, Level world) {
 		return RitualRecipe.matches(inv, input);
 	}
 
 	@Override
-	public ItemStack craft(Inventory inventory, DynamicRegistryManager registryManager) {
+	public ItemStack assemble(Container inventory, RegistryAccess registryManager) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public boolean fits(int width, int height) {
+	public boolean canCraftInDimensions(int width, int height) {
 		return true;
 	}
 
 	@Override
-	public ItemStack getOutput(DynamicRegistryManager registryManager) {
+	public ItemStack getResultItem(RegistryAccess registryManager) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public Identifier getId() {
+	public ResourceLocation getId() {
 		return identifier;
 	}
 
@@ -76,8 +76,8 @@ public class CurseRecipe implements Recipe<Inventory> {
 		private static final ItemStack TAGLOCK = new ItemStack(BWObjects.TAGLOCK);
 
 		@Override
-		public CurseRecipe read(Identifier id, JsonObject json) {
-			DefaultedList<Ingredient> ingredients = RitualRecipe.Serializer.getIngredients(JsonHelper.getArray(json, "ingredients"));
+		public CurseRecipe fromJson(ResourceLocation id, JsonObject json) {
+			NonNullList<Ingredient> ingredients = RitualRecipe.Serializer.getIngredients(GsonHelper.getAsJsonArray(json, "ingredients"));
 			if (ingredients.isEmpty()) {
 				throw new JsonParseException("No ingredients for curse recipe");
 			} else if (ingredients.size() > 4) {
@@ -93,23 +93,23 @@ public class CurseRecipe implements Recipe<Inventory> {
 			if (!foundTaglock) {
 				throw new JsonParseException("Taglock not found in curse recipe");
 			}
-			return new CurseRecipe(id, ingredients, BWRegistries.CURSE.get(new Identifier(JsonHelper.getString(json, "curse"))), JsonHelper.getInt(json, "cost"));
+			return new CurseRecipe(id, ingredients, BWRegistries.CURSE.get(new ResourceLocation(GsonHelper.getAsString(json, "curse"))), GsonHelper.getAsInt(json, "cost"));
 		}
 
 		@Override
-		public CurseRecipe read(Identifier id, PacketByteBuf buf) {
-			DefaultedList<Ingredient> defaultedList = DefaultedList.ofSize(buf.readVarInt(), Ingredient.EMPTY);
-			defaultedList.replaceAll(ignored -> Ingredient.fromPacket(buf));
-			return new CurseRecipe(id, defaultedList, BWRegistries.CURSE.get(new Identifier(buf.readString())), buf.readInt());
+		public CurseRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+			NonNullList<Ingredient> defaultedList = NonNullList.withSize(buf.readVarInt(), Ingredient.EMPTY);
+			defaultedList.replaceAll(ignored -> Ingredient.fromNetwork(buf));
+			return new CurseRecipe(id, defaultedList, BWRegistries.CURSE.get(new ResourceLocation(buf.readUtf())), buf.readInt());
 		}
 
 		@Override
-		public void write(PacketByteBuf buf, CurseRecipe recipe) {
+		public void write(FriendlyByteBuf buf, CurseRecipe recipe) {
 			buf.writeVarInt(recipe.input.size());
 			for (Ingredient ingredient : recipe.input) {
-				ingredient.write(buf);
+				ingredient.toNetwork(buf);
 			}
-			buf.writeString(BWRegistries.CURSE.getId(recipe.curse).toString());
+			buf.writeUtf(BWRegistries.CURSE.getKey(recipe.curse).toString());
 			buf.writeInt(recipe.cost);
 		}
 	}

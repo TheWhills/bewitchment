@@ -5,8 +5,8 @@
 package moriyashiine.bewitchment.api.event;
 
 import net.fabricmc.fabric.api.event.Event;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
 
@@ -26,10 +26,10 @@ public final class BloodSuckEvents {
 	});
 
 	public interface OnBloodSuck {
-		void onBloodSuck(PlayerEntity player, LivingEntity target, int bloodToGive);
+		void onBloodSuck(Player player, LivingEntity target, int bloodToGive);
 	}
 
 	public interface SetBloodAmount {
-		int onBloodSuck(PlayerEntity player, LivingEntity target, int currentBloodToGive);
+		int onBloodSuck(Player player, LivingEntity target, int currentBloodToGive);
 	}
 }

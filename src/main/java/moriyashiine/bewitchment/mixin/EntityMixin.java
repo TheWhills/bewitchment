@@ -5,11 +5,11 @@
 package moriyashiine.bewitchment.mixin;
 
 import moriyashiine.bewitchment.common.registry.BWComponents;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,15 +25,15 @@ public abstract class EntityMixin {
 	public abstract UUID getUuid();
 
 	@Shadow
-	private World world;
+	private Level world;
 
 	@Inject(method = "isInvulnerableTo", at = @At("RETURN"), cancellable = true)
 	private void isInvulnerableTo(DamageSource source, CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (!callbackInfo.getReturnValueZ() && !world.isClient && (Object) this instanceof MobEntity mob) {
-			if (source.getAttacker() instanceof LivingEntity living) {
-				if (living.getUuid().equals(BWComponents.MINION_COMPONENT.get(mob).getMaster())) {
+		if (!callbackInfo.getReturnValueZ() && !world.isClientSide && (Object) this instanceof Mob mob) {
+			if (source.getEntity() instanceof LivingEntity living) {
+				if (living.getUUID().equals(BWComponents.MINION_COMPONENT.get(mob).getMaster())) {
 					callbackInfo.setReturnValue(true);
-				} else if (living instanceof MobEntity mobAttacker && getUuid().equals(BWComponents.MINION_COMPONENT.get(mobAttacker).getMaster())) {
+				} else if (living instanceof Mob mobAttacker && getUuid().equals(BWComponents.MINION_COMPONENT.get(mobAttacker).getMaster())) {
 					callbackInfo.setReturnValue(true);
 				}
 			}

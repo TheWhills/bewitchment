@@ -6,24 +6,24 @@ package moriyashiine.bewitchment.api.entity;
 
 import moriyashiine.bewitchment.common.item.TaglockItem;
 import moriyashiine.bewitchment.common.registry.BWComponents;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MovementType;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.vehicle.BoatEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -40,83 +40,83 @@ public class BroomEntity extends Entity {
 	private double lerpYaw;
 	private double lerpPitch;
 
-	public BroomEntity(EntityType<?> type, World world) {
+	public BroomEntity(EntityType<?> type, Level world) {
 		super(type, world);
 	}
 
 	@Override
-	protected void initDataTracker() {
+	protected void defineSynchedData() {
 	}
 
 	@Override
-	protected void readCustomDataFromNbt(NbtCompound nbt) {
-		stack = ItemStack.fromNbt(nbt.getCompound("Stack"));
+	protected void readAdditionalSaveData(CompoundTag nbt) {
+		stack = ItemStack.of(nbt.getCompound("Stack"));
 		damage = nbt.getFloat("Damage");
 	}
 
 	@Override
-	protected void writeCustomDataToNbt(NbtCompound nbt) {
-		nbt.put("Stack", stack.writeNbt(new NbtCompound()));
+	protected void addAdditionalSaveData(CompoundTag nbt) {
+		nbt.put("Stack", stack.save(new CompoundTag()));
 		nbt.putFloat("Damage", damage);
 	}
 
 	@Override
-	public Packet<ClientPlayPacketListener> createSpawnPacket() {
-		return new EntitySpawnS2CPacket(this, 0);
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
+		return new ClientboundAddEntityPacket(this, 0);
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
-		if (isLogicalSideForUpdatingMovement()) {
+		if (isControlledByLocalInstance()) {
 			lerpSteps = 0;
-			updateTrackedPosition(getX(), getY(), getZ());
+			syncPacketPositionCodec(getX(), getY(), getZ());
 		}
 		if (lerpSteps > 0) {
-			updatePosition(getX() + (lerpX - getX()) / lerpSteps, getY() + (lerpY - getY()) / lerpSteps, getZ() + (lerpZ - getZ()) / lerpSteps);
-			setRotation((float) (getYaw() + MathHelper.wrapDegrees(lerpYaw - getYaw()) / lerpSteps), (float) (getPitch() + (lerpPitch - getPitch()) / lerpSteps));
+			absMoveTo(getX() + (lerpX - getX()) / lerpSteps, getY() + (lerpY - getY()) / lerpSteps, getZ() + (lerpZ - getZ()) / lerpSteps);
+			setRot((float) (getYRot() + Mth.wrapDegrees(lerpYaw - getYRot()) / lerpSteps), (float) (getXRot() + (lerpPitch - getXRot()) / lerpSteps));
 			--lerpSteps;
 		}
-		if (isLogicalSideForUpdatingMovement()) {
-			updateTrackedPosition(getX(), getY(), getZ());
+		if (isControlledByLocalInstance()) {
+			syncPacketPositionCodec(getX(), getY(), getZ());
 			Entity passenger = getFirstPassenger();
-			if (passenger instanceof PlayerEntity player) {
-				setRotation(passenger.getYaw(), passenger.getPitch());
+			if (passenger instanceof Player player) {
+				setRot(passenger.getYRot(), passenger.getXRot());
 				if (BWComponents.BROOM_USER_COMPONENT.get(player).isPressingForward()) {
-					addVelocity(passenger.getRotationVector().x / 8 * getSpeed(), passenger.getRotationVector().y / 8 * getSpeed(), passenger.getRotationVector().z / 8 * getSpeed());
-					setVelocity(MathHelper.clamp(getVelocity().x, -getSpeed(), getSpeed()), MathHelper.clamp(getVelocity().y, -getSpeed(), getSpeed()), MathHelper.clamp(getVelocity().z, -getSpeed(), getSpeed()));
+					push(passenger.getLookAngle().x / 8 * getSpeed(), passenger.getLookAngle().y / 8 * getSpeed(), passenger.getLookAngle().z / 8 * getSpeed());
+					setDeltaMovement(Mth.clamp(getDeltaMovement().x, -getSpeed(), getSpeed()), Mth.clamp(getDeltaMovement().y, -getSpeed(), getSpeed()), Mth.clamp(getDeltaMovement().z, -getSpeed(), getSpeed()));
 				}
 			}
-			move(MovementType.SELF, getVelocity());
-			setVelocity(getVelocity().multiply(0.9));
+			move(MoverType.SELF, getDeltaMovement());
+			setDeltaMovement(getDeltaMovement().scale(0.9));
 		} else {
-			setVelocity(Vec3d.ZERO);
+			setDeltaMovement(Vec3.ZERO);
 		}
-		if (!getWorld().isClient && damage > 0) {
+		if (!level().isClientSide && damage > 0) {
 			damage -= 1 / 20f;
 			damage = Math.max(damage, 0);
 		}
 	}
 
 	@Override
-	public ActionResult interact(PlayerEntity player, Hand hand) {
-		if (player.shouldCancelInteraction()) {
-			return ActionResult.PASS;
-		} else if (!getWorld().isClient) {
-			return player.startRiding(this) ? ActionResult.CONSUME : ActionResult.PASS;
+	public InteractionResult interact(Player player, InteractionHand hand) {
+		if (player.isSecondaryUseActive()) {
+			return InteractionResult.PASS;
+		} else if (!level().isClientSide) {
+			return player.startRiding(this) ? InteractionResult.CONSUME : InteractionResult.PASS;
 		}
 		return super.interact(player, hand);
 	}
 
 	@Override
-	public boolean damage(DamageSource source, float amount) {
+	public boolean hurt(DamageSource source, float amount) {
 		if (isInvulnerableTo(source)) {
 			return false;
 		}
-		if (!getWorld().isClient && !isRemoved()) {
+		if (!level().isClientSide && !isRemoved()) {
 			damage += amount;
 			if (damage > 4) {
-				dropStack(getDroppedStack());
+				spawnAtLocation(getDroppedStack());
 				remove(RemovalReason.DISCARDED);
 			}
 		}
@@ -126,7 +126,7 @@ public class BroomEntity extends Entity {
 	@Nullable
 	@Override
 	public Entity getFirstPassenger() {
-		return getPassengerList().isEmpty() ? null : getPassengerList().get(0);
+		return getPassengers().isEmpty() ? null : getPassengers().get(0);
 	}
 
 	@Override
@@ -135,26 +135,26 @@ public class BroomEntity extends Entity {
 	}
 
 	@Override
-	public boolean collidesWith(Entity other) {
-		return BoatEntity.canCollide(this, other);
+	public boolean canCollideWith(Entity other) {
+		return Boat.canVehicleCollide(this, other);
 	}
 
 	@Override
-	public boolean canHit() {
+	public boolean isPickable() {
 		return !isRemoved();
 	}
 
 	@Override
-	public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+	public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
 		return false;
 	}
 
 	@Override
-	protected void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
+	protected void checkFallDamage(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
 	}
 
 	@Override
-	public void updateTrackedPositionAndAngles(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate) {
+	public void lerpTo(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate) {
 		lerpX = x;
 		lerpY = y;
 		lerpZ = z;

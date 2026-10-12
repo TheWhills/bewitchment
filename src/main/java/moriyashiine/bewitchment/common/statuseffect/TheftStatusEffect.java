@@ -5,40 +5,39 @@
 package moriyashiine.bewitchment.common.statuseffect;
 
 import moriyashiine.bewitchment.common.registry.BWStatusEffects;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.AttributeContainer;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.entity.effect.StatusEffectInstance;
-
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import java.util.List;
 
-public class TheftStatusEffect extends StatusEffect {
-	public TheftStatusEffect(StatusEffectCategory statusEffectCategory, int color) {
+public class TheftStatusEffect extends MobEffect {
+	public TheftStatusEffect(MobEffectCategory statusEffectCategory, int color) {
 		super(statusEffectCategory, color);
 	}
 
 	@Override
-	public boolean canApplyUpdateEffect(int duration, int amplifier) {
+	public boolean isDurationEffectTick(int duration, int amplifier) {
 		return true;
 	}
 
 	@Override
-	public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-		if (!entity.getWorld().isClient && entity.age % 20 == 0) {
-			entity.getWorld().getEntitiesByClass(LivingEntity.class, entity.getBoundingBox().expand(3 * (amplifier + 1)), foundEntity -> foundEntity != entity).forEach(livingEntity -> {
-				List<StatusEffectInstance> statusEffects = livingEntity.getStatusEffects().stream().filter(instance -> instance.getEffectType().getCategory() == StatusEffectCategory.BENEFICIAL && !instance.isAmbient()).toList();
-				for (StatusEffectInstance statusEffect : statusEffects) {
-					entity.addStatusEffect(new StatusEffectInstance(statusEffect.getEffectType(), statusEffect.getDuration() / 2, statusEffect.getAmplifier()));
-					livingEntity.removeStatusEffect(statusEffect.getEffectType());
+	public void applyEffectTick(LivingEntity entity, int amplifier) {
+		if (!entity.level().isClientSide && entity.tickCount % 20 == 0) {
+			entity.level().getEntitiesOfClass(LivingEntity.class, entity.getBoundingBox().inflate(3 * (amplifier + 1)), foundEntity -> foundEntity != entity).forEach(livingEntity -> {
+				List<MobEffectInstance> statusEffects = livingEntity.getActiveEffects().stream().filter(instance -> instance.getEffect().getCategory() == MobEffectCategory.BENEFICIAL && !instance.isAmbient()).toList();
+				for (MobEffectInstance statusEffect : statusEffects) {
+					entity.addEffect(new MobEffectInstance(statusEffect.getEffect(), statusEffect.getDuration() / 2, statusEffect.getAmplifier()));
+					livingEntity.removeEffect(statusEffect.getEffect());
 				}
 			});
 		}
 	}
 
 	@Override
-	public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-		super.onApplied(entity, attributes, amplifier);
-		entity.removeStatusEffect(BWStatusEffects.SYNCHRONIZED);
+	public void addAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {
+		super.addAttributeModifiers(entity, attributes, amplifier);
+		entity.removeEffect(BWStatusEffects.SYNCHRONIZED);
 	}
 }

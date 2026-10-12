@@ -6,27 +6,27 @@ package moriyashiine.bewitchment.common.entity.projectile;
 
 import moriyashiine.bewitchment.common.registry.BWEntityTypes;
 import moriyashiine.bewitchment.common.registry.BWObjects;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
-public class SilverArrowEntity extends PersistentProjectileEntity {
-	public SilverArrowEntity(EntityType<? extends PersistentProjectileEntity> entityType, World world) {
+public class SilverArrowEntity extends AbstractArrow {
+	public SilverArrowEntity(EntityType<? extends AbstractArrow> entityType, Level world) {
 		super(entityType, world);
 	}
 
-	public SilverArrowEntity(EntityType<? extends PersistentProjectileEntity> type, LivingEntity owner, World world) {
+	public SilverArrowEntity(EntityType<? extends AbstractArrow> type, LivingEntity owner, Level world) {
 		super(type, owner, world);
 	}
 
-	public SilverArrowEntity(World world, double x, double y, double z) {
+	public SilverArrowEntity(Level world, double x, double y, double z) {
 		super(BWEntityTypes.SILVER_ARROW, x, y, z, world);
 	}
 
 	@Override
-	protected ItemStack asItemStack() {
+	protected ItemStack getPickupItem() {
 		return new ItemStack(BWObjects.SILVER_ARROW);
 	}
 }

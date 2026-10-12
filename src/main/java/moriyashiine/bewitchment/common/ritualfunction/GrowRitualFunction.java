@@ -6,19 +6,18 @@ package moriyashiine.bewitchment.common.ritualfunction;
 
 import moriyashiine.bewitchment.api.registry.RitualFunction;
 import moriyashiine.bewitchment.common.misc.BWUtil;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Fertilizable;
-import net.minecraft.block.GrassBlock;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.GrassBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import java.util.function.Predicate;
 
 public class GrowRitualFunction extends RitualFunction {
@@ -27,26 +26,26 @@ public class GrowRitualFunction extends RitualFunction {
 	}
 
 	@Override
-	public void tick(World world, BlockPos glyphPos, BlockPos effectivePos, boolean catFamiliar) {
+	public void tick(Level world, BlockPos glyphPos, BlockPos effectivePos, boolean catFamiliar) {
 		int radius = catFamiliar ? 9 : 3;
-		if (world instanceof ServerWorld serverWorld) {
-			if (world.getTime() % 20 == 0) {
-				for (PassiveEntity passiveEntity : world.getEntitiesByClass(PassiveEntity.class, new Box(effectivePos).expand(radius, 0, radius), PassiveEntity::isBaby)) {
+		if (world instanceof ServerLevel serverWorld) {
+			if (world.getGameTime() % 20 == 0) {
+				for (AgeableMob passiveEntity : world.getEntitiesOfClass(AgeableMob.class, new AABB(effectivePos).inflate(radius, 0, radius), AgeableMob::isBaby)) {
 					if (world.random.nextFloat() < 1 / 4f) {
-						passiveEntity.growUp(world.random.nextInt(), true);
+						passiveEntity.ageUp(world.random.nextInt(), true);
 					}
 				}
 				for (BlockPos foundPos : BWUtil.getBlockPoses(effectivePos, radius)) {
-					if (world.getWorldBorder().contains(foundPos)) {
+					if (world.getWorldBorder().isWithinBounds(foundPos)) {
 						BlockState state = world.getBlockState(foundPos);
-						if (!(state.getBlock() instanceof GrassBlock) && state.getBlock() instanceof Fertilizable fertilizable && fertilizable.isFertilizable(world, foundPos, state, false) && fertilizable.canGrow(world, world.random, foundPos, state)) {
-							fertilizable.grow(serverWorld, world.random, foundPos, state);
+						if (!(state.getBlock() instanceof GrassBlock) && state.getBlock() instanceof BonemealableBlock fertilizable && fertilizable.isValidBonemealTarget(world, foundPos, state, false) && fertilizable.isBonemealSuccess(world, world.random, foundPos, state)) {
+							fertilizable.performBonemeal(serverWorld, world.random, foundPos, state);
 						}
 					}
 				}
 			}
 		} else {
-			world.addParticle(ParticleTypes.HAPPY_VILLAGER, effectivePos.getX() + MathHelper.nextDouble(world.random, -radius, radius), effectivePos.getY() + 0.5, effectivePos.getZ() + MathHelper.nextDouble(world.random, -radius, radius), 0, 0, 0);
+			world.addParticle(ParticleTypes.HAPPY_VILLAGER, effectivePos.getX() + Mth.nextDouble(world.random, -radius, radius), effectivePos.getY() + 0.5, effectivePos.getZ() + Mth.nextDouble(world.random, -radius, radius), 0, 0, 0);
 		}
 	}
 }

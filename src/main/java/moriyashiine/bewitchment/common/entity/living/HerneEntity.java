@@ -14,33 +14,39 @@ import moriyashiine.bewitchment.common.misc.BWUtil;
 import moriyashiine.bewitchment.common.packet.TransformationAbilityPacket;
 import moriyashiine.bewitchment.common.registry.*;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityGroup;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.ai.pathing.PathNodeType;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.boss.BossBar;
-import net.minecraft.entity.boss.ServerBossBar;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.BossEvent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -49,30 +55,30 @@ import java.util.Set;
 import java.util.UUID;
 
 public class HerneEntity extends BWHostileEntity implements Pledgeable {
-	private final ServerBossBar bossBar;
+	private final ServerBossEvent bossBar;
 
 	private final Set<UUID> pledgedPlayerUUIDS = new HashSet<>();
 	private int timeSinceLastAttack = 0;
 
-	public HerneEntity(EntityType<? extends HostileEntity> entityType, World world) {
+	public HerneEntity(EntityType<? extends Monster> entityType, Level world) {
 		super(entityType, world);
-		bossBar = new ServerBossBar(getDisplayName(), BossBar.Color.RED, BossBar.Style.PROGRESS);
-		setPathfindingPenalty(PathNodeType.DANGER_FIRE, 0);
-		setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, 0);
-		experiencePoints = 75;
+		bossBar = new ServerBossEvent(getDisplayName(), BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS);
+		setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0);
+		setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0);
+		xpReward = 75;
 	}
 
-	public static DefaultAttributeContainer.Builder createAttributes() {
-		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 500).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 24).add(EntityAttributes.GENERIC_ARMOR, 10).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32);
+	public static AttributeSupplier.Builder createAttributes() {
+		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 500).add(Attributes.ATTACK_DAMAGE, 24).add(Attributes.ARMOR, 10).add(Attributes.MOVEMENT_SPEED, 0.3).add(Attributes.KNOCKBACK_RESISTANCE, 1).add(Attributes.FOLLOW_RANGE, 32);
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
-		if (!getWorld().isClient) {
-			bossBar.setPercent(getHealth() / getMaxHealth());
+		if (!level().isClientSide) {
+			bossBar.setProgress(getHealth() / getMaxHealth());
 			LivingEntity target = getTarget();
-			int timer = age + getId();
+			int timer = tickCount + getId();
 			if (timer % 10 == 0) {
 				heal(1);
 			}
@@ -82,10 +88,10 @@ public class HerneEntity extends BWHostileEntity implements Pledgeable {
 					BWUtil.teleport(this, target.getX(), target.getY(), target.getZ(), true);
 					timeSinceLastAttack = 0;
 				}
-				lookAtEntity(target, 360, 360);
+				lookAt(target, 360, 360);
 				if (timer % 80 == 0) {
-					HornedSpearItem.spawnEntity(getWorld(), this, new ItemStack(BWObjects.HORNED_SPEAR));
-					swingHand(Hand.MAIN_HAND);
+					HornedSpearItem.spawnEntity(level(), this, new ItemStack(BWObjects.HORNED_SPEAR));
+					swing(InteractionHand.MAIN_HAND);
 				}
 				if (timer % 600 == 0) {
 					summonMinions(this);
@@ -115,8 +121,8 @@ public class HerneEntity extends BWHostileEntity implements Pledgeable {
 	}
 
 	@Override
-	public Collection<StatusEffectInstance> getMinionBuffs() {
-		return Sets.newHashSet(new StatusEffectInstance(StatusEffects.STRENGTH, Integer.MAX_VALUE, 1), new StatusEffectInstance(StatusEffects.RESISTANCE, Integer.MAX_VALUE, 1), new StatusEffectInstance(BWStatusEffects.HARDENING, Integer.MAX_VALUE, 1));
+	public Collection<MobEffectInstance> getMinionBuffs() {
+		return Sets.newHashSet(new MobEffectInstance(MobEffects.DAMAGE_BOOST, Integer.MAX_VALUE, 1), new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1), new MobEffectInstance(BWStatusEffects.HARDENING, Integer.MAX_VALUE, 1));
 	}
 
 	@Override
@@ -140,7 +146,7 @@ public class HerneEntity extends BWHostileEntity implements Pledgeable {
 	}
 
 	@Override
-	public EntityGroup getGroup() {
+	public MobType getMobType() {
 		return BewitchmentAPI.DEMON;
 	}
 
@@ -161,17 +167,17 @@ public class HerneEntity extends BWHostileEntity implements Pledgeable {
 	}
 
 	@Override
-	protected ActionResult interactMob(PlayerEntity player, Hand hand) {
+	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (isAlive() && getTarget() == null && BewitchmentAPI.isWerewolf(player, true)) {
-			ItemStack stack = player.getStackInHand(hand);
+			ItemStack stack = player.getItemInHand(hand);
 			if (stack.getItem() == BWObjects.ACONITE) {
-				if (player instanceof ServerPlayerEntity serverPlayer) {
+				if (player instanceof ServerPlayer serverPlayer) {
 					if (!player.isCreative()) {
-						stack.decrement(1);
+						stack.shrink(1);
 					}
 					PlayerLookup.tracking(player).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, player));
 					SpawnSmokeParticlesPacket.send(serverPlayer, player);
-					getWorld().playSound(null, getBlockPos(), BWSoundEvents.ENTITY_GENERIC_PLING, player.getSoundCategory(), 1, 1);
+					level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_PLING, player.getSoundSource(), 1, 1);
 					BWComponents.TRANSFORMATION_COMPONENT.maybeGet(player).ifPresent(transformationComponent -> {
 						if (transformationComponent.isAlternateForm()) {
 							TransformationAbilityPacket.useAbility(player, true);
@@ -181,87 +187,87 @@ public class HerneEntity extends BWHostileEntity implements Pledgeable {
 						transformationComponent.getTransformation().onAdded(player);
 					});
 				}
-				return ActionResult.success(getWorld().isClient);
+				return InteractionResult.sidedSuccess(level().isClientSide);
 			}
 		}
-		return super.interactMob(player, hand);
+		return super.mobInteract(player, hand);
 	}
 
 	@Override
-	public boolean canBeLeashedBy(PlayerEntity player) {
+	public boolean canBeLeashed(Player player) {
 		return false;
 	}
 
 	@Override
-	protected boolean canStartRiding(Entity entity) {
+	protected boolean canRide(Entity entity) {
 		return false;
 	}
 
 	@Override
-	public boolean canHaveStatusEffect(StatusEffectInstance effect) {
-		return effect.getEffectType().getCategory() == StatusEffectCategory.BENEFICIAL;
+	public boolean canBeAffected(MobEffectInstance effect) {
+		return effect.getEffect().getCategory() == MobEffectCategory.BENEFICIAL;
 	}
 
 	@Override
-	public boolean isAffectedBySplashPotions() {
+	public boolean isAffectedByPotions() {
 		return false;
 	}
 
 	@Override
-	public boolean cannotDespawn() {
+	public boolean requiresCustomPersistence() {
 		return true;
 	}
 
 	@Override
-	public boolean tryAttack(Entity target) {
-		boolean flag = super.tryAttack(target);
+	public boolean doHurtTarget(Entity target) {
+		boolean flag = super.doHurtTarget(target);
 		if (flag && target instanceof LivingEntity livingEntity) {
-			livingEntity.addStatusEffect(new StatusEffectInstance(BWStatusEffects.MORTAL_COIL, 1200));
-			target.setOnFireFor(16);
-			target.addVelocity(0, 0.2, 0);
-			swingHand(Hand.MAIN_HAND);
+			livingEntity.addEffect(new MobEffectInstance(BWStatusEffects.MORTAL_COIL, 1200));
+			target.setSecondsOnFire(16);
+			target.push(0, 0.2, 0);
+			swing(InteractionHand.MAIN_HAND);
 		}
 		return flag;
 	}
 
 	@Override
-	public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+	public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
 		return false;
 	}
 
 	@Override
-	protected void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
+	protected void checkFallDamage(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
 	}
 
 	@Override
 	public void setTarget(@Nullable LivingEntity target) {
-		if (getWorld().isDay()) {
+		if (level().isDay()) {
 			target = null;
 		}
 		super.setTarget(target);
 	}
 
 	@Override
-	public void setCustomName(@Nullable Text name) {
+	public void setCustomName(@Nullable Component name) {
 		super.setCustomName(name);
 		bossBar.setName(getDisplayName());
 	}
 
 	@Override
-	public void onStartedTrackingBy(ServerPlayerEntity player) {
-		super.onStartedTrackingBy(player);
+	public void startSeenByPlayer(ServerPlayer player) {
+		super.startSeenByPlayer(player);
 		bossBar.addPlayer(player);
 	}
 
 	@Override
-	public void onStoppedTrackingBy(ServerPlayerEntity player) {
-		super.onStoppedTrackingBy(player);
+	public void stopSeenByPlayer(ServerPlayer player) {
+		super.stopSeenByPlayer(player);
 		bossBar.removePlayer(player);
 	}
 
 	@Override
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
 		if (hasCustomName()) {
 			bossBar.setName(getDisplayName());
 		}
@@ -269,19 +275,19 @@ public class HerneEntity extends BWHostileEntity implements Pledgeable {
 	}
 
 	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		super.addAdditionalSaveData(nbt);
 		toNbtPledgeable(nbt);
 	}
 
 	@Override
-	protected void initGoals() {
-		goalSelector.add(0, new SwimGoal(this));
-		goalSelector.add(1, new MeleeAttackGoal(this, 1, true));
-		goalSelector.add(2, new WanderAroundFarGoal(this, 1));
-		goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 8));
-		goalSelector.add(3, new LookAroundGoal(this));
-		targetSelector.add(0, new RevengeGoal(this));
-		targetSelector.add(1, BWUtil.createGenericPledgeableTargetGoal(this));
+	protected void registerGoals() {
+		goalSelector.addGoal(0, new FloatGoal(this));
+		goalSelector.addGoal(1, new MeleeAttackGoal(this, 1, true));
+		goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 1));
+		goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8));
+		goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+		targetSelector.addGoal(0, new HurtByTargetGoal(this));
+		targetSelector.addGoal(1, BWUtil.createGenericPledgeableTargetGoal(this));
 	}
 }

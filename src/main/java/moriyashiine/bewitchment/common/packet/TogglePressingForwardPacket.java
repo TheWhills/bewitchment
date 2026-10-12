@@ -12,24 +12,24 @@ import moriyashiine.bewitchment.common.registry.BWEntityTypes;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 
 public class TogglePressingForwardPacket {
-	public static final Identifier ID = Bewitchment.id("toggle_pressing_forward");
+	public static final ResourceLocation ID = Bewitchment.id("toggle_pressing_forward");
 
 	public static void send(boolean pressingForward) {
-		PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
 		buf.writeBoolean(pressingForward);
 		ClientPlayNetworking.send(ID, buf);
 	}
 
 	public static class Receiver implements ServerPlayNetworking.PlayChannelHandler {
 		@Override
-		public void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+		public void receive(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf, PacketSender responseSender) {
 			try { // attempt normal runtime of TogglePressingForward
 				boolean pressingForward = buf.readBoolean();
 				server.execute(() -> {
@@ -37,7 +37,7 @@ public class TogglePressingForwardPacket {
 						if (!BewitchmentAPI.drainMagic(player, 1, true)) {
 							return;
 						}
-						if (player.age % 60 == 0) {
+						if (player.tickCount % 60 == 0) {
 							BewitchmentAPI.drainMagic(player, 1, false);
 						}
 					}

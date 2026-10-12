@@ -6,19 +6,19 @@ package moriyashiine.bewitchment.common.fortune;
 
 import moriyashiine.bewitchment.api.registry.Fortune;
 import moriyashiine.bewitchment.common.registry.BWTags;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 public class EncounterFortune extends Fortune {
 	public EncounterFortune(boolean positive) {
@@ -26,30 +26,30 @@ public class EncounterFortune extends Fortune {
 	}
 
 	@Override
-	public boolean finish(ServerWorld world, PlayerEntity target) {
+	public boolean finish(ServerLevel world, Player target) {
 		Entity entity = getRandomEntity(world);
 		for (int i = 0; i < 8; i++) {
-			BlockPos pos = target.getBlockPos().add(MathHelper.nextInt(world.random, -3, 3), 0, MathHelper.nextInt(world.random, -3, 3));
-			if (!world.getBlockState(pos).blocksMovement()) {
-				if (entity instanceof MobEntity mob) {
-					mob.initialize(world, world.getLocalDifficulty(pos), SpawnReason.EVENT, null, null);
-					mob.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, Integer.MAX_VALUE, 1));
-					mob.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Integer.MAX_VALUE, 1));
-					mob.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, Integer.MAX_VALUE, 1));
-					mob.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, Integer.MAX_VALUE, 1));
+			BlockPos pos = target.blockPosition().offset(Mth.nextInt(world.random, -3, 3), 0, Mth.nextInt(world.random, -3, 3));
+			if (!world.getBlockState(pos).blocksMotion()) {
+				if (entity instanceof Mob mob) {
+					mob.finalizeSpawn(world, world.getCurrentDifficultyAt(pos), MobSpawnType.EVENT, null, null);
+					mob.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, Integer.MAX_VALUE, 1));
+					mob.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1));
+					mob.addEffect(new MobEffectInstance(MobEffects.REGENERATION, Integer.MAX_VALUE, 1));
+					mob.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 1));
 				}
-				entity.updatePositionAndAngles(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, world.random.nextFloat() * 360, 0);
-				world.spawnEntity(entity);
+				entity.absMoveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, world.random.nextFloat() * 360, 0);
+				world.addFreshEntity(entity);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private static Entity getRandomEntity(World world) {
-		RegistryEntry<EntityType<?>> entity = null;
-		while (entity == null || !entity.isIn(BWTags.ENCOUNTER_FORTUNE)) {
-			entity = Registries.ENTITY_TYPE.getRandom(world.random).orElse(null);
+	private static Entity getRandomEntity(Level world) {
+		Holder<EntityType<?>> entity = null;
+		while (entity == null || !entity.is(BWTags.ENCOUNTER_FORTUNE)) {
+			entity = BuiltInRegistries.ENTITY_TYPE.getRandom(world.random).orElse(null);
 		}
 		return entity.value().create(world);
 	}

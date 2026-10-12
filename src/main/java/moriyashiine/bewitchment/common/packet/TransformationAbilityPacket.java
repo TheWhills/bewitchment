@@ -17,19 +17,19 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import virtuoel.pehkui.api.ScaleData;
 
 public class TransformationAbilityPacket {
-	public static final Identifier ID = Bewitchment.id("transformation_ability");
+	public static final ResourceLocation ID = Bewitchment.id("transformation_ability");
 
 	public static final AbilitySource VAMPIRE_FLIGHT_SOURCE = Pal.getAbilitySource(Bewitchment.id("vampire_flight"));
 
@@ -39,10 +39,10 @@ public class TransformationAbilityPacket {
 	private static final float WEREWOLF_HEIGHT = BWEntityTypes.WEREWOLF.getHeight() / EntityType.PLAYER.getHeight();
 
 	public static void send() {
-		ClientPlayNetworking.send(ID, new PacketByteBuf(Unpooled.buffer()));
+		ClientPlayNetworking.send(ID, new FriendlyByteBuf(Unpooled.buffer()));
 	}
 
-	private static boolean canUseAbility(PlayerEntity player) {
+	private static boolean canUseAbility(Player player) {
 		TransformationComponent transformationComponent = BWComponents.TRANSFORMATION_COMPONENT.get(player);
 		if (transformationComponent.getTransformation() == BWTransformations.VAMPIRE) {
 			return true;
@@ -53,16 +53,16 @@ public class TransformationAbilityPacket {
 		return false;
 	}
 
-	public static void useAbility(PlayerEntity player, boolean forced) {
+	public static void useAbility(Player player, boolean forced) {
 		BWComponents.TRANSFORMATION_COMPONENT.maybeGet(player).ifPresent(transformationComponent -> {
-			World world = player.getWorld();
+			Level world = player.level();
 			boolean isAlternateForm = transformationComponent.isAlternateForm();
 			ScaleData width = BWScaleTypes.MODIFY_WIDTH_TYPE.getScaleData(player);
 			ScaleData height = BWScaleTypes.MODIFY_HEIGHT_TYPE.getScaleData(player);
 			if (transformationComponent.getTransformation() == BWTransformations.VAMPIRE && (forced || (BewitchmentAPI.isPledged(player, BWPledges.LILITH) && BWComponents.BLOOD_COMPONENT.get(player).getBlood() > 0))) {
 				PlayerLookup.tracking(player).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, player));
-				SpawnSmokeParticlesPacket.send((ServerPlayerEntity) player, player);
-				world.playSound(null, player.getBlockPos(), BWSoundEvents.ENTITY_GENERIC_TRANSFORM, player.getSoundCategory(), 1, 1);
+				SpawnSmokeParticlesPacket.send((ServerPlayer) player, player);
+				world.playSound(null, player.blockPosition(), BWSoundEvents.ENTITY_GENERIC_TRANSFORM, player.getSoundSource(), 1, 1);
 				transformationComponent.setAlternateForm(!isAlternateForm);
 				if (isAlternateForm) {
 					width.setScale(width.getBaseScale() / VAMPIRE_WIDTH);
@@ -77,14 +77,14 @@ public class TransformationAbilityPacket {
 				}
 			} else if (transformationComponent.getTransformation() == BWTransformations.WEREWOLF && (forced || BewitchmentAPI.isPledged(player, BWPledges.HERNE))) {
 				PlayerLookup.tracking(player).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, player));
-				SpawnSmokeParticlesPacket.send((ServerPlayerEntity) player, player);
-				world.playSound(null, player.getBlockPos(), BWSoundEvents.ENTITY_GENERIC_TRANSFORM, player.getSoundCategory(), 1, 1);
+				SpawnSmokeParticlesPacket.send((ServerPlayer) player, player);
+				world.playSound(null, player.blockPosition(), BWSoundEvents.ENTITY_GENERIC_TRANSFORM, player.getSoundSource(), 1, 1);
 				transformationComponent.setAlternateForm(!isAlternateForm);
 				if (isAlternateForm) {
 					width.setScale(width.getBaseScale() / WEREWOLF_WIDTH);
 					height.setScale(height.getBaseScale() / WEREWOLF_HEIGHT);
-					if (player.hasStatusEffect(StatusEffects.NIGHT_VISION) && player.getStatusEffect(StatusEffects.NIGHT_VISION).isAmbient()) {
-						player.removeStatusEffect(StatusEffects.NIGHT_VISION);
+					if (player.hasEffect(MobEffects.NIGHT_VISION) && player.getEffect(MobEffects.NIGHT_VISION).isAmbient()) {
+						player.removeEffect(MobEffects.NIGHT_VISION);
 					}
 				} else {
 					width.setScale(width.getBaseScale() * WEREWOLF_WIDTH);
@@ -96,7 +96,7 @@ public class TransformationAbilityPacket {
 
 	public static class Receiver implements ServerPlayNetworking.PlayChannelHandler {
 		@Override
-		public void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+		public void receive(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf, PacketSender responseSender) {
 			server.execute(() -> {
 				if (canUseAbility(player)) {
 					useAbility(player, false);

@@ -5,14 +5,14 @@
 package moriyashiine.bewitchment.common.sigil;
 
 import moriyashiine.bewitchment.api.registry.Sigil;
-import net.minecraft.block.PressurePlateBlock;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.PressurePlateBlock;
 
 public class ShriekingSigil extends Sigil {
 	public ShriekingSigil(boolean active, int uses) {
@@ -20,16 +20,16 @@ public class ShriekingSigil extends Sigil {
 	}
 
 	@Override
-	public ActionResult use(World world, BlockPos pos, LivingEntity user, Hand hand) {
+	public InteractionResult use(Level world, BlockPos pos, LivingEntity user, InteractionHand hand) {
 		boolean flag = true;
 		if (world.getBlockState(pos).getBlock() instanceof PressurePlateBlock) {
-			flag = user.age % 20 == 0;
+			flag = user.tickCount % 20 == 0;
 		}
 		if (flag) {
-			if (!world.isClient) {
-				world.playSound(null, pos, SoundEvents.ENTITY_GHAST_HURT, SoundCategory.BLOCKS, 1, 1);
+			if (!world.isClientSide) {
+				world.playSound(null, pos, SoundEvents.GHAST_HURT, SoundSource.BLOCKS, 1, 1);
 			}
-			return ActionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 		return super.use(world, pos, user, hand);
 	}

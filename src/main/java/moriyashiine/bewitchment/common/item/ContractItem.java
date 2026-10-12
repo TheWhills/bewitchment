@@ -9,40 +9,45 @@ import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWRegistries;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsage;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.Text;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.*;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
 public class ContractItem extends Item {
-	public ContractItem(Settings settings) {
+	public ContractItem(Properties settings) {
 		super(settings);
 	}
 
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		return ItemUsage.consumeHeldItem(world, user, hand);
+	public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
+		return ItemUtils.startUsingInstantly(world, user, hand);
 	}
 
 	@Override
-	public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-		if (!world.isClient && stack.hasNbt() && user instanceof PlayerEntity player) {
-			Contract contract = BWRegistries.CONTRACT.get(new Identifier(stack.getOrCreateNbt().getString("Contract")));
+	public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity user) {
+		if (!world.isClientSide && stack.hasTag() && user instanceof Player player) {
+			Contract contract = BWRegistries.CONTRACT.get(new ResourceLocation(stack.getOrCreateTag().getString("Contract")));
 			if (contract != null) {
-				BWComponents.CONTRACTS_COMPONENT.get(player).addContract(new Contract.Instance(contract, stack.getNbt().getInt("Duration"), 0));
-				world.playSound(null, player.getBlockPos(), BWSoundEvents.ITEM_CONTRACT_USE, SoundCategory.PLAYERS, 1, 1);
+				BWComponents.CONTRACTS_COMPONENT.get(player).addContract(new Contract.Instance(contract, stack.getTag().getInt("Duration"), 0));
+				world.playSound(null, player.blockPosition(), BWSoundEvents.ITEM_CONTRACT_USE, SoundSource.PLAYERS, 1, 1);
 				if (!player.isCreative()) {
-					stack.decrement(1);
+					stack.shrink(1);
 				}
 				return stack;
 			}
@@ -51,20 +56,20 @@ public class ContractItem extends Item {
 	}
 
 	@Override
-	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.BOW;
+	public UseAnim getUseAnimation(ItemStack stack) {
+		return UseAnim.BOW;
 	}
 
 	@Override
-	public int getMaxUseTime(ItemStack stack) {
+	public int getUseDuration(ItemStack stack) {
 		return 32;
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		if (stack.hasNbt() && stack.getOrCreateNbt().contains("Contract")) {
-			tooltip.add(Text.translatable("contract." + stack.getOrCreateNbt().getString("Contract").replace(":", ".")).formatted(Formatting.DARK_RED));
-			tooltip.add(Text.translatable(Bewitchment.MOD_ID + ".tooltip.days", stack.getOrCreateNbt().getInt("Duration") / 24000).formatted(Formatting.DARK_RED));
+	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
+		if (stack.hasTag() && stack.getOrCreateTag().contains("Contract")) {
+			tooltip.add(Component.translatable("contract." + stack.getOrCreateTag().getString("Contract").replace(":", ".")).withStyle(ChatFormatting.DARK_RED));
+			tooltip.add(Component.translatable(Bewitchment.MOD_ID + ".tooltip.days", stack.getOrCreateTag().getInt("Duration") / 24000).withStyle(ChatFormatting.DARK_RED));
 		}
 	}
 }

@@ -8,16 +8,16 @@ import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWEntityTypes;
 import moriyashiine.bewitchment.common.world.BWUniversalWorldState;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,21 +28,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @SuppressWarnings("ConstantConditions")
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
-	public LivingEntityMixin(EntityType<?> type, World world) {
+	public LivingEntityMixin(EntityType<?> type, Level world) {
 		super(type, world);
 	}
 
 	@ModifyVariable(method = "addStatusEffect(Lnet/minecraft/entity/effect/StatusEffectInstance;Lnet/minecraft/entity/Entity;)Z", at = @At("HEAD"), argsOnly = true)
-	private StatusEffectInstance modifyStatusEffect(StatusEffectInstance effect) {
-		if (!getWorld().isClient && !effect.isAmbient() && effect.getEffectType().getCategory() == StatusEffectCategory.BENEFICIAL && (Object) this instanceof PlayerEntity player && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.TOAD) {
-			return new StatusEffectInstance(effect.getEffectType(), (int) (effect.getDuration() * (effect.getEffectType().isInstant() ? 1 : 1.5f)), effect.getAmplifier() + (effect.getEffectType().isInstant() ? 1 : 0), false, effect.shouldShowParticles(), effect.shouldShowIcon());
+	private MobEffectInstance modifyStatusEffect(MobEffectInstance effect) {
+		if (!level().isClientSide && !effect.isAmbient() && effect.getEffect().getCategory() == MobEffectCategory.BENEFICIAL && (Object) this instanceof Player player && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.TOAD) {
+			return new MobEffectInstance(effect.getEffect(), (int) (effect.getDuration() * (effect.getEffect().isInstantenous() ? 1 : 1.5f)), effect.getAmplifier() + (effect.getEffect().isInstantenous() ? 1 : 0), false, effect.isVisible(), effect.showIcon());
 		}
 		return effect;
 	}
 
 	@ModifyVariable(method = "applyArmorToDamage", at = @At("HEAD"), argsOnly = true)
 	private float modifyDamage(float amount, DamageSource source) {
-		if (!getWorld().isClient && BWComponents.FAMILIAR_COMPONENT.get(this).isFamiliar()) {
+		if (!level().isClientSide && BWComponents.FAMILIAR_COMPONENT.get(this).isFamiliar()) {
 			amount /= 8;
 		}
 		return amount;
@@ -50,12 +50,12 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "onDeath", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getDamageTracker()Lnet/minecraft/entity/damage/DamageTracker;", ordinal = 1))
 	private void removeFamiliar(DamageSource source, CallbackInfo ci) {
-		if (!getWorld().isClient) {
-			BWUniversalWorldState universalWorldState = BWUniversalWorldState.get(getWorld());
+		if (!level().isClientSide) {
+			BWUniversalWorldState universalWorldState = BWUniversalWorldState.get(level());
 			for (int i = universalWorldState.familiars.size() - 1; i >= 0; i--) {
-				if (getUuid().equals(universalWorldState.familiars.get(i).getRight().getUuid("UUID"))) {
+				if (getUUID().equals(universalWorldState.familiars.get(i).getB().getUUID("UUID"))) {
 					universalWorldState.familiars.remove(i);
-					universalWorldState.markDirty();
+					universalWorldState.setDirty();
 					break;
 				}
 			}
@@ -64,14 +64,14 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "handleFallDamage", at = @At("HEAD"), cancellable = true)
 	private void handleFallDamage(float fallDistance, float damageMultiplier, DamageSource source, CallbackInfoReturnable<Boolean> callbackInfo) {
-		if ((Object) this instanceof PlayerEntity player && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.OWL) {
+		if ((Object) this instanceof Player player && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.OWL) {
 			callbackInfo.setReturnValue(false);
 		}
 	}
 
 	@Inject(method = "fall", at = @At("HEAD"), cancellable = true)
 	private void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition, CallbackInfo callbackInfo) {
-		if ((Object) this instanceof PlayerEntity player && onGround && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.OWL) {
+		if ((Object) this instanceof Player player && onGround && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.OWL) {
 			callbackInfo.cancel();
 		}
 	}

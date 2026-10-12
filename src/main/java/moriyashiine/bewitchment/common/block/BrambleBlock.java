@@ -12,85 +12,90 @@ import moriyashiine.bewitchment.common.registry.BWObjects;
 import moriyashiine.bewitchment.common.registry.BWProperties;
 import moriyashiine.bewitchment.common.world.BWWorldState;
 import net.minecraft.block.*;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BoneMealItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.particle.ParticleTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.registry.tag.*;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BoneMealItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SugarCaneBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class BrambleBlock extends SugarCaneBlock {
 
-	public BrambleBlock(Settings settings) {
+	public BrambleBlock(Properties settings) {
 		super(settings);
 	}
 
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		if (this == BWObjects.THICK_BRAMBLE && context instanceof EntityShapeContextAdditionAccessor accessor) {
 			Entity entity = accessor.bw_getEntity();
-			if (entity instanceof LivingEntity && !entity.isSneaking()) {
-				return VoxelShapes.fullCube();
+			if (entity instanceof LivingEntity && !entity.isShiftKeyDown()) {
+				return Shapes.block();
 			}
 		}
 		return super.getCollisionShape(state, world, pos, context);
 	}
 
 	@Override
-	public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-		BlockState downState = world.getBlockState(pos.down());
-		return downState.isOf(this) || downState.isIn(BlockTags.DIRT) || downState.isIn(BlockTags.SAND);
+	public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+		BlockState downState = world.getBlockState(pos.below());
+		return downState.is(this) || downState.is(BlockTags.DIRT) || downState.is(BlockTags.SAND);
 	}
 
 	@Override
-	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
-		if (this == BWObjects.GLOWING_BRAMBLE && !world.isClient && state.getBlock() != oldState.getBlock()) {
+	public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) {
+		if (this == BWObjects.GLOWING_BRAMBLE && !world.isClientSide && state.getBlock() != oldState.getBlock()) {
 			BWWorldState worldState = BWWorldState.get(world);
 			worldState.glowingBrambles.add(pos.asLong());
-			worldState.markDirty();
+			worldState.setDirty();
 		}
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (this == BWObjects.GLOWING_BRAMBLE && !world.isClient && state.getBlock() != newState.getBlock()) {
+	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
+		if (this == BWObjects.GLOWING_BRAMBLE && !world.isClientSide && state.getBlock() != newState.getBlock()) {
 			BWWorldState worldState = BWWorldState.get(world);
 			for (int i = worldState.glowingBrambles.size() - 1; i >= 0; i--) {
 				if (worldState.glowingBrambles.get(i) == pos.asLong()) {
 					worldState.glowingBrambles.remove(i);
-					worldState.markDirty();
+					worldState.setDirty();
 				}
 			}
 		}
-		super.onStateReplaced(state, world, pos, newState, moved);
+		super.onRemove(state, world, pos, newState, moved);
 	}
 
 	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-		if (!world.isClient && entity instanceof LivingEntity) {
-			if (this == BWObjects.ENDER_BRAMBLE && !entity.hasVehicle()) {
+	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
+		if (!world.isClientSide && entity instanceof LivingEntity) {
+			if (this == BWObjects.ENDER_BRAMBLE && !entity.isPassenger()) {
 				boolean teleport = true;
-				if (entity instanceof PlayerEntity player) {
+				if (entity instanceof Player player) {
 					TeleportTimerComponent teleportTimerComponent = BWComponents.TELEPORT_TIMER_COMPONENT.get(player);
 					if (teleportTimerComponent.getTeleportTimer() > 0) {
 						teleport = false;
@@ -99,28 +104,28 @@ public class BrambleBlock extends SugarCaneBlock {
 					}
 				}
 				if (teleport) {
-					BWUtil.attemptTeleport(entity, entity.getBlockPos(), 64, true);
+					BWUtil.attemptTeleport(entity, entity.blockPosition(), 64, true);
 				}
 			}
 			if (this == BWObjects.SCORCHED_BRAMBLE) {
-				entity.setOnFireFor(10);
+				entity.setSecondsOnFire(10);
 			}
 		}
-		if (this == BWObjects.THICK_BRAMBLE && !entity.isSneaking()) {
-			entity.slowMovement(state, new Vec3d(0.25, 0.5, 0.25));
+		if (this == BWObjects.THICK_BRAMBLE && !entity.isShiftKeyDown()) {
+			entity.makeStuckInBlock(state, new Vec3(0.25, 0.5, 0.25));
 		}
 		if (this == BWObjects.FLEETING_BRAMBLE) {
-			if (entity.isInSneakingPose()) {
-				entity.setVelocity(entity.getVelocity().multiply(1, 0.5, 1));
+			if (entity.isCrouching()) {
+				entity.setDeltaMovement(entity.getDeltaMovement().multiply(1, 0.5, 1));
 				entity.fallDistance = 0;
 			} else {
-				entity.addVelocity(0, 0.4, 0);
+				entity.push(0, 0.4, 0);
 			}
 		}
 	}
 
 	@Override
-	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
 		ParticleType<?> particleType = null;
 		if (this == BWObjects.ENDER_BRAMBLE) {
 			particleType = ParticleTypes.PORTAL;
@@ -130,62 +135,62 @@ public class BrambleBlock extends SugarCaneBlock {
 			particleType = ParticleTypes.CLOUD;
 		}
 		if (particleType != null) {
-			world.addParticle((ParticleEffect) particleType, pos.getX() + 0.5 + MathHelper.nextDouble(random, -0.5, 0.5), pos.getY() + 0.5 + MathHelper.nextDouble(random, -0.5, 0.5), pos.getZ() + 0.5 + MathHelper.nextDouble(random, -0.5, 0.5), 0, 0, 0);
+			world.addParticle((ParticleOptions) particleType, pos.getX() + 0.5 + Mth.nextDouble(random, -0.5, 0.5), pos.getY() + 0.5 + Mth.nextDouble(random, -0.5, 0.5), pos.getZ() + 0.5 + Mth.nextDouble(random, -0.5, 0.5), 0, 0, 0);
 		}
 	}
 
 	public static class Fruiting extends BrambleBlock {
-		public Fruiting(Settings settings) {
+		public Fruiting(Properties settings) {
 			super(settings);
-			setDefaultState(getDefaultState().with(BWProperties.HAS_FRUIT, false));
+			registerDefaultState(defaultBlockState().setValue(BWProperties.HAS_FRUIT, false));
 		}
 
 		@Override
-		public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-			boolean client = world.isClient;
-			if (state.get(BWProperties.HAS_FRUIT)) {
+		public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+			boolean client = world.isClientSide;
+			if (state.getValue(BWProperties.HAS_FRUIT)) {
 				if (!client) {
-					world.setBlockState(pos, state.with(Properties.LEVEL_15, 0).with(BWProperties.HAS_FRUIT, false));
-					world.playSound(null, pos, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES, SoundCategory.BLOCKS, 1, 1);
+					world.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.LEVEL, 0).setValue(BWProperties.HAS_FRUIT, false));
+					world.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1, 1);
 					ItemStack stack = new ItemStack(BWObjects.WITCHBERRY);
-					if (!player.getInventory().insertStack(stack)) {
-						player.dropStack(stack);
+					if (!player.getInventory().add(stack)) {
+						player.spawnAtLocation(stack);
 					}
 				}
-				return ActionResult.success(client);
+				return InteractionResult.sidedSuccess(client);
 			} else {
-				ItemStack stack = player.getStackInHand(hand);
+				ItemStack stack = player.getItemInHand(hand);
 				if (stack.getItem() instanceof BoneMealItem) {
-					if (!world.isClient) {
+					if (!world.isClientSide) {
 						if (!player.isCreative()) {
-							stack.decrement(1);
+							stack.shrink(1);
 						}
-						int level = Math.min(8, state.get(Properties.LEVEL_15) + world.random.nextInt(3) + 2);
-						world.setBlockState(pos, state.with(Properties.LEVEL_15, level).with(BWProperties.HAS_FRUIT, level == 8));
+						int level = Math.min(8, state.getValue(BlockStateProperties.LEVEL) + world.random.nextInt(3) + 2);
+						world.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.LEVEL, level).setValue(BWProperties.HAS_FRUIT, level == 8));
 					}
-					return ActionResult.success(client);
+					return InteractionResult.sidedSuccess(client);
 				}
 			}
-			return super.onUse(state, world, pos, player, hand, hit);
+			return super.use(state, world, pos, player, hand, hit);
 		}
 
 		@Override
-		public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+		public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
 			super.randomTick(state, world, pos, random);
 			state = world.getBlockState(pos);
-			if (!state.get(BWProperties.HAS_FRUIT)) {
-				int level = state.get(Properties.LEVEL_15);
+			if (!state.getValue(BWProperties.HAS_FRUIT)) {
+				int level = state.getValue(BlockStateProperties.LEVEL);
 				if (level == 15) {
-					world.setBlockState(pos, state.with(Properties.LEVEL_15, 0).with(BWProperties.HAS_FRUIT, true));
+					world.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.LEVEL, 0).setValue(BWProperties.HAS_FRUIT, true));
 				} else {
-					world.setBlockState(pos, state.with(Properties.LEVEL_15, level + 1));
+					world.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.LEVEL, level + 1));
 				}
 			}
 		}
 
 		@Override
-		protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-			super.appendProperties(builder.add(Properties.LEVEL_15, BWProperties.HAS_FRUIT));
+		protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+			super.createBlockStateDefinition(builder.add(BlockStateProperties.LEVEL, BWProperties.HAS_FRUIT));
 		}
 	}
 }

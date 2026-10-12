@@ -9,91 +9,91 @@ import moriyashiine.bewitchment.client.packet.SyncPoppetShelfPacket;
 import moriyashiine.bewitchment.common.registry.BWBlockEntityTypes;
 import moriyashiine.bewitchment.common.world.BWWorldState;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ItemScatterer;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class PoppetShelfBlockEntity extends BlockEntity {
-	public DefaultedList<ItemStack> clientInventory = DefaultedList.ofSize(9, ItemStack.EMPTY);
+	public NonNullList<ItemStack> clientInventory = NonNullList.withSize(9, ItemStack.EMPTY);
 
 	public PoppetShelfBlockEntity(BlockPos pos, BlockState state) {
 		super(BWBlockEntityTypes.POPPET_SHELF, pos, state);
 	}
 
-	public void onUse(World world, BlockPos pos, PlayerEntity player, Hand hand) {
+	public void onUse(Level world, BlockPos pos, Player player, InteractionHand hand) {
 		BWWorldState worldState = BWWorldState.get(world);
-		ItemStack stack = player.getStackInHand(hand);
+		ItemStack stack = player.getItemInHand(hand);
 		if (stack.getItem() instanceof PoppetItem) {
 			int firstEmpty = getFirstEmptySlot();
 			if (firstEmpty != -1) {
-				DefaultedList<ItemStack> inventory = worldState.poppetShelves.get(pos.asLong());
+				NonNullList<ItemStack> inventory = worldState.poppetShelves.get(pos.asLong());
 				inventory.set(firstEmpty, stack.split(1));
 				sync();
-				worldState.markDirty();
+				worldState.setDirty();
 			}
 		} else {
-			DefaultedList<ItemStack> inventory = worldState.poppetShelves.get(pos.asLong());
+			NonNullList<ItemStack> inventory = worldState.poppetShelves.get(pos.asLong());
 			if (inventory != null) {
-				ItemScatterer.spawn(world, pos, inventory);
+				Containers.dropContents(world, pos, inventory);
 				worldState.poppetShelves.remove(pos.asLong());
 				sync();
-				worldState.markDirty();
+				worldState.setDirty();
 			}
 		}
 	}
 
 	@Override
-	public NbtCompound toInitialChunkDataNbt() {
-		NbtCompound nbt = super.toInitialChunkDataNbt();
-		writeNbt(nbt);
+	public CompoundTag getUpdateTag() {
+		CompoundTag nbt = super.getUpdateTag();
+		saveAdditional(nbt);
 		return nbt;
 	}
 
 	@Nullable
 	@Override
-	public Packet<ClientPlayPacketListener> toUpdatePacket() {
-		return BlockEntityUpdateS2CPacket.create(this);
+	public Packet<ClientGamePacketListener> getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt) {
-		super.readNbt(nbt);
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
 		clientInventory.clear();
-		Inventories.readNbt(nbt, clientInventory);
+		ContainerHelper.loadAllItems(nbt, clientInventory);
 	}
 
 	@Override
-	protected void writeNbt(NbtCompound nbt) {
-		super.writeNbt(nbt);
-		if (world != null && !world.isClient) {
-			DefaultedList<ItemStack> inventory = BWWorldState.get(world).poppetShelves.get(pos.asLong());
+	protected void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
+		if (level != null && !level.isClientSide) {
+			NonNullList<ItemStack> inventory = BWWorldState.get(level).poppetShelves.get(worldPosition.asLong());
 			if (inventory != null) {
-				Inventories.writeNbt(nbt, inventory);
+				ContainerHelper.saveAllItems(nbt, inventory);
 			}
 		}
 	}
 
 	public void sync() {
-		if (world != null && !world.isClient) {
-			PlayerLookup.tracking(this).forEach(trackingPlayer -> SyncPoppetShelfPacket.send(trackingPlayer, pos));
+		if (level != null && !level.isClientSide) {
+			PlayerLookup.tracking(this).forEach(trackingPlayer -> SyncPoppetShelfPacket.send(trackingPlayer, worldPosition));
 		}
 	}
 
 	private int getFirstEmptySlot() {
-		BWWorldState worldState = BWWorldState.get(world);
-		DefaultedList<ItemStack> inventory = worldState.poppetShelves.get(pos.asLong());
+		BWWorldState worldState = BWWorldState.get(level);
+		NonNullList<ItemStack> inventory = worldState.poppetShelves.get(worldPosition.asLong());
 		if (inventory != null) {
 			for (int i = 0; i < inventory.size(); i++) {
 				if (inventory.get(i).isEmpty()) {
@@ -101,8 +101,8 @@ public class PoppetShelfBlockEntity extends BlockEntity {
 				}
 			}
 		} else {
-			worldState.poppetShelves.put(pos.asLong(), DefaultedList.ofSize(9, ItemStack.EMPTY));
-			worldState.markDirty();
+			worldState.poppetShelves.put(worldPosition.asLong(), NonNullList.withSize(9, ItemStack.EMPTY));
+			worldState.setDirty();
 			return 0;
 		}
 		return -1;

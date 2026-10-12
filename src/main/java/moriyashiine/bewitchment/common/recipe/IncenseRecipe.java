@@ -7,28 +7,28 @@ package moriyashiine.bewitchment.common.recipe;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import moriyashiine.bewitchment.common.registry.BWRecipeTypes;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 
-public class IncenseRecipe implements Recipe<Inventory> {
-	private final Identifier identifier;
-	public final DefaultedList<Ingredient> input;
-	public final StatusEffect effect;
+public class IncenseRecipe implements Recipe<Container> {
+	private final ResourceLocation identifier;
+	public final NonNullList<Ingredient> input;
+	public final MobEffect effect;
 	public final int amplifier;
 
-	public IncenseRecipe(Identifier identifier, DefaultedList<Ingredient> input, StatusEffect effect, int amplifier) {
+	public IncenseRecipe(ResourceLocation identifier, NonNullList<Ingredient> input, MobEffect effect, int amplifier) {
 		this.identifier = identifier;
 		this.input = input;
 		this.effect = effect;
@@ -36,27 +36,27 @@ public class IncenseRecipe implements Recipe<Inventory> {
 	}
 
 	@Override
-	public boolean matches(Inventory inv, World world) {
+	public boolean matches(Container inv, Level world) {
 		return RitualRecipe.matches(inv, input);
 	}
 
 	@Override
-	public ItemStack craft(Inventory inventory, DynamicRegistryManager registryManager) {
+	public ItemStack assemble(Container inventory, RegistryAccess registryManager) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public boolean fits(int width, int height) {
+	public boolean canCraftInDimensions(int width, int height) {
 		return true;
 	}
 
 	@Override
-	public ItemStack getOutput(DynamicRegistryManager registryManager) {
+	public ItemStack getResultItem(RegistryAccess registryManager) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public Identifier getId() {
+	public ResourceLocation getId() {
 		return identifier;
 	}
 
@@ -73,30 +73,30 @@ public class IncenseRecipe implements Recipe<Inventory> {
 	@SuppressWarnings("ConstantConditions")
 	public static class Serializer implements RecipeSerializer<IncenseRecipe> {
 		@Override
-		public IncenseRecipe read(Identifier id, JsonObject json) {
-			DefaultedList<Ingredient> ingredients = RitualRecipe.Serializer.getIngredients(JsonHelper.getArray(json, "ingredients"));
+		public IncenseRecipe fromJson(ResourceLocation id, JsonObject json) {
+			NonNullList<Ingredient> ingredients = RitualRecipe.Serializer.getIngredients(GsonHelper.getAsJsonArray(json, "ingredients"));
 			if (ingredients.isEmpty()) {
 				throw new JsonParseException("No ingredients for incense recipe");
 			} else if (ingredients.size() > 4) {
 				throw new JsonParseException("Too many ingredients for incense recipe");
 			}
-			return new IncenseRecipe(id, ingredients, Registries.STATUS_EFFECT.get(new Identifier(JsonHelper.getString(json, "effect"))), JsonHelper.getInt(json, "amplifier", 0));
+			return new IncenseRecipe(id, ingredients, BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(GsonHelper.getAsString(json, "effect"))), GsonHelper.getAsInt(json, "amplifier", 0));
 		}
 
 		@Override
-		public IncenseRecipe read(Identifier id, PacketByteBuf buf) {
-			DefaultedList<Ingredient> defaultedList = DefaultedList.ofSize(buf.readVarInt(), Ingredient.EMPTY);
-			defaultedList.replaceAll(ignored -> Ingredient.fromPacket(buf));
-			return new IncenseRecipe(id, defaultedList, Registries.STATUS_EFFECT.get(new Identifier(buf.readString())), buf.readInt());
+		public IncenseRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+			NonNullList<Ingredient> defaultedList = NonNullList.withSize(buf.readVarInt(), Ingredient.EMPTY);
+			defaultedList.replaceAll(ignored -> Ingredient.fromNetwork(buf));
+			return new IncenseRecipe(id, defaultedList, BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(buf.readUtf())), buf.readInt());
 		}
 
 		@Override
-		public void write(PacketByteBuf buf, IncenseRecipe recipe) {
+		public void write(FriendlyByteBuf buf, IncenseRecipe recipe) {
 			buf.writeVarInt(recipe.input.size());
 			for (Ingredient ingredient : recipe.input) {
-				ingredient.write(buf);
+				ingredient.toNetwork(buf);
 			}
-			buf.writeString(Registries.STATUS_EFFECT.getId(recipe.effect).toString());
+			buf.writeUtf(BuiltInRegistries.MOB_EFFECT.getKey(recipe.effect).toString());
 			buf.writeInt(recipe.amplifier);
 		}
 	}

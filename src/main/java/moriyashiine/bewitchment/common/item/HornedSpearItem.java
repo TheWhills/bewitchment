@@ -12,35 +12,34 @@ import moriyashiine.bewitchment.common.entity.projectile.HornedSpearEntity;
 import moriyashiine.bewitchment.common.registry.BWEntityTypes;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsage;
-import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.stat.Stats;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
-import net.minecraft.world.World;
-
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.level.Level;
 import java.util.UUID;
 
 public class HornedSpearItem extends SwordItem {
-	private static final EntityAttributeModifier REACH_MODIFIER = new EntityAttributeModifier(UUID.fromString("1d25c6a0-3f2c-4d4e-8f5f-941f51aab1b7"), "Weapon modifier", 2, EntityAttributeModifier.Operation.ADDITION);
+	private static final AttributeModifier REACH_MODIFIER = new AttributeModifier(UUID.fromString("1d25c6a0-3f2c-4d4e-8f5f-941f51aab1b7"), "Weapon modifier", 2, AttributeModifier.Operation.ADDITION);
 
-	public HornedSpearItem(ToolMaterial toolMaterial, int attackDamage, float attackSpeed, Settings settings) {
+	public HornedSpearItem(Tier toolMaterial, int attackDamage, float attackSpeed, Properties settings) {
 		super(toolMaterial, attackDamage, attackSpeed, settings);
 	}
 
 	@Override
-	public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot) {
-		Multimap<EntityAttribute, EntityAttributeModifier> map = LinkedHashMultimap.create(super.getAttributeModifiers(slot));
+	public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
+		Multimap<Attribute, AttributeModifier> map = LinkedHashMultimap.create(super.getDefaultAttributeModifiers(slot));
 		if (slot == EquipmentSlot.MAINHAND) {
 			map.put(ReachEntityAttributes.ATTACK_RANGE, REACH_MODIFIER);
 		}
@@ -48,53 +47,53 @@ public class HornedSpearItem extends SwordItem {
 	}
 
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		ItemStack stack = user.getStackInHand(hand);
-		if (stack.getDamage() >= stack.getMaxDamage() - 1) {
-			return TypedActionResult.fail(stack);
+	public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
+		ItemStack stack = user.getItemInHand(hand);
+		if (stack.getDamageValue() >= stack.getMaxDamage() - 1) {
+			return InteractionResultHolder.fail(stack);
 		}
-		return ItemUsage.consumeHeldItem(world, user, hand);
+		return ItemUtils.startUsingInstantly(world, user, hand);
 	}
 
 	@Override
-	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-		int timer = getMaxUseTime(stack) - remainingUseTicks;
+	public void releaseUsing(ItemStack stack, Level world, LivingEntity user, int remainingUseTicks) {
+		int timer = getUseDuration(stack) - remainingUseTicks;
 		if (timer >= 10) {
-			if (!world.isClient) {
+			if (!world.isClientSide) {
 				spawnEntity(world, user, stack);
 			}
-			if (user instanceof PlayerEntity player) {
-				player.incrementStat(Stats.USED.getOrCreateStat(this));
+			if (user instanceof Player player) {
+				player.awardStat(Stats.ITEM_USED.get(this));
 			}
 		}
 	}
 
 	@Override
-	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.SPEAR;
+	public UseAnim getUseAnimation(ItemStack stack) {
+		return UseAnim.SPEAR;
 	}
 
 	@Override
-	public int getMaxUseTime(ItemStack stack) {
+	public int getUseDuration(ItemStack stack) {
 		return 72000;
 	}
 
-	public static void spawnEntity(World world, LivingEntity owner, ItemStack stack) {
-		stack.damage(1, owner, stackUser -> stackUser.sendToolBreakStatus(stackUser.getActiveHand()));
+	public static void spawnEntity(Level world, LivingEntity owner, ItemStack stack) {
+		stack.hurtAndBreak(1, owner, stackUser -> stackUser.broadcastBreakEvent(stackUser.getUsedItemHand()));
 		HornedSpearEntity spear = new HornedSpearEntity(BWEntityTypes.HORNED_SPEAR, owner, world, stack.copy());
-		spear.setVelocity(owner, owner.getPitch(), owner.getYaw(), 0, 3, 1);
-		if (owner instanceof PlayerEntity player) {
+		spear.shootFromRotation(owner, owner.getXRot(), owner.getYRot(), 0, 3, 1);
+		if (owner instanceof Player player) {
 			if (player.isCreative()) {
-				spear.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
+				spear.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
 			}
 		} else {
-			spear.pickupType = PersistentProjectileEntity.PickupPermission.DISALLOWED;
+			spear.pickup = AbstractArrow.Pickup.DISALLOWED;
 		}
-		world.spawnEntity(spear);
+		world.addFreshEntity(spear);
 		PlayerLookup.tracking(spear).forEach(trackingPlayer -> SyncHornedSpearPacket.send(trackingPlayer, spear));
-		world.playSoundFromEntity(null, spear, BWSoundEvents.ITEM_HORNED_SPEAR_USE, SoundCategory.PLAYERS, 1, 1);
-		if (owner instanceof PlayerEntity player && !player.isCreative()) {
-			stack.decrement(1);
+		world.playSound(null, spear, BWSoundEvents.ITEM_HORNED_SPEAR_USE, SoundSource.PLAYERS, 1, 1);
+		if (owner instanceof Player player && !player.isCreative()) {
+			stack.shrink(1);
 		}
 	}
 }

@@ -7,26 +7,26 @@ package moriyashiine.bewitchment.common.recipe;
 import moriyashiine.bewitchment.api.item.PoppetItem;
 import moriyashiine.bewitchment.common.item.TaglockItem;
 import moriyashiine.bewitchment.common.registry.BWRecipeTypes;
-import net.minecraft.inventory.RecipeInputInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.SpecialCraftingRecipe;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 
-public class TaglockCraftingRecipe extends SpecialCraftingRecipe {
-	public TaglockCraftingRecipe(Identifier id) {
-		super(id, CraftingRecipeCategory.EQUIPMENT);
+public class TaglockCraftingRecipe extends CustomRecipe {
+	public TaglockCraftingRecipe(ResourceLocation id) {
+		super(id, CraftingBookCategory.EQUIPMENT);
 	}
 
 	@Override
-	public boolean matches(RecipeInputInventory inventory, World world) {
+	public boolean matches(CraftingContainer inventory, Level world) {
 		boolean foundTaglock = false, foundCraftable = false;
 		int foundItems = 0;
-		for (int i = 0; i < inventory.size(); i++) {
-			ItemStack stack = inventory.getStack(i);
+		for (int i = 0; i < inventory.getContainerSize(); i++) {
+			ItemStack stack = inventory.getItem(i);
 			if (stack.getItem() instanceof TaglockItem && TaglockItem.hasTaglock(stack)) {
 				if (!foundTaglock) {
 					foundTaglock = true;
@@ -43,10 +43,10 @@ public class TaglockCraftingRecipe extends SpecialCraftingRecipe {
 	}
 
 	@Override
-	public ItemStack craft(RecipeInputInventory inventory, DynamicRegistryManager registryManager) {
+	public ItemStack craft(CraftingContainer inventory, RegistryAccess registryManager) {
 		ItemStack taglock = null, craftedStack = null;
-		for (int i = 0; i < inventory.size(); i++) {
-			ItemStack stack = inventory.getStack(i);
+		for (int i = 0; i < inventory.getContainerSize(); i++) {
+			ItemStack stack = inventory.getItem(i);
 			if (stack.getItem() instanceof TaglockItem) {
 				taglock = stack.copy();
 			} else if (isTaglockCraftable(stack)) {
@@ -57,7 +57,7 @@ public class TaglockCraftingRecipe extends SpecialCraftingRecipe {
 	}
 
 	@Override
-	public boolean fits(int width, int height) {
+	public boolean canCraftInDimensions(int width, int height) {
 		return true;
 	}
 

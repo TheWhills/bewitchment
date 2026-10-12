@@ -8,66 +8,66 @@ import moriyashiine.bewitchment.common.item.AthameItem;
 import moriyashiine.bewitchment.common.registry.BWObjects;
 import moriyashiine.bewitchment.common.registry.BWProperties;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.PillarBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.StateManager;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ItemScatterer;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.phys.BlockHitResult;
 
-public class DragonsBloodLogBlock extends PillarBlock {
-	public DragonsBloodLogBlock(Settings settings) {
+public class DragonsBloodLogBlock extends RotatedPillarBlock {
+	public DragonsBloodLogBlock(Properties settings) {
 		super(settings);
-		setDefaultState(getDefaultState().with(BWProperties.NATURAL, false).with(BWProperties.CUT, false));
+		registerDefaultState(defaultBlockState().setValue(BWProperties.NATURAL, false).setValue(BWProperties.CUT, false));
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		ItemStack stack = player.getStackInHand(hand);
-		if (state.get(BWProperties.NATURAL) && !state.get(BWProperties.CUT) && stack.getItem() instanceof AthameItem) {
-			boolean client = world.isClient;
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		ItemStack stack = player.getItemInHand(hand);
+		if (state.getValue(BWProperties.NATURAL) && !state.getValue(BWProperties.CUT) && stack.getItem() instanceof AthameItem) {
+			boolean client = world.isClientSide;
 			if (!client) {
-				world.setBlockState(pos, state.with(BWProperties.CUT, true));
-				world.playSound(null, pos, BWSoundEvents.ITEM_ATHAME_STRIP, SoundCategory.BLOCKS, 1, 1);
-				stack.damage(1, player, stackUser -> stackUser.sendToolBreakStatus(hand));
+				world.setBlockAndUpdate(pos, state.setValue(BWProperties.CUT, true));
+				world.playSound(null, pos, BWSoundEvents.ITEM_ATHAME_STRIP, SoundSource.BLOCKS, 1, 1);
+				stack.hurtAndBreak(1, player, stackUser -> stackUser.broadcastBreakEvent(hand));
 			}
-			return ActionResult.success(client);
+			return InteractionResult.sidedSuccess(client);
 		}
-		return super.onUse(state, world, pos, player, hand, hit);
+		return super.use(state, world, pos, player, hand, hit);
 	}
 
 	@Override
-	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-		if (state.get(BWProperties.CUT)) {
+	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+		if (state.getValue(BWProperties.CUT)) {
 			if (random.nextInt(10) == 0) {
 				for (int i = 0; i < 8; i++) {
-					BlockPos offset = pos.offset(Direction.Type.HORIZONTAL.random(random));
+					BlockPos offset = pos.relative(Direction.Plane.HORIZONTAL.getRandomDirection(random));
 					if (world.getBlockState(offset).isAir()) {
-						ItemScatterer.spawn(world, offset.getX() + 0.5, offset.getY() + 0.5, offset.getZ() + 0.5, new ItemStack(BWObjects.DRAGONS_BLOOD_RESIN));
-						world.playSound(null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 1, 1);
+						Containers.dropItemStack(world, offset.getX() + 0.5, offset.getY() + 0.5, offset.getZ() + 0.5, new ItemStack(BWObjects.DRAGONS_BLOOD_RESIN));
+						world.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1, 1);
 						break;
 					}
 				}
 			}
 			if (random.nextInt(50) == 0) {
-				world.setBlockState(pos, state.with(BWProperties.CUT, false));
+				world.setBlockAndUpdate(pos, state.setValue(BWProperties.CUT, false));
 			}
 		}
 	}
 
 	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		super.appendProperties(builder.add(BWProperties.NATURAL, BWProperties.CUT));
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		super.createBlockStateDefinition(builder.add(BWProperties.NATURAL, BWProperties.CUT));
 	}
 }

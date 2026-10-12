@@ -10,25 +10,25 @@ import moriyashiine.bewitchment.common.block.entity.interfaces.SigilHolder;
 import moriyashiine.bewitchment.common.registry.BWEntityTypes;
 import moriyashiine.bewitchment.common.registry.BWObjects;
 import moriyashiine.bewitchment.common.registry.BWRegistries;
-import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.DoorBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.enums.DoubleBlockHalf;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -37,77 +37,77 @@ import java.util.List;
 public class SigilItem extends Item {
 	public final Sigil sigil;
 
-	public SigilItem(Settings settings, Sigil sigil) {
+	public SigilItem(Properties settings, Sigil sigil) {
 		super(settings);
 		this.sigil = sigil;
 	}
 
 	@Override
-	public ActionResult useOnBlock(ItemUsageContext context) {
-		World world = context.getWorld();
-		BlockPos pos = context.getBlockPos();
-		ItemStack stack = context.getStack();
-		PlayerEntity player = context.getPlayer();
-		boolean client = world.isClient;
+	public InteractionResult useOn(UseOnContext context) {
+		Level world = context.getLevel();
+		BlockPos pos = context.getClickedPos();
+		ItemStack stack = context.getItemInHand();
+		Player player = context.getPlayer();
+		boolean client = world.isClientSide;
 		BlockState state = world.getBlockState(pos);
 		if (!sigil.active) {
-			ItemPlacementContext placementContext = new ItemPlacementContext(context);
-			if (!state.canReplace(placementContext)) {
-				pos = pos.offset(context.getSide());
+			BlockPlaceContext placementContext = new BlockPlaceContext(context);
+			if (!state.canBeReplaced(placementContext)) {
+				pos = pos.relative(context.getClickedFace());
 			}
-			if (!world.getBlockState(pos).canReplace(placementContext)) {
-				return ActionResult.PASS;
+			if (!world.getBlockState(pos).canBeReplaced(placementContext)) {
+				return InteractionResult.PASS;
 			}
-			BlockState sigilState = BWObjects.SIGIL.getPlacementState(placementContext);
-			if (sigilState.canPlaceAt(world, pos)) {
+			BlockState sigilState = BWObjects.SIGIL.getStateForPlacement(placementContext);
+			if (sigilState.canSurvive(world, pos)) {
 				if (!client) {
-					world.playSound(null, pos, sigilState.getSoundGroup().getPlaceSound(), SoundCategory.BLOCKS, 1, MathHelper.nextFloat(world.random, 0.8f, 1.2f));
-					world.setBlockState(pos, sigilState);
+					world.playSound(null, pos, sigilState.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1, Mth.nextFloat(world.random, 0.8f, 1.2f));
+					world.setBlockAndUpdate(pos, sigilState);
 					BlockEntity blockEntity = world.getBlockEntity(pos);
 					SigilHolder sigilHolder = (SigilHolder) blockEntity;
 					sigilHolder.setSigil(sigil);
 					sigilHolder.setUses(sigil.uses * (BewitchmentAPI.getFamiliar(player) == BWEntityTypes.SNAKE ? 2 : 1));
-					sigilHolder.setOwner(player.getUuid());
+					sigilHolder.setOwner(player.getUUID());
 					sigilHolder.syncSigilHolder(blockEntity);
-					blockEntity.markDirty();
-					if (player instanceof ServerPlayerEntity serverPlayerEntity) {
-						Criteria.PLACED_BLOCK.trigger(serverPlayerEntity, pos, stack);
+					blockEntity.setChanged();
+					if (player instanceof ServerPlayer serverPlayerEntity) {
+						CriteriaTriggers.PLACED_BLOCK.trigger(serverPlayerEntity, pos, stack);
 						if (!player.isCreative()) {
-							stack.decrement(1);
+							stack.shrink(1);
 						}
 					}
 				}
-				return ActionResult.success(client);
+				return InteractionResult.sidedSuccess(client);
 			}
 		} else {
 			BlockEntity blockEntity = world.getBlockEntity(pos);
 			if (blockEntity instanceof SigilHolder sigilHolder && state.getBlock() != BWObjects.SIGIL) {
-				if (state.getBlock() instanceof DoorBlock && state.get(DoorBlock.HALF) == DoubleBlockHalf.UPPER) {
-					blockEntity = world.getBlockEntity(pos.down());
+				if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER) {
+					blockEntity = world.getBlockEntity(pos.below());
 				}
 				if (!client) {
 					sigilHolder.setSigil(sigil);
 					sigilHolder.setUses(sigil.uses * (BewitchmentAPI.getFamiliar(player) == BWEntityTypes.SNAKE ? 2 : 1));
-					sigilHolder.setOwner(player.getUuid());
+					sigilHolder.setOwner(player.getUUID());
 					sigilHolder.syncSigilHolder(blockEntity);
-					blockEntity.markDirty();
+					blockEntity.setChanged();
 					if (!player.isCreative()) {
-						stack.decrement(1);
+						stack.shrink(1);
 					}
 				}
-				return ActionResult.success(client);
+				return InteractionResult.sidedSuccess(client);
 			}
 		}
-		return super.useOnBlock(context);
+		return super.useOn(context);
 	}
 
 	@Override
-	public String getTranslationKey() {
-		return BWObjects.SIGIL.getTranslationKey();
+	public String getDescriptionId() {
+		return BWObjects.SIGIL.getDescriptionId();
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(Text.translatable("sigil." + BWRegistries.SIGIL.getId(sigil).toString().replace(":", ".")).formatted(Formatting.GRAY));
+	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
+		tooltip.add(Component.translatable("sigil." + BWRegistries.SIGIL.getKey(sigil).toString().replace(":", ".")).withStyle(ChatFormatting.GRAY));
 	}
 }

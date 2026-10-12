@@ -4,11 +4,11 @@
 
 package moriyashiine.bewitchment.api.registry;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 
 public class Sigil {
 	public final boolean active;
@@ -19,11 +19,11 @@ public class Sigil {
 		this.uses = uses;
 	}
 
-	public int tick(World world, BlockPos pos) {
+	public int tick(Level world, BlockPos pos) {
 		return 0;
 	}
 
-	public ActionResult use(World world, BlockPos pos, LivingEntity user, Hand hand) {
-		return ActionResult.PASS;
+	public InteractionResult use(Level world, BlockPos pos, LivingEntity user, InteractionHand hand) {
+		return InteractionResult.PASS;
 	}
 }

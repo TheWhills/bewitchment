@@ -4,31 +4,31 @@
 
 package moriyashiine.bewitchment.common.item.util;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.world.World;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import vazkii.patchouli.api.PatchouliAPI;
 import vazkii.patchouli.common.base.PatchouliSounds;
 import vazkii.patchouli.common.book.Book;
 import vazkii.patchouli.common.book.BookRegistry;
 
 public class BWBookItem extends Item {
-	public BWBookItem(Settings settings) {
+	public BWBookItem(Properties settings) {
 		super(settings);
 	}
 
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		if (user instanceof ServerPlayerEntity serverPlayer) {
-			Book book = BookRegistry.INSTANCE.books.get(Registries.ITEM.getId(this));
+	public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
+		if (user instanceof ServerPlayer serverPlayer) {
+			Book book = BookRegistry.INSTANCE.books.get(BuiltInRegistries.ITEM.getKey(this));
 			PatchouliAPI.get().openBookGUI(serverPlayer, book.id);
 			user.playSound(PatchouliSounds.getSound(book.openSound, PatchouliSounds.BOOK_OPEN), 1, (float) (0.7 + Math.random() * 0.4));
 		}
-		return TypedActionResult.success(user.getStackInHand(hand));
+		return InteractionResultHolder.success(user.getItemInHand(hand));
 	}
 }

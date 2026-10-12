@@ -5,16 +5,15 @@
 package moriyashiine.bewitchment.common.registry;
 
 import moriyashiine.bewitchment.common.Bewitchment;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BWSoundEvents {
-	private static final Map<SoundEvent, Identifier> SOUND_EVENTS = new LinkedHashMap<>();
+	private static final Map<SoundEvent, ResourceLocation> SOUND_EVENTS = new LinkedHashMap<>();
 
 	public static final SoundEvent BLOCK_GLPYH_PLACE = create("block.glyph.place");
 	public static final SoundEvent BLOCK_GLYPH_FIRE = create("block.glyph.fire");
@@ -76,13 +75,13 @@ public class BWSoundEvents {
 	public static final SoundEvent ENTITY_HERNE_DEATH = create("entity.herne.death");
 
 	private static SoundEvent create(String name) {
-		Identifier id = Bewitchment.id(name);
-		SoundEvent soundEvent = SoundEvent.of(id);
+		ResourceLocation id = Bewitchment.id(name);
+		SoundEvent soundEvent = SoundEvent.createVariableRangeEvent(id);
 		SOUND_EVENTS.put(soundEvent, id);
 		return soundEvent;
 	}
 
 	public static void init() {
-		SOUND_EVENTS.keySet().forEach(soundEvent -> Registry.register(Registries.SOUND_EVENT, SOUND_EVENTS.get(soundEvent), soundEvent));
+		SOUND_EVENTS.keySet().forEach(soundEvent -> Registry.register(BuiltInRegistries.SOUND_EVENT, SOUND_EVENTS.get(soundEvent), soundEvent));
 	}
 }

@@ -7,19 +7,19 @@ package moriyashiine.bewitchment.mixin.contract;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWContracts;
 import moriyashiine.bewitchment.common.registry.BWTags;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,18 +31,18 @@ import java.util.List;
 @Mixin(Block.class)
 public abstract class BlockMixin {
 	@Inject(method = "getDroppedStacks(Lnet/minecraft/block/BlockState;Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/entity/BlockEntity;Lnet/minecraft/entity/Entity;Lnet/minecraft/item/ItemStack;)Ljava/util/List;", at = @At("RETURN"))
-	private static void getDroppedStacks(BlockState state, ServerWorld world, BlockPos pos, @Nullable BlockEntity blockEntity, @Nullable Entity entity, ItemStack stack, CallbackInfoReturnable<List<ItemStack>> callbackInfo) {
-		if (entity instanceof PlayerEntity player) {
+	private static void getDroppedStacks(BlockState state, ServerLevel world, BlockPos pos, @Nullable BlockEntity blockEntity, @Nullable Entity entity, ItemStack stack, CallbackInfoReturnable<List<ItemStack>> callbackInfo) {
+		if (entity instanceof Player player) {
 			BWComponents.CONTRACTS_COMPONENT.maybeGet(player).ifPresent(contractsComponent -> {
 				List<ItemStack> drops = callbackInfo.getReturnValue();
-				if (!drops.isEmpty() && !EnchantmentHelper.get(stack).containsKey(Enchantments.SILK_TOUCH)) {
+				if (!drops.isEmpty() && !EnchantmentHelper.getEnchantments(stack).containsKey(Enchantments.SILK_TOUCH)) {
 					if (contractsComponent.hasContract(BWContracts.GREED)) {
 						for (int i = 0; i < drops.size(); i++) {
-							if (state.isIn(BWTags.ORES)) {
-								for (Recipe<?> smeltingRecipe : world.getRecipeManager().listAllOfType(RecipeType.SMELTING)) {
+							if (state.is(BWTags.ORES)) {
+								for (Recipe<?> smeltingRecipe : world.getRecipeManager().getAllRecipesFor(RecipeType.SMELTING)) {
 									for (Ingredient ingredient : smeltingRecipe.getIngredients()) {
 										if (ingredient.test(drops.get(i))) {
-											drops.set(i, new ItemStack(smeltingRecipe.getOutput(world.getRegistryManager()).getItem(), smeltingRecipe.getOutput(world.getRegistryManager()).getCount() * drops.get(i).getCount()));
+											drops.set(i, new ItemStack(smeltingRecipe.getResultItem(world.registryAccess()).getItem(), smeltingRecipe.getResultItem(world.registryAccess()).getCount() * drops.get(i).getCount()));
 										}
 									}
 								}

@@ -5,16 +5,16 @@
 package moriyashiine.bewitchment.common.world.generator.tree.generator;
 
 import moriyashiine.bewitchment.common.registry.BWWorldGenerators;
-import net.minecraft.block.sapling.SaplingGenerator;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.grower.AbstractTreeGrower;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import org.jetbrains.annotations.Nullable;
 
-public class DragonsBloodSaplingGenerator extends SaplingGenerator {
+public class DragonsBloodSaplingGenerator extends AbstractTreeGrower {
 	@Nullable
 	@Override
-	protected RegistryKey<ConfiguredFeature<?, ?>> getTreeFeature(Random random, boolean bees) {
+	protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource random, boolean bees) {
 		return BWWorldGenerators.DRAGONS_BLOOD;
 	}
 }

@@ -4,30 +4,30 @@
 
 package moriyashiine.bewitchment.common.entity.living.util;
 
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class BWHostileEntity extends HostileEntity {
-	public static final TrackedData<Integer> VARIANT = DataTracker.registerData(BWHostileEntity.class, TrackedDataHandlerRegistry.INTEGER);
+public abstract class BWHostileEntity extends Monster {
+	public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(BWHostileEntity.class, EntityDataSerializers.INT);
 
-	protected BWHostileEntity(EntityType<? extends HostileEntity> entityType, World world) {
+	protected BWHostileEntity(EntityType<? extends Monster> entityType, Level world) {
 		super(entityType, world);
 	}
 
 	@Override
-	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData, @Nullable CompoundTag entityTag) {
 		initializeVariant();
-		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
+		return super.finalizeSpawn(world, difficulty, spawnReason, entityData, entityTag);
 	}
 
 	public void initializeVariant() {
@@ -35,37 +35,37 @@ public abstract class BWHostileEntity extends HostileEntity {
 		if (variants > 1) {
 			if (hasShiny()) {
 				if (random.nextInt(8192) == 0) {
-					dataTracker.set(VARIANT, 0);
+					entityData.set(VARIANT, 0);
 				} else {
-					dataTracker.set(VARIANT, random.nextInt(variants - 1) + 1);
+					entityData.set(VARIANT, random.nextInt(variants - 1) + 1);
 				}
 			} else {
-				dataTracker.set(VARIANT, random.nextInt(variants));
+				entityData.set(VARIANT, random.nextInt(variants));
 			}
 		}
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
+	protected void defineSynchedData() {
+		super.defineSynchedData();
 		if (getVariants() > 1) {
-			dataTracker.startTracking(VARIANT, 1);
+			entityData.define(VARIANT, 1);
 		}
 	}
 
 	@Override
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
 		if (getVariants() > 1) {
-			dataTracker.set(VARIANT, nbt.getInt("Variant"));
+			entityData.set(VARIANT, nbt.getInt("Variant"));
 		}
 	}
 
 	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		super.addAdditionalSaveData(nbt);
 		if (getVariants() > 1) {
-			nbt.putInt("Variant", dataTracker.get(VARIANT));
+			nbt.putInt("Variant", entityData.get(VARIANT));
 		}
 	}
 
@@ -74,7 +74,7 @@ public abstract class BWHostileEntity extends HostileEntity {
 	public abstract int getVariants();
 
 	public int getVariant() {
-		if (this.getDataTracker().get(BWHostileEntity.VARIANT) < 0) initializeVariant();
-		return this.getDataTracker().get(BWHostileEntity.VARIANT);
+		if (this.getEntityData().get(BWHostileEntity.VARIANT) < 0) initializeVariant();
+		return this.getEntityData().get(BWHostileEntity.VARIANT);
 	}
 }

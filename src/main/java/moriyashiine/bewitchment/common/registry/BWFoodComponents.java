@@ -4,16 +4,16 @@
 
 package moriyashiine.bewitchment.common.registry;
 
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.FoodComponent;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
 
 public class BWFoodComponents {
-	public static final FoodComponent DEMON_HEART = new FoodComponent.Builder().hunger(8).saturationModifier(0.6f).meat().alwaysEdible().statusEffect(new StatusEffectInstance(BWStatusEffects.CORRUPTION, 1), 1).statusEffect(new StatusEffectInstance(StatusEffects.WITHER, 800, 2), 1).statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 800, 2), 1).statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 800, 2), 1).build();
+	public static final FoodProperties DEMON_HEART = new FoodProperties.Builder().nutrition(8).saturationMod(0.6f).meat().alwaysEat().effect(new MobEffectInstance(BWStatusEffects.CORRUPTION, 1), 1).effect(new MobEffectInstance(MobEffects.WITHER, 800, 2), 1).effect(new MobEffectInstance(MobEffects.CONFUSION, 800, 2), 1).effect(new MobEffectInstance(MobEffects.HUNGER, 800, 2), 1).build();
 
-	public static final FoodComponent GARLIC_BREAD = new FoodComponent.Builder().hunger(10).saturationModifier(0.5f).build();
+	public static final FoodProperties GARLIC_BREAD = new FoodProperties.Builder().nutrition(10).saturationMod(0.5f).build();
 
-	public static final FoodComponent WITCHBERRY = new FoodComponent.Builder().hunger(3).saturationModifier(0.6f).alwaysEdible().build();
-	public static final FoodComponent WITCHBERRY_PIE = new FoodComponent.Builder().hunger(8).saturationModifier(0.3f).alwaysEdible().build();
-	public static final FoodComponent WITCHBERRY_COOKIE = new FoodComponent.Builder().hunger(2).saturationModifier(0.1f).alwaysEdible().build();
+	public static final FoodProperties WITCHBERRY = new FoodProperties.Builder().nutrition(3).saturationMod(0.6f).alwaysEat().build();
+	public static final FoodProperties WITCHBERRY_PIE = new FoodProperties.Builder().nutrition(8).saturationMod(0.3f).alwaysEat().build();
+	public static final FoodProperties WITCHBERRY_COOKIE = new FoodProperties.Builder().nutrition(2).saturationMod(0.1f).alwaysEat().build();
 }

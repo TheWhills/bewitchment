@@ -15,17 +15,17 @@ import moriyashiine.bewitchment.common.entity.living.WerewolfEntity;
 import moriyashiine.bewitchment.common.entity.living.util.BWHostileEntity;
 import moriyashiine.bewitchment.common.registry.*;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -41,7 +41,7 @@ import java.util.stream.Stream;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
 	@Shadow
-	public abstract boolean addStatusEffect(StatusEffectInstance effect);
+	public abstract boolean addStatusEffect(MobEffectInstance effect);
 
 	@Shadow
 	public abstract boolean clearStatusEffects();
@@ -55,7 +55,7 @@ public abstract class LivingEntityMixin extends Entity {
 	@Shadow
 	public abstract float getSoundPitch();
 
-	public LivingEntityMixin(EntityType<?> type, World world) {
+	public LivingEntityMixin(EntityType<?> type, Level world) {
 		super(type, world);
 	}
 
@@ -64,59 +64,59 @@ public abstract class LivingEntityMixin extends Entity {
 		if (BWComponents.ADDITIONAL_WATER_DATA_COMPONENT.get(this).isSubmerged()) {
 			return true;
 		}
-		return obj.isSubmergedIn(tagKey);
+		return obj.isEyeInFluid(tagKey);
 	}
 
 	@ModifyVariable(method = "applyArmorToDamage", at = @At("HEAD"), argsOnly = true)
 	private float modifyDamage(float amount, DamageSource source) {
-		if (!getWorld().isClient) {
-			if (amount > 0 && (Object) this instanceof PlayerEntity player && !BewitchmentAPI.isVampire(this, true)) {
-				PoppetData poppetData = BewitchmentAPI.getPoppetFromInventory(getWorld(), BWObjects.VAMPIRIC_POPPET, null, Stream.concat(player.getInventory().main.stream(), player.getInventory().offHand.stream()).collect(Collectors.toList()));
+		if (!level().isClientSide) {
+			if (amount > 0 && (Object) this instanceof Player player && !BewitchmentAPI.isVampire(this, true)) {
+				PoppetData poppetData = BewitchmentAPI.getPoppetFromInventory(level(), BWObjects.VAMPIRIC_POPPET, null, Stream.concat(player.getInventory().items.stream(), player.getInventory().offhand.stream()).collect(Collectors.toList()));
 				if (!poppetData.stack().isEmpty()) {
-					LivingEntity owner = BewitchmentAPI.getTaglockOwner(getWorld(), poppetData.stack());
-					if (!BewitchmentAPI.isVampire(owner, true) && !getUuid().equals(owner.getUuid()) && owner.damage(BWDamageSources.create(owner.getWorld(), BWDamageSources.VAMPIRE), amount)) {
+					LivingEntity owner = BewitchmentAPI.getTaglockOwner(level(), poppetData.stack());
+					if (!BewitchmentAPI.isVampire(owner, true) && !getUUID().equals(owner.getUUID()) && owner.hurt(BWDamageSources.create(owner.level(), BWDamageSources.VAMPIRE), amount)) {
 						boolean sync = false;
-						if (poppetData.stack().damage((int) (amount * (BewitchmentAPI.getFamiliar(player) == EntityType.WOLF && random.nextBoolean() ? 0.5f : 1)), random, null) && poppetData.stack().getDamage() >= poppetData.stack().getMaxDamage()) {
-							poppetData.stack().decrement(1);
+						if (poppetData.stack().hurt((int) (amount * (BewitchmentAPI.getFamiliar(player) == EntityType.WOLF && random.nextBoolean() ? 0.5f : 1)), random, null) && poppetData.stack().getDamageValue() >= poppetData.stack().getMaxDamage()) {
+							poppetData.stack().shrink(1);
 							sync = true;
 						}
-						poppetData.update(getWorld(), sync);
+						poppetData.update(level(), sync);
 						return 0;
 					}
 				}
 			}
 			if (PoppetItem.PROTECTION_POPPET_SOURCES.test(source)) {
-				PoppetData poppetData = BewitchmentAPI.getPoppet(getWorld(), BWObjects.PROTECTION_POPPET, this);
+				PoppetData poppetData = BewitchmentAPI.getPoppet(level(), BWObjects.PROTECTION_POPPET, this);
 				if (!poppetData.stack().isEmpty()) {
 					boolean sync = false;
-					if (poppetData.stack().damage((int) (amount * ((Object) this instanceof PlayerEntity player && BewitchmentAPI.getFamiliar(player) == EntityType.WOLF && random.nextBoolean() ? 0.5f : 1)), random, null) && poppetData.stack().getDamage() >= poppetData.stack().getMaxDamage()) {
-						poppetData.stack().decrement(1);
+					if (poppetData.stack().hurt((int) (amount * ((Object) this instanceof Player player && BewitchmentAPI.getFamiliar(player) == EntityType.WOLF && random.nextBoolean() ? 0.5f : 1)), random, null) && poppetData.stack().getDamageValue() >= poppetData.stack().getMaxDamage()) {
+						poppetData.stack().shrink(1);
 						sync = true;
 					}
-					poppetData.update(getWorld(), sync);
+					poppetData.update(level(), sync);
 					return 0;
 				}
 			}
-			if (source.getAttacker() instanceof LivingEntity livingAttacker && BewitchmentAPI.isWeakToSilver(livingAttacker)) {
-				PoppetData poppetData = BewitchmentAPI.getPoppet(getWorld(), BWObjects.JUDGMENT_POPPET, this);
+			if (source.getEntity() instanceof LivingEntity livingAttacker && BewitchmentAPI.isWeakToSilver(livingAttacker)) {
+				PoppetData poppetData = BewitchmentAPI.getPoppet(level(), BWObjects.JUDGMENT_POPPET, this);
 				if (!poppetData.stack().isEmpty()) {
 					boolean sync = false;
-					if (poppetData.stack().damage((Object) this instanceof PlayerEntity && BewitchmentAPI.getFamiliar((PlayerEntity) (Object) this) == EntityType.WOLF && random.nextBoolean() ? 0 : 1, random, null) && poppetData.stack().getDamage() >= poppetData.stack().getMaxDamage()) {
-						poppetData.stack().decrement(1);
+					if (poppetData.stack().hurt((Object) this instanceof Player && BewitchmentAPI.getFamiliar((Player) (Object) this) == EntityType.WOLF && random.nextBoolean() ? 0 : 1, random, null) && poppetData.stack().getDamageValue() >= poppetData.stack().getMaxDamage()) {
+						poppetData.stack().shrink(1);
 						sync = true;
 					}
-					poppetData.update(getWorld(), sync);
+					poppetData.update(level(), sync);
 					amount /= 4;
 				}
 			}
-			if (source.getSource() instanceof LivingEntity livingSource) {
-				PoppetData poppetData = BewitchmentAPI.getPoppet(getWorld(), BWObjects.FATIGUE_POPPET, this);
+			if (source.getDirectEntity() instanceof LivingEntity livingSource) {
+				PoppetData poppetData = BewitchmentAPI.getPoppet(level(), BWObjects.FATIGUE_POPPET, this);
 				boolean sync = false;
-				if (!poppetData.stack().isEmpty() && livingSource.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 60, 1)) && poppetData.stack().damage((Object) this instanceof PlayerEntity player && BewitchmentAPI.getFamiliar(player) == EntityType.WOLF && random.nextBoolean() ? 0 : 1, random, null) && poppetData.stack().getDamage() >= poppetData.stack().getMaxDamage()) {
-					poppetData.stack().decrement(1);
+				if (!poppetData.stack().isEmpty() && livingSource.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 60, 1)) && poppetData.stack().hurt((Object) this instanceof Player player && BewitchmentAPI.getFamiliar(player) == EntityType.WOLF && random.nextBoolean() ? 0 : 1, random, null) && poppetData.stack().getDamageValue() >= poppetData.stack().getMaxDamage()) {
+					poppetData.stack().shrink(1);
 					sync = true;
 				}
-				poppetData.update(getWorld(), sync);
+				poppetData.update(level(), sync);
 			}
 		}
 		return amount;
@@ -124,46 +124,46 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "tryUseTotem", at = @At("RETURN"), cancellable = true)
 	private void tryUseTotem(DamageSource source, CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (!getWorld().isClient) {
+		if (!level().isClientSide) {
 			if (!callbackInfo.getReturnValueZ()) {
-				boolean isPlayer = (Object) this instanceof PlayerEntity;
-				PoppetData poppetData = BewitchmentAPI.getPoppet(getWorld(), BWObjects.DEATH_PROTECTION_POPPET, this);
-				if (!poppetData.stack().isEmpty() && !(isPlayer && ReviveEvents.CANCEL_REVIVE.invoker().shouldCancel((PlayerEntity) (Object) this, source, poppetData.stack()))) {
+				boolean isPlayer = (Object) this instanceof Player;
+				PoppetData poppetData = BewitchmentAPI.getPoppet(level(), BWObjects.DEATH_PROTECTION_POPPET, this);
+				if (!poppetData.stack().isEmpty() && !(isPlayer && ReviveEvents.CANCEL_REVIVE.invoker().shouldCancel((Player) (Object) this, source, poppetData.stack()))) {
 					if (isPlayer) {
-						ReviveEvents.ON_REVIVE.invoker().onRevive((PlayerEntity) (Object) this, source, poppetData.stack());
+						ReviveEvents.ON_REVIVE.invoker().onRevive((Player) (Object) this, source, poppetData.stack());
 					}
 					boolean sync = false;
-					if (poppetData.stack().damage((Object) this instanceof PlayerEntity player && BewitchmentAPI.getFamiliar(player) == EntityType.WOLF && random.nextBoolean() ? 0 : 1, random, null) && poppetData.stack().getDamage() >= poppetData.stack().getMaxDamage()) {
-						poppetData.stack().decrement(1);
+					if (poppetData.stack().hurt((Object) this instanceof Player player && BewitchmentAPI.getFamiliar(player) == EntityType.WOLF && random.nextBoolean() ? 0 : 1, random, null) && poppetData.stack().getDamageValue() >= poppetData.stack().getMaxDamage()) {
+						poppetData.stack().shrink(1);
 						sync = true;
 					}
-					poppetData.update(getWorld(), sync);
+					poppetData.update(level(), sync);
 					setHealth(1);
 					clearStatusEffects();
-					addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
-					addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
-					addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
+					addStatusEffect(new MobEffectInstance(MobEffects.REGENERATION, 900, 1));
+					addStatusEffect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 1));
+					addStatusEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 800, 0));
 					callbackInfo.setReturnValue(true);
 				}
 			}
-			if (callbackInfo.getReturnValueZ() && (Object) this instanceof ServerPlayerEntity player && (!BWConfig.enableCurses || BWComponents.CURSES_COMPONENT.get(player).hasCurse(BWCurses.SUSCEPTIBILITY))) {
+			if (callbackInfo.getReturnValueZ() && (Object) this instanceof ServerPlayer player && (!BWConfig.enableCurses || BWComponents.CURSES_COMPONENT.get(player).hasCurse(BWCurses.SUSCEPTIBILITY))) {
 				BWComponents.TRANSFORMATION_COMPONENT.maybeGet(player).ifPresent(transformationComponent -> {
 					if (transformationComponent.getTransformation() == BWTransformations.HUMAN) {
-						if (source.getSource() instanceof VampireEntity || (source.getSource() instanceof PlayerEntity playerSource && BewitchmentAPI.isVampire(playerSource, true) && BewitchmentAPI.isPledged(playerSource, BWPledges.LILITH))) {
+						if (source.getDirectEntity() instanceof VampireEntity || (source.getDirectEntity() instanceof Player playerSource && BewitchmentAPI.isVampire(playerSource, true) && BewitchmentAPI.isPledged(playerSource, BWPledges.LILITH))) {
 							transformationComponent.getTransformation().onRemoved(player);
 							transformationComponent.setTransformation(BWTransformations.VAMPIRE);
 							transformationComponent.getTransformation().onAdded(player);
 							PlayerLookup.tracking(this).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, this));
 							SpawnSmokeParticlesPacket.send(player, this);
-							getWorld().playSound(null, getBlockPos(), BWSoundEvents.ENTITY_GENERIC_CURSE, getSoundCategory(), getSoundVolume(), getSoundPitch());
-						} else if (source.getSource() instanceof WerewolfEntity || (source.getSource() instanceof PlayerEntity playerSource && BewitchmentAPI.isWerewolf(playerSource, false) && BewitchmentAPI.isPledged(playerSource, BWPledges.HERNE))) {
+							level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_CURSE, getSoundSource(), getSoundVolume(), getSoundPitch());
+						} else if (source.getDirectEntity() instanceof WerewolfEntity || (source.getDirectEntity() instanceof Player playerSource && BewitchmentAPI.isWerewolf(playerSource, false) && BewitchmentAPI.isPledged(playerSource, BWPledges.HERNE))) {
 							transformationComponent.getTransformation().onRemoved(player);
 							transformationComponent.setTransformation(BWTransformations.WEREWOLF);
 							transformationComponent.getTransformation().onAdded(player);
 							int variant = -1;
-							if (source.getSource() instanceof WerewolfEntity) {
-								variant = source.getSource().getDataTracker().get(BWHostileEntity.VARIANT);
-							} else if (source.getSource() instanceof PlayerEntity playerSource) {
+							if (source.getDirectEntity() instanceof WerewolfEntity) {
+								variant = source.getDirectEntity().getEntityData().get(BWHostileEntity.VARIANT);
+							} else if (source.getDirectEntity() instanceof Player playerSource) {
 								variant = BWComponents.ADDITIONAL_WEREWOLF_DATA_COMPONENT.get(playerSource).getVariant();
 							}
 							if (variant > -1) {
@@ -171,7 +171,7 @@ public abstract class LivingEntityMixin extends Entity {
 							}
 							PlayerLookup.tracking(this).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, this));
 							SpawnSmokeParticlesPacket.send(player, this);
-							getWorld().playSound(null, getBlockPos(), BWSoundEvents.ENTITY_GENERIC_CURSE, getSoundCategory(), getSoundVolume(), getSoundPitch());
+							level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_CURSE, getSoundSource(), getSoundVolume(), getSoundPitch());
 						}
 					}
 				});

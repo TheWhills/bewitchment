@@ -5,8 +5,8 @@
 package moriyashiine.bewitchment.common.fortune;
 
 import moriyashiine.bewitchment.api.registry.Fortune;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 
 public class WisdomFortune extends Fortune {
 	public WisdomFortune(boolean positive) {
@@ -14,8 +14,8 @@ public class WisdomFortune extends Fortune {
 	}
 
 	@Override
-	public boolean finish(ServerWorld world, PlayerEntity target) {
-		target.addExperience(551);
+	public boolean finish(ServerLevel world, Player target) {
+		target.giveExperiencePoints(551);
 		return super.finish(world, target);
 	}
 }

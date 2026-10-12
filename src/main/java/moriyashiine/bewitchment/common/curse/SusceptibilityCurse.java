@@ -6,9 +6,9 @@ package moriyashiine.bewitchment.common.curse;
 
 import moriyashiine.bewitchment.api.registry.Curse;
 import moriyashiine.bewitchment.common.registry.BWStatusEffects;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
 
 public class SusceptibilityCurse extends Curse {
 	public SusceptibilityCurse(Type type) {
@@ -17,7 +17,7 @@ public class SusceptibilityCurse extends Curse {
 
 	@Override
 	public void tick(LivingEntity target) {
-		target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 19, 1, true, false));
-		target.addStatusEffect(new StatusEffectInstance(BWStatusEffects.SINKING, 19, 0, true, false));
+		target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 19, 1, true, false));
+		target.addEffect(new MobEffectInstance(BWStatusEffects.SINKING, 19, 0, true, false));
 	}
 }

@@ -5,7 +5,7 @@
 package moriyashiine.bewitchment.api.event;
 
 import net.fabricmc.fabric.api.event.Event;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 
 import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
 

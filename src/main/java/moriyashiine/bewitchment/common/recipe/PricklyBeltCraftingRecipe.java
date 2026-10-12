@@ -6,38 +6,37 @@ package moriyashiine.bewitchment.common.recipe;
 
 import moriyashiine.bewitchment.common.item.PricklyBeltItem;
 import moriyashiine.bewitchment.common.registry.BWRecipeTypes;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.inventory.RecipeInputInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.potion.PotionUtil;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.SpecialCraftingRecipe;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
-
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
-public class PricklyBeltCraftingRecipe extends SpecialCraftingRecipe {
-	public PricklyBeltCraftingRecipe(Identifier id) {
-		super(id, CraftingRecipeCategory.EQUIPMENT);
+public class PricklyBeltCraftingRecipe extends CustomRecipe {
+	public PricklyBeltCraftingRecipe(ResourceLocation id) {
+		super(id, CraftingBookCategory.EQUIPMENT);
 	}
 
 	@Override
-	public boolean matches(RecipeInputInventory inventory, World world) {
+	public boolean matches(CraftingContainer inventory, Level world) {
 		boolean foundPricklyBelt = false, foundPotion = false;
 		int foundItems = 0;
-		for (int i = 0; i < inventory.size(); i++) {
-			ItemStack stack = inventory.getStack(i);
+		for (int i = 0; i < inventory.getContainerSize(); i++) {
+			ItemStack stack = inventory.getItem(i);
 			if (stack.getItem() instanceof PricklyBeltItem) {
 				if (!foundPricklyBelt) {
 					foundPricklyBelt = true;
 				}
 				foundItems++;
-			} else if (stack.getItem() == Items.POTION && (!PotionUtil.getPotionEffects(stack).isEmpty() || !PotionUtil.getCustomPotionEffects(stack).isEmpty())) {
+			} else if (stack.getItem() == Items.POTION && (!PotionUtils.getMobEffects(stack).isEmpty() || !PotionUtils.getCustomEffects(stack).isEmpty())) {
 				if (!foundPotion) {
 					foundPotion = true;
 				}
@@ -48,10 +47,10 @@ public class PricklyBeltCraftingRecipe extends SpecialCraftingRecipe {
 	}
 
 	@Override
-	public ItemStack craft(RecipeInputInventory inventory, DynamicRegistryManager registryManager) {
+	public ItemStack craft(CraftingContainer inventory, RegistryAccess registryManager) {
 		ItemStack pricklyBelt = null, potion = null;
-		for (int i = 0; i < inventory.size(); i++) {
-			ItemStack stack = inventory.getStack(i);
+		for (int i = 0; i < inventory.getContainerSize(); i++) {
+			ItemStack stack = inventory.getItem(i);
 			if (stack.getItem() instanceof PricklyBeltItem) {
 				pricklyBelt = stack.copy();
 			} else if (stack.getItem() == Items.POTION) {
@@ -59,9 +58,9 @@ public class PricklyBeltCraftingRecipe extends SpecialCraftingRecipe {
 			}
 		}
 		int uses = 1;
-		List<StatusEffectInstance> effects = !PotionUtil.getCustomPotionEffects(potion).isEmpty() ? PotionUtil.getCustomPotionEffects(potion) : PotionUtil.getPotionEffects(potion);
+		List<MobEffectInstance> effects = !PotionUtils.getCustomEffects(potion).isEmpty() ? PotionUtils.getCustomEffects(potion) : PotionUtils.getMobEffects(potion);
 		for (int i = 0; i < effects.size(); i++) {
-			StatusEffectInstance effect = effects.get(i);
+			MobEffectInstance effect = effects.get(i);
 			int duration = effect.getDuration();
 			int amplifier = effect.getAmplifier();
 			while (duration > 600) {
@@ -72,19 +71,19 @@ public class PricklyBeltCraftingRecipe extends SpecialCraftingRecipe {
 				uses += 2;
 				amplifier--;
 			}
-			effects.set(i, new StatusEffectInstance(effect.getEffectType(), duration, amplifier, effect.isAmbient(), effect.shouldShowParticles(), effect.shouldShowIcon()));
+			effects.set(i, new MobEffectInstance(effect.getEffect(), duration, amplifier, effect.isAmbient(), effect.isVisible(), effect.showIcon()));
 		}
-		if (potion.getOrCreateNbt().contains("PolymorphUUID")) {
-			pricklyBelt.getOrCreateNbt().putUuid("PolymorphUUID", potion.getNbt().getUuid("PolymorphUUID"));
-			pricklyBelt.getOrCreateNbt().putString("PolymorphName", potion.getNbt().getString("PolymorphName"));
+		if (potion.getOrCreateTag().contains("PolymorphUUID")) {
+			pricklyBelt.getOrCreateTag().putUUID("PolymorphUUID", potion.getTag().getUUID("PolymorphUUID"));
+			pricklyBelt.getOrCreateTag().putString("PolymorphName", potion.getTag().getString("PolymorphName"));
 		}
-		PotionUtil.setCustomPotionEffects(pricklyBelt, effects);
-		pricklyBelt.getOrCreateNbt().putInt("PotionUses", uses);
+		PotionUtils.setCustomEffects(pricklyBelt, effects);
+		pricklyBelt.getOrCreateTag().putInt("PotionUses", uses);
 		return pricklyBelt;
 	}
 
 	@Override
-	public boolean fits(int width, int height) {
+	public boolean canCraftInDimensions(int width, int height) {
 		return true;
 	}
 

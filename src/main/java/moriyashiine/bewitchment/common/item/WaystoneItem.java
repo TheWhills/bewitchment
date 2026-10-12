@@ -5,34 +5,34 @@
 package moriyashiine.bewitchment.common.item;
 
 import moriyashiine.bewitchment.common.Bewitchment;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
 public class WaystoneItem extends Item {
-	public WaystoneItem(Settings settings) {
+	public WaystoneItem(Properties settings) {
 		super(settings);
 	}
 
 	@Override
-	public ActionResult useOnBlock(ItemUsageContext context) {
-		World world = context.getWorld();
-		boolean client = world.isClient;
+	public InteractionResult useOn(UseOnContext context) {
+		Level world = context.getLevel();
+		boolean client = world.isClientSide;
 		if (!client) {
-			context.getStack().getOrCreateNbt().putLong("LocationPos", context.getBlockPos().offset(context.getSide()).asLong());
-			context.getStack().getOrCreateNbt().putString("LocationWorld", world.getRegistryKey().getValue().toString());
+			context.getItemInHand().getOrCreateTag().putLong("LocationPos", context.getClickedPos().relative(context.getClickedFace()).asLong());
+			context.getItemInHand().getOrCreateTag().putString("LocationWorld", world.dimension().location().toString());
 		}
-		return ActionResult.success(client);
+		return InteractionResult.sidedSuccess(client);
 	}
 
 	@Override
@@ -41,10 +41,10 @@ public class WaystoneItem extends Item {
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		if (stack.hasNbt() && stack.getNbt().contains("LocationPos")) {
-			BlockPos pos = BlockPos.fromLong(stack.getNbt().getLong("LocationPos"));
-			tooltip.add(Text.translatable(Bewitchment.MOD_ID + ".tooltip.location", pos.getX(), pos.getY(), pos.getZ(), stack.getNbt().getString("LocationWorld")).formatted(Formatting.GRAY));
+	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
+		if (stack.hasTag() && stack.getTag().contains("LocationPos")) {
+			BlockPos pos = BlockPos.of(stack.getTag().getLong("LocationPos"));
+			tooltip.add(Component.translatable(Bewitchment.MOD_ID + ".tooltip.location", pos.getX(), pos.getY(), pos.getZ(), stack.getTag().getString("LocationWorld")).withStyle(ChatFormatting.GRAY));
 		}
 	}
 }

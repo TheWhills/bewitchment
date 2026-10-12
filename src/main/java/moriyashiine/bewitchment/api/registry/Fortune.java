@@ -4,8 +4,8 @@
 
 package moriyashiine.bewitchment.api.registry;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 
 public class Fortune {
 	public final boolean positive;
@@ -14,11 +14,11 @@ public class Fortune {
 		this.positive = positive;
 	}
 
-	public boolean tick(ServerWorld world, PlayerEntity target) {
+	public boolean tick(ServerLevel world, Player target) {
 		return false;
 	}
 
-	public boolean finish(ServerWorld world, PlayerEntity target) {
+	public boolean finish(ServerLevel world, Player target) {
 		return true;
 	}
 

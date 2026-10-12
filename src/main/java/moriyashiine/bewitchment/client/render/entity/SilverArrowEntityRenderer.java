@@ -6,19 +6,19 @@ package moriyashiine.bewitchment.client.render.entity;
 
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.entity.projectile.SilverArrowEntity;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.ProjectileEntityRenderer;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.entity.ArrowRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
 
-public class SilverArrowEntityRenderer extends ProjectileEntityRenderer<SilverArrowEntity> {
-	private static final Identifier TEXTURE = Bewitchment.id("textures/entity/projectiles/silver_arrow.png");
+public class SilverArrowEntityRenderer extends ArrowRenderer<SilverArrowEntity> {
+	private static final ResourceLocation TEXTURE = Bewitchment.id("textures/entity/projectiles/silver_arrow.png");
 
-	public SilverArrowEntityRenderer(EntityRendererFactory.Context context) {
+	public SilverArrowEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
 	}
 
 	@Override
-	public Identifier getTexture(SilverArrowEntity entity) {
+	public ResourceLocation getTexture(SilverArrowEntity entity) {
 		return TEXTURE;
 	}
 }

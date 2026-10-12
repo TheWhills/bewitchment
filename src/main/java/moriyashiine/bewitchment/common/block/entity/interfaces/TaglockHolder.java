@@ -7,52 +7,51 @@ package moriyashiine.bewitchment.common.block.entity.interfaces;
 import moriyashiine.bewitchment.common.block.entity.JuniperChestBlockEntity;
 import moriyashiine.bewitchment.common.block.entity.TaglockHolderBlockEntity;
 import moriyashiine.bewitchment.common.item.TaglockItem;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import java.util.UUID;
 
 @SuppressWarnings("ConstantConditions")
 public interface TaglockHolder {
-	DefaultedList<ItemStack> getTaglockInventory();
+	NonNullList<ItemStack> getTaglockInventory();
 
 	UUID getOwner();
 
 	void setOwner(UUID owner);
 
-	default void fromNbtTaglock(NbtCompound nbt) {
-		Inventories.readNbt(nbt.getCompound("TaglockInventory"), getTaglockInventory());
+	default void fromNbtTaglock(CompoundTag nbt) {
+		ContainerHelper.loadAllItems(nbt.getCompound("TaglockInventory"), getTaglockInventory());
 		if (nbt.contains("Owner")) {
-			setOwner(nbt.getUuid("Owner"));
+			setOwner(nbt.getUUID("Owner"));
 		}
 	}
 
-	default void toNbtTaglock(NbtCompound nbt) {
-		nbt.put("TaglockInventory", Inventories.writeNbt(new NbtCompound(), getTaglockInventory()));
+	default void toNbtTaglock(CompoundTag nbt) {
+		nbt.put("TaglockInventory", ContainerHelper.saveAllItems(new CompoundTag(), getTaglockInventory()));
 		if (getOwner() != null) {
-			nbt.putUuid("Owner", getOwner());
+			nbt.putUUID("Owner", getOwner());
 		}
 	}
 
-	default void use(World world, BlockPos pos, LivingEntity user) {
-		if (!user.getUuid().equals(getOwner())) {
+	default void use(Level world, BlockPos pos, LivingEntity user) {
+		if (!user.getUUID().equals(getOwner())) {
 			addTaglock(world, pos, user);
 		}
 	}
 
-	default void addTaglock(World world, BlockPos pos, Entity entity) {
+	default void addTaglock(Level world, BlockPos pos, Entity entity) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		TaglockHolder taglockHolder = (TaglockHolder) blockEntity;
 		boolean found = false;
 		for (ItemStack stack : taglockHolder.getTaglockInventory()) {
-			if (stack.getItem() instanceof TaglockItem && TaglockItem.hasTaglock(stack) && entity.getUuid().equals(TaglockItem.getTaglockUUID(stack))) {
+			if (stack.getItem() instanceof TaglockItem && TaglockItem.hasTaglock(stack) && entity.getUUID().equals(TaglockItem.getTaglockUUID(stack))) {
 				found = true;
 				break;
 			}
@@ -63,7 +62,7 @@ public interface TaglockHolder {
 				if (stack.getItem() instanceof TaglockItem && !TaglockItem.hasTaglock(stack)) {
 					TaglockItem.putTaglock(stack, entity);
 					syncTaglockHolder(blockEntity);
-					blockEntity.markDirty();
+					blockEntity.setChanged();
 					break;
 				}
 			}
@@ -87,7 +86,7 @@ public interface TaglockHolder {
 		}
 	}
 
-	static void onUse(World world, BlockPos pos, LivingEntity user) {
+	static void onUse(Level world, BlockPos pos, LivingEntity user) {
 		if (world.getBlockEntity(pos) instanceof TaglockHolder taglockHolder) {
 			taglockHolder.use(world, pos, user);
 		}

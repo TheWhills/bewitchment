@@ -6,26 +6,26 @@ package moriyashiine.bewitchment.common.component.entity;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import moriyashiine.bewitchment.common.registry.BWComponents;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 
 public class AdditionalWerewolfDataComponent implements AutoSyncedComponent {
-	private final PlayerEntity obj;
+	private final Player obj;
 	private int variant = 0;
 	private boolean forcedTransformation = false;
 
-	public AdditionalWerewolfDataComponent(PlayerEntity obj) {
+	public AdditionalWerewolfDataComponent(Player obj) {
 		this.obj = obj;
 	}
 
 	@Override
-	public void readFromNbt(NbtCompound tag) {
+	public void readFromNbt(CompoundTag tag) {
 		setForcedTransformation(tag.getBoolean("ForcedTransformation"));
 		setVariant(tag.getInt("WerewolfVariant"));
 	}
 
 	@Override
-	public void writeToNbt(NbtCompound tag) {
+	public void writeToNbt(CompoundTag tag) {
 		tag.putBoolean("ForcedTransformation", isForcedTransformation());
 		tag.putInt("WerewolfVariant", getVariant());
 	}

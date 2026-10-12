@@ -8,92 +8,99 @@ import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.common.registry.*;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.GrassBlock;
+import net.minecraft.world.level.block.HugeMushroomBlock;
+import net.minecraft.world.level.block.NyliumBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class WitchAltarBlockEntity extends BlockEntity implements Inventory {
+public class WitchAltarBlockEntity extends BlockEntity implements Container {
 	private int loadingTimer = 20;
 
 	private final Map<Block, Integer> checked = new HashMap<>();
-	private final BlockPos.Mutable checking = new BlockPos.Mutable();
+	private final BlockPos.MutableBlockPos checking = new BlockPos.MutableBlockPos();
 	private int counter = 0;
 
 	public int power = 0, maxPower = 0, gain = 1;
 
 	public boolean markedForScan = false;
 
-	private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
+	private final NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
 
 	public WitchAltarBlockEntity(BlockPos pos, BlockState state) {
 		super(BWBlockEntityTypes.WITCH_ALTAR, pos, state);
 	}
 
 	@Override
-	public NbtCompound toInitialChunkDataNbt() {
-		NbtCompound nbt = super.toInitialChunkDataNbt();
-		writeNbt(nbt);
+	public CompoundTag getUpdateTag() {
+		CompoundTag nbt = super.getUpdateTag();
+		saveAdditional(nbt);
 		return nbt;
 	}
 
 	@Nullable
 	@Override
-	public Packet<ClientPlayPacketListener> toUpdatePacket() {
-		return BlockEntityUpdateS2CPacket.create(this);
+	public Packet<ClientGamePacketListener> getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt) {
-		super.readNbt(nbt);
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
 		inventory.clear();
-		Inventories.readNbt(nbt, inventory);
+		ContainerHelper.loadAllItems(nbt, inventory);
 		power = nbt.getInt("Power");
 		maxPower = nbt.getInt("MaxPower");
 		gain = nbt.getInt("Gain");
 	}
 
 	@Override
-	protected void writeNbt(NbtCompound nbt) {
-		super.writeNbt(nbt);
-		Inventories.writeNbt(nbt, inventory);
+	protected void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
+		ContainerHelper.saveAllItems(nbt, inventory);
 		nbt.putInt("Power", power);
 		nbt.putInt("MaxPower", maxPower);
 		nbt.putInt("Gain", gain);
 	}
 
 	public void sync() {
-		if (world != null && !world.isClient) {
-			world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
+		if (level != null && !level.isClientSide) {
+			level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
 		}
 	}
 
-	public static void tick(World world, BlockPos pos, BlockState state, WitchAltarBlockEntity blockEntity) {
-		if (world != null && !world.isClient) {
+	public static void tick(Level world, BlockPos pos, BlockState state, WitchAltarBlockEntity blockEntity) {
+		if (world != null && !world.isClientSide) {
 			if (blockEntity.loadingTimer > 0) {
 				blockEntity.loadingTimer--;
 				if (blockEntity.loadingTimer == 0) {
 					blockEntity.markedForScan = true;
 				}
 			} else {
-				if (world.getTime() % 20 == 0) {
-					blockEntity.markDirty();
+				if (world.getGameTime() % 20 == 0) {
+					blockEntity.setChanged();
 				}
 				if (blockEntity.markedForScan) {
 					blockEntity.counter = 0;
@@ -102,14 +109,14 @@ public class WitchAltarBlockEntity extends BlockEntity implements Inventory {
 					blockEntity.markedForScan = false;
 				}
 				blockEntity.scan(40);
-				if (world.getTime() % 20 == 0) {
-					if (world.getBlockState(pos.up()).getBlock() == BWObjects.BLESSED_STONE) {
+				if (world.getGameTime() % 20 == 0) {
+					if (world.getBlockState(pos.above()).getBlock() == BWObjects.BLESSED_STONE) {
 						blockEntity.power = Integer.MAX_VALUE;
 					} else {
 						blockEntity.power = Math.min(blockEntity.power + blockEntity.gain, blockEntity.maxPower);
 					}
-					PlayerLookup.around((ServerWorld) world, Vec3d.of(pos), 24).forEach(player -> {
-						if (player.isPartOfGame() && !player.isCreative() && !BWComponents.CURSES_COMPONENT.get(player).hasCurse(BWCurses.APATHY) && BewitchmentAPI.fillMagic(player, 5, true) && blockEntity.drain(10, true)) {
+					PlayerLookup.around((ServerLevel) world, Vec3.atLowerCornerOf(pos), 24).forEach(player -> {
+						if (player.canBeSeenByAnyone() && !player.isCreative() && !BWComponents.CURSES_COMPONENT.get(player).hasCurse(BWCurses.APATHY) && BewitchmentAPI.fillMagic(player, 5, true) && blockEntity.drain(10, true)) {
 							BewitchmentAPI.fillMagic(player, 5, false);
 							blockEntity.drain(10, false);
 						}
@@ -120,14 +127,14 @@ public class WitchAltarBlockEntity extends BlockEntity implements Inventory {
 	}
 
 	@Override
-	public int size() {
+	public int getContainerSize() {
 		return inventory.size();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		for (int i = 0; i < size(); i++) {
-			if (getStack(i).isEmpty()) {
+		for (int i = 0; i < getContainerSize(); i++) {
+			if (getItem(i).isEmpty()) {
 				return false;
 			}
 		}
@@ -135,32 +142,32 @@ public class WitchAltarBlockEntity extends BlockEntity implements Inventory {
 	}
 
 	@Override
-	public ItemStack getStack(int slot) {
+	public ItemStack getItem(int slot) {
 		return inventory.get(slot);
 	}
 
 	@Override
-	public ItemStack removeStack(int slot, int amount) {
-		return Inventories.splitStack(inventory, slot, amount);
+	public ItemStack removeItem(int slot, int amount) {
+		return ContainerHelper.removeItem(inventory, slot, amount);
 	}
 
 	@Override
-	public ItemStack removeStack(int slot) {
-		return Inventories.removeStack(inventory, slot);
+	public ItemStack removeItemNoUpdate(int slot) {
+		return ContainerHelper.takeItem(inventory, slot);
 	}
 
 	@Override
-	public void setStack(int slot, ItemStack stack) {
+	public void setItem(int slot, ItemStack stack) {
 		inventory.set(slot, stack);
 	}
 
 	@Override
-	public boolean canPlayerUse(PlayerEntity player) {
-		return player.squaredDistanceTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) < 16;
+	public boolean stillValid(Player player) {
+		return player.distanceToSqr(worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5) < 16;
 	}
 
 	@Override
-	public void clear() {
+	public void clearContent() {
 		inventory.clear();
 	}
 
@@ -175,19 +182,19 @@ public class WitchAltarBlockEntity extends BlockEntity implements Inventory {
 	}
 
 	private void scan(int times) {
-		if (world != null) {
+		if (level != null) {
 			for (int i = 0; i < times; i++) {
 				counter = ++counter % Short.MAX_VALUE;
 				int x = counter & 31;
 				int y = (counter >> 5) & 31;
 				int z = (counter >> 10) & 31;
-				BlockState checkedState = world.getBlockState(checking.set(pos.getX() + x - 15, pos.getY() + y - 15, pos.getZ() + z - 15));
+				BlockState checkedState = level.getBlockState(checking.set(worldPosition.getX() + x - 15, worldPosition.getY() + y - 15, worldPosition.getZ() + z - 15));
 				Block checkedBlock = checkedState.getBlock();
-				if (givesAltarPower(checkedState) && !(checkedState.isIn(BlockTags.LOGS) && Registries.BLOCK.getId(checkedBlock).getPath().contains("stripped"))) {
+				if (givesAltarPower(checkedState) && !(checkedState.is(BlockTags.LOGS) && BuiltInRegistries.BLOCK.getKey(checkedBlock).getPath().contains("stripped"))) {
 					checked.put(checkedBlock, Math.min(checked.getOrDefault(checkedBlock, 0) + 1, 256));
 				}
 				if (counter == Short.MAX_VALUE - 1) {
-					gain = getPentacleValue(getStack(1));
+					gain = getPentacleValue(getItem(1));
 					maxPower = 0;
 					float varietyMultiplier = 1;
 					for (Block block : checked.keySet()) {
@@ -196,7 +203,7 @@ public class WitchAltarBlockEntity extends BlockEntity implements Inventory {
 						}
 						maxPower += checked.get(block);
 					}
-					maxPower = (int) ((maxPower * Math.min(varietyMultiplier, 4) / 10) * getSwordValue(getStack(0)) + getWandValue(getStack(2)));
+					maxPower = (int) ((maxPower * Math.min(varietyMultiplier, 4) / 10) * getSwordValue(getItem(0)) + getWandValue(getItem(2)));
 					power = Math.min(power, maxPower);
 					checked.clear();
 				}
@@ -205,21 +212,21 @@ public class WitchAltarBlockEntity extends BlockEntity implements Inventory {
 	}
 
 	private static boolean givesAltarPower(BlockState state) {
-		if (state.getBlock() instanceof PlantBlock || state.getBlock() instanceof MushroomBlock || state.getBlock() instanceof Fertilizable && !(state.getBlock() instanceof GrassBlock || state.getBlock() instanceof NyliumBlock)) {
+		if (state.getBlock() instanceof BushBlock || state.getBlock() instanceof HugeMushroomBlock || state.getBlock() instanceof BonemealableBlock && !(state.getBlock() instanceof GrassBlock || state.getBlock() instanceof NyliumBlock)) {
 			return true;
 		}
-		return state.isIn(BWTags.GIVES_ALTAR_POWER);
+		return state.is(BWTags.GIVES_ALTAR_POWER);
 	}
 
 	private static float getSwordValue(ItemStack stack) {
-		return stack.isIn(BWTags.WEAK_SWORDS) ? 1.1F : stack.isIn(BWTags.AVERAGE_SWORDS) ? 1.2F : stack.isIn(BWTags.STRONG_SWORDS) ? 1.3F : 1;
+		return stack.is(BWTags.WEAK_SWORDS) ? 1.1F : stack.is(BWTags.AVERAGE_SWORDS) ? 1.2F : stack.is(BWTags.STRONG_SWORDS) ? 1.3F : 1;
 	}
 
 	private static int getPentacleValue(ItemStack stack) {
-		return stack.isIn(BWTags.WEAK_PENTACLES) ? 2 : stack.isIn(BWTags.AVERAGE_PENTACLES) ? 3 : stack.isIn(BWTags.STRONG_PENTACLES) ? 5 : 1;
+		return stack.is(BWTags.WEAK_PENTACLES) ? 2 : stack.is(BWTags.AVERAGE_PENTACLES) ? 3 : stack.is(BWTags.STRONG_PENTACLES) ? 5 : 1;
 	}
 
 	private static int getWandValue(ItemStack stack) {
-		return stack.isIn(BWTags.WEAK_WANDS) ? 40 : stack.isIn(BWTags.AVERAGE_WANDS) ? 80 : stack.isIn(BWTags.STRONG_WANDS) ? 120 : 0;
+		return stack.is(BWTags.WEAK_WANDS) ? 40 : stack.is(BWTags.AVERAGE_WANDS) ? 80 : stack.is(BWTags.STRONG_WANDS) ? 120 : 0;
 	}
 }

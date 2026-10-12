@@ -8,23 +8,23 @@ import com.mojang.authlib.GameProfile;
 import io.github.ladysnake.impersonate.Impersonator;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.registry.BWComponents;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.AttributeContainer;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 
-public class PolymorphStatusEffect extends StatusEffect {
-	public static final Identifier IMPERSONATE_IDENTIFIER = Bewitchment.id("polymorph");
+public class PolymorphStatusEffect extends MobEffect {
+	public static final ResourceLocation IMPERSONATE_IDENTIFIER = Bewitchment.id("polymorph");
 
-	public PolymorphStatusEffect(StatusEffectCategory category, int color) {
+	public PolymorphStatusEffect(MobEffectCategory category, int color) {
 		super(category, color);
 	}
 
 	@Override
-	public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-		if (entity instanceof ServerPlayerEntity player) {
+	public void addAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {
+		if (entity instanceof ServerPlayer player) {
 			BWComponents.POLYMORPH_COMPONENT.maybeGet(player).ifPresent(polymorphComponent -> {
 				if (polymorphComponent.getUuid() != null) {
 					Impersonator.get(player).impersonate(IMPERSONATE_IDENTIFIER, new GameProfile(polymorphComponent.getUuid(), polymorphComponent.getName()));

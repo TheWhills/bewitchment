@@ -6,27 +6,27 @@ package moriyashiine.bewitchment.common.item;
 
 import moriyashiine.bewitchment.api.item.BroomItem;
 import moriyashiine.bewitchment.common.Bewitchment;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
 public class DragonsBloodBroomItem extends BroomItem {
-	public DragonsBloodBroomItem(Settings settings, EntityType<?> broom) {
+	public DragonsBloodBroomItem(Properties settings, EntityType<?> broom) {
 		super(settings, broom);
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		if (stack.hasNbt() && stack.getNbt().contains("Sigil")) {
-			tooltip.add(Text.translatable("sigil." + stack.getNbt().getString("Sigil").replace(":", ".")).formatted(Formatting.GRAY));
-			tooltip.add(Text.translatable(Bewitchment.MOD_ID + ".tooltip.uses_left", stack.getNbt().getInt("Uses")).formatted(Formatting.GRAY));
+	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
+		if (stack.hasTag() && stack.getTag().contains("Sigil")) {
+			tooltip.add(Component.translatable("sigil." + stack.getTag().getString("Sigil").replace(":", ".")).withStyle(ChatFormatting.GRAY));
+			tooltip.add(Component.translatable(Bewitchment.MOD_ID + ".tooltip.uses_left", stack.getTag().getInt("Uses")).withStyle(ChatFormatting.GRAY));
 		}
 	}
 }

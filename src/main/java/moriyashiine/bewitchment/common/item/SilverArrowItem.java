@@ -6,33 +6,33 @@ package moriyashiine.bewitchment.common.item;
 
 import moriyashiine.bewitchment.common.entity.projectile.SilverArrowEntity;
 import moriyashiine.bewitchment.common.registry.BWEntityTypes;
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.block.dispenser.DispenserBehavior;
-import net.minecraft.block.dispenser.ProjectileDispenserBehavior;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.ArrowItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.Position;
-import net.minecraft.world.World;
+import net.minecraft.core.Position;
+import net.minecraft.core.dispenser.AbstractProjectileDispenseBehavior;
+import net.minecraft.core.dispenser.DispenseItemBehavior;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ArrowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DispenserBlock;
 
 public class SilverArrowItem extends ArrowItem {
-	private static final DispenserBehavior DISPENSER_BEHAVIOR = new ProjectileDispenserBehavior() {
-		protected ProjectileEntity createProjectile(World world, Position position, ItemStack stack) {
-			SilverArrowEntity arrowEntity = new SilverArrowEntity(world, position.getX(), position.getY(), position.getZ());
-			arrowEntity.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
+	private static final DispenseItemBehavior DISPENSER_BEHAVIOR = new AbstractProjectileDispenseBehavior() {
+		protected Projectile getProjectile(Level world, Position position, ItemStack stack) {
+			SilverArrowEntity arrowEntity = new SilverArrowEntity(world, position.x(), position.y(), position.z());
+			arrowEntity.pickup = AbstractArrow.Pickup.ALLOWED;
 			return arrowEntity;
 		}
 	};
 
-	public SilverArrowItem(Settings settings) {
+	public SilverArrowItem(Properties settings) {
 		super(settings);
 		DispenserBlock.registerBehavior(this, DISPENSER_BEHAVIOR);
 	}
 
 	@Override
-	public PersistentProjectileEntity createArrow(World world, ItemStack stack, LivingEntity shooter) {
+	public AbstractArrow createArrow(Level world, ItemStack stack, LivingEntity shooter) {
 		return new SilverArrowEntity(BWEntityTypes.SILVER_ARROW, shooter, world);
 	}
 }

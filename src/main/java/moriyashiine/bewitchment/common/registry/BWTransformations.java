@@ -8,14 +8,13 @@ import moriyashiine.bewitchment.api.registry.Transformation;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.transformation.VampireTransformation;
 import moriyashiine.bewitchment.common.transformation.WerewolfTransformation;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BWTransformations {
-	private static final Map<Transformation, Identifier> TRANSFORMATIONS = new LinkedHashMap<>();
+	private static final Map<Transformation, ResourceLocation> TRANSFORMATIONS = new LinkedHashMap<>();
 
 	public static final Transformation HUMAN = create("human", new Transformation());
 	public static final Transformation VAMPIRE = create("vampire", new VampireTransformation());

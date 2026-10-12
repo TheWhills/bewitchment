@@ -8,22 +8,22 @@ import moriyashiine.bewitchment.client.BewitchmentClient;
 import moriyashiine.bewitchment.client.model.entity.living.OwlEntityModel;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.entity.living.OwlEntity;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.ResourceLocation;
 
-public class OwlEntityRenderer extends MobEntityRenderer<OwlEntity, OwlEntityModel<OwlEntity>> {
-	private static Identifier[] TEXTURES;
+public class OwlEntityRenderer extends MobRenderer<OwlEntity, OwlEntityModel<OwlEntity>> {
+	private static ResourceLocation[] TEXTURES;
 
-	public OwlEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new OwlEntityModel<>(context.getPart(BewitchmentClient.OWL_MODEL_LAYER)), 0.3f);
+	public OwlEntityRenderer(EntityRendererProvider.Context context) {
+		super(context, new OwlEntityModel<>(context.bakeLayer(BewitchmentClient.OWL_MODEL_LAYER)), 0.3f);
 	}
 
 	@Override
-	public Identifier getTexture(OwlEntity entity) {
+	public ResourceLocation getTexture(OwlEntity entity) {
 		if (TEXTURES == null) {
 			int variants = entity.getVariants();
-			TEXTURES = new Identifier[variants];
+			TEXTURES = new ResourceLocation[variants];
 			for (int i = 0; i < variants; i++) {
 				TEXTURES[i] = Bewitchment.id("textures/entity/living/owl/" + i + ".png");
 			}

@@ -9,41 +9,40 @@ import moriyashiine.bewitchment.api.entity.BroomEntity;
 import moriyashiine.bewitchment.client.render.ContributorHornsFeatureRenderer;
 import moriyashiine.bewitchment.common.block.CoffinBlock;
 import moriyashiine.bewitchment.common.registry.BWComponents;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.LivingEntityRenderer;
-import net.minecraft.client.render.entity.PlayerEntityRenderer;
-import net.minecraft.client.render.entity.model.PlayerEntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
+import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.Optional;
 
-@Mixin(PlayerEntityRenderer.class)
-public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
-	public PlayerEntityRendererMixin(EntityRendererFactory.Context ctx, PlayerEntityModel<AbstractClientPlayerEntity> model, float shadowRadius) {
+@Mixin(PlayerRenderer.class)
+public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
+	public PlayerEntityRendererMixin(EntityRendererProvider.Context ctx, PlayerModel<AbstractClientPlayer> model, float shadowRadius) {
 		super(ctx, model, shadowRadius);
 	}
 
 	@Inject(method = "<init>", at = @At("TAIL"))
-	private void PlayerEntityRenderer(EntityRendererFactory.Context ctx, boolean slim, CallbackInfo callbackInfo) {
-		addFeature(new ContributorHornsFeatureRenderer(this, ctx.getModelLoader()));
+	private void PlayerEntityRenderer(EntityRendererProvider.Context ctx, boolean slim, CallbackInfo callbackInfo) {
+		addLayer(new ContributorHornsFeatureRenderer(this, ctx.getModelSet()));
 	}
 
 	@Inject(method = "render(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("HEAD"), cancellable = true)
-	private void render(AbstractClientPlayerEntity player, float yaw, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, CallbackInfo callbackInfo) {
-		Optional<BlockPos> pos = player.getSleepingPosition();
-		if (pos.isPresent() && player.getWorld().getBlockState(pos.get()).getBlock() instanceof CoffinBlock) {
+	private void render(AbstractClientPlayer player, float yaw, float tickDelta, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, CallbackInfo callbackInfo) {
+		Optional<BlockPos> pos = player.getSleepingPos();
+		if (pos.isPresent() && player.level().getBlockState(pos.get()).getBlock() instanceof CoffinBlock) {
 			callbackInfo.cancel();
 			return;
 		}
@@ -52,36 +51,36 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
 			return;
 		}
 		if (player.getVehicle() instanceof BroomEntity) {
-			matrixStack.translate(0, MathHelper.sin((player.getVehicle().age + player.getVehicle().getId()) / 4f) / 16f, 0);
+			matrixStack.translate(0, Mth.sin((player.getVehicle().tickCount + player.getVehicle().getId()) / 4f) / 16f, 0);
 		}
 		LivingEntity entity = BewitchmentAPI.getTransformedPlayerEntity(player);
 		if (entity != null) {
-			entity.age = player.age;
+			entity.tickCount = player.tickCount;
 			entity.hurtTime = player.hurtTime;
-			entity.maxHurtTime = Integer.MAX_VALUE;
-			entity.limbAnimator = player.limbAnimator;
-			entity.headYaw = player.headYaw;
-			entity.prevHeadYaw = player.prevHeadYaw;
-			entity.bodyYaw = player.bodyYaw;
-			entity.prevBodyYaw = player.prevBodyYaw;
-			entity.handSwinging = player.handSwinging;
-			entity.handSwingTicks = player.handSwingTicks;
-			entity.handSwingProgress = player.handSwingProgress;
-			entity.lastHandSwingProgress = player.lastHandSwingProgress;
-			entity.setPitch(player.getPitch());
-			entity.prevPitch = player.prevPitch;
-			entity.preferredHand = player.preferredHand;
-			entity.setStackInHand(Hand.MAIN_HAND, player.getMainHandStack());
-			entity.setStackInHand(Hand.OFF_HAND, player.getOffHandStack());
-			entity.setCurrentHand(player.getActiveHand() == null ? Hand.MAIN_HAND : player.getActiveHand());
-			entity.setSneaking(player.isSneaking());
+			entity.hurtDuration = Integer.MAX_VALUE;
+			entity.walkAnimation = player.walkAnimation;
+			entity.yHeadRot = player.yHeadRot;
+			entity.yHeadRotO = player.yHeadRotO;
+			entity.yBodyRot = player.yBodyRot;
+			entity.yBodyRotO = player.yBodyRotO;
+			entity.swinging = player.swinging;
+			entity.swingTime = player.swingTime;
+			entity.attackAnim = player.attackAnim;
+			entity.oAttackAnim = player.oAttackAnim;
+			entity.setXRot(player.getXRot());
+			entity.xRotO = player.xRotO;
+			entity.swingingArm = player.swingingArm;
+			entity.setItemInHand(InteractionHand.MAIN_HAND, player.getMainHandItem());
+			entity.setItemInHand(InteractionHand.OFF_HAND, player.getOffhandItem());
+			entity.startUsingItem(player.getUsedItemHand() == null ? InteractionHand.MAIN_HAND : player.getUsedItemHand());
+			entity.setShiftKeyDown(player.isShiftKeyDown());
 			entity.setPose(player.getPose());
-			if (player.hasVehicle()) {
+			if (player.isPassenger()) {
 				entity.startRiding(player.getVehicle(), true);
 			}
 			float width = 1 / (entity.getType().getWidth() / EntityType.PLAYER.getWidth());
 			matrixStack.scale(width, 1 / (entity.getType().getHeight() / EntityType.PLAYER.getHeight()), width);
-			MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(entity).render(entity, yaw, tickDelta, matrixStack, vertexConsumerProvider, light);
+			Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(entity).render(entity, yaw, tickDelta, matrixStack, vertexConsumerProvider, light);
 			callbackInfo.cancel();
 		}
 	}

@@ -6,57 +6,57 @@ package moriyashiine.bewitchment.common.block.juniper;
 
 import moriyashiine.bewitchment.common.block.entity.TaglockHolderBlockEntity;
 import moriyashiine.bewitchment.common.block.entity.interfaces.TaglockHolder;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockSetType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ButtonBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ItemScatterer;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("ConstantConditions")
-public class JuniperButtonBlock extends ButtonBlock implements BlockEntityProvider {
-	public JuniperButtonBlock(Settings settings) {
+public class JuniperButtonBlock extends ButtonBlock implements EntityBlock {
+	public JuniperButtonBlock(Properties settings) {
 		super(settings, BlockSetType.OAK, 30, true);
 	}
 
 	@Nullable
 	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new TaglockHolderBlockEntity(pos, state);
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		TaglockHolder.onUse(world, pos, player);
-		return super.onUse(state, world, pos, player, hand, hit);
+		return super.use(state, world, pos, player, hand, hit);
 	}
 
 	@Override
-	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-		super.onPlaced(world, pos, state, placer, itemStack);
-		if (!world.isClient && placer != null) {
+	public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+		super.setPlacedBy(world, pos, state, placer, itemStack);
+		if (!world.isClientSide && placer != null) {
 			BlockEntity blockEntity = world.getBlockEntity(pos);
 			TaglockHolder taglockHolder = (TaglockHolder) blockEntity;
-			taglockHolder.setOwner(placer.getUuid());
+			taglockHolder.setOwner(placer.getUUID());
 			taglockHolder.syncTaglockHolder(blockEntity);
-			blockEntity.markDirty();
+			blockEntity.setChanged();
 		}
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (!world.isClient && state.getBlock() != newState.getBlock() && world.getBlockEntity(pos) instanceof TaglockHolder taglockHolder) {
-			ItemScatterer.spawn(world, pos, taglockHolder.getTaglockInventory());
+	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
+		if (!world.isClientSide && state.getBlock() != newState.getBlock() && world.getBlockEntity(pos) instanceof TaglockHolder taglockHolder) {
+			Containers.dropContents(world, pos, taglockHolder.getTaglockInventory());
 		}
-		super.onStateReplaced(state, world, pos, newState, moved);
+		super.onRemove(state, world, pos, newState, moved);
 	}
 }

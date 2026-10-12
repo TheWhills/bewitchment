@@ -6,27 +6,27 @@ package moriyashiine.bewitchment.common.recipe;
 
 import com.google.gson.JsonObject;
 import moriyashiine.bewitchment.common.registry.BWRecipeTypes;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
-import net.minecraft.world.World;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 
-public class CauldronBrewingRecipe implements Recipe<Inventory> {
-	private final Identifier identifier;
+public class CauldronBrewingRecipe implements Recipe<Container> {
+	private final ResourceLocation identifier;
 	public final Ingredient input;
-	public final StatusEffect output;
+	public final MobEffect output;
 	public final int time;
 
-	public CauldronBrewingRecipe(Identifier identifier, Ingredient input, StatusEffect output, int time) {
+	public CauldronBrewingRecipe(ResourceLocation identifier, Ingredient input, MobEffect output, int time) {
 		this.identifier = identifier;
 		this.input = input;
 		this.output = output;
@@ -34,27 +34,27 @@ public class CauldronBrewingRecipe implements Recipe<Inventory> {
 	}
 
 	@Override
-	public boolean matches(Inventory inv, World world) {
+	public boolean matches(Container inv, Level world) {
 		return false;
 	}
 
 	@Override
-	public ItemStack craft(Inventory inventory, DynamicRegistryManager registryManager) {
+	public ItemStack assemble(Container inventory, RegistryAccess registryManager) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public boolean fits(int width, int height) {
+	public boolean canCraftInDimensions(int width, int height) {
 		return false;
 	}
 
 	@Override
-	public ItemStack getOutput(DynamicRegistryManager registryManager) {
+	public ItemStack getResultItem(RegistryAccess registryManager) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public Identifier getId() {
+	public ResourceLocation getId() {
 		return identifier;
 	}
 
@@ -71,19 +71,19 @@ public class CauldronBrewingRecipe implements Recipe<Inventory> {
 	@SuppressWarnings("ConstantConditions")
 	public static class Serializer implements RecipeSerializer<CauldronBrewingRecipe> {
 		@Override
-		public CauldronBrewingRecipe read(Identifier id, JsonObject json) {
-			return new CauldronBrewingRecipe(id, Ingredient.fromJson(JsonHelper.getObject(json, "ingredient")), Registries.STATUS_EFFECT.get(new Identifier(JsonHelper.getString(json, "effect"))), JsonHelper.getInt(json, "time"));
+		public CauldronBrewingRecipe fromJson(ResourceLocation id, JsonObject json) {
+			return new CauldronBrewingRecipe(id, Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "ingredient")), BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(GsonHelper.getAsString(json, "effect"))), GsonHelper.getAsInt(json, "time"));
 		}
 
 		@Override
-		public CauldronBrewingRecipe read(Identifier id, PacketByteBuf buf) {
-			return new CauldronBrewingRecipe(id, Ingredient.fromPacket(buf), Registries.STATUS_EFFECT.get(new Identifier(buf.readString())), buf.readInt());
+		public CauldronBrewingRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+			return new CauldronBrewingRecipe(id, Ingredient.fromNetwork(buf), BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(buf.readUtf())), buf.readInt());
 		}
 
 		@Override
-		public void write(PacketByteBuf buf, CauldronBrewingRecipe recipe) {
-			recipe.input.write(buf);
-			buf.writeString(Registries.STATUS_EFFECT.getId(recipe.output).toString());
+		public void write(FriendlyByteBuf buf, CauldronBrewingRecipe recipe) {
+			recipe.input.toNetwork(buf);
+			buf.writeUtf(BuiltInRegistries.MOB_EFFECT.getKey(recipe.output).toString());
 			buf.writeInt(recipe.time);
 		}
 	}

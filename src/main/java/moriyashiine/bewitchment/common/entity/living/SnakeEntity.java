@@ -7,30 +7,43 @@ package moriyashiine.bewitchment.common.entity.living;
 import moriyashiine.bewitchment.common.entity.living.util.BWTameableEntity;
 import moriyashiine.bewitchment.common.registry.BWEntityTypes;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.core.BlockPos;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.passive.RabbitEntity;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.FollowOwnerGoal;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.SitWhenOrderedToGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.animal.Rabbit;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -39,12 +52,12 @@ import java.util.UUID;
 public class SnakeEntity extends BWTameableEntity {
 	public int tongueFlick = 0, attackTick = 0;
 
-	public SnakeEntity(EntityType<? extends TameableEntity> type, World world) {
+	public SnakeEntity(EntityType<? extends TamableAnimal> type, Level world) {
 		super(type, world);
 	}
 
-	public static DefaultAttributeContainer.Builder createAttributes() {
-		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 8).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3);
+	public static AttributeSupplier.Builder createAttributes() {
+		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8).add(Attributes.ATTACK_DAMAGE, 1).add(Attributes.MOVEMENT_SPEED, 0.3);
 	}
 
 	@Override
@@ -53,7 +66,7 @@ public class SnakeEntity extends BWTameableEntity {
 		if (tongueFlick > 0) {
 			tongueFlick--;
 		}
-		if (age % 40 == 0 && random.nextFloat() < 0.25f) {
+		if (tickCount % 40 == 0 && random.nextFloat() < 0.25f) {
 			tongueFlick = 10;
 		}
 		if (attackTick > 0) {
@@ -79,17 +92,17 @@ public class SnakeEntity extends BWTameableEntity {
 
 	@Nullable
 	@Override
-	public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
+	public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob entity) {
 		SnakeEntity child = BWEntityTypes.SNAKE.create(world);
 		if (child != null) {
-			child.initialize(world, world.getLocalDifficulty(getBlockPos()), SpawnReason.BREEDING, null, null);
-			UUID owner = getOwnerUuid();
+			child.finalizeSpawn(world, world.getCurrentDifficultyAt(blockPosition()), MobSpawnType.BREEDING, null, null);
+			UUID owner = getOwnerUUID();
 			if (owner != null) {
-				child.setOwnerUuid(owner);
-				child.setTamed(true);
+				child.setOwnerUUID(owner);
+				child.setTame(true);
 			}
 			if (entity instanceof SnakeEntity && random.nextFloat() < 95 / 100f) {
-				child.dataTracker.set(VARIANT, random.nextBoolean() ? dataTracker.get(VARIANT) : entity.getDataTracker().get(VARIANT));
+				child.entityData.set(VARIANT, random.nextBoolean() ? entityData.get(VARIANT) : entity.getEntityData().get(VARIANT));
 			}
 		}
 		return child;
@@ -116,27 +129,27 @@ public class SnakeEntity extends BWTameableEntity {
 	}
 
 	@Override
-	public boolean isBreedingItem(ItemStack stack) {
+	public boolean isFood(ItemStack stack) {
 		return stack.getItem() == Items.CHICKEN;
 	}
 
 	@Override
-	public boolean tryAttack(Entity target) {
-		boolean flag = super.tryAttack(target);
+	public boolean doHurtTarget(Entity target) {
+		boolean flag = super.doHurtTarget(target);
 		if (flag) {
 			toggleAttack(false);
 			if (target instanceof LivingEntity livingEntity) {
-				livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 100));
+				livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 100));
 			}
 		}
 		return flag;
 	}
 
 	@Override
-	public void setTamed(boolean tamed) {
-		super.setTamed(tamed);
-		EntityAttributeInstance maxHealth = getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
-		EntityAttributeInstance attackDamage = getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+	public void setTame(boolean tamed) {
+		super.setTame(tamed);
+		AttributeInstance maxHealth = getAttribute(Attributes.MAX_HEALTH);
+		AttributeInstance attackDamage = getAttribute(Attributes.ATTACK_DAMAGE);
 		if (tamed) {
 			maxHealth.setBaseValue(20);
 			attackDamage.setBaseValue(3);
@@ -148,47 +161,47 @@ public class SnakeEntity extends BWTameableEntity {
 	}
 
 	@Override
-	public void handleStatus(byte id) {
+	public void handleEntityEvent(byte id) {
 		if (id == 4) {
 			attackTick = 11;
 		}
 		if (id == 5) {
 			attackTick = 2;
 		} else {
-			super.handleStatus(id);
+			super.handleEntityEvent(id);
 		}
 	}
 
 	@Override
-	protected void initGoals() {
-		goalSelector.add(0, new SwimGoal(this));
-		goalSelector.add(1, new SitGoal(this));
-		goalSelector.add(2, new PounceAtTargetGoal(this, 0.25f) {
+	protected void registerGoals() {
+		goalSelector.addGoal(0, new FloatGoal(this));
+		goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
+		goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.25f) {
 			@Override
 			public void start() {
 				super.start();
 				toggleAttack(true);
 			}
 		});
-		goalSelector.add(3, new MeleeAttackGoal(this, 1, true));
-		goalSelector.add(4, new FollowOwnerGoal(this, 1, 10, 2, false));
-		goalSelector.add(5, new AnimalMateGoal(this, 1));
-		goalSelector.add(6, new WanderAroundFarGoal(this, 1));
-		goalSelector.add(7, new LookAtEntityGoal(this, PlayerEntity.class, 8));
-		goalSelector.add(7, new LookAroundGoal(this));
-		targetSelector.add(0, new TrackOwnerAttackerGoal(this));
-		targetSelector.add(1, new AttackWithOwnerGoal(this));
-		targetSelector.add(2, new RevengeGoal(this));
-		targetSelector.add(3, new UntamedActiveTargetGoal<>(this, LivingEntity.class, false, entity -> entity instanceof ChickenEntity || entity instanceof RabbitEntity));
+		goalSelector.addGoal(3, new MeleeAttackGoal(this, 1, true));
+		goalSelector.addGoal(4, new FollowOwnerGoal(this, 1, 10, 2, false));
+		goalSelector.addGoal(5, new BreedGoal(this, 1));
+		goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1));
+		goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8));
+		goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+		targetSelector.addGoal(0, new OwnerHurtByTargetGoal(this));
+		targetSelector.addGoal(1, new OwnerHurtTargetGoal(this));
+		targetSelector.addGoal(2, new HurtByTargetGoal(this));
+		targetSelector.addGoal(3, new NonTameRandomTargetGoal<>(this, LivingEntity.class, false, entity -> entity instanceof Chicken || entity instanceof Rabbit));
 	}
 
 	public void toggleAttack(boolean attacking) {
 		if (attacking) {
 			attackTick = 11;
-			getWorld().sendEntityStatus(this, (byte) 4);
+			level().broadcastEntityEvent(this, (byte) 4);
 		} else {
 			attackTick = 2;
-			getWorld().sendEntityStatus(this, (byte) 5);
+			level().broadcastEntityEvent(this, (byte) 5);
 		}
 	}
 }

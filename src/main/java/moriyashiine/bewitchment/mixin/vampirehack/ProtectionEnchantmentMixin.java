@@ -5,8 +5,8 @@
 package moriyashiine.bewitchment.mixin.vampirehack;
 
 import moriyashiine.bewitchment.api.BewitchmentAPI;
-import net.minecraft.enchantment.ProtectionEnchantment;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.enchantment.ProtectionEnchantment;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

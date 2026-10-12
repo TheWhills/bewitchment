@@ -12,21 +12,21 @@ import moriyashiine.bewitchment.common.registry.BWRegistries;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 
 public class SyncContractsPacket {
-	public static final Identifier ID = Bewitchment.id("sync_contracts");
+	public static final ResourceLocation ID = Bewitchment.id("sync_contracts");
 
-	public static void send(ServerPlayerEntity player) {
-		PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-		NbtCompound contracts = new NbtCompound();
+	public static void send(ServerPlayer player) {
+		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
+		CompoundTag contracts = new CompoundTag();
 		contracts.put("Contracts", BWComponents.CONTRACTS_COMPONENT.get(player).toNbtContract());
 		buf.writeNbt(contracts);
 		ServerPlayNetworking.send(player, ID, buf);
@@ -35,18 +35,18 @@ public class SyncContractsPacket {
 	@SuppressWarnings({"ConstantConditions", "Convert2Lambda"})
 	public static class Receiver implements ClientPlayNetworking.PlayChannelHandler {
 		@Override
-		public void receive(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-			NbtCompound contractsCompound = buf.readNbt();
+		public void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+			CompoundTag contractsCompound = buf.readNbt();
 			client.execute(new Runnable() {
 				@Override
 				public void run() {
 					if (client.player != null) {
 						BWComponents.CONTRACTS_COMPONENT.maybeGet(client.player).ifPresent(contractsComponent -> {
 							contractsComponent.getContracts().clear();
-							NbtList contractsList = contractsCompound.getList("Contracts", NbtElement.COMPOUND_TYPE);
+							ListTag contractsList = contractsCompound.getList("Contracts", Tag.TAG_COMPOUND);
 							for (int i = 0; i < contractsList.size(); i++) {
-								NbtCompound contractCompound = contractsList.getCompound(i);
-								contractsComponent.addContract(new Contract.Instance(BWRegistries.CONTRACT.get(new Identifier(contractCompound.getString("Contract"))), contractCompound.getInt("Duration"), contractCompound.getInt("Cost")));
+								CompoundTag contractCompound = contractsList.getCompound(i);
+								contractsComponent.addContract(new Contract.Instance(BWRegistries.CONTRACT.get(new ResourceLocation(contractCompound.getString("Contract"))), contractCompound.getInt("Duration"), contractCompound.getInt("Cost")));
 							}
 						});
 					}

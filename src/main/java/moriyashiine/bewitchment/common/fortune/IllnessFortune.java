@@ -5,10 +5,10 @@
 package moriyashiine.bewitchment.common.fortune;
 
 import moriyashiine.bewitchment.api.registry.Fortune;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Player;
 
 public class IllnessFortune extends Fortune {
 	public IllnessFortune(boolean positive) {
@@ -16,9 +16,9 @@ public class IllnessFortune extends Fortune {
 	}
 
 	@Override
-	public boolean finish(ServerWorld world, PlayerEntity target) {
-		target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 600, 1));
-		target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 600, 1));
+	public boolean finish(ServerLevel world, Player target) {
+		target.addEffect(new MobEffectInstance(MobEffects.POISON, 600, 1));
+		target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 600, 1));
 		return super.finish(world, target);
 	}
 }

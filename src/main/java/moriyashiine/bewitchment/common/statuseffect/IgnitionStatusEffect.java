@@ -4,22 +4,22 @@
 
 package moriyashiine.bewitchment.common.statuseffect;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.LivingEntity;
 
-public class IgnitionStatusEffect extends StatusEffect {
-	public IgnitionStatusEffect(StatusEffectCategory category, int color) {
+public class IgnitionStatusEffect extends MobEffect {
+	public IgnitionStatusEffect(MobEffectCategory category, int color) {
 		super(category, color);
 	}
 
 	@Override
-	public boolean canApplyUpdateEffect(int duration, int amplifier) {
+	public boolean isDurationEffectTick(int duration, int amplifier) {
 		return true;
 	}
 
 	@Override
-	public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-		entity.setOnFireFor(1);
+	public void applyEffectTick(LivingEntity entity, int amplifier) {
+		entity.setSecondsOnFire(1);
 	}
 }

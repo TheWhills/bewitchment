@@ -8,63 +8,68 @@ import moriyashiine.bewitchment.common.block.entity.LockableBlockEntity;
 import moriyashiine.bewitchment.common.block.entity.interfaces.Lockable;
 import moriyashiine.bewitchment.common.block.util.interfaces.SpecialDoor;
 import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.enums.DoubleBlockHalf;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("ConstantConditions")
-public class ElderDoorBlock extends DoorBlock implements BlockEntityProvider, SpecialDoor {
-	public ElderDoorBlock(Settings settings) {
+public class ElderDoorBlock extends DoorBlock implements EntityBlock, SpecialDoor {
+	public ElderDoorBlock(Properties settings) {
 		super(settings, BlockSetType.OAK);
 	}
 
 	@Nullable
 	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new LockableBlockEntity(pos, state);
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		ActionResult result = onSpecialUse(state, world, pos, player, hand);
-		if (result != ActionResult.PASS) {
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		InteractionResult result = onSpecialUse(state, world, pos, player, hand);
+		if (result != InteractionResult.PASS) {
 			return result;
 		}
-		return super.onUse(state, world, pos, player, hand, hit);
+		return super.use(state, world, pos, player, hand, hit);
 	}
 
 	@Override
-	public ActionResult onSpecialUse(BlockState state, World world, BlockPos pos, LivingEntity user, Hand hand) {
-		return Lockable.onUse(world, state.get(HALF) == DoubleBlockHalf.UPPER ? pos.down() : pos, user, hand);
+	public InteractionResult onSpecialUse(BlockState state, Level world, BlockPos pos, LivingEntity user, InteractionHand hand) {
+		return Lockable.onUse(world, state.getValue(HALF) == DoubleBlockHalf.UPPER ? pos.below() : pos, user, hand);
 	}
 
 	@Override
-	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-		super.onPlaced(world, pos, state, placer, itemStack);
-		if (!world.isClient && placer != null) {
-			BlockEntity blockEntity = world.getBlockEntity(state.get(HALF) == DoubleBlockHalf.UPPER ? pos.down() : pos);
+	public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+		super.setPlacedBy(world, pos, state, placer, itemStack);
+		if (!world.isClientSide && placer != null) {
+			BlockEntity blockEntity = world.getBlockEntity(state.getValue(HALF) == DoubleBlockHalf.UPPER ? pos.below() : pos);
 			Lockable lockable = (Lockable) blockEntity;
-			lockable.setOwner(placer.getUuid());
+			lockable.setOwner(placer.getUUID());
 			lockable.syncLockable(blockEntity);
-			blockEntity.markDirty();
+			blockEntity.setChanged();
 		}
 	}
 
 	@Override
-	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-		BlockEntity blockEntity = world.getBlockEntity(state.get(HALF) == DoubleBlockHalf.UPPER ? pos.down() : pos);
+	public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
+		BlockEntity blockEntity = world.getBlockEntity(state.getValue(HALF) == DoubleBlockHalf.UPPER ? pos.below() : pos);
 		if (blockEntity instanceof Lockable lockable && lockable.getLocked()) {
 			return;
 		}
-		super.neighborUpdate(state, world, pos, block, fromPos, notify);
+		super.neighborChanged(state, world, pos, block, fromPos, notify);
 	}
 
 

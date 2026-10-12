@@ -9,35 +9,35 @@ import moriyashiine.bewitchment.common.Bewitchment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 
 public class SpawnSmokeParticlesPacket {
-	public static final Identifier ID = Bewitchment.id("spawn_smoke_particles");
+	public static final ResourceLocation ID = Bewitchment.id("spawn_smoke_particles");
 
-	public static void send(ServerPlayerEntity player, Entity entity) {
-		PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+	public static void send(ServerPlayer player, Entity entity) {
+		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
 		buf.writeInt(entity.getId());
 		ServerPlayNetworking.send(player, ID, buf);
 	}
 
 	public static class Receiver implements ClientPlayNetworking.PlayChannelHandler {
 		@Override
-		public void receive(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
+		public void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
 			int id = buf.readInt();
 			client.execute(() -> {
-				ClientWorld world = client.world;
+				ClientLevel world = client.level;
 				if (world != null) {
-					Entity entity = world.getEntityById(id);
+					Entity entity = world.getEntity(id);
 					if (entity != null) {
 						for (int i = 0; i < 32; i++) {
-							world.addParticle(ParticleTypes.SMOKE, entity.getParticleX(1), entity.getRandomBodyY(), entity.getParticleZ(1), 0, 0, 0);
+							world.addParticle(ParticleTypes.SMOKE, entity.getRandomX(1), entity.getRandomY(), entity.getRandomZ(1), 0, 0, 0);
 						}
 					}
 				}

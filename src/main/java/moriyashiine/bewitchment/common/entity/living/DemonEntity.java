@@ -18,33 +18,46 @@ import moriyashiine.bewitchment.common.registry.BWRegistries;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.ai.pathing.PathNodeType;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.SmallFireballEntity;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.SmallFireball;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -53,27 +66,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DemonEntity extends BWHostileEntity implements DemonMerchant {
-	public static final TrackedData<Boolean> MALE = DataTracker.registerData(DemonEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> MALE = SynchedEntityData.defineId(DemonEntity.class, EntityDataSerializers.BOOLEAN);
 
 	private final List<DemonEntity.DemonTradeOffer> offers = new ArrayList<>();
-	private PlayerEntity customer = null;
+	private Player customer = null;
 	private int tradeResetTimer = 0;
 
-	public DemonEntity(EntityType<? extends HostileEntity> entityType, World world) {
+	public DemonEntity(EntityType<? extends Monster> entityType, Level world) {
 		super(entityType, world);
-		setPathfindingPenalty(PathNodeType.DANGER_FIRE, 0);
-		setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, 0);
-		experiencePoints = 20;
+		setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0);
+		setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0);
+		xpReward = 20;
 	}
 
-	public static DefaultAttributeContainer.Builder createAttributes() {
-		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 200).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6).add(EntityAttributes.GENERIC_ARMOR, 4).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.75);
+	public static AttributeSupplier.Builder createAttributes() {
+		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 200).add(Attributes.ATTACK_DAMAGE, 6).add(Attributes.ARMOR, 4).add(Attributes.MOVEMENT_SPEED, 0.25).add(Attributes.KNOCKBACK_RESISTANCE, 0.75);
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
-		if (!getWorld().isClient) {
+		if (!level().isClientSide) {
 			tradeResetTimer++;
 			if (tradeResetTimer >= 168000) {
 				tradeResetTimer = 0;
@@ -81,13 +94,13 @@ public class DemonEntity extends BWHostileEntity implements DemonMerchant {
 			}
 			LivingEntity target = getTarget();
 			if (target != null) {
-				lookAtEntity(target, 360, 360);
-				if ((age + getId()) % 40 == 0) {
-					SmallFireballEntity fireball = new SmallFireballEntity(getWorld(), this, target.getX() - getX(), target.getBodyY(0.5) - getBodyY(0.5), target.getZ() - getZ());
-					fireball.updatePosition(fireball.getX(), getBodyY(0.5), fireball.getZ());
-					getWorld().playSound(null, getBlockPos(), BWSoundEvents.ENTITY_GENERIC_SHOOT, getSoundCategory(), getSoundVolume(), getSoundPitch());
-					getWorld().spawnEntity(fireball);
-					swingHand(Hand.MAIN_HAND);
+				lookAt(target, 360, 360);
+				if ((tickCount + getId()) % 40 == 0) {
+					SmallFireball fireball = new SmallFireball(level(), this, target.getX() - getX(), target.getY(0.5) - getY(0.5), target.getZ() - getZ());
+					fireball.absMoveTo(fireball.getX(), getY(0.5), fireball.getZ());
+					level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_SHOOT, getSoundSource(), getSoundVolume(), getVoicePitch());
+					level().addFreshEntity(fireball);
+					swing(InteractionHand.MAIN_HAND);
 				}
 			}
 		}
@@ -104,7 +117,7 @@ public class DemonEntity extends BWHostileEntity implements DemonMerchant {
 	}
 
 	@Override
-	public EntityGroup getGroup() {
+	public MobType getMobType() {
 		return BewitchmentAPI.DEMON;
 	}
 
@@ -125,71 +138,71 @@ public class DemonEntity extends BWHostileEntity implements DemonMerchant {
 	}
 
 	@Override
-	protected ActionResult interactMob(PlayerEntity player, Hand hand) {
-		if (player instanceof ServerPlayerEntity serverPlayer && isAlive() && getTarget() == null) {
+	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+		if (player instanceof ServerPlayer serverPlayer && isAlive() && getTarget() == null) {
 			if (BWUtil.rejectTrades(this)) {
-				return ActionResult.FAIL;
+				return InteractionResult.FAIL;
 			}
 			if (getCurrentCustomer() == null) {
 				setCurrentCustomer(player);
 			}
 			if (!getOffers().isEmpty()) {
 				SyncContractsPacket.send(serverPlayer);
-				player.openHandledScreen(new SimpleNamedScreenHandlerFactory((id, playerInventory, customer) -> new DemonScreenHandler(id, this), getDisplayName())).ifPresent(syncId -> SyncDemonTradesPacket.send(serverPlayer, this, syncId));
+				player.openMenu(new SimpleMenuProvider((id, playerInventory, customer) -> new DemonScreenHandler(id, this), getDisplayName())).ifPresent(syncId -> SyncDemonTradesPacket.send(serverPlayer, this, syncId));
 			} else {
 				setCurrentCustomer(null);
 			}
 		}
-		return ActionResult.success(getWorld().isClient);
+		return InteractionResult.sidedSuccess(level().isClientSide);
 	}
 
 	@Override
-	public boolean canBeLeashedBy(PlayerEntity player) {
+	public boolean canBeLeashed(Player player) {
 		return false;
 	}
 
 	@Override
-	public boolean cannotDespawn() {
+	public boolean requiresCustomPersistence() {
 		return true;
 	}
 
 	@Override
-	public boolean tryAttack(Entity target) {
-		boolean flag = super.tryAttack(target);
+	public boolean doHurtTarget(Entity target) {
+		boolean flag = super.doHurtTarget(target);
 		if (flag && target instanceof LivingEntity) {
-			target.setOnFireFor(6);
-			target.addVelocity(0, 0.2, 0);
-			swingHand(Hand.MAIN_HAND);
+			target.setSecondsOnFire(6);
+			target.push(0, 0.2, 0);
+			swing(InteractionHand.MAIN_HAND);
 		}
 		return flag;
 	}
 
 	@Override
-	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
-		dataTracker.set(MALE, random.nextBoolean());
-		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData, @Nullable CompoundTag entityTag) {
+		entityData.set(MALE, random.nextBoolean());
+		return super.finalizeSpawn(world, difficulty, spawnReason, entityData, entityTag);
 	}
 
 	@Override
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
-		dataTracker.set(MALE, nbt.getBoolean("Male"));
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
+		entityData.set(MALE, nbt.getBoolean("Male"));
 		if (nbt.contains("Offers")) {
 			offers.clear();
-			NbtList offersList = nbt.getList("Offers", NbtElement.COMPOUND_TYPE);
-			for (NbtElement offerTag : offersList) {
-				offers.add(new DemonTradeOffer((NbtCompound) offerTag));
+			ListTag offersList = nbt.getList("Offers", Tag.TAG_COMPOUND);
+			for (Tag offerTag : offersList) {
+				offers.add(new DemonTradeOffer((CompoundTag) offerTag));
 			}
 		}
 		tradeResetTimer = nbt.getInt("TradeResetTimer");
 	}
 
 	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
-		nbt.putBoolean("Male", dataTracker.get(MALE));
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		super.addAdditionalSaveData(nbt);
+		nbt.putBoolean("Male", entityData.get(MALE));
 		if (!offers.isEmpty()) {
-			NbtList offersList = new NbtList();
+			ListTag offersList = new ListTag();
 			for (DemonTradeOffer offer : offers) {
 				offersList.add(offer.toTag());
 			}
@@ -199,26 +212,26 @@ public class DemonEntity extends BWHostileEntity implements DemonMerchant {
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		dataTracker.startTracking(MALE, false);
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		entityData.define(MALE, false);
 	}
 
 	@Override
-	protected void initGoals() {
-		goalSelector.add(0, new SwimGoal(this));
-		goalSelector.add(1, new LookAtCustomerGoal<>(this));
-		goalSelector.add(2, new MeleeAttackGoal(this, 1, true));
-		goalSelector.add(3, new WanderAroundFarGoal(this, 1));
-		goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8));
-		goalSelector.add(5, new LookAroundGoal(this));
-		targetSelector.add(0, new RevengeGoal(this));
-		targetSelector.add(1, new ActiveTargetGoal<>(this, LivingEntity.class, 10, true, false, entity -> !(entity instanceof ArmorStandEntity) && BWUtil.getArmorPieces(entity, stack -> stack.getItem() instanceof ArmorItem && ((ArmorItem) stack.getItem()).getMaterial() == BWMaterials.BESMIRCHED_ARMOR) < 3 && (entity.getGroup() != BewitchmentAPI.DEMON || entity instanceof PlayerEntity)));
+	protected void registerGoals() {
+		goalSelector.addGoal(0, new FloatGoal(this));
+		goalSelector.addGoal(1, new LookAtCustomerGoal<>(this));
+		goalSelector.addGoal(2, new MeleeAttackGoal(this, 1, true));
+		goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1));
+		goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8));
+		goalSelector.addGoal(5, new RandomLookAroundGoal(this));
+		targetSelector.addGoal(0, new HurtByTargetGoal(this));
+		targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, entity -> !(entity instanceof ArmorStand) && BWUtil.getArmorPieces(entity, stack -> stack.getItem() instanceof ArmorItem && ((ArmorItem) stack.getItem()).getMaterial() == BWMaterials.BESMIRCHED_ARMOR) < 3 && (entity.getMobType() != BewitchmentAPI.DEMON || entity instanceof Player)));
 	}
 
 	@Override
-	public void onDeath(DamageSource source) {
-		super.onDeath(source);
+	public void die(DamageSource source) {
+		super.die(source);
 		setCurrentCustomer(null);
 	}
 
@@ -236,7 +249,7 @@ public class DemonEntity extends BWHostileEntity implements DemonMerchant {
 			List<Contract> availableContracts = BWRegistries.CONTRACT.stream().collect(Collectors.toList());
 			for (int i = 0; i < 3; i++) {
 				Contract contract = availableContracts.get(random.nextInt(availableContracts.size()));
-				offers.add(new DemonTradeOffer(contract, 168000, MathHelper.nextInt(random, 3, 6)));
+				offers.add(new DemonTradeOffer(contract, 168000, Mth.nextInt(random, 3, 6)));
 				availableContracts.remove(contract);
 			}
 		}
@@ -250,19 +263,19 @@ public class DemonEntity extends BWHostileEntity implements DemonMerchant {
 
 	@Override
 	public void onSell(DemonEntity.DemonTradeOffer offer) {
-		if (!getWorld().isClient) {
-			getWorld().playSound(null, getBlockPos(), BWSoundEvents.ITEM_CONTRACT_USE, getSoundCategory(), getSoundVolume(), getSoundPitch());
-			getWorld().playSound(null, getBlockPos(), getAmbientSound(), getSoundCategory(), getSoundVolume(), getSoundPitch());
+		if (!level().isClientSide) {
+			level().playSound(null, blockPosition(), BWSoundEvents.ITEM_CONTRACT_USE, getSoundSource(), getSoundVolume(), getVoicePitch());
+			level().playSound(null, blockPosition(), getAmbientSound(), getSoundSource(), getSoundVolume(), getVoicePitch());
 		}
 	}
 
 	@Override
-	public void setCurrentCustomer(PlayerEntity customer) {
+	public void setCurrentCustomer(Player customer) {
 		this.customer = customer;
 	}
 
 	@Override
-	public @Nullable PlayerEntity getCurrentCustomer() {
+	public @Nullable Player getCurrentCustomer() {
 		return customer;
 	}
 
@@ -271,8 +284,8 @@ public class DemonEntity extends BWHostileEntity implements DemonMerchant {
 		private final Contract contract;
 		private final int duration, cost;
 
-		public DemonTradeOffer(NbtCompound tag) {
-			this(BWRegistries.CONTRACT.get(new Identifier(tag.getString("Contract"))), tag.getInt("Duration"), tag.getInt("Cost"));
+		public DemonTradeOffer(CompoundTag tag) {
+			this(BWRegistries.CONTRACT.get(new ResourceLocation(tag.getString("Contract"))), tag.getInt("Duration"), tag.getInt("Cost"));
 		}
 
 		public DemonTradeOffer(Contract contract, int duration, int cost) {
@@ -281,28 +294,28 @@ public class DemonEntity extends BWHostileEntity implements DemonMerchant {
 			this.cost = cost;
 		}
 
-		public NbtCompound toTag() {
-			NbtCompound tag = new NbtCompound();
-			tag.putString("Contract", BWRegistries.CONTRACT.getId(contract).toString());
+		public CompoundTag toTag() {
+			CompoundTag tag = new CompoundTag();
+			tag.putString("Contract", BWRegistries.CONTRACT.getKey(contract).toString());
 			tag.putInt("Duration", duration);
 			tag.putInt("Cost", cost);
 			return tag;
 		}
 
-		public static void toPacket(List<DemonTradeOffer> offers, PacketByteBuf buf) {
+		public static void toPacket(List<DemonTradeOffer> offers, FriendlyByteBuf buf) {
 			buf.writeInt(offers.size());
 			for (DemonTradeOffer offer : offers) {
-				buf.writeIdentifier(BWRegistries.CONTRACT.getId(offer.getContract()));
+				buf.writeResourceLocation(BWRegistries.CONTRACT.getKey(offer.getContract()));
 				buf.writeInt(offer.duration);
 				buf.writeInt(offer.cost);
 			}
 		}
 
-		public static List<DemonTradeOffer> fromPacket(PacketByteBuf buf) {
+		public static List<DemonTradeOffer> fromPacket(FriendlyByteBuf buf) {
 			int count = buf.readInt();
 			List<DemonTradeOffer> offers = new ArrayList<>(count);
 			for (int i = 0; i < count; i++) {
-				offers.add(new DemonTradeOffer(BWRegistries.CONTRACT.get(buf.readIdentifier()), buf.readInt(), buf.readInt()));
+				offers.add(new DemonTradeOffer(BWRegistries.CONTRACT.get(buf.readResourceLocation()), buf.readInt(), buf.readInt()));
 			}
 			return offers;
 		}
@@ -326,18 +339,18 @@ public class DemonEntity extends BWHostileEntity implements DemonMerchant {
 		}
 	}
 
-	public static class LookAtCustomerGoal<T extends MobEntity & DemonMerchant> extends LookAtEntityGoal {
+	public static class LookAtCustomerGoal<T extends Mob & DemonMerchant> extends LookAtPlayerGoal {
 		private final T merchant;
 
 		public LookAtCustomerGoal(T merchant) {
-			super(merchant, PlayerEntity.class, 8);
+			super(merchant, Player.class, 8);
 			this.merchant = merchant;
-			setControls(EnumSet.of(Control.MOVE, Control.LOOK));
+			setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
 		}
 
-		public boolean canStart() {
+		public boolean canUse() {
 			if (this.merchant.getCurrentCustomer() != null) {
-				this.target = this.merchant.getCurrentCustomer();
+				this.lookAt = this.merchant.getCurrentCustomer();
 				return true;
 			} else {
 				return false;

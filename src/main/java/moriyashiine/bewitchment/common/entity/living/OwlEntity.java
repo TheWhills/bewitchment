@@ -7,40 +7,57 @@ package moriyashiine.bewitchment.common.entity.living;
 import moriyashiine.bewitchment.common.entity.living.util.BWTameableEntity;
 import moriyashiine.bewitchment.common.registry.BWEntityTypes;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.control.FlightMoveControl;
+import net.minecraft.core.BlockPos;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.ai.pathing.BirdNavigation;
-import net.minecraft.entity.ai.pathing.EntityNavigation;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.FollowOwnerGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.SitWhenOrderedToGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
+import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.animal.Rabbit;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
 @SuppressWarnings("ConstantConditions")
 public class OwlEntity extends BWTameableEntity {
-	public OwlEntity(EntityType<? extends TameableEntity> type, World world) {
+	public OwlEntity(EntityType<? extends TamableAnimal> type, Level world) {
 		super(type, world);
-		moveControl = new FlightMoveControl(this, 180, false);
+		moveControl = new FlyingMoveControl(this, 180, false);
 	}
 
-	public static DefaultAttributeContainer.Builder createAttributes() {
-		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 8).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.6);
+	public static AttributeSupplier.Builder createAttributes() {
+		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8).add(Attributes.ATTACK_DAMAGE, 1).add(Attributes.MOVEMENT_SPEED, 0.25).add(Attributes.FLYING_SPEED, 0.6);
 	}
 
 	@Override
@@ -60,28 +77,28 @@ public class OwlEntity extends BWTameableEntity {
 
 	@Nullable
 	@Override
-	public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
+	public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob entity) {
 		OwlEntity child = BWEntityTypes.OWL.create(world);
 		if (child != null) {
-			child.initialize(world, world.getLocalDifficulty(getBlockPos()), SpawnReason.BREEDING, null, null);
-			UUID owner = getOwnerUuid();
+			child.finalizeSpawn(world, world.getCurrentDifficultyAt(blockPosition()), MobSpawnType.BREEDING, null, null);
+			UUID owner = getOwnerUUID();
 			if (owner != null) {
-				child.setOwnerUuid(owner);
-				child.setTamed(true);
+				child.setOwnerUUID(owner);
+				child.setTame(true);
 			}
 			if (entity instanceof OwlEntity && random.nextFloat() < 95 / 100f) {
-				child.dataTracker.set(VARIANT, random.nextBoolean() ? dataTracker.get(VARIANT) : entity.getDataTracker().get(VARIANT));
+				child.entityData.set(VARIANT, random.nextBoolean() ? entityData.get(VARIANT) : entity.getEntityData().get(VARIANT));
 			}
 		}
 		return child;
 	}
 
 	@Override
-	protected EntityNavigation createNavigation(World world) {
-		BirdNavigation birdNavigation = new BirdNavigation(this, world);
-		birdNavigation.setCanPathThroughDoors(false);
-		birdNavigation.setCanSwim(true);
-		birdNavigation.setCanEnterOpenDoors(true);
+	protected PathNavigation createNavigation(Level world) {
+		FlyingPathNavigation birdNavigation = new FlyingPathNavigation(this, world);
+		birdNavigation.setCanOpenDoors(false);
+		birdNavigation.setCanFloat(true);
+		birdNavigation.setCanPassDoors(true);
 		return birdNavigation;
 	}
 
@@ -102,39 +119,39 @@ public class OwlEntity extends BWTameableEntity {
 	}
 
 	@Override
-	public boolean isBreedingItem(ItemStack stack) {
+	public boolean isFood(ItemStack stack) {
 		return stack.getItem() == Items.CHICKEN;
 	}
 
 	@Override
 	protected void playStepSound(BlockPos pos, BlockState state) {
-		playSound(SoundEvents.ENTITY_PARROT_STEP, 0.15f, 1);
+		playSound(SoundEvents.PARROT_STEP, 0.15f, 1);
 	}
 
 	@Override
-	protected void addFlapEffects() {
+	protected void onFlap() {
 		playSound(BWSoundEvents.ENTITY_OWL_FLY, 0.15f, 1);
 	}
 
 	@Override
-	protected boolean isFlappingWings() {
+	protected boolean isFlapping() {
 		return true;
 	}
 
 	@Override
-	public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+	public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
 		return false;
 	}
 
 	@Override
-	protected void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
+	protected void checkFallDamage(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
 	}
 
 	@Override
-	public void setTamed(boolean tamed) {
-		super.setTamed(tamed);
-		EntityAttributeInstance maxHealth = getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
-		EntityAttributeInstance attackDamage = getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+	public void setTame(boolean tamed) {
+		super.setTame(tamed);
+		AttributeInstance maxHealth = getAttribute(Attributes.MAX_HEALTH);
+		AttributeInstance attackDamage = getAttribute(Attributes.ATTACK_DAMAGE);
 		if (tamed) {
 			maxHealth.setBaseValue(20);
 			attackDamage.setBaseValue(3);
@@ -146,18 +163,18 @@ public class OwlEntity extends BWTameableEntity {
 	}
 
 	@Override
-	protected void initGoals() {
-		goalSelector.add(0, new SwimGoal(this));
-		goalSelector.add(1, new SitGoal(this));
-		goalSelector.add(2, new MeleeAttackGoal(this, 1, true));
-		goalSelector.add(3, new FollowOwnerGoal(this, 1, 10, 2, false));
-		goalSelector.add(4, new AnimalMateGoal(this, 1));
-		goalSelector.add(5, new WanderAroundFarGoal(this, 1));
-		goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8));
-		goalSelector.add(6, new LookAroundGoal(this));
-		targetSelector.add(0, new TrackOwnerAttackerGoal(this));
-		targetSelector.add(1, new AttackWithOwnerGoal(this));
-		targetSelector.add(2, new RevengeGoal(this));
-		targetSelector.add(3, new UntamedActiveTargetGoal<>(this, AnimalEntity.class, false, entity -> entity instanceof ChickenEntity || entity instanceof RabbitEntity));
+	protected void registerGoals() {
+		goalSelector.addGoal(0, new FloatGoal(this));
+		goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
+		goalSelector.addGoal(2, new MeleeAttackGoal(this, 1, true));
+		goalSelector.addGoal(3, new FollowOwnerGoal(this, 1, 10, 2, false));
+		goalSelector.addGoal(4, new BreedGoal(this, 1));
+		goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1));
+		goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8));
+		goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+		targetSelector.addGoal(0, new OwnerHurtByTargetGoal(this));
+		targetSelector.addGoal(1, new OwnerHurtTargetGoal(this));
+		targetSelector.addGoal(2, new HurtByTargetGoal(this));
+		targetSelector.addGoal(3, new NonTameRandomTargetGoal<>(this, Animal.class, false, entity -> entity instanceof Chicken || entity instanceof Rabbit));
 	}
 }

@@ -7,53 +7,52 @@ package moriyashiine.bewitchment.common.block;
 import moriyashiine.bewitchment.common.block.entity.BWChestBlockEntity;
 import moriyashiine.bewitchment.common.registry.BWBlockEntityTypes;
 import moriyashiine.bewitchment.common.registry.BWObjects;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.ChestBlockEntity;
-import net.minecraft.stat.Stat;
-import net.minecraft.stat.Stats;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.BlockView;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.stats.Stat;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import java.util.function.Supplier;
 
 public class BWChestBlock extends ChestBlock {
 	protected final boolean trapped;
 
-	public BWChestBlock(Settings settings, Supplier<BlockEntityType<? extends ChestBlockEntity>> supplier, boolean trapped) {
+	public BWChestBlock(Properties settings, Supplier<BlockEntityType<? extends ChestBlockEntity>> supplier, boolean trapped) {
 		super(settings, supplier);
 		this.trapped = trapped;
 	}
 
 	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new BWChestBlockEntity(BWBlockEntityTypes.BW_CHEST, pos, state, getType(this), trapped);
 	}
 
 	@Override
-	protected Stat<Identifier> getOpenStat() {
-		return trapped ? Stats.CUSTOM.getOrCreateStat(Stats.TRIGGER_TRAPPED_CHEST) : super.getOpenStat();
+	protected Stat<ResourceLocation> getOpenChestStat() {
+		return trapped ? Stats.CUSTOM.get(Stats.TRIGGER_TRAPPED_CHEST) : super.getOpenChestStat();
 	}
 
 	@Override
-	public boolean emitsRedstonePower(BlockState state) {
-		return trapped || super.emitsRedstonePower(state);
+	public boolean isSignalSource(BlockState state) {
+		return trapped || super.isSignalSource(state);
 	}
 
 	@Override
-	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-		return trapped ? MathHelper.clamp(ChestBlockEntity.getPlayersLookingInChestCount(world, pos), 0, 15) : super.getWeakRedstonePower(state, world, pos, direction);
+	public int getSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+		return trapped ? Mth.clamp(ChestBlockEntity.getOpenCount(world, pos), 0, 15) : super.getSignal(state, world, pos, direction);
 	}
 
 	@Override
-	public int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-		return trapped ? (direction == Direction.UP ? state.getWeakRedstonePower(world, pos, direction) : 0) : super.getStrongRedstonePower(state, world, pos, direction);
+	public int getDirectSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+		return trapped ? (direction == Direction.UP ? state.getSignal(world, pos, direction) : 0) : super.getDirectSignal(state, world, pos, direction);
 	}
 
 	public static BWChestBlockEntity.Type getType(Block block) {

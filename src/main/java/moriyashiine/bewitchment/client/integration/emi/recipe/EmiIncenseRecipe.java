@@ -12,8 +12,8 @@ import dev.emi.emi.api.widget.WidgetHolder;
 import moriyashiine.bewitchment.client.integration.emi.BWEmiIntegration;
 import moriyashiine.bewitchment.common.recipe.IncenseRecipe;
 import moriyashiine.bewitchment.common.registry.BWObjects;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.crafting.Ingredient;
 
 public class EmiIncenseRecipe extends BasicEmiRecipe {
 	public EmiIncenseRecipe(IncenseRecipe recipe) {
@@ -25,7 +25,7 @@ public class EmiIncenseRecipe extends BasicEmiRecipe {
 			}
 		}
 		width += 58;
-		outputs.add(EmiStack.of(BWObjects.BRAZIER.asItem().getDefaultStack().setCustomName(Text.translatable(recipe.effect.getTranslationKey()))));
+		outputs.add(EmiStack.of(BWObjects.BRAZIER.asItem().getDefaultInstance().setHoverName(Component.translatable(recipe.effect.getDescriptionId()))));
 	}
 
 	@Override

@@ -5,8 +5,8 @@
 package moriyashiine.bewitchment.client.integration.patchouli;
 
 import moriyashiine.bewitchment.common.Bewitchment;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
 import vazkii.patchouli.api.IComponentRenderContext;
 import vazkii.patchouli.api.ICustomComponent;
 import vazkii.patchouli.api.IVariable;
@@ -15,7 +15,7 @@ import java.util.function.UnaryOperator;
 
 public class RitualCircleComponent implements ICustomComponent {
 	transient int x, y;
-	final transient Identifier[] circles = new Identifier[2];
+	final transient ResourceLocation[] circles = new ResourceLocation[2];
 	IVariable inner;
 	IVariable outer;
 
@@ -26,11 +26,11 @@ public class RitualCircleComponent implements ICustomComponent {
 	}
 
 	@Override
-	public void render(DrawContext graphics, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
+	public void render(GuiGraphics graphics, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
 		if (circles[1] != null) {
-			graphics.drawTexture(circles[1], x, y, 0, 0, 64, 64, 64, 64);
+			graphics.blit(circles[1], x, y, 0, 0, 64, 64, 64, 64);
 		}
-		graphics.drawTexture(circles[0], x + 16, y + 16, 16, 16, 28, 28, 64, 64);
+		graphics.blit(circles[0], x + 16, y + 16, 16, 16, 28, 28, 64, 64);
 	}
 
 	@Override

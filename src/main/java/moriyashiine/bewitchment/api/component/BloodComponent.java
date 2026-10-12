@@ -10,8 +10,8 @@ import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.api.event.BloodSetEvents;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWTags;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.LivingEntity;
 
 public class BloodComponent implements AutoSyncedComponent, ServerTickingComponent {
 	public static final int MAX_BLOOD = 100;
@@ -24,20 +24,20 @@ public class BloodComponent implements AutoSyncedComponent, ServerTickingCompone
 	}
 
 	@Override
-	public void readFromNbt(NbtCompound tag) {
+	public void readFromNbt(CompoundTag tag) {
 		if (tag.contains("Blood")) {
 			setBlood(tag.getInt("Blood"));
 		}
 	}
 
 	@Override
-	public void writeToNbt(NbtCompound tag) {
+	public void writeToNbt(CompoundTag tag) {
 		tag.putInt("Blood", getBlood());
 	}
 
 	@Override
 	public void serverTick() {
-		if (obj.getType().isIn(BWTags.HAS_BLOOD) && !BewitchmentAPI.isVampire(obj, true) && obj.getRandom().nextFloat() < (obj.isSleeping() ? 1 / 50f : 1 / 500f)) {
+		if (obj.getType().is(BWTags.HAS_BLOOD) && !BewitchmentAPI.isVampire(obj, true) && obj.getRandom().nextFloat() < (obj.isSleeping() ? 1 / 50f : 1 / 500f)) {
 			fillBlood(1, false);
 		}
 	}

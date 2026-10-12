@@ -5,14 +5,14 @@
 package moriyashiine.bewitchment.common.sigil;
 
 import moriyashiine.bewitchment.api.registry.Sigil;
-import net.minecraft.block.PressurePlateBlock;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.PressurePlateBlock;
 
 public class DecaySigil extends Sigil {
 	public DecaySigil(boolean active, int uses) {
@@ -20,18 +20,18 @@ public class DecaySigil extends Sigil {
 	}
 
 	@Override
-	public ActionResult use(World world, BlockPos pos, LivingEntity user, Hand hand) {
+	public InteractionResult use(Level world, BlockPos pos, LivingEntity user, InteractionHand hand) {
 		boolean flag = true;
 		if (world.getBlockState(pos).getBlock() instanceof PressurePlateBlock) {
-			flag = user.age % 20 == 0;
+			flag = user.tickCount % 20 == 0;
 		}
 		if (flag) {
-			StatusEffectInstance effect = new StatusEffectInstance(StatusEffects.WITHER, 200, 1);
-			if (user.canHaveStatusEffect(effect)) {
-				if (!world.isClient) {
-					user.addStatusEffect(effect);
+			MobEffectInstance effect = new MobEffectInstance(MobEffects.WITHER, 200, 1);
+			if (user.canBeAffected(effect)) {
+				if (!world.isClientSide) {
+					user.addEffect(effect);
 				}
-				return ActionResult.SUCCESS;
+				return InteractionResult.SUCCESS;
 			}
 		}
 		return super.use(world, pos, user, hand);

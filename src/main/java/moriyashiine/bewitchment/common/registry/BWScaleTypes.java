@@ -5,7 +5,7 @@
 package moriyashiine.bewitchment.common.registry;
 
 import moriyashiine.bewitchment.common.Bewitchment;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import virtuoel.pehkui.api.*;
 
 import java.util.Map;
@@ -17,7 +17,7 @@ public class BWScaleTypes {
 	public static final ScaleType MODIFY_WIDTH_TYPE = register(ScaleRegistries.SCALE_TYPES, "modify_width", ScaleType.Builder.create().addDependentModifier(MODIFY_WIDTH_MODIFIER).affectsDimensions().build());
 	public static final ScaleType MODIFY_HEIGHT_TYPE = register(ScaleRegistries.SCALE_TYPES, "modify_height", ScaleType.Builder.create().addDependentModifier(MODIFY_HEIGHT_MODIFIER).affectsDimensions().build());
 
-	private static <T> T register(Map<Identifier, T> registry, String name, T entry) {
+	private static <T> T register(Map<ResourceLocation, T> registry, String name, T entry) {
 		return ScaleRegistries.register(registry, Bewitchment.id(name), entry);
 	}
 

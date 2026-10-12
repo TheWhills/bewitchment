@@ -61,30 +61,30 @@ public class BWEmiIntegration implements EmiPlugin {
 	public void register(EmiRegistry registry) {
 		registry.addCategory(ATHAME_STRIPPING_CATEGORY);
 		registry.addWorkstation(ATHAME_STRIPPING_CATEGORY, ATHAME_WORKSTATION);
-		registry.getRecipeManager().listAllOfType(BWRecipeTypes.ATHAME_STRIPPING_RECIPE_TYPE).forEach(recipe -> registry.addRecipe(new EmiAthameStrippingRecipe(recipe)));
+		registry.getRecipeManager().getAllRecipesFor(BWRecipeTypes.ATHAME_STRIPPING_RECIPE_TYPE).forEach(recipe -> registry.addRecipe(new EmiAthameStrippingRecipe(recipe)));
 
 		registry.addCategory(ATHAME_DROPS_CATEGORY);
 		registry.addWorkstation(ATHAME_DROPS_CATEGORY, ATHAME_WORKSTATION);
-		registry.getRecipeManager().listAllOfType(BWRecipeTypes.ATHAME_DROP_RECIPE_TYPE).forEach(recipe -> registry.addRecipe(new EmiAthameDropRecipe(recipe)));
+		registry.getRecipeManager().getAllRecipesFor(BWRecipeTypes.ATHAME_DROP_RECIPE_TYPE).forEach(recipe -> registry.addRecipe(new EmiAthameDropRecipe(recipe)));
 
 		registry.addCategory(RITUALS_CATGORY);
 		registry.addWorkstation(RITUALS_CATGORY, GOLDEN_CHALK_WORKSTATION);
-		registry.getRecipeManager().listAllOfType(BWRecipeTypes.RITUAL_RECIPE_TYPE).forEach(recipe -> registry.addRecipe(new EmiRitualRecipe(recipe)));
+		registry.getRecipeManager().getAllRecipesFor(BWRecipeTypes.RITUAL_RECIPE_TYPE).forEach(recipe -> registry.addRecipe(new EmiRitualRecipe(recipe)));
 
 		registry.addCategory(OIL_CRAFTING_CATEGORY);
 		registry.addWorkstation(OIL_CRAFTING_CATEGORY, WITCH_CAULDRON_WORKSTATION);
-		registry.getRecipeManager().listAllOfType(BWRecipeTypes.OIL_RECIPE_TYPE).forEach(recipe -> registry.addRecipe(new EmiOilRecipe(recipe)));
+		registry.getRecipeManager().getAllRecipesFor(BWRecipeTypes.OIL_RECIPE_TYPE).forEach(recipe -> registry.addRecipe(new EmiOilRecipe(recipe)));
 
 		registry.addCategory(CAULDRON_BREWING_CATEGORY);
 		registry.addWorkstation(CAULDRON_BREWING_CATEGORY, WITCH_CAULDRON_WORKSTATION);
-		registry.getRecipeManager().listAllOfType(BWRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE).forEach(recipe -> registry.addRecipe(new EmiCauldronBrewingRecipe(recipe)));
+		registry.getRecipeManager().getAllRecipesFor(BWRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE).forEach(recipe -> registry.addRecipe(new EmiCauldronBrewingRecipe(recipe)));
 
 		registry.addCategory(INCENSE_CATEGORY);
 		registry.addWorkstation(INCENSE_CATEGORY, BRAZIER_WORKSTATION);
-		registry.getRecipeManager().listAllOfType(BWRecipeTypes.INCENSE_RECIPE_TYPE).forEach(recipe -> registry.addRecipe(new EmiIncenseRecipe(recipe)));
+		registry.getRecipeManager().getAllRecipesFor(BWRecipeTypes.INCENSE_RECIPE_TYPE).forEach(recipe -> registry.addRecipe(new EmiIncenseRecipe(recipe)));
 
 		registry.addCategory(CURSE_CATEGORY);
 		registry.addWorkstation(CURSE_CATEGORY, BRAZIER_WORKSTATION);
-		registry.getRecipeManager().listAllOfType(BWRecipeTypes.CURSE_RECIPE_TYPE).forEach(recipe -> registry.addRecipe(new EmiCurseRecipe(recipe)));
+		registry.getRecipeManager().getAllRecipesFor(BWRecipeTypes.CURSE_RECIPE_TYPE).forEach(recipe -> registry.addRecipe(new EmiCurseRecipe(recipe)));
 	}
 }

@@ -8,32 +8,32 @@ import moriyashiine.bewitchment.client.packet.SpawnExplosionParticlesPacket;
 import moriyashiine.bewitchment.common.entity.living.ToadEntity;
 import moriyashiine.bewitchment.common.registry.BWDamageSources;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.AttributeContainer;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 
-public class WednesdayStatusEffect extends StatusEffect {
-	public WednesdayStatusEffect(StatusEffectCategory category, int color) {
+public class WednesdayStatusEffect extends MobEffect {
+	public WednesdayStatusEffect(MobEffectCategory category, int color) {
 		super(category, color);
 	}
 
 	@Override
-	public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-		super.onRemoved(entity, attributes, amplifier);
-		entity.getWorld().playSound(null, entity.getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 1, 1);
+	public void removeAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {
+		super.removeAttributeModifiers(entity, attributes, amplifier);
+		entity.level().playSound(null, entity.blockPosition(), SoundEvents.GENERIC_EXPLODE, SoundSource.NEUTRAL, 1, 1);
 		PlayerLookup.tracking(entity).forEach(trackingPlayer -> SpawnExplosionParticlesPacket.send(trackingPlayer, entity));
-		if (entity instanceof ServerPlayerEntity player) {
+		if (entity instanceof ServerPlayer player) {
 			SpawnExplosionParticlesPacket.send(player, entity);
 		}
 		if (entity instanceof ToadEntity toad && toad.isFromWednesdayRitual) {
 			entity.remove(Entity.RemovalReason.DISCARDED);
 		} else {
-			entity.damage(BWDamageSources.create(entity.getWorld(), BWDamageSources.WEDNESDAY), Float.MAX_VALUE);
+			entity.hurt(BWDamageSources.create(entity.level(), BWDamageSources.WEDNESDAY), Float.MAX_VALUE);
 		}
 	}
 }

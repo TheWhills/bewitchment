@@ -5,15 +5,15 @@
 package moriyashiine.bewitchment.common.sigil;
 
 import moriyashiine.bewitchment.api.registry.Sigil;
-import net.minecraft.block.PressurePlateBlock;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.PressurePlateBlock;
 
 public class CleansingSigil extends Sigil {
 	public CleansingSigil(boolean active, int uses) {
@@ -21,23 +21,23 @@ public class CleansingSigil extends Sigil {
 	}
 
 	@Override
-	public ActionResult use(World world, BlockPos pos, LivingEntity user, Hand hand) {
+	public InteractionResult use(Level world, BlockPos pos, LivingEntity user, InteractionHand hand) {
 		boolean flag = true;
 		if (world.getBlockState(pos).getBlock() instanceof PressurePlateBlock) {
-			flag = user.age % 20 == 0;
+			flag = user.tickCount % 20 == 0;
 		}
 		if (flag) {
 			flag = false;
-			for (StatusEffect effect : Registries.STATUS_EFFECT) {
-				if (user.hasStatusEffect(effect) && effect.getCategory() == StatusEffectCategory.HARMFUL) {
-					if (!world.isClient) {
-						user.removeStatusEffect(effect);
+			for (MobEffect effect : BuiltInRegistries.MOB_EFFECT) {
+				if (user.hasEffect(effect) && effect.getCategory() == MobEffectCategory.HARMFUL) {
+					if (!world.isClientSide) {
+						user.removeEffect(effect);
 					}
 					flag = true;
 				}
 			}
 			if (flag) {
-				return ActionResult.SUCCESS;
+				return InteractionResult.SUCCESS;
 			}
 		}
 		return super.use(world, pos, user, hand);

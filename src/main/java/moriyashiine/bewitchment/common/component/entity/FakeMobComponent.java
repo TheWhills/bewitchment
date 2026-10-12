@@ -8,39 +8,38 @@ import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWCurses;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.world.ServerWorld;
-
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import java.util.UUID;
 
 public class FakeMobComponent implements AutoSyncedComponent, ServerTickingComponent {
-	private final MobEntity obj;
+	private final Mob obj;
 	private UUID target = null;
 
-	public FakeMobComponent(MobEntity obj) {
+	public FakeMobComponent(Mob obj) {
 		this.obj = obj;
 	}
 
 	@Override
-	public void readFromNbt(NbtCompound tag) {
+	public void readFromNbt(CompoundTag tag) {
 		setTarget(tag.getString("TargetUUID").isEmpty() ? null : UUID.fromString(tag.getString("TargetUUID")));
 	}
 
 	@Override
-	public void writeToNbt(NbtCompound tag) {
+	public void writeToNbt(CompoundTag tag) {
 		tag.putString("TargetUUID", getTarget() == null ? "" : getTarget().toString());
 	}
 
 	@Override
 	public void serverTick() {
 		if (getTarget() != null) {
-			LivingEntity entity = (LivingEntity) ((ServerWorld) obj.getWorld()).getEntity(getTarget());
-			if (entity == null || (obj.age % 20 == 0 && (obj.getRandom().nextFloat() < 1 / 100f || !BWComponents.CURSES_COMPONENT.get(entity).hasCurse(BWCurses.INSANITY)))) {
+			LivingEntity entity = (LivingEntity) ((ServerLevel) obj.level()).getEntity(getTarget());
+			if (entity == null || (obj.tickCount % 20 == 0 && (obj.getRandom().nextFloat() < 1 / 100f || !BWComponents.CURSES_COMPONENT.get(entity).hasCurse(BWCurses.INSANITY)))) {
 				obj.remove(Entity.RemovalReason.DISCARDED);
-			} else if (obj.getTarget() == null || !obj.getTarget().getUuid().equals(getTarget())) {
+			} else if (obj.getTarget() == null || !obj.getTarget().getUUID().equals(getTarget())) {
 				obj.setTarget(entity);
 			}
 		}

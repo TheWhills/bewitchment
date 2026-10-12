@@ -5,29 +5,29 @@
 package moriyashiine.bewitchment.common.statuseffect;
 
 import moriyashiine.bewitchment.api.BewitchmentAPI;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
-public class InvigoratingStatusEffect extends StatusEffect {
-	public InvigoratingStatusEffect(StatusEffectCategory category, int color) {
+public class InvigoratingStatusEffect extends MobEffect {
+	public InvigoratingStatusEffect(MobEffectCategory category, int color) {
 		super(category, color);
 	}
 
 	@Override
-	public boolean isInstant() {
+	public boolean isInstantenous() {
 		return true;
 	}
 
 	@Override
-	public boolean canApplyUpdateEffect(int duration, int amplifier) {
+	public boolean isDurationEffectTick(int duration, int amplifier) {
 		return true;
 	}
 
 	@Override
-	public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-		if (entity instanceof PlayerEntity player) {
+	public void applyEffectTick(LivingEntity entity, int amplifier) {
+		if (entity instanceof Player player) {
 			BewitchmentAPI.fillMagic(player, 20 * (amplifier + 1), false);
 		}
 	}

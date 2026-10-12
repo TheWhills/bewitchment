@@ -4,11 +4,11 @@
 
 package moriyashiine.bewitchment.common.block.util;
 
-import net.minecraft.block.SaplingBlock;
-import net.minecraft.block.sapling.SaplingGenerator;
+import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 
 public class BWSaplingBlock extends SaplingBlock {
-	public BWSaplingBlock(SaplingGenerator generator, Settings settings) {
+	public BWSaplingBlock(AbstractTreeGrower generator, Properties settings) {
 		super(generator, settings);
 	}
 }

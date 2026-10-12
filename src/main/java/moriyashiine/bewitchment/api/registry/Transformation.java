@@ -4,12 +4,12 @@
 
 package moriyashiine.bewitchment.api.registry;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class Transformation {
-	public void onAdded(PlayerEntity player) {
+	public void onAdded(Player player) {
 	}
 
-	public void onRemoved(PlayerEntity player) {
+	public void onRemoved(Player player) {
 	}
 }

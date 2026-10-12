@@ -4,7 +4,7 @@
 
 package moriyashiine.bewitchment.api.registry;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 
 public class Curse {
 	public final Type type;

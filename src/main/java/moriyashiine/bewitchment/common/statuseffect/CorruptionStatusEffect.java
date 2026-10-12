@@ -5,63 +5,62 @@
 package moriyashiine.bewitchment.common.statuseffect;
 
 import moriyashiine.bewitchment.common.registry.BWStatusEffects;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.registry.Registries;
-
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
 import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("ConstantConditions")
-public class CorruptionStatusEffect extends StatusEffect {
-	public static final Map<StatusEffect, StatusEffect> INVERSE_EFFECTS = new HashMap<>();
+public class CorruptionStatusEffect extends MobEffect {
+	public static final Map<MobEffect, MobEffect> INVERSE_EFFECTS = new HashMap<>();
 
 	static {
-		INVERSE_EFFECTS.put(StatusEffects.STRENGTH, StatusEffects.WEAKNESS);
-		INVERSE_EFFECTS.put(StatusEffects.REGENERATION, StatusEffects.POISON);
-		INVERSE_EFFECTS.put(StatusEffects.NIGHT_VISION, StatusEffects.BLINDNESS);
-		INVERSE_EFFECTS.put(StatusEffects.HASTE, StatusEffects.MINING_FATIGUE);
-		INVERSE_EFFECTS.put(StatusEffects.SPEED, StatusEffects.SLOWNESS);
-		INVERSE_EFFECTS.put(StatusEffects.JUMP_BOOST, BWStatusEffects.SINKING);
-		INVERSE_EFFECTS.put(StatusEffects.FIRE_RESISTANCE, BWStatusEffects.IGNITION);
-		INVERSE_EFFECTS.put(StatusEffects.WATER_BREATHING, BWStatusEffects.GILLS);
-		INVERSE_EFFECTS.put(StatusEffects.SLOW_FALLING, StatusEffects.LEVITATION);
+		INVERSE_EFFECTS.put(MobEffects.DAMAGE_BOOST, MobEffects.WEAKNESS);
+		INVERSE_EFFECTS.put(MobEffects.REGENERATION, MobEffects.POISON);
+		INVERSE_EFFECTS.put(MobEffects.NIGHT_VISION, MobEffects.BLINDNESS);
+		INVERSE_EFFECTS.put(MobEffects.DIG_SPEED, MobEffects.DIG_SLOWDOWN);
+		INVERSE_EFFECTS.put(MobEffects.MOVEMENT_SPEED, MobEffects.MOVEMENT_SLOWDOWN);
+		INVERSE_EFFECTS.put(MobEffects.JUMP, BWStatusEffects.SINKING);
+		INVERSE_EFFECTS.put(MobEffects.FIRE_RESISTANCE, BWStatusEffects.IGNITION);
+		INVERSE_EFFECTS.put(MobEffects.WATER_BREATHING, BWStatusEffects.GILLS);
+		INVERSE_EFFECTS.put(MobEffects.SLOW_FALLING, MobEffects.LEVITATION);
 		INVERSE_EFFECTS.put(BWStatusEffects.HARDENING, BWStatusEffects.CORROSION);
 		INVERSE_EFFECTS.put(BWStatusEffects.ENCHANTED, BWStatusEffects.INHIBITED);
-		INVERSE_EFFECTS.put(BWStatusEffects.NOURISHING, StatusEffects.HUNGER);
+		INVERSE_EFFECTS.put(BWStatusEffects.NOURISHING, MobEffects.HUNGER);
 	}
 
-	public CorruptionStatusEffect(StatusEffectCategory category, int color) {
+	public CorruptionStatusEffect(MobEffectCategory category, int color) {
 		super(category, color);
 	}
 
 	@Override
-	public boolean isInstant() {
+	public boolean isInstantenous() {
 		return true;
 	}
 
 	@Override
-	public boolean canApplyUpdateEffect(int duration, int amplifier) {
+	public boolean isDurationEffectTick(int duration, int amplifier) {
 		return true;
 	}
 
 	@Override
-	public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-		if (!entity.getWorld().isClient) {
-			Registries.STATUS_EFFECT.stream().forEach(effect -> {
-				if (effect.getCategory() == StatusEffectCategory.BENEFICIAL && entity.hasStatusEffect(effect) && !entity.getStatusEffect(effect).isAmbient()) {
-					StatusEffect inverse = INVERSE_EFFECTS.get(effect);
-					StatusEffectInstance inverseEffect = null;
+	public void applyEffectTick(LivingEntity entity, int amplifier) {
+		if (!entity.level().isClientSide) {
+			BuiltInRegistries.MOB_EFFECT.stream().forEach(effect -> {
+				if (effect.getCategory() == MobEffectCategory.BENEFICIAL && entity.hasEffect(effect) && !entity.getEffect(effect).isAmbient()) {
+					MobEffect inverse = INVERSE_EFFECTS.get(effect);
+					MobEffectInstance inverseEffect = null;
 					if (inverse != null) {
-						StatusEffectInstance goodEffect = entity.getStatusEffect(effect);
-						inverseEffect = new StatusEffectInstance(inverse, goodEffect.getDuration(), goodEffect.getAmplifier(), goodEffect.isAmbient(), goodEffect.shouldShowParticles(), goodEffect.shouldShowIcon());
+						MobEffectInstance goodEffect = entity.getEffect(effect);
+						inverseEffect = new MobEffectInstance(inverse, goodEffect.getDuration(), goodEffect.getAmplifier(), goodEffect.isAmbient(), goodEffect.isVisible(), goodEffect.showIcon());
 					}
-					entity.removeStatusEffect(effect);
+					entity.removeEffect(effect);
 					if (inverseEffect != null) {
-						entity.addStatusEffect(inverseEffect);
+						entity.addEffect(inverseEffect);
 					}
 				}
 			});

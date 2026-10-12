@@ -12,46 +12,46 @@ import moriyashiine.bewitchment.common.misc.BWUtil;
 import moriyashiine.bewitchment.common.recipe.CauldronBrewingRecipe;
 import moriyashiine.bewitchment.common.recipe.OilRecipe;
 import moriyashiine.bewitchment.common.registry.*;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.potion.PotionUtil;
-import net.minecraft.potion.Potions;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
-public class WitchCauldronBlockEntity extends BlockEntity implements Inventory, UsesAltarPower {
-	private Box box;
+public class WitchCauldronBlockEntity extends BlockEntity implements Container, UsesAltarPower {
+	private AABB box;
 
-	private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(4, ItemStack.EMPTY);
+	private final NonNullList<ItemStack> inventory = NonNullList.withSize(4, ItemStack.EMPTY);
 
 	private BlockPos altarPos = null;
 
@@ -70,25 +70,25 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Inventory, 
 	}
 
 	@Override
-	public NbtCompound toInitialChunkDataNbt() {
-		NbtCompound nbt = super.toInitialChunkDataNbt();
-		writeNbt(nbt);
+	public CompoundTag getUpdateTag() {
+		CompoundTag nbt = super.getUpdateTag();
+		saveAdditional(nbt);
 		return nbt;
 	}
 
 	@Nullable
 	@Override
-	public Packet<ClientPlayPacketListener> toUpdatePacket() {
-		return BlockEntityUpdateS2CPacket.create(this);
+	public Packet<ClientGamePacketListener> getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Override
-	public void readNbt(NbtCompound nbt) {
-		super.readNbt(nbt);
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
 		if (nbt.contains("AltarPos")) {
-			setAltarPos(BlockPos.fromLong(nbt.getLong("AltarPos")));
+			setAltarPos(BlockPos.of(nbt.getLong("AltarPos")));
 		}
-		Inventories.readNbt(nbt, inventory);
+		ContainerHelper.loadAllItems(nbt, inventory);
 		mode = Mode.valueOf(nbt.getString("Mode"));
 		if (nbt.contains("Name")) {
 			name = nbt.getString("Name");
@@ -100,12 +100,12 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Inventory, 
 	}
 
 	@Override
-	protected void writeNbt(NbtCompound nbt) {
-		super.writeNbt(nbt);
+	protected void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
 		if (getAltarPos() != null) {
 			nbt.putLong("AltarPos", getAltarPos().asLong());
 		}
-		Inventories.writeNbt(nbt, inventory);
+		ContainerHelper.saveAllItems(nbt, inventory);
 		nbt.putString("Mode", mode.name);
 		if (name != null) {
 			nbt.putString("Name", name);
@@ -115,8 +115,8 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Inventory, 
 	}
 
 	public void sync() {
-		if (world != null && !world.isClient) {
-			world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
+		if (level != null && !level.isClientSide) {
+			level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
 		}
 	}
 
@@ -130,33 +130,33 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Inventory, 
 		altarPos = pos;
 	}
 
-	public static void tick(World world, BlockPos pos, BlockState state, WitchCauldronBlockEntity blockEntity) {
+	public static void tick(Level world, BlockPos pos, BlockState state, WitchCauldronBlockEntity blockEntity) {
 		if (world != null) {
 			if (!blockEntity.loaded) {
-				blockEntity.markDirty();
-				blockEntity.box = new Box(pos).contract(0.75);
-				blockEntity.oilRecipe = world.getRecipeManager().listAllOfType(BWRecipeTypes.OIL_RECIPE_TYPE).stream().filter(recipe -> recipe.matches(blockEntity, world)).findFirst().orElse(null);
+				blockEntity.setChanged();
+				blockEntity.box = new AABB(pos).deflate(0.75);
+				blockEntity.oilRecipe = world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.OIL_RECIPE_TYPE).stream().filter(recipe -> recipe.matches(blockEntity, world)).findFirst().orElse(null);
 				blockEntity.loaded = true;
 			}
-			blockEntity.heatTimer = MathHelper.clamp(blockEntity.heatTimer + (state.get(Properties.LIT) && state.get(BWProperties.LEVEL) > 0 ? 1 : -1), 0, 160);
-			if (!world.isClient) {
-				if (blockEntity.heatTimer >= 60 && state.get(BWProperties.LEVEL) > 0) {
+			blockEntity.heatTimer = Mth.clamp(blockEntity.heatTimer + (state.getValue(BlockStateProperties.LIT) && state.getValue(BWProperties.LEVEL) > 0 ? 1 : -1), 0, 160);
+			if (!world.isClientSide) {
+				if (blockEntity.heatTimer >= 60 && state.getValue(BWProperties.LEVEL) > 0) {
 					if (world.random.nextFloat() <= 0.075f) {
-						world.playSound(null, pos, SoundEvents.BLOCK_BUBBLE_COLUMN_UPWARDS_AMBIENT, SoundCategory.BLOCKS, 1 / 3f, blockEntity.mode == Mode.FAILED ? 0.5f : 1);
+						world.playSound(null, pos, SoundEvents.BUBBLE_COLUMN_UPWARDS_AMBIENT, SoundSource.BLOCKS, 1 / 3f, blockEntity.mode == Mode.FAILED ? 0.5f : 1);
 					}
-					if (world.getTime() % 5 == 0) {
-						world.getEntitiesByType(EntityType.ITEM, blockEntity.box, entity -> true).forEach(itemEntity -> {
-							if (itemEntity.getStack().getItem() == BWObjects.WOOD_ASH || state.get(BWProperties.LEVEL) == 3) {
-								world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_SPLASH, SoundCategory.BLOCKS, 1 / 3f, 1);
-								ItemStack stack = itemEntity.getStack();
-								if (stack.getItem().hasRecipeRemainder()) {
-									ItemEntity remainder = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, new ItemStack(stack.getItem().getRecipeRemainder()));
-									remainder.setVelocity(Vec3d.ZERO);
+					if (world.getGameTime() % 5 == 0) {
+						world.getEntities(EntityType.ITEM, blockEntity.box, entity -> true).forEach(itemEntity -> {
+							if (itemEntity.getItem().getItem() == BWObjects.WOOD_ASH || state.getValue(BWProperties.LEVEL) == 3) {
+								world.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 1 / 3f, 1);
+								ItemStack stack = itemEntity.getItem();
+								if (stack.getItem().hasCraftingRemainingItem()) {
+									ItemEntity remainder = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, new ItemStack(stack.getItem().getCraftingRemainingItem()));
+									remainder.setDeltaMovement(Vec3.ZERO);
 									remainder.setNoGravity(true);
-									world.spawnEntity(remainder);
+									world.addFreshEntity(remainder);
 								}
 								blockEntity.mode = blockEntity.insertStack(stack.split(1));
-								blockEntity.markDirty();
+								blockEntity.setChanged();
 								blockEntity.syncCauldron();
 							}
 						});
@@ -167,14 +167,14 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Inventory, 
 	}
 
 	@Override
-	public int size() {
+	public int getContainerSize() {
 		return inventory.size();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		for (int i = 0; i < size(); i++) {
-			if (getStack(i).isEmpty()) {
+		for (int i = 0; i < getContainerSize(); i++) {
+			if (getItem(i).isEmpty()) {
 				return false;
 			}
 		}
@@ -182,32 +182,32 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Inventory, 
 	}
 
 	@Override
-	public ItemStack getStack(int slot) {
+	public ItemStack getItem(int slot) {
 		return inventory.get(slot);
 	}
 
 	@Override
-	public ItemStack removeStack(int slot, int amount) {
-		return Inventories.splitStack(inventory, slot, amount);
+	public ItemStack removeItem(int slot, int amount) {
+		return ContainerHelper.removeItem(inventory, slot, amount);
 	}
 
 	@Override
-	public ItemStack removeStack(int slot) {
-		return Inventories.removeStack(inventory, slot);
+	public ItemStack removeItemNoUpdate(int slot) {
+		return ContainerHelper.takeItem(inventory, slot);
 	}
 
 	@Override
-	public void setStack(int slot, ItemStack stack) {
+	public void setItem(int slot, ItemStack stack) {
 		inventory.set(slot, stack);
 	}
 
 	@Override
-	public boolean canPlayerUse(PlayerEntity player) {
-		return player.squaredDistanceTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) < 16;
+	public boolean stillValid(Player player) {
+		return player.distanceToSqr(worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5) < 16;
 	}
 
 	@Override
-	public void clear() {
+	public void clearContent() {
 		inventory.clear();
 	}
 
@@ -216,17 +216,17 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Inventory, 
 	}
 
 	public void setColor(int color) {
-		if (world != null) {
+		if (level != null) {
 			this.color = color;
 		}
 	}
 
 	public Mode reset() {
-		if (world != null) {
+		if (level != null) {
 			setColor(0x3f76e4);
-			clear();
+			clearContent();
 			oilRecipe = null;
-			world.setBlockState(pos, getCachedState().with(BWProperties.LEVEL, 0));
+			level.setBlockAndUpdate(worldPosition, getBlockState().setValue(BWProperties.LEVEL, 0));
 		}
 		return Mode.NORMAL;
 	}
@@ -237,8 +237,8 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Inventory, 
 	}
 
 	private int getFirstEmptySlot() {
-		for (int i = 0; i < size(); i++) {
-			if (getStack(i).isEmpty()) {
+		for (int i = 0; i < getContainerSize(); i++) {
+			if (getItem(i).isEmpty()) {
 				return i;
 			}
 		}
@@ -246,7 +246,7 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Inventory, 
 	}
 
 	private Mode insertStack(ItemStack stack) {
-		if (world != null) {
+		if (level != null) {
 			if (stack.getItem() == BWObjects.WOOD_ASH) {
 				Mode reset = reset();
 				syncCauldron();
@@ -254,27 +254,27 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Inventory, 
 			} else if (mode != Mode.FAILED && mode != Mode.TELEPORTATION) {
 				int firstEmpty = getFirstEmptySlot();
 				if (firstEmpty != -1) {
-					setStack(firstEmpty, stack);
+					setItem(firstEmpty, stack);
 					if (mode == Mode.NORMAL && stack.getItem() == BWObjects.MANDRAKE_ROOT) {
-						clear();
+						clearContent();
 						return Mode.BREWING;
 					}
 					if (mode == Mode.BREWING) {
-						CauldronBrewingRecipe cauldronBrewingRecipe = world.getRecipeManager().listAllOfType(BWRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE).stream().filter(recipe -> recipe.input.test(stack)).findFirst().orElse(null);
+						CauldronBrewingRecipe cauldronBrewingRecipe = level.getRecipeManager().getAllRecipesFor(BWRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE).stream().filter(recipe -> recipe.input.test(stack)).findFirst().orElse(null);
 						if (isRecipeValid(cauldronBrewingRecipe) || stack.getItem() == Items.REDSTONE || stack.getItem() == Items.GLOWSTONE_DUST) {
 							BlockPos altarPos = getAltarPos();
-							if (altarPos != null && ((WitchAltarBlockEntity) world.getBlockEntity(altarPos)).drain(getBrewCost(), true)) {
-								setColor(PotionUtil.getColor(getPotion(null)));
+							if (altarPos != null && ((WitchAltarBlockEntity) level.getBlockEntity(altarPos)).drain(getBrewCost(), true)) {
+								setColor(PotionUtils.getColor(getPotion(null)));
 								return Mode.BREWING;
 							}
 						}
 					} else {
-						oilRecipe = world.getRecipeManager().listAllOfType(BWRecipeTypes.OIL_RECIPE_TYPE).stream().filter(recipe -> recipe.matches(this, world)).findFirst().orElse(null);
+						oilRecipe = level.getRecipeManager().getAllRecipesFor(BWRecipeTypes.OIL_RECIPE_TYPE).stream().filter(recipe -> recipe.matches(this, level)).findFirst().orElse(null);
 						if (oilRecipe != null) {
 							setColor(oilRecipe.color);
 							return Mode.OIL_CRAFTING;
 						} else if (firstEmpty == 0 && stack.getItem() == Items.ENDER_PEARL) {
-							clear();
+							clearContent();
 							setColor(0x319a89);
 							return Mode.TELEPORTATION;
 						}
@@ -289,20 +289,20 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Inventory, 
 
 	public ItemStack getPotion(LivingEntity creator) {
 		ItemStack stack = new ItemStack(Items.POTION);
-		if (world != null) {
-			List<StatusEffectInstance> effects = new ArrayList<>();
+		if (level != null) {
+			List<MobEffectInstance> effects = new ArrayList<>();
 			int durationBoost = creator != null && BWUtil.getArmorPieces(creator, armorStack -> armorStack.getItem() instanceof ArmorItem armorItem && armorItem.getMaterial() == BWMaterials.ALCHEMIST_ARMOR) >= 3 ? 1 : 0;
 			int amplifierBoost = 0;
-			boolean leonard = creator instanceof PlayerEntity player && BewitchmentAPI.isPledged(player, BWPledges.LEONARD);
-			for (int i = 0; i < size(); i++) {
-				ItemStack stackInSlot = getStack(i);
+			boolean leonard = creator instanceof Player player && BewitchmentAPI.isPledged(player, BWPledges.LEONARD);
+			for (int i = 0; i < getContainerSize(); i++) {
+				ItemStack stackInSlot = getItem(i);
 				if (stackInSlot.getItem() instanceof TaglockItem && TaglockItem.isTaglockFromPlayer(stackInSlot)) {
-					stack.getOrCreateNbt().putUuid("PolymorphUUID", TaglockItem.getTaglockUUID(stackInSlot));
-					stack.getOrCreateNbt().putString("PolymorphName", TaglockItem.getTaglockName(stackInSlot));
+					stack.getOrCreateTag().putUUID("PolymorphUUID", TaglockItem.getTaglockUUID(stackInSlot));
+					stack.getOrCreateTag().putString("PolymorphName", TaglockItem.getTaglockName(stackInSlot));
 				}
-				CauldronBrewingRecipe cauldronBrewingRecipe = world.getRecipeManager().listAllOfType(BWRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE).stream().filter(recipe -> recipe.input.test(stackInSlot)).findFirst().orElse(null);
-				if (cauldronBrewingRecipe != null && effects.stream().noneMatch(effect -> effect.getEffectType() == cauldronBrewingRecipe.output)) {
-					effects.add(new StatusEffectInstance(cauldronBrewingRecipe.output, cauldronBrewingRecipe.time));
+				CauldronBrewingRecipe cauldronBrewingRecipe = level.getRecipeManager().getAllRecipesFor(BWRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE).stream().filter(recipe -> recipe.input.test(stackInSlot)).findFirst().orElse(null);
+				if (cauldronBrewingRecipe != null && effects.stream().noneMatch(effect -> effect.getEffect() == cauldronBrewingRecipe.output)) {
+					effects.add(new MobEffectInstance(cauldronBrewingRecipe.output, cauldronBrewingRecipe.time));
 				} else if (stackInSlot.getItem() == Items.REDSTONE) {
 					durationBoost++;
 				} else if (stackInSlot.getItem() == Items.GLOWSTONE_DUST) {
@@ -311,40 +311,40 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Inventory, 
 			}
 			for (int i = 0; i < effects.size(); i++) {
 				for (int j = 0; j < durationBoost; j++) {
-					StatusEffect type = effects.get(i).getEffectType();
+					MobEffect type = effects.get(i).getEffect();
 					int duration = effects.get(i).getDuration();
-					effects.set(i, new StatusEffectInstance(type, type.isInstant() ? duration : duration * 2));
+					effects.set(i, new MobEffectInstance(type, type.isInstantenous() ? duration : duration * 2));
 				}
 				for (int j = 0; j < amplifierBoost && j < 2; j++) {
 					if (j == 1 && !leonard) {
 						break;
 					}
-					StatusEffect type = effects.get(i).getEffectType();
+					MobEffect type = effects.get(i).getEffect();
 					int duration = effects.get(i).getDuration();
-					effects.set(i, new StatusEffectInstance(type, type.isInstant() ? duration : duration / 2, effects.get(i).getAmplifier() + 1));
+					effects.set(i, new MobEffectInstance(type, type.isInstantenous() ? duration : duration / 2, effects.get(i).getAmplifier() + 1));
 				}
 			}
-			List<StatusEffectInstance> finalEffects = new ArrayList<>();
+			List<MobEffectInstance> finalEffects = new ArrayList<>();
 			for (int i = effects.size() - 1; i >= 0; i--) {
-				if (effects.get(i).getEffectType() == BWStatusEffects.CORRUPTION) {
+				if (effects.get(i).getEffect() == BWStatusEffects.CORRUPTION) {
 					finalEffects.add(effects.remove(i));
-				} else if (effects.get(i).getEffectType() == BWStatusEffects.POLYMORPH) {
-					StatusEffectInstance removed = effects.remove(i);
-					finalEffects.add(new StatusEffectInstance(removed.getEffectType(), removed.getDuration(), removed.getAmplifier(), removed.isAmbient(), false, removed.shouldShowIcon()));
+				} else if (effects.get(i).getEffect() == BWStatusEffects.POLYMORPH) {
+					MobEffectInstance removed = effects.remove(i);
+					finalEffects.add(new MobEffectInstance(removed.getEffect(), removed.getDuration(), removed.getAmplifier(), removed.isAmbient(), false, removed.showIcon()));
 				}
 			}
 			finalEffects.addAll(effects);
-			PotionUtil.setCustomPotionEffects(stack, finalEffects);
-			stack.getOrCreateNbt().putInt("CustomPotionColor", PotionUtil.getColor(finalEffects));
-			stack.getOrCreateNbt().putBoolean("BewitchmentBrew", true);
+			PotionUtils.setCustomEffects(stack, finalEffects);
+			stack.getOrCreateTag().putInt("CustomPotionColor", PotionUtils.getColor(finalEffects));
+			stack.getOrCreateTag().putBoolean("BewitchmentBrew", true);
 		}
 		return stack;
 	}
 
 	public int getBrewCost() {
 		int cost = 0;
-		for (int i = 0; i < size(); i++) {
-			if (!getStack(i).isEmpty()) {
+		for (int i = 0; i < getContainerSize(); i++) {
+			if (!getItem(i).isEmpty()) {
 				cost += 150;
 			}
 		}
@@ -353,7 +353,7 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Inventory, 
 
 	public int getTargetLevel(ItemStack stack) {
 		Item item = stack.getItem();
-		int level = getCachedState().get(BWProperties.LEVEL);
+		int level = getBlockState().getValue(BWProperties.LEVEL);
 		if (mode == Mode.NORMAL) {
 			if (item == Items.BUCKET && level == 3) {
 				return 0;
@@ -361,7 +361,7 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Inventory, 
 				return 3;
 			} else if (item == Items.GLASS_BOTTLE) {
 				return level - 1;
-			} else if (item == Items.POTION && level < 3 && PotionUtil.getPotion(stack) == Potions.WATER) {
+			} else if (item == Items.POTION && level < 3 && PotionUtils.getPotion(stack) == Potions.WATER) {
 				return level + 1;
 			}
 		} else if (mode == Mode.OIL_CRAFTING) {

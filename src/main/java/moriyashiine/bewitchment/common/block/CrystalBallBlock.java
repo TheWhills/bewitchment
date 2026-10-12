@@ -15,65 +15,65 @@ import moriyashiine.bewitchment.common.item.TaglockItem;
 import moriyashiine.bewitchment.common.misc.BWUtil;
 import moriyashiine.bewitchment.common.registry.*;
 import moriyashiine.bewitchment.common.world.BWUniversalWorldState;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.Waterloggable;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.DustParticleEffect;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.Properties;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
 @SuppressWarnings("ConstantConditions")
-public class CrystalBallBlock extends Block implements Waterloggable {
-	private static final VoxelShape SHAPE = VoxelShapes.union(createCuboidShape(5, 11, 5, 11, 12, 11), createCuboidShape(3.5, 2.5, 4, 4.5, 3.5, 12), createCuboidShape(5, 4, 3, 11, 10, 4), createCuboidShape(3, 4, 5, 4, 10, 11), createCuboidShape(4, 3, 4, 12, 11, 12), createCuboidShape(12, 4, 5, 13, 10, 11), createCuboidShape(3.6, 0, 11.4, 4.6, 3, 12.4), createCuboidShape(11.4, 0, 11.4, 12.4, 3, 12.4), createCuboidShape(3.5, 2.5, 11.5, 12.5, 3.5, 12.5), createCuboidShape(11.5, 2.5, 4, 12.5, 3.5, 12), createCuboidShape(11.4, 0, 3.6, 12.4, 3, 4.6), createCuboidShape(5, 2, 5, 11, 3, 11), createCuboidShape(5, 4, 12, 11, 10, 13), createCuboidShape(3.5, 2.5, 3.5, 12.5, 3.5, 4.5), createCuboidShape(3.6, 0, 3.6, 4.6, 3, 4.6));
+public class CrystalBallBlock extends Block implements SimpleWaterloggedBlock {
+	private static final VoxelShape SHAPE = Shapes.or(box(5, 11, 5, 11, 12, 11), box(3.5, 2.5, 4, 4.5, 3.5, 12), box(5, 4, 3, 11, 10, 4), box(3, 4, 5, 4, 10, 11), box(4, 3, 4, 12, 11, 12), box(12, 4, 5, 13, 10, 11), box(3.6, 0, 11.4, 4.6, 3, 12.4), box(11.4, 0, 11.4, 12.4, 3, 12.4), box(3.5, 2.5, 11.5, 12.5, 3.5, 12.5), box(11.5, 2.5, 4, 12.5, 3.5, 12), box(11.4, 0, 3.6, 12.4, 3, 4.6), box(5, 2, 5, 11, 3, 11), box(5, 4, 12, 11, 10, 13), box(3.5, 2.5, 3.5, 12.5, 3.5, 4.5), box(3.6, 0, 3.6, 4.6, 3, 4.6));
 
-	public CrystalBallBlock(Settings settings) {
+	public CrystalBallBlock(Properties settings) {
 		super(settings);
 	}
 
 	@Override
-	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		return SHAPE;
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		boolean client = world.isClient;
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		boolean client = world.isClientSide;
 		if (client) {
 			for (int i = 0; i < 10; i++) {
-				world.addParticle(new DustParticleEffect(new Vector3f(1, 1, 1), 1), pos.getX() + world.random.nextFloat(), pos.getY() + world.random.nextFloat(), pos.getZ() + world.random.nextFloat(), 0, 0, 0);
+				world.addParticle(new DustParticleOptions(new Vector3f(1, 1, 1), 1), pos.getX() + world.random.nextFloat(), pos.getY() + world.random.nextFloat(), pos.getZ() + world.random.nextFloat(), 0, 0, 0);
 			}
 		} else {
 			SoundEvent sound = BWSoundEvents.BLOCK_CRYSTAL_BALL_FAIL;
 			BlockPos nearestAltarPos = WitchAltarBlock.getClosestAltarPos(world, pos);
 			if (nearestAltarPos != null && ((WitchAltarBlockEntity) world.getBlockEntity(nearestAltarPos)).drain(500, false)) {
-				ItemStack stack = player.getStackInHand(hand);
-				if (stack.getItem() instanceof TaglockItem && TaglockItem.isTaglockFromPlayer(stack) && !stack.getNbt().contains("UsedForScrying")) {
-					if (BewitchmentAPI.getTaglockOwner(world, stack) instanceof PlayerEntity owner) {
+				ItemStack stack = player.getItemInHand(hand);
+				if (stack.getItem() instanceof TaglockItem && TaglockItem.isTaglockFromPlayer(stack) && !stack.getTag().contains("UsedForScrying")) {
+					if (BewitchmentAPI.getTaglockOwner(world, stack) instanceof Player owner) {
 						boolean failed = false;
-						BlockPos sigilPos = BWUtil.getClosestBlockPos(owner.getBlockPos(), 16, currentPos -> world.getBlockEntity(currentPos) instanceof SigilHolder sigilHolder && sigilHolder.getSigil() == BWSigils.SHADOWS);
+						BlockPos sigilPos = BWUtil.getClosestBlockPos(owner.blockPosition(), 16, currentPos -> world.getBlockEntity(currentPos) instanceof SigilHolder sigilHolder && sigilHolder.getSigil() == BWSigils.SHADOWS);
 						if (sigilPos == null) {
 							sigilPos = BWUtil.getClosestBlockPos(pos, 16, currentPos -> world.getBlockEntity(currentPos) instanceof SigilHolder sigilHolder && sigilHolder.getSigil() == BWSigils.SHADOWS);
 						}
@@ -82,25 +82,25 @@ public class CrystalBallBlock extends Block implements Waterloggable {
 							SigilHolder sigilHolder = (SigilHolder) blockEntity;
 							if (sigilHolder.test(player)) {
 								sigilHolder.setUses(sigilHolder.getUses() - 1);
-								blockEntity.markDirty();
+								blockEntity.setChanged();
 								failed = true;
 							}
 						}
 						ItemStack newTaglock = new ItemStack(BWObjects.TAGLOCK);
-						NbtCompound taglockCompound = newTaglock.getOrCreateNbt().copyFrom(stack.getNbt());
+						CompoundTag taglockCompound = newTaglock.getOrCreateTag().merge(stack.getTag());
 						taglockCompound.putBoolean("UsedForScrying", true);
 						if (!failed) {
-							taglockCompound.putLong("LocationPos", owner.getBlockPos().asLong());
-							taglockCompound.putString("LocationWorld", world.getRegistryKey().getValue().toString());
+							taglockCompound.putLong("LocationPos", owner.blockPosition().asLong());
+							taglockCompound.putString("LocationWorld", world.dimension().location().toString());
 							taglockCompound.putInt("Level", owner.experienceLevel);
 							taglockCompound.put("Curses", BWComponents.CURSES_COMPONENT.get(owner).toNbtCurse());
 							taglockCompound.put("Contracts", BWComponents.CONTRACTS_COMPONENT.get(owner).toNbtContract());
-							taglockCompound.putString("Transformation", "transformation." + BWRegistries.TRANSFORMATION.getId(BWComponents.TRANSFORMATION_COMPONENT.get(owner).getTransformation()).toString().replace(":", "."));
+							taglockCompound.putString("Transformation", "transformation." + BWRegistries.TRANSFORMATION.getKey(BWComponents.TRANSFORMATION_COMPONENT.get(owner).getTransformation()).toString().replace(":", "."));
 							BWUniversalWorldState universalWorldState = BWUniversalWorldState.get(world);
 							String familiar = "none";
 							for (int i = 0; i < universalWorldState.familiars.size(); i++) {
-								if (universalWorldState.familiars.get(i).getLeft().equals(owner.getUuid())) {
-									familiar = universalWorldState.familiars.get(i).getRight().getString("id");
+								if (universalWorldState.familiars.get(i).getA().equals(owner.getUUID())) {
+									familiar = universalWorldState.familiars.get(i).getB().getString("id");
 									break;
 								}
 							}
@@ -109,59 +109,59 @@ public class CrystalBallBlock extends Block implements Waterloggable {
 							sound = BWSoundEvents.BLOCK_CRYSTAL_BALL_FIRE;
 						} else {
 							taglockCompound.putBoolean("Failed", true);
-							player.sendMessage(Text.translatable(Bewitchment.MOD_ID + ".message.blocked_by_shadows"), true);
+							player.displayClientMessage(Component.translatable(Bewitchment.MOD_ID + ".message.blocked_by_shadows"), true);
 						}
 						BWUtil.addItemToInventoryAndConsume(player, hand, newTaglock);
 					} else {
-						player.sendMessage(Text.translatable(Bewitchment.MOD_ID + ".message.invalid_entity"), true);
+						player.displayClientMessage(Component.translatable(Bewitchment.MOD_ID + ".message.invalid_entity"), true);
 					}
 				} else {
 					FortuneComponent fortuneComponent = BWComponents.FORTUNE_COMPONENT.get(player);
 					if (fortuneComponent.getFortune() == null) {
 						sound = BWSoundEvents.BLOCK_CRYSTAL_BALL_FIRE;
-						Fortune fortune = BWRegistries.FORTUNE.get(world.random.nextInt(BWRegistries.FORTUNE.size()));
+						Fortune fortune = BWRegistries.FORTUNE.byId(world.random.nextInt(BWRegistries.FORTUNE.size()));
 						if (BWComponents.CURSES_COMPONENT.get(player).hasCurse(BWCurses.UNLUCKY)) {
 							while (fortune.positive) {
-								fortune = BWRegistries.FORTUNE.get(world.random.nextInt(BWRegistries.FORTUNE.size()));
+								fortune = BWRegistries.FORTUNE.byId(world.random.nextInt(BWRegistries.FORTUNE.size()));
 							}
 						}
 						fortuneComponent.setFortune(new Fortune.Instance(fortune, world.random.nextInt(120000)));
-						player.sendMessage(Text.translatable("fortune." + BWRegistries.FORTUNE.getId(fortune).toString().replace(":", ".")), true);
+						player.displayClientMessage(Component.translatable("fortune." + BWRegistries.FORTUNE.getKey(fortune).toString().replace(":", ".")), true);
 
 					} else {
-						player.sendMessage(Text.translatable(Bewitchment.MOD_ID + ".message.has_fortune"), true);
+						player.displayClientMessage(Component.translatable(Bewitchment.MOD_ID + ".message.has_fortune"), true);
 					}
 				}
 			} else {
-				player.sendMessage(Text.translatable(Bewitchment.MOD_ID + ".message.insufficent_altar_power"), true);
+				player.displayClientMessage(Component.translatable(Bewitchment.MOD_ID + ".message.insufficent_altar_power"), true);
 			}
-			world.playSound(null, pos, sound, SoundCategory.BLOCKS, 1, 1);
+			world.playSound(null, pos, sound, SoundSource.BLOCKS, 1, 1);
 		}
-		return ActionResult.success(client);
+		return InteractionResult.sidedSuccess(client);
 	}
 
 	@SuppressWarnings("ConstantConditions")
 	@Nullable
 	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return super.getPlacementState(ctx).with(Properties.WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
+	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+		return super.getStateForPlacement(ctx).setValue(BlockStateProperties.WATERLOGGED, ctx.getLevel().getFluidState(ctx.getClickedPos()).getType() == Fluids.WATER);
 	}
 
 	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom) {
-		if (state.get(Properties.WATERLOGGED)) {
-			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+	public BlockState updateShape(BlockState state, Direction direction, BlockState newState, LevelAccessor world, BlockPos pos, BlockPos posFrom) {
+		if (state.getValue(BlockStateProperties.WATERLOGGED)) {
+			world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
 		}
-		return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
+		return super.updateShape(state, direction, newState, world, pos, posFrom);
 	}
 
 	@Override
 	public FluidState getFluidState(BlockState state) {
-		return state.get(Properties.WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+		return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
 	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(Properties.WATERLOGGED);
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		builder.add(BlockStateProperties.WATERLOGGED);
 	}
 }

@@ -7,16 +7,16 @@ package moriyashiine.bewitchment.mixin.transformation;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.common.registry.BWDamageSources;
 import moriyashiine.bewitchment.common.registry.BWObjects;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.world.World;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,18 +24,18 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(PlayerEntity.class)
+@Mixin(Player.class)
 public abstract class PlayerEntityMixin extends LivingEntity {
 	@Shadow
-	public abstract SoundCategory getSoundCategory();
+	public abstract SoundSource getSoundSource();
 
-	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
+	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, Level world) {
 		super(entityType, world);
 	}
 
 	@ModifyVariable(method = "applyDamage", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/entity/player/PlayerEntity;getHealth()F"), ordinal = 0, argsOnly = true)
 	private float modifyDamage(float amount, DamageSource source) {
-		if (!getWorld().isClient) {
+		if (!level().isClientSide) {
 			amount = BWDamageSources.handleDamage(this, source, amount);
 		}
 		return amount;
@@ -43,7 +43,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 	@ModifyVariable(method = "addExhaustion", at = @At("HEAD"), argsOnly = true)
 	private float modifyExhaustion(float exhaustion) {
-		if (!getWorld().isClient) {
+		if (!level().isClientSide) {
 			if (BewitchmentAPI.isWerewolf(this, true)) {
 				exhaustion *= 1.25f;
 			}
@@ -62,19 +62,19 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 	}
 
 	@Inject(method = "eatFood", at = @At("HEAD"))
-	private void eat(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> callbackInfo) {
-		if (!world.isClient) {
-			FoodComponent foodComponent = stack.getItem().getFoodComponent();
+	private void eat(Level world, ItemStack stack, CallbackInfoReturnable<ItemStack> callbackInfo) {
+		if (!world.isClientSide) {
+			FoodProperties foodComponent = stack.getItem().getFoodProperties();
 			if (foodComponent != null) {
 				boolean vampire = BewitchmentAPI.isVampire(this, true);
 				if (vampire || (BewitchmentAPI.isWerewolf(this, true) && !foodComponent.isMeat())) {
-					addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 100, 1));
-					addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 1));
-					addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 100, 1));
-					addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 100, 1));
+					addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 1));
+					addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1));
+					addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 1));
+					addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 1));
 				}
 				if (vampire && (stack.getItem() == BWObjects.GARLIC || stack.getItem() == BWObjects.GRILLED_GARLIC || stack.getItem() == BWObjects.GARLIC_BREAD)) {
-					damage(BWDamageSources.create(world, BWDamageSources.MAGIC_COPY), Float.MAX_VALUE);
+					hurt(BWDamageSources.create(world, BWDamageSources.MAGIC_COPY), Float.MAX_VALUE);
 				}
 			}
 		}

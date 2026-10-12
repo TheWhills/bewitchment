@@ -7,14 +7,13 @@ package moriyashiine.bewitchment.common.registry;
 import moriyashiine.bewitchment.api.registry.Sigil;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.sigil.*;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BWSigils {
-	private static final Map<Sigil, Identifier> SIGILS = new LinkedHashMap<>();
+	private static final Map<Sigil, ResourceLocation> SIGILS = new LinkedHashMap<>();
 
 	public static final Sigil MENDING = create("mending", new MendingSigil(true, 32));
 	public static final Sigil CLEANSING = create("cleansing", new CleansingSigil(true, 32));

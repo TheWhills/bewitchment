@@ -8,10 +8,10 @@ import com.terraformersmc.terraform.boat.api.TerraformBoatType;
 import com.terraformersmc.terraform.boat.api.TerraformBoatTypeRegistry;
 import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 import moriyashiine.bewitchment.common.Bewitchment;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 
 public class BWBoatTypes {
 	public static void init() {
@@ -22,8 +22,8 @@ public class BWBoatTypes {
 	}
 
 	private static void registerBoat(String name, Item planks) {
-		Identifier boatId = Bewitchment.id(name + "_boat");
-		RegistryKey<TerraformBoatType> key = TerraformBoatTypeRegistry.createKey(boatId);
+		ResourceLocation boatId = Bewitchment.id(name + "_boat");
+		ResourceKey<TerraformBoatType> key = TerraformBoatTypeRegistry.createKey(boatId);
 		Item boat = TerraformBoatItemHelper.registerBoatItem(boatId, key, false);
 		Item chest_boat = TerraformBoatItemHelper.registerBoatItem(Bewitchment.id(name + "_chest_boat"), key, true);
 		TerraformBoatType boatType = new TerraformBoatType.Builder()

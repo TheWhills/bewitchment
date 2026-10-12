@@ -7,12 +7,11 @@ package moriyashiine.bewitchment.api.component;
 import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
 import moriyashiine.bewitchment.api.registry.Curse;
 import moriyashiine.bewitchment.common.registry.BWRegistries;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,16 +24,16 @@ public class CursesComponent implements ServerTickingComponent {
 	}
 
 	@Override
-	public void readFromNbt(NbtCompound tag) {
-		NbtList cursesList = tag.getList("Curses", NbtElement.COMPOUND_TYPE);
+	public void readFromNbt(CompoundTag tag) {
+		ListTag cursesList = tag.getList("Curses", Tag.TAG_COMPOUND);
 		for (int i = 0; i < cursesList.size(); i++) {
-			NbtCompound curseCompound = cursesList.getCompound(i);
-			addCurse(new Curse.Instance(BWRegistries.CURSE.get(new Identifier(curseCompound.getString("Curse"))), curseCompound.getInt("Duration")));
+			CompoundTag curseCompound = cursesList.getCompound(i);
+			addCurse(new Curse.Instance(BWRegistries.CURSE.get(new ResourceLocation(curseCompound.getString("Curse"))), curseCompound.getInt("Duration")));
 		}
 	}
 
 	@Override
-	public void writeToNbt(NbtCompound tag) {
+	public void writeToNbt(CompoundTag tag) {
 		tag.put("Curses", toNbtCurse());
 	}
 
@@ -81,11 +80,11 @@ public class CursesComponent implements ServerTickingComponent {
 	}
 
 	@SuppressWarnings("ConstantConditions")
-	public NbtList toNbtCurse() {
-		NbtList cursesList = new NbtList();
+	public ListTag toNbtCurse() {
+		ListTag cursesList = new ListTag();
 		for (Curse.Instance instance : getCurses()) {
-			NbtCompound curseCompound = new NbtCompound();
-			curseCompound.putString("Curse", BWRegistries.CURSE.getId(instance.curse).toString());
+			CompoundTag curseCompound = new CompoundTag();
+			curseCompound.putString("Curse", BWRegistries.CURSE.getKey(instance.curse).toString());
 			curseCompound.putInt("Duration", instance.duration);
 			cursesList.add(curseCompound);
 		}

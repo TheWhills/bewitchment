@@ -4,16 +4,15 @@
 
 package moriyashiine.bewitchment.api.registry;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-
 import java.util.function.Predicate;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class RitualFunction {
 	public final ParticleType<?> startParticle;
@@ -28,24 +27,24 @@ public class RitualFunction {
 		return "ritual.precondition.sacrifice";
 	}
 
-	public boolean isValid(ServerWorld world, BlockPos pos, Inventory inventory) {
+	public boolean isValid(ServerLevel world, BlockPos pos, Container inventory) {
 		return sacrifice == null;
 	}
 
-	public void start(ServerWorld world, BlockPos glyphPos, BlockPos effectivePos, Inventory inventory, boolean catFamiliar) {
-		for (int i = 0; i < inventory.size(); i++) {
-			ItemStack stack = inventory.getStack(i);
-			if (stack.isDamageable()) {
-				if (stack.damage(1, world.random, null) && stack.getDamage() == stack.getMaxDamage()) {
-					stack.decrement(1);
+	public void start(ServerLevel world, BlockPos glyphPos, BlockPos effectivePos, Container inventory, boolean catFamiliar) {
+		for (int i = 0; i < inventory.getContainerSize(); i++) {
+			ItemStack stack = inventory.getItem(i);
+			if (stack.isDamageableItem()) {
+				if (stack.hurt(1, world.random, null) && stack.getDamageValue() == stack.getMaxDamage()) {
+					stack.shrink(1);
 				}
 			} else {
 				Item item = stack.getItem();
-				inventory.setStack(i, item.hasRecipeRemainder() ? new ItemStack(item.getRecipeRemainder()) : ItemStack.EMPTY);
+				inventory.setItem(i, item.hasCraftingRemainingItem() ? new ItemStack(item.getCraftingRemainingItem()) : ItemStack.EMPTY);
 			}
 		}
 	}
 
-	public void tick(World world, BlockPos glyphPos, BlockPos effectivePos, boolean catFamiliar) {
+	public void tick(Level world, BlockPos glyphPos, BlockPos effectivePos, boolean catFamiliar) {
 	}
 }

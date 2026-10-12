@@ -5,7 +5,7 @@
 package moriyashiine.bewitchment.api.event;
 
 import net.fabricmc.fabric.api.event.Event;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
 
@@ -19,5 +19,5 @@ public interface AllowVampireHeal {
 		return true;
 	});
 
-	boolean allowHeal(PlayerEntity player, boolean isPledgedToLilith);
+	boolean allowHeal(Player player, boolean isPledgedToLilith);
 }
