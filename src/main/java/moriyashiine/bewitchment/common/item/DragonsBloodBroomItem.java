@@ -15,10 +15,9 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-
-@SuppressWarnings("ConstantConditions")
 import java.util.function.Supplier;
 
+@SuppressWarnings("ConstantConditions")
 public class DragonsBloodBroomItem extends BroomItem {
 	public DragonsBloodBroomItem(Properties settings, Supplier<? extends EntityType<?>> broom) {
 		super(settings, broom);
