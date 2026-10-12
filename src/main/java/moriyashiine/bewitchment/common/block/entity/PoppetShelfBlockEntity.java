@@ -5,10 +5,10 @@
 package moriyashiine.bewitchment.common.block.entity;
 
 import moriyashiine.bewitchment.api.item.PoppetItem;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.client.packet.SyncPoppetShelfPacket;
 import moriyashiine.bewitchment.common.registry.BWBlockEntityTypes;
 import moriyashiine.bewitchment.common.world.BWWorldState;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -87,7 +87,7 @@ public class PoppetShelfBlockEntity extends BlockEntity {
 
 	public void sync() {
 		if (level != null && !level.isClientSide) {
-			PlayerLookup.tracking(this).forEach(trackingPlayer -> SyncPoppetShelfPacket.send(trackingPlayer, worldPosition));
+			BWNetwork.sendToTracking(this, SyncPoppetShelfPacket.of(level, worldPosition));
 		}
 	}
 

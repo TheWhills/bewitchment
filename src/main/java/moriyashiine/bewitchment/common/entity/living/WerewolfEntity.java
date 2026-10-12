@@ -7,12 +7,12 @@ package moriyashiine.bewitchment.common.entity.living;
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.client.packet.SpawnSmokeParticlesPacket;
 import moriyashiine.bewitchment.common.entity.living.util.BWHostileEntity;
 import moriyashiine.bewitchment.common.misc.BWUtil;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -76,7 +76,7 @@ public class WerewolfEntity extends BWHostileEntity {
 			if (storedVillager != null && tickCount % 20 == 0 && (level().isDay() || BewitchmentAPI.getMoonPhase(level()) != 0)) {
 				Villager entity = EntityType.VILLAGER.create(level());
 				if (entity != null) {
-					PlayerLookup.tracking(this).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, this));
+					BWNetwork.sendToTracking(this, new SpawnSmokeParticlesPacket(this));
 					level().playSound(null, getX(), getY(), getZ(), BWSoundEvents.ENTITY_GENERIC_TRANSFORM.get(), getSoundSource(), getSoundVolume(), getVoicePitch());
 					entity.load(storedVillager);
 					entity.absMoveTo(getX(), getY(), getZ(), random.nextFloat() * 360, 0);

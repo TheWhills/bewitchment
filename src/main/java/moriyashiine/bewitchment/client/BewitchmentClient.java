@@ -37,7 +37,6 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.*;
 import net.minecraft.client.KeyMapping;
@@ -88,14 +87,6 @@ public class BewitchmentClient {
 
 	// TODO(forge-port): move to FMLClientSetupEvent / RegisterRenderers etc.
 	private void onInitializeClient() {
-		ClientPlayNetworking.registerGlobalReceiver(SyncContractsPacket.ID, new SyncContractsPacket.Receiver());
-		ClientPlayNetworking.registerGlobalReceiver(SyncDemonTradesPacket.ID, new SyncDemonTradesPacket.Receiver());
-		ClientPlayNetworking.registerGlobalReceiver(SyncPoppetShelfPacket.ID, new SyncPoppetShelfPacket.Receiver());
-		ClientPlayNetworking.registerGlobalReceiver(SyncHornedSpearPacket.ID, new SyncHornedSpearPacket.Receiver());
-		ClientPlayNetworking.registerGlobalReceiver(SpawnSmokeParticlesPacket.ID, new SpawnSmokeParticlesPacket.Receiver());
-		ClientPlayNetworking.registerGlobalReceiver(SpawnPortalParticlesPacket.ID, new SpawnPortalParticlesPacket.Receiver());
-		ClientPlayNetworking.registerGlobalReceiver(SpawnExplosionParticlesPacket.ID, new SpawnExplosionParticlesPacket.Receiver());
-		ClientPlayNetworking.registerGlobalReceiver(SpawnSpecterBangleParticlesPacket.ID, new SpawnSpecterBangleParticlesPacket.Receiver());
 		ClientTickEvents.END_WORLD_TICK.register(new TransformationAbilityEvent());
 		ClientSendMessageEvents.ALLOW_CHAT.register(new CauldronTeleportEvent());
 		ParticleFactoryRegistry.getInstance().register(BWParticleTypes.CAULDRON_BUBBLE.get(), CauldronBubbleParticle.Factory::new);

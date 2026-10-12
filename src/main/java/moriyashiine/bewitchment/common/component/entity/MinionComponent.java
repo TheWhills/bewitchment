@@ -6,8 +6,8 @@ package moriyashiine.bewitchment.common.component.entity;
 
 import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
 import moriyashiine.bewitchment.client.packet.SpawnSmokeParticlesPacket;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.common.registry.BWComponents;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -39,7 +39,7 @@ public class MinionComponent implements ServerTickingComponent {
 			if (master instanceof Mob mob && !mob.isDeadOrDying() && mob.getTarget() != null) {
 				obj.setTarget(mob.getTarget());
 			} else {
-				PlayerLookup.tracking(obj).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, obj));
+				BWNetwork.sendToTracking(obj, new SpawnSmokeParticlesPacket(obj));
 				obj.remove(Entity.RemovalReason.DISCARDED);
 			}
 		}

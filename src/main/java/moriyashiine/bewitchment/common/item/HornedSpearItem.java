@@ -8,10 +8,10 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import moriyashiine.bewitchment.client.packet.SyncHornedSpearPacket;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.common.entity.projectile.HornedSpearEntity;
 import moriyashiine.bewitchment.common.registry.BWEntityTypes;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -90,7 +90,7 @@ public class HornedSpearItem extends SwordItem {
 			spear.pickup = AbstractArrow.Pickup.DISALLOWED;
 		}
 		world.addFreshEntity(spear);
-		PlayerLookup.tracking(spear).forEach(trackingPlayer -> SyncHornedSpearPacket.send(trackingPlayer, spear));
+		BWNetwork.sendToTracking(spear, new SyncHornedSpearPacket(spear));
 		world.playSound(null, spear, BWSoundEvents.ITEM_HORNED_SPEAR_USE.get(), SoundSource.PLAYERS, 1, 1);
 		if (owner instanceof Player player && !player.isCreative()) {
 			stack.shrink(1);

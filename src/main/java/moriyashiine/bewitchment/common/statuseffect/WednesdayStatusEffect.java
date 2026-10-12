@@ -5,9 +5,9 @@
 package moriyashiine.bewitchment.common.statuseffect;
 
 import moriyashiine.bewitchment.client.packet.SpawnExplosionParticlesPacket;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.common.entity.living.ToadEntity;
 import moriyashiine.bewitchment.common.registry.BWDamageSources;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -26,10 +26,7 @@ public class WednesdayStatusEffect extends MobEffect {
 	public void removeAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {
 		super.removeAttributeModifiers(entity, attributes, amplifier);
 		entity.level().playSound(null, entity.blockPosition(), SoundEvents.GENERIC_EXPLODE, SoundSource.NEUTRAL, 1, 1);
-		PlayerLookup.tracking(entity).forEach(trackingPlayer -> SpawnExplosionParticlesPacket.send(trackingPlayer, entity));
-		if (entity instanceof ServerPlayer player) {
-			SpawnExplosionParticlesPacket.send(player, entity);
-		}
+		BWNetwork.sendToTrackingAndSelf(entity, new SpawnExplosionParticlesPacket(entity));
 		if (entity instanceof ToadEntity toad && toad.isFromWednesdayRitual) {
 			entity.remove(Entity.RemovalReason.DISCARDED);
 		} else {

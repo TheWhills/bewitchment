@@ -5,6 +5,7 @@
 package moriyashiine.bewitchment.common.block.entity;
 
 import moriyashiine.bewitchment.api.BewitchmentAPI;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.api.block.entity.UsesAltarPower;
 import moriyashiine.bewitchment.api.registry.RitualFunction;
 import moriyashiine.bewitchment.client.packet.SpawnSmokeParticlesPacket;
@@ -13,7 +14,6 @@ import moriyashiine.bewitchment.common.block.GlyphBlock;
 import moriyashiine.bewitchment.common.item.WaystoneItem;
 import moriyashiine.bewitchment.common.recipe.RitualRecipe;
 import moriyashiine.bewitchment.common.registry.*;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -264,7 +264,7 @@ public class GlyphBlockEntity extends BlockEntity implements WorldlyContainer, U
 							}
 							for (int i = 0; i < items.size(); i++) {
 								ItemEntity item = items.get(i);
-								PlayerLookup.tracking(item).forEach(foundPlayer -> SpawnSmokeParticlesPacket.send(foundPlayer, item));
+								BWNetwork.sendToTracking(item, new SpawnSmokeParticlesPacket(item));
 								setItem(i, item.getItem().split(1));
 							}
 							effectivePos = pos;

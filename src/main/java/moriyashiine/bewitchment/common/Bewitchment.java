@@ -15,8 +15,7 @@ import moriyashiine.bewitchment.common.block.entity.GlyphBlockEntity;
 import moriyashiine.bewitchment.common.block.entity.SigilBlockEntity;
 import moriyashiine.bewitchment.common.item.AthameItem;
 import moriyashiine.bewitchment.common.misc.BWUtil;
-import moriyashiine.bewitchment.common.packet.CauldronTeleportPacket;
-import moriyashiine.bewitchment.common.packet.TogglePressingForwardPacket;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.common.packet.TransformationAbilityPacket;
 import moriyashiine.bewitchment.common.recipe.AthameDropRecipe;
 import moriyashiine.bewitchment.common.recipe.IncenseRecipe;
@@ -28,7 +27,6 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -68,6 +66,7 @@ public class Bewitchment {
 	public Bewitchment() {
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 		BWRegistration.register(modBus);
+		BWNetwork.register();
 		modBus.addListener(this::commonSetup);
 		onInitialize();
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> BewitchmentClient::init);
@@ -90,9 +89,6 @@ public class Bewitchment {
 	@SuppressWarnings("ConstantConditions")
 	private void onInitialize() {
 		MidnightConfig.init(MOD_ID, BWConfig.class);
-		ServerPlayNetworking.registerGlobalReceiver(CauldronTeleportPacket.ID, new CauldronTeleportPacket.Receiver());
-		ServerPlayNetworking.registerGlobalReceiver(TransformationAbilityPacket.ID, new TransformationAbilityPacket.Receiver());
-		ServerPlayNetworking.registerGlobalReceiver(TogglePressingForwardPacket.ID, new TogglePressingForwardPacket.Receiver());
 		CommandRegistrationCallback.EVENT.register(BWCommands::init);
 		ServerLifecycleEvents.SERVER_STOPPED.register(server -> BewitchmentAPI.fakePlayer = null);
 		ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {

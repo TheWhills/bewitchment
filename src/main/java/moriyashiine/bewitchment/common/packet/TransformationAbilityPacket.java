@@ -7,29 +7,23 @@ package moriyashiine.bewitchment.common.packet;
 import io.github.ladysnake.pal.AbilitySource;
 import io.github.ladysnake.pal.Pal;
 import io.github.ladysnake.pal.VanillaAbilities;
-import io.netty.buffer.Unpooled;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.api.component.TransformationComponent;
 import moriyashiine.bewitchment.client.packet.SpawnSmokeParticlesPacket;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.registry.*;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import virtuoel.pehkui.api.ScaleData;
+import net.minecraftforge.network.NetworkEvent;
+import java.util.function.Supplier;
 
-public class TransformationAbilityPacket {
-	public static final ResourceLocation ID = Bewitchment.id("transformation_ability");
+/** Client to server: use the current transformation's ability (vampire bat form / werewolf form). */
+public record TransformationAbilityPacket() {
 
 	public static final AbilitySource VAMPIRE_FLIGHT_SOURCE = Pal.getAbilitySource(Bewitchment.id("vampire_flight"));
 
@@ -39,7 +33,21 @@ public class TransformationAbilityPacket {
 	private static final float WEREWOLF_HEIGHT = BWEntityTypes.WEREWOLF.get().getHeight() / EntityType.PLAYER.getHeight();
 
 	public static void send() {
-		ClientPlayNetworking.send(ID, new FriendlyByteBuf(Unpooled.buffer()));
+		BWNetwork.sendToServer(new TransformationAbilityPacket());
+	}
+
+	public void encode(FriendlyByteBuf buf) {
+	}
+
+	public static TransformationAbilityPacket decode(FriendlyByteBuf buf) {
+		return new TransformationAbilityPacket();
+	}
+
+	public void handle(Supplier<NetworkEvent.Context> context) {
+		ServerPlayer player = context.get().getSender();
+		if (player != null && canUseAbility(player)) {
+			useAbility(player, false);
+		}
 	}
 
 	private static boolean canUseAbility(Player player) {
@@ -60,8 +68,7 @@ public class TransformationAbilityPacket {
 			ScaleData width = BWScaleTypes.MODIFY_WIDTH_TYPE.getScaleData(player);
 			ScaleData height = BWScaleTypes.MODIFY_HEIGHT_TYPE.getScaleData(player);
 			if (transformationComponent.getTransformation() == BWTransformations.VAMPIRE.get() && (forced || (BewitchmentAPI.isPledged(player, BWPledges.LILITH) && BWComponents.BLOOD_COMPONENT.get(player).getBlood() > 0))) {
-				PlayerLookup.tracking(player).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, player));
-				SpawnSmokeParticlesPacket.send((ServerPlayer) player, player);
+				BWNetwork.sendToTrackingAndSelf(player, new SpawnSmokeParticlesPacket(player));
 				world.playSound(null, player.blockPosition(), BWSoundEvents.ENTITY_GENERIC_TRANSFORM.get(), player.getSoundSource(), 1, 1);
 				transformationComponent.setAlternateForm(!isAlternateForm);
 				if (isAlternateForm) {
@@ -76,8 +83,7 @@ public class TransformationAbilityPacket {
 					VAMPIRE_FLIGHT_SOURCE.grantTo(player, VanillaAbilities.FLYING);
 				}
 			} else if (transformationComponent.getTransformation() == BWTransformations.WEREWOLF.get() && (forced || BewitchmentAPI.isPledged(player, BWPledges.HERNE))) {
-				PlayerLookup.tracking(player).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, player));
-				SpawnSmokeParticlesPacket.send((ServerPlayer) player, player);
+				BWNetwork.sendToTrackingAndSelf(player, new SpawnSmokeParticlesPacket(player));
 				world.playSound(null, player.blockPosition(), BWSoundEvents.ENTITY_GENERIC_TRANSFORM.get(), player.getSoundSource(), 1, 1);
 				transformationComponent.setAlternateForm(!isAlternateForm);
 				if (isAlternateForm) {
@@ -92,16 +98,5 @@ public class TransformationAbilityPacket {
 				}
 			}
 		});
-	}
-
-	public static class Receiver implements ServerPlayNetworking.PlayChannelHandler {
-		@Override
-		public void receive(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf, PacketSender responseSender) {
-			server.execute(() -> {
-				if (canUseAbility(player)) {
-					useAbility(player, false);
-				}
-			});
-		}
 	}
 }

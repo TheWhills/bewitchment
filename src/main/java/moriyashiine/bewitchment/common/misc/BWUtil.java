@@ -5,6 +5,7 @@
 package moriyashiine.bewitchment.common.misc;
 
 import moriyashiine.bewitchment.api.BewitchmentAPI;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.api.entity.Pledgeable;
 import moriyashiine.bewitchment.client.packet.SpawnPortalParticlesPacket;
 import moriyashiine.bewitchment.common.item.ScepterItem;
@@ -12,7 +13,6 @@ import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWCurses;
 import moriyashiine.bewitchment.common.registry.BWMaterials;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -122,10 +122,7 @@ public class BWUtil {
 			if (!entity.isSilent()) {
 				entity.level().playSound(null, entity.blockPosition(), BWSoundEvents.ENTITY_GENERIC_TELEPORT.get(), entity.getSoundSource(), 1, 1);
 			}
-			PlayerLookup.tracking(entity).forEach(trackingPlayer -> SpawnPortalParticlesPacket.send(trackingPlayer, entity));
-			if (entity instanceof ServerPlayer player) {
-				SpawnPortalParticlesPacket.send(player, entity);
-			}
+			BWNetwork.sendToTrackingAndSelf(entity, new SpawnPortalParticlesPacket(entity));
 		}
 		if (entity instanceof LivingEntity livingEntity) {
 			if (entity instanceof Player player) {
@@ -139,10 +136,7 @@ public class BWUtil {
 			if (!entity.isSilent()) {
 				entity.level().playSound(null, entity.blockPosition(), BWSoundEvents.ENTITY_GENERIC_TELEPORT.get(), entity.getSoundSource(), 1, 1);
 			}
-			PlayerLookup.tracking(entity).forEach(trackingPlayer -> SpawnPortalParticlesPacket.send(trackingPlayer, entity));
-			if (entity instanceof ServerPlayer player) {
-				SpawnPortalParticlesPacket.send(player, entity);
-			}
+			BWNetwork.sendToTrackingAndSelf(entity, new SpawnPortalParticlesPacket(entity));
 		}
 	}
 }

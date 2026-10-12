@@ -5,6 +5,7 @@
 package moriyashiine.bewitchment.mixin.poppet;
 
 import moriyashiine.bewitchment.api.BewitchmentAPI;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.api.event.ReviveEvents;
 import moriyashiine.bewitchment.api.item.PoppetItem;
 import moriyashiine.bewitchment.api.misc.PoppetData;
@@ -14,7 +15,6 @@ import moriyashiine.bewitchment.common.entity.living.VampireEntity;
 import moriyashiine.bewitchment.common.entity.living.WerewolfEntity;
 import moriyashiine.bewitchment.common.entity.living.util.BWHostileEntity;
 import moriyashiine.bewitchment.common.registry.*;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
@@ -153,8 +153,7 @@ public abstract class LivingEntityMixin extends Entity {
 							transformationComponent.getTransformation().onRemoved(player);
 							transformationComponent.setTransformation(BWTransformations.VAMPIRE.get());
 							transformationComponent.getTransformation().onAdded(player);
-							PlayerLookup.tracking(this).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, this));
-							SpawnSmokeParticlesPacket.send(player, this);
+							BWNetwork.sendToTrackingAndSelf(this, new SpawnSmokeParticlesPacket(this));
 							level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_CURSE.get(), getSoundSource(), getSoundVolume(), getSoundPitch());
 						} else if (source.getDirectEntity() instanceof WerewolfEntity || (source.getDirectEntity() instanceof Player playerSource && BewitchmentAPI.isWerewolf(playerSource, false) && BewitchmentAPI.isPledged(playerSource, BWPledges.HERNE))) {
 							transformationComponent.getTransformation().onRemoved(player);
@@ -169,8 +168,7 @@ public abstract class LivingEntityMixin extends Entity {
 							if (variant > -1) {
 								BWComponents.ADDITIONAL_WEREWOLF_DATA_COMPONENT.get(player).setVariant(variant);
 							}
-							PlayerLookup.tracking(this).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, this));
-							SpawnSmokeParticlesPacket.send(player, this);
+							BWNetwork.sendToTrackingAndSelf(this, new SpawnSmokeParticlesPacket(this));
 							level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_CURSE.get(), getSoundSource(), getSoundVolume(), getSoundPitch());
 						}
 					}

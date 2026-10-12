@@ -4,36 +4,37 @@
 
 package moriyashiine.bewitchment.client.packet;
 
-import io.netty.buffer.Unpooled;
-import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.entity.projectile.HornedSpearEntity;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientPacketListener;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.network.NetworkEvent;
 
-public class SyncHornedSpearPacket {
-	public static final ResourceLocation ID = Bewitchment.id("sync_horned_spear");
+import java.util.function.Supplier;
 
-	public static void send(ServerPlayer player, HornedSpearEntity entity) {
-		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-		buf.writeInt(entity.getId());
-		buf.writeItem(entity.spear);
-		ServerPlayNetworking.send(player, ID, buf);
+/** Server to client: the item stack a thrown horned spear is carrying. */
+public record SyncHornedSpearPacket(int entityId, ItemStack spear) {
+	public SyncHornedSpearPacket(HornedSpearEntity entity) {
+		this(entity.getId(), entity.spear);
 	}
 
-	@SuppressWarnings("ConstantConditions")
-	public static class Receiver implements ClientPlayNetworking.PlayChannelHandler {
-		@Override
-		public void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
-			int entityId = buf.readInt();
-			ItemStack spear = buf.readItem();
-			client.execute(() -> ((HornedSpearEntity) client.level.getEntity(entityId)).spear = spear);
-		}
+	public static void send(ServerPlayer player, HornedSpearEntity entity) {
+		BWNetwork.sendToPlayer(player, new SyncHornedSpearPacket(entity));
+	}
+
+	public void encode(FriendlyByteBuf buf) {
+		buf.writeInt(entityId);
+		buf.writeItem(spear);
+	}
+
+	public static SyncHornedSpearPacket decode(FriendlyByteBuf buf) {
+		return new SyncHornedSpearPacket(buf.readInt(), buf.readItem());
+	}
+
+	public void handle(Supplier<NetworkEvent.Context> context) {
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientPacketHandlers.syncHornedSpear(this));
 	}
 }

@@ -4,48 +4,42 @@
 
 package moriyashiine.bewitchment.common.packet;
 
-import io.netty.buffer.Unpooled;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWEntityTypes;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraftforge.network.NetworkEvent;
+import java.util.function.Supplier;
 
-public class TogglePressingForwardPacket {
-	public static final ResourceLocation ID = Bewitchment.id("toggle_pressing_forward");
-
+/** Client to server: whether the rider of a broom is holding forward. */
+public record TogglePressingForwardPacket(boolean pressingForward) {
 	public static void send(boolean pressingForward) {
-		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-		buf.writeBoolean(pressingForward);
-		ClientPlayNetworking.send(ID, buf);
+		BWNetwork.sendToServer(new TogglePressingForwardPacket(pressingForward));
 	}
 
-	public static class Receiver implements ServerPlayNetworking.PlayChannelHandler {
-		@Override
-		public void receive(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf, PacketSender responseSender) {
-			try { // attempt normal runtime of TogglePressingForward
-				boolean pressingForward = buf.readBoolean();
-				server.execute(() -> {
-					if (pressingForward && BewitchmentAPI.getFamiliar(player) != BWEntityTypes.OWL.get()) {
-						if (!BewitchmentAPI.drainMagic(player, 1, true)) {
-							return;
-						}
-						if (player.tickCount % 60 == 0) {
-							BewitchmentAPI.drainMagic(player, 1, false);
-						}
-					}
-					BWComponents.BROOM_USER_COMPONENT.get(player).setPressingForward(pressingForward);
-				});
-			} catch (IndexOutOfBoundsException ignored) {
-			} // Supress client crash when attempting to fly with 0 ME
-			// TODO 2/28/2023 : This is only intended as a temporary fix! A better fix would be to change the way ME works so that instead of crashing on values below 0, it simply denies the action, allows ME to go negative, then resets ME to 0 since the action was not allowed // end TODO
+	public void encode(FriendlyByteBuf buf) {
+		buf.writeBoolean(pressingForward);
+	}
+
+	public static TogglePressingForwardPacket decode(FriendlyByteBuf buf) {
+		return new TogglePressingForwardPacket(buf.readBoolean());
+	}
+
+	public void handle(Supplier<NetworkEvent.Context> context) {
+		ServerPlayer player = context.get().getSender();
+		if (player == null) {
+			return;
 		}
+		if (pressingForward && BewitchmentAPI.getFamiliar(player) != BWEntityTypes.OWL.get()) {
+			if (!BewitchmentAPI.drainMagic(player, 1, true)) {
+				return;
+			}
+			if (player.tickCount % 60 == 0) {
+				BewitchmentAPI.drainMagic(player, 1, false);
+			}
+		}
+		BWComponents.BROOM_USER_COMPONENT.get(player).setPressingForward(pressingForward);
 	}
 }

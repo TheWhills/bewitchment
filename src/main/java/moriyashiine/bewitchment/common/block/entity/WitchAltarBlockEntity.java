@@ -6,7 +6,6 @@ package moriyashiine.bewitchment.common.block.entity;
 
 import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.common.registry.*;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -114,7 +113,8 @@ public class WitchAltarBlockEntity extends BlockEntity implements Container {
 					} else {
 						blockEntity.power = Math.min(blockEntity.power + blockEntity.gain, blockEntity.maxPower);
 					}
-					PlayerLookup.around((ServerLevel) world, Vec3.atLowerCornerOf(pos), 24).forEach(player -> {
+					Vec3 altarCorner = Vec3.atLowerCornerOf(pos);
+					((ServerLevel) world).getPlayers(player -> player.distanceToSqr(altarCorner) <= 24 * 24).forEach(player -> {
 						if (player.canBeSeenByAnyone() && !player.isCreative() && !BWComponents.CURSES_COMPONENT.get(player).hasCurse(BWCurses.APATHY.get()) && BewitchmentAPI.fillMagic(player, 5, true) && blockEntity.drain(10, true)) {
 							BewitchmentAPI.fillMagic(player, 5, false);
 							blockEntity.drain(10, false);

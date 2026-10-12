@@ -5,10 +5,10 @@
 package moriyashiine.bewitchment.mixin.brew;
 
 import moriyashiine.bewitchment.api.BewitchmentAPI;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.client.packet.SpawnExplosionParticlesPacket;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWStatusEffects;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -110,10 +110,7 @@ public abstract class LivingEntityMixin extends Entity {
 						entity.hurt(level().damageSources().explosion(((LivingEntity) (Object) this), ((LivingEntity) (Object) this)), 4 * (getStatusEffect(BWStatusEffects.VOLATILITY.get()).getAmplifier() + 1));
 					}
 					level().playSound(null, blockPosition(), SoundEvents.GENERIC_EXPLODE, SoundSource.NEUTRAL, 1, 1);
-					PlayerLookup.tracking(this).forEach(trackingPlayer -> SpawnExplosionParticlesPacket.send(trackingPlayer, this));
-					if (((Object) this) instanceof ServerPlayer player) {
-						SpawnExplosionParticlesPacket.send(player, this);
-					}
+					BWNetwork.sendToTrackingAndSelf(this, new SpawnExplosionParticlesPacket(this));
 					removeStatusEffect(BWStatusEffects.VOLATILITY.get());
 				}
 			}

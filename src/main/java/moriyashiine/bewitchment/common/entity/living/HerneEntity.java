@@ -6,6 +6,7 @@ package moriyashiine.bewitchment.common.entity.living;
 
 import com.google.common.collect.Sets;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.api.entity.Pledgeable;
 import moriyashiine.bewitchment.client.packet.SpawnSmokeParticlesPacket;
 import moriyashiine.bewitchment.common.entity.living.util.BWHostileEntity;
@@ -13,7 +14,6 @@ import moriyashiine.bewitchment.common.item.HornedSpearItem;
 import moriyashiine.bewitchment.common.misc.BWUtil;
 import moriyashiine.bewitchment.common.packet.TransformationAbilityPacket;
 import moriyashiine.bewitchment.common.registry.*;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -174,8 +174,7 @@ public class HerneEntity extends BWHostileEntity implements Pledgeable {
 					if (!player.isCreative()) {
 						stack.shrink(1);
 					}
-					PlayerLookup.tracking(player).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, player));
-					SpawnSmokeParticlesPacket.send(serverPlayer, player);
+					BWNetwork.sendToTrackingAndSelf(player, new SpawnSmokeParticlesPacket(player));
 					level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_PLING.get(), player.getSoundSource(), 1, 1);
 					BWComponents.TRANSFORMATION_COMPONENT.maybeGet(player).ifPresent(transformationComponent -> {
 						if (transformationComponent.isAlternateForm()) {

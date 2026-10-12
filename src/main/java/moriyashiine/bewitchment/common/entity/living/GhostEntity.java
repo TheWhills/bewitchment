@@ -5,13 +5,13 @@
 package moriyashiine.bewitchment.common.entity.living;
 
 import moriyashiine.bewitchment.api.block.CandelabraBlock;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.client.packet.SpawnSmokeParticlesPacket;
 import moriyashiine.bewitchment.common.block.entity.WitchAltarBlockEntity;
 import moriyashiine.bewitchment.common.entity.living.util.BWHostileEntity;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
 import moriyashiine.bewitchment.common.registry.BWStatusEffects;
 import moriyashiine.bewitchment.common.world.BWWorldState;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -83,7 +83,7 @@ public class GhostEntity extends BWHostileEntity {
 				getTarget().addEffect(getEffect(type, 100));
 			}
 			if (!hasCustomName() && level().isDay() && !level().isRaining() && level().canSeeSkyFromBelowWater(blockPosition())) {
-				PlayerLookup.tracking(this).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, this));
+				BWNetwork.sendToTracking(this, new SpawnSmokeParticlesPacket(this));
 				remove(RemovalReason.DISCARDED);
 			}
 		}

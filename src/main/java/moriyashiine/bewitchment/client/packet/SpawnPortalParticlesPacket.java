@@ -4,44 +4,35 @@
 
 package moriyashiine.bewitchment.client.packet;
 
-import io.netty.buffer.Unpooled;
-import moriyashiine.bewitchment.common.Bewitchment;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.core.particles.ParticleTypes;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.network.NetworkEvent;
 
-public class SpawnPortalParticlesPacket {
-	public static final ResourceLocation ID = Bewitchment.id("spawn_portal_particles");
+import java.util.function.Supplier;
 
-	public static void send(ServerPlayer player, Entity entity) {
-		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-		buf.writeInt(entity.getId());
-		ServerPlayNetworking.send(player, ID, buf);
+/** Server to client: spawn portal particles around an entity. */
+public record SpawnPortalParticlesPacket(int entityId) {
+	public SpawnPortalParticlesPacket(Entity entity) {
+		this(entity.getId());
 	}
 
-	public static class Receiver implements ClientPlayNetworking.PlayChannelHandler {
-		@Override
-		public void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
-			int id = buf.readInt();
-			client.execute(() -> {
-				ClientLevel world = client.level;
-				if (world != null) {
-					Entity entity = world.getEntity(id);
-					if (entity != null) {
-						for (int i = 0; i < 32; i++) {
-							world.addParticle(ParticleTypes.PORTAL, entity.getRandomX(1), entity.getRandomY(), entity.getRandomZ(1), 0, 0, 0);
-						}
-					}
-				}
-			});
-		}
+	public static void send(ServerPlayer player, Entity entity) {
+		BWNetwork.sendToPlayer(player, new SpawnPortalParticlesPacket(entity));
+	}
+
+	public void encode(FriendlyByteBuf buf) {
+		buf.writeInt(entityId);
+	}
+
+	public static SpawnPortalParticlesPacket decode(FriendlyByteBuf buf) {
+		return new SpawnPortalParticlesPacket(buf.readInt());
+	}
+
+	public void handle(Supplier<NetworkEvent.Context> context) {
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientPacketHandlers.spawnParticlesAround(this.entityId, ClientPacketHandlers.Particles.PORTAL));
 	}
 }

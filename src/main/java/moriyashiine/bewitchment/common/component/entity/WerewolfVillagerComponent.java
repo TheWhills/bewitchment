@@ -6,12 +6,12 @@ package moriyashiine.bewitchment.common.component.entity;
 
 import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.client.packet.SpawnSmokeParticlesPacket;
 import moriyashiine.bewitchment.common.entity.living.WerewolfEntity;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWEntityTypes;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.Villager;
@@ -56,7 +56,7 @@ public class WerewolfVillagerComponent implements ServerTickingComponent {
 			if (obj.tickCount % 20 == 0 && obj.level().isNight() && BewitchmentAPI.getMoonPhase(obj.level()) == 0 && (obj.hasCustomName() || obj.level().canSeeSky(obj.blockPosition()))) {
 				WerewolfEntity entity = BWEntityTypes.WEREWOLF.get().create(obj.level());
 				if (entity != null) {
-					PlayerLookup.tracking(obj).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, obj));
+					BWNetwork.sendToTracking(obj, new SpawnSmokeParticlesPacket(obj));
 					obj.level().playSound(null, obj.getX(), obj.getY(), obj.getZ(), BWSoundEvents.ENTITY_GENERIC_TRANSFORM.get(), obj.getSoundSource(), 1, obj.getVoicePitch());
 					entity.load(getStoredWerewolf());
 					entity.absMoveTo(obj.getX(), obj.getY(), obj.getZ(), obj.getRandom().nextFloat() * 360, 0);

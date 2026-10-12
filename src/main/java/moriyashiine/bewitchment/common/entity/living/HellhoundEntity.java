@@ -5,13 +5,13 @@
 package moriyashiine.bewitchment.common.entity.living;
 
 import moriyashiine.bewitchment.api.BewitchmentAPI;
+import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.client.packet.SpawnSmokeParticlesPacket;
 import moriyashiine.bewitchment.common.entity.living.util.BWHostileEntity;
 import moriyashiine.bewitchment.common.misc.BWUtil;
 import moriyashiine.bewitchment.common.registry.BWMaterials;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
 import moriyashiine.bewitchment.common.registry.BWTags;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -58,7 +58,7 @@ public class HellhoundEntity extends BWHostileEntity {
 	public void tick() {
 		super.tick();
 		if (!level().isClientSide && isInWaterRainOrBubble() && hurt(level().damageSources().magic(), 1)) {
-			PlayerLookup.tracking(this).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, this));
+			BWNetwork.sendToTracking(this, new SpawnSmokeParticlesPacket(this));
 			level().playSound(null, blockPosition(), SoundEvents.GENERIC_EXTINGUISH_FIRE, getSoundSource(), getSoundVolume(), getVoicePitch());
 		}
 	}
