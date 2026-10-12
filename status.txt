@@ -1,6 +1,6 @@
-commit: ea0a760
+commit: 8174bb2
 result: success
 java errors: 0
 files with errors: 0
 gametests: failure
-gametest summary: Failed to start the minecraft server 
+gametest summary: 
