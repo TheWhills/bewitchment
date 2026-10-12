@@ -1,5 +1,6 @@
 # One-shot job: migrates the Fabric source from Yarn to Mojang (official) mappings
 # using Loom, replaces src/main/java with the result, and commits it back to forge-port.
+# Run 2: dropped unused fabric-permissions-api (its snapshot repo is gone).
 # The full log is always committed to .ci/remap.log so it can be read from git.
 # The workflow deletes itself in the same commit once it succeeds.
 

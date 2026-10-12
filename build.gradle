@@ -61,7 +61,6 @@ dependencies {
     modApi "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cardinal_components_version}"
     modApi "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${cardinal_components_version}"
     //^ don't include because trinkets already does
-    include modApi("me.lucko:fabric-permissions-api:${fabric_permissions_api_version}")
     include modApi("maven.modrinth:impersonate:${impersonate_version}")
     include modApi("maven.modrinth:midnightlib:${midnightlib_version}")
     include modApi("io.github.ladysnake:PlayerAbilityLib:${playerabilitylib_version}")
