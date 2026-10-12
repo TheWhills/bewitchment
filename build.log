@@ -1,0 +1,1637 @@
+Downloading https://services.gradle.org/distributions/gradle-8.10-bin.zip
+.............10%.............20%.............30%.............40%.............50%.............60%.............70%.............80%.............90%.............100%
+
+Welcome to Gradle 8.10!
+
+Here are the highlights of this release:
+ - Support for Java 23
+ - Faster configuration cache
+ - Better configuration cache reports
+
+For more details see https://docs.gradle.org/8.10/release-notes.html
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.10/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :
+MixinGradle did not locate the diffplug APT plugin, skipping eclipse task configuration
+
+> Task :downloadMcpConfig
+> Task :extractSrg
+> Task :createMcpToSrg
+
+> Task :compileJava
+Setting up MCP environment
+Initializing steps
+Executing steps
+ > Running 'downloadManifest'
+ > Running 'downloadJson'
+ > Running 'downloadClient'
+ > Running 'downloadServer'
+ > Running 'extractServer'
+ > Running 'downloadClientMappings'
+ > Running 'mergeMappings'
+ > Running 'stripClient'
+ > Running 'stripServer'
+ > Running 'merge'
+ > Running 'listLibraries'
+ > Running 'rename'
+Stopping at requested step: /home/runner/.gradle/caches/forge_gradle/mcp_repo/de/oceanlabs/mcp/mcp_config/1.20.1-20230612.114412/joined/rename/output.jar
+[14:21:15] [main/INFO]: Writing debug log file accesstransform.log
+[14:21:15] [main/INFO]: Access Transformer processor running version 8.2.14
+[14:21:15] [main/INFO]: Command line arguments [--inJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar, --outJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, --logFile, accesstransform.log, --atFile, /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg]
+[14:21:15] [main/INFO]: Reading from /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar
+[14:21:15] [main/INFO]: Writing to /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
+[14:21:15] [main/INFO]: Transformer file /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg
+[14:21:15] [main/WARN]: Found existing output jar /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, overwriting
+[14:21:19] [main/INFO]: JAR transformation complete /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
+Creating SRG -> MCP TSRG
+Note: SpongePowered MIXIN Annotation Processor Version=0.8.5 (MixinGradle Version=0.7.38)
+Note: Supported obfuscation types: ObfuscationServiceMCP supports [notch] ObfuscationServiceFG3 supports [searge]
+Note: Loading searge mappings from /home/runner/work/bewitchment/bewitchment/build/createMcpToSrg/output.tsrg
+Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-refmap.json
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/brew/ItemStackMixin.java:33: warning: Cannot find target for @Shadow method in net.minecraft.world.item.ItemStack
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/brew/ItemStackMixin.java:33: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/brew/LivingEntityMixin.java:40: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.LivingEntity
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/brew/LivingEntityMixin.java:40: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/brew/LivingEntityMixin.java:44: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.LivingEntity
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/brew/LivingEntityMixin.java:44: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/brew/LivingEntityMixin.java:47: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.LivingEntity
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/brew/LivingEntityMixin.java:47: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/brew/PlayerEntityMixin.java:23: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.player.Player
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/brew/PlayerEntityMixin.java:23: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/contract/AnimalMateGoalMixin.java:26: warning: Cannot find target for @Shadow field in net.minecraft.world.entity.ai.goal.BreedGoal
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/contract/AnimalMateGoalMixin.java:26: warning: Unable to locate obfuscation mapping for @Shadow field
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/contract/LivingEntityMixin.java:25: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.LivingEntity
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/contract/LivingEntityMixin.java:25: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/contract/PlayerEntityMixin.java:25: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.player.Player
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/contract/PlayerEntityMixin.java:25: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/poppet/ItemEntityMixin.java:31: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.item.ItemEntity
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/poppet/ItemEntityMixin.java:31: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/poppet/ItemStackMixin.java:24: warning: Cannot find target for @Shadow method in net.minecraft.world.item.ItemStack
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/poppet/ItemStackMixin.java:24: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/poppet/ItemStackMixin.java:27: warning: Cannot find target for @Shadow method in net.minecraft.world.item.ItemStack
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/poppet/ItemStackMixin.java:27: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/poppet/LivingEntityMixin.java:43: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.LivingEntity
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/poppet/LivingEntityMixin.java:43: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/poppet/LivingEntityMixin.java:46: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.LivingEntity
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/poppet/LivingEntityMixin.java:46: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/poppet/LivingEntityMixin.java:55: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.LivingEntity
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/poppet/LivingEntityMixin.java:55: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/pledge/EntityMixin.java:19: warning: Cannot find target for @Shadow field in net.minecraft.world.entity.Entity
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/pledge/EntityMixin.java:19: warning: Unable to locate obfuscation mapping for @Shadow field
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/VillagerEntityMixin.java:23: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.npc.Villager
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/VillagerEntityMixin.java:23: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/ActiveTargetGoalMixin.java:23: warning: Cannot find target for @Shadow field in net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/ActiveTargetGoalMixin.java:23: warning: Unable to locate obfuscation mapping for @Shadow field
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/trinket/LivingEntityMixin.java:36: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.LivingEntity
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/trinket/LivingEntityMixin.java:36: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/trinket/LivingEntityMixin.java:39: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.LivingEntity
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/trinket/LivingEntityMixin.java:39: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/LivingEntityMixin.java:44: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.LivingEntity
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/LivingEntityMixin.java:44: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/DamageEnchantmentMixin.java:19: warning: Cannot find target for @Shadow field in net.minecraft.world.item.enchantment.DamageEnchantment
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/DamageEnchantmentMixin.java:19: warning: Unable to locate obfuscation mapping for @Shadow field
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/DamageEnchantmentMixin.java:23: warning: Cannot find target for @Shadow method in net.minecraft.world.item.enchantment.DamageEnchantment
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/DamageEnchantmentMixin.java:23: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/OpenDoorsTaskMixin.java:38: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.ai.behavior.InteractWithDoor
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/OpenDoorsTaskMixin.java:38: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/curse/ActiveTargetGoalMixin.java:24: warning: Cannot find target for @Shadow field in net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/curse/ActiveTargetGoalMixin.java:24: warning: Unable to locate obfuscation mapping for @Shadow field
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/curse/EntityMixin.java:20: warning: Cannot find target for @Shadow field in net.minecraft.world.entity.Entity
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/curse/EntityMixin.java:20: warning: Unable to locate obfuscation mapping for @Shadow field
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/client/GameRendererMixin.java:23: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.GameRenderer
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/client/GameRendererMixin.java:23: warning: Unable to locate obfuscation mapping for @Shadow field
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/client/GameRendererMixin.java:27: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.GameRenderer
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/client/GameRendererMixin.java:27: warning: Unable to locate obfuscation mapping for @Shadow field
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/client/InGameHudMixin.java:39: warning: Cannot find target for @Shadow field in net.minecraft.client.gui.Gui
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/client/InGameHudMixin.java:39: warning: Unable to locate obfuscation mapping for @Shadow field
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/EntityMixin.java:24: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.Entity
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/EntityMixin.java:24: warning: Unable to locate obfuscation mapping for @Shadow method
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/EntityMixin.java:27: warning: Cannot find target for @Shadow field in net.minecraft.world.entity.Entity
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/EntityMixin.java:27: warning: Unable to locate obfuscation mapping for @Shadow field
+	@Shadow
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/BlocksAccessor.java:15: error: Could not locate @Invoker target createLeavesBlock in target net.minecraft.world.level.block.Blocks
+	@Invoker
+	^
+Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-refmap.json
+Note: Writing searge composite mappings to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-mappings.tsrg
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/AbstractBlockStateMixin.java:8: error: package net.minecraft.block does not exist
+import net.minecraft.block.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/brew/LivingEntityMixin.java:11: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/poppet/LivingEntityMixin.java:17: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/trinket/LivingEntityMixin.java:7: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.SlotReference;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/trinket/LivingEntityMixin.java:8: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.TrinketsApi;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/AllowVampireHeal.java:7: error: package net.fabricmc.fabric.api.event does not exist
+import net.fabricmc.fabric.api.event.Event;
+                                    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/AllowVampireHeal.java:10: error: package net.fabricmc.fabric.api.event does not exist
+import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
+                                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/AllowVampireHeal.java:10: error: static import only from classes and interfaces
+import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/AllowVampireHeal.java:13: error: cannot find symbol
+	Event<AllowVampireHeal> EVENT = createArrayBacked(AllowVampireHeal.class, listeners -> (player, isPledgedToLilith) -> {
+	^
+  symbol:   class Event
+  location: interface AllowVampireHeal
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/BloodSuckEvents.java:7: error: package net.fabricmc.fabric.api.event does not exist
+import net.fabricmc.fabric.api.event.Event;
+                                    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/BloodSuckEvents.java:11: error: package net.fabricmc.fabric.api.event does not exist
+import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
+                                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/BloodSuckEvents.java:11: error: static import only from classes and interfaces
+import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/BloodSuckEvents.java:14: error: cannot find symbol
+	public static final Event<OnBloodSuck> ON_BLOOD_SUCK = createArrayBacked(OnBloodSuck.class, listeners -> (player, target, bloodToGive) -> {
+	                    ^
+  symbol:   class Event
+  location: class BloodSuckEvents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/BloodSuckEvents.java:20: error: cannot find symbol
+	public static final Event<SetBloodAmount> BLOOD_AMOUNT = createArrayBacked(SetBloodAmount.class, listeners -> (player, target, bloodToGive) -> {
+	                    ^
+  symbol:   class Event
+  location: class BloodSuckEvents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/OnTransformationSet.java:8: error: package net.fabricmc.fabric.api.event does not exist
+import net.fabricmc.fabric.api.event.Event;
+                                    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/OnTransformationSet.java:11: error: package net.fabricmc.fabric.api.event does not exist
+import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
+                                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/OnTransformationSet.java:11: error: static import only from classes and interfaces
+import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/OnTransformationSet.java:14: error: cannot find symbol
+	Event<OnTransformationSet> EVENT = createArrayBacked(OnTransformationSet.class, listeners -> (player, transformation) -> {
+	^
+  symbol:   class Event
+  location: interface OnTransformationSet
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/BloodSetEvents.java:7: error: package net.fabricmc.fabric.api.event does not exist
+import net.fabricmc.fabric.api.event.Event;
+                                    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/BloodSetEvents.java:10: error: package net.fabricmc.fabric.api.event does not exist
+import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
+                                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/BloodSetEvents.java:10: error: static import only from classes and interfaces
+import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/BloodSetEvents.java:13: error: cannot find symbol
+	public static final Event<OnFillBlood> ON_BLOOD_FILL = createArrayBacked(OnFillBlood.class, listeners -> (entity, amount, simulate) -> {
+	                    ^
+  symbol:   class Event
+  location: class BloodSetEvents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/BloodSetEvents.java:19: error: cannot find symbol
+	public static final Event<OnDrainBlood> ON_BLOOD_DRAIN = createArrayBacked(OnDrainBlood.class, listeners -> (entity, amount, simulate) -> {
+	                    ^
+  symbol:   class Event
+  location: class BloodSetEvents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/BloodSetEvents.java:25: error: cannot find symbol
+	public static final Event<OnSetBlood> ON_BLOOD_SET = createArrayBacked(OnSetBlood.class, listeners -> (entity, amount) -> {
+	                    ^
+  symbol:   class Event
+  location: class BloodSetEvents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/ReviveEvents.java:7: error: package net.fabricmc.fabric.api.event does not exist
+import net.fabricmc.fabric.api.event.Event;
+                                    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/ReviveEvents.java:12: error: package net.fabricmc.fabric.api.event does not exist
+import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
+                                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/ReviveEvents.java:12: error: static import only from classes and interfaces
+import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/ReviveEvents.java:15: error: cannot find symbol
+	public static final Event<OnRevive> ON_REVIVE = createArrayBacked(OnRevive.class, listeners -> (player, source, poppet) -> {
+	                    ^
+  symbol:   class Event
+  location: class ReviveEvents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/ReviveEvents.java:21: error: cannot find symbol
+	public static final Event<CancelRevive> CANCEL_REVIVE = createArrayBacked(CancelRevive.class, listeners -> (player, source, poppet) -> {
+	                    ^
+  symbol:   class Event
+  location: class ReviveEvents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/AllowVampireBurn.java:7: error: package net.fabricmc.fabric.api.event does not exist
+import net.fabricmc.fabric.api.event.Event;
+                                    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/AllowVampireBurn.java:10: error: package net.fabricmc.fabric.api.event does not exist
+import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
+                                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/AllowVampireBurn.java:10: error: static import only from classes and interfaces
+import static net.fabricmc.fabric.api.event.EventFactory.createArrayBacked;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/event/AllowVampireBurn.java:13: error: cannot find symbol
+	Event<AllowVampireBurn> EVENT = createArrayBacked(AllowVampireBurn.class, listeners -> player -> {
+	^
+  symbol:   class Event
+  location: interface AllowVampireBurn
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:7: error: package com.jamieswhiteshirt.reachentityattributes does not exist
+import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
+                                                 ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:8: error: package dev.emi.stepheightentityattribute does not exist
+import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
+                                        ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:9: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
+import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:10: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:36: error: cannot find symbol
+public class TransformationComponent implements AutoSyncedComponent, ServerTickingComponent {
+                                                ^
+  symbol: class AutoSyncedComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:36: error: cannot find symbol
+public class TransformationComponent implements AutoSyncedComponent, ServerTickingComponent {
+                                                                     ^
+  symbol: class ServerTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/PledgeComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
+import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/PledgeComponent.java:8: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/PledgeComponent.java:14: error: cannot find symbol
+public class PledgeComponent implements AutoSyncedComponent, ServerTickingComponent {
+                                        ^
+  symbol: class AutoSyncedComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/PledgeComponent.java:14: error: cannot find symbol
+public class PledgeComponent implements AutoSyncedComponent, ServerTickingComponent {
+                                                             ^
+  symbol: class ServerTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/ContractsComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/ContractsComponent.java:20: error: cannot find symbol
+public class ContractsComponent implements ServerTickingComponent {
+                                           ^
+  symbol: class ServerTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/BloodComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
+import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/BloodComponent.java:8: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/BloodComponent.java:16: error: cannot find symbol
+public class BloodComponent implements AutoSyncedComponent, ServerTickingComponent {
+                                       ^
+  symbol: class AutoSyncedComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/BloodComponent.java:16: error: cannot find symbol
+public class BloodComponent implements AutoSyncedComponent, ServerTickingComponent {
+                                                            ^
+  symbol: class ServerTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/MagicComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
+import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/MagicComponent.java:8: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/MagicComponent.java:13: error: cannot find symbol
+public class MagicComponent implements AutoSyncedComponent, ServerTickingComponent {
+                                       ^
+  symbol: class AutoSyncedComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/MagicComponent.java:13: error: cannot find symbol
+public class MagicComponent implements AutoSyncedComponent, ServerTickingComponent {
+                                                            ^
+  symbol: class ServerTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/FortuneComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/FortuneComponent.java:15: error: cannot find symbol
+public class FortuneComponent implements ServerTickingComponent {
+                                         ^
+  symbol: class ServerTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/CursesComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/CursesComponent.java:18: error: cannot find symbol
+public class CursesComponent implements ServerTickingComponent {
+                                        ^
+  symbol: class ServerTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/entity/WitchAltarBlockEntity.java:9: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/block/WitchAltarBlock.java:15: error: package net.minecraft.block does not exist
+import net.minecraft.block.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/entity/WitchAltarBlockEntity.java:10: error: package net.minecraft.block does not exist
+import net.minecraft.block.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/block/PoppetShelfBlock.java:9: error: package net.minecraft.block does not exist
+import net.minecraft.block.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/misc/BWUtil.java:15: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/misc/BWUtil.java:18: error: package net.minecraft.item does not exist
+import net.minecraft.item.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/HornedSpearItem.java:9: error: package com.jamieswhiteshirt.reachentityattributes does not exist
+import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
+                                                 ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/HornedSpearItem.java:14: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/PricklyBeltItem.java:7: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.TrinketItem;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/PricklyBeltItem.java:20: error: cannot find symbol
+public class PricklyBeltItem extends TrinketItem {
+                                     ^
+  symbol: class TrinketItem
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/PricklyBeltItem.java:21: error: cannot find symbol
+	public PricklyBeltItem(Properties settings) {
+	                       ^
+  symbol:   class Properties
+  location: class PricklyBeltItem
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/AthameItem.java:9: error: package com.jamieswhiteshirt.reachentityattributes does not exist
+import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
+                                                 ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/ZephyrHarnessItem.java:8: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.SlotReference;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/ZephyrHarnessItem.java:9: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.TrinketItem;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/ZephyrHarnessItem.java:17: error: cannot find symbol
+public class ZephyrHarnessItem extends TrinketItem {
+                                       ^
+  symbol: class TrinketItem
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/ZephyrHarnessItem.java:18: error: cannot find symbol
+	public ZephyrHarnessItem(Properties settings) {
+	                         ^
+  symbol:   class Properties
+  location: class ZephyrHarnessItem
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/ZephyrHarnessItem.java:23: error: cannot find symbol
+	public Multimap<Attribute, AttributeModifier> getModifiers(ItemStack stack, SlotReference slot, LivingEntity entity, UUID uuid) {
+	                                                                            ^
+  symbol:   class SlotReference
+  location: class ZephyrHarnessItem
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/HellishBaubleItem.java:7: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.SlotReference;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/HellishBaubleItem.java:8: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.TrinketItem;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/HellishBaubleItem.java:16: error: cannot find symbol
+public class HellishBaubleItem extends TrinketItem {
+                                       ^
+  symbol: class TrinketItem
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/HellishBaubleItem.java:17: error: cannot find symbol
+	public HellishBaubleItem(Properties settings) {
+	                         ^
+  symbol:   class Properties
+  location: class HellishBaubleItem
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/HellishBaubleItem.java:22: error: cannot find symbol
+	public void tick(ItemStack stack, SlotReference slot, LivingEntity entity) {
+	                                  ^
+  symbol:   class SlotReference
+  location: class HellishBaubleItem
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/DruidBandItem.java:7: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.SlotReference;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/DruidBandItem.java:8: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.TrinketItem;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/DruidBandItem.java:17: error: cannot find symbol
+public class DruidBandItem extends TrinketItem {
+                                   ^
+  symbol: class TrinketItem
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/DruidBandItem.java:18: error: cannot find symbol
+	public DruidBandItem(Properties settings) {
+	                     ^
+  symbol:   class Properties
+  location: class DruidBandItem
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/DruidBandItem.java:23: error: cannot find symbol
+	public void tick(ItemStack stack, SlotReference slot, LivingEntity entity) {
+	                                  ^
+  symbol:   class SlotReference
+  location: class DruidBandItem
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:7: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.SlotReference;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:8: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.TrinketItem;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:12: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:17: error: cannot find symbol
+public class SpecterBangleItem extends TrinketItem {
+                                       ^
+  symbol: class TrinketItem
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:18: error: cannot find symbol
+	public SpecterBangleItem(Properties settings) {
+	                         ^
+  symbol:   class Properties
+  location: class SpecterBangleItem
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:23: error: cannot find symbol
+	public void tick(ItemStack stack, SlotReference slot, LivingEntity entity) {
+	                                  ^
+  symbol:   class SlotReference
+  location: class SpecterBangleItem
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/ToadEntity.java:11: error: package net.minecraft.entity.ai.goal does not exist
+import net.minecraft.entity.ai.goal.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/util/BWTameableEntity.java:7: error: package net.minecraft.entity does not exist
+import net.minecraft.entity.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/LilithEntity.java:15: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/LilithEntity.java:17: error: package net.minecraft.entity.ai.goal does not exist
+import net.minecraft.entity.ai.goal.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/DemonEntity.java:19: error: package net.minecraft.entity does not exist
+import net.minecraft.entity.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/DemonEntity.java:20: error: package net.minecraft.entity.ai.goal does not exist
+import net.minecraft.entity.ai.goal.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/GhostEntity.java:14: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/GhostEntity.java:17: error: package net.minecraft.entity does not exist
+import net.minecraft.entity.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/GhostEntity.java:18: error: package net.minecraft.entity.ai.goal does not exist
+import net.minecraft.entity.ai.goal.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/HerneEntity.java:16: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/HerneEntity.java:18: error: package net.minecraft.entity.ai.goal does not exist
+import net.minecraft.entity.ai.goal.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/LeonardEntity.java:16: error: package net.minecraft.entity.ai.goal does not exist
+import net.minecraft.entity.ai.goal.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/SnakeEntity.java:11: error: package net.minecraft.entity.ai.goal does not exist
+import net.minecraft.entity.ai.goal.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/VampireEntity.java:12: error: package net.minecraft.entity.ai.goal does not exist
+import net.minecraft.entity.ai.goal.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/RavenEntity.java:12: error: package net.minecraft.entity.ai.goal does not exist
+import net.minecraft.entity.ai.goal.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/HellhoundEntity.java:14: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/HellhoundEntity.java:16: error: package net.minecraft.entity does not exist
+import net.minecraft.entity.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/HellhoundEntity.java:17: error: package net.minecraft.entity.ai.goal does not exist
+import net.minecraft.entity.ai.goal.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:7: error: package com.jamieswhiteshirt.reachentityattributes does not exist
+import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
+                                                 ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:8: error: package dev.emi.stepheightentityattribute does not exist
+import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
+                                        ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:15: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:16: error: package net.fabricmc.fabric.api.tag.convention.v1 does not exist
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:19: error: package net.minecraft.entity does not exist
+import net.minecraft.entity.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:20: error: package net.minecraft.entity.ai.goal does not exist
+import net.minecraft.entity.ai.goal.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/OwlEntity.java:11: error: package net.minecraft.entity.ai.goal does not exist
+import net.minecraft.entity.ai.goal.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/OwlEntity.java:12: error: package net.minecraft.entity.passive does not exist
+import net.minecraft.entity.passive.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/BaphometEntity.java:22: error: package net.minecraft.entity.ai.goal does not exist
+import net.minecraft.entity.ai.goal.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/CauldronTeleportPacket.java:15: error: package net.fabricmc.fabric.api.client.networking.v1 does not exist
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+                                                   ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/CauldronTeleportPacket.java:16: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/CauldronTeleportPacket.java:17: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/CauldronTeleportPacket.java:40: error: package ServerPlayNetworking does not exist
+	public static class Receiver implements ServerPlayNetworking.PlayChannelHandler {
+	                                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/CauldronTeleportPacket.java:42: error: cannot find symbol
+		public void receive(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf, PacketSender responseSender) {
+		                                                                                                                            ^
+  symbol:   class PacketSender
+  location: class Receiver
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TransformationAbilityPacket.java:7: error: package io.github.ladysnake.pal does not exist
+import io.github.ladysnake.pal.AbilitySource;
+                              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TransformationAbilityPacket.java:8: error: package io.github.ladysnake.pal does not exist
+import io.github.ladysnake.pal.Pal;
+                              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TransformationAbilityPacket.java:9: error: package io.github.ladysnake.pal does not exist
+import io.github.ladysnake.pal.VanillaAbilities;
+                              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TransformationAbilityPacket.java:16: error: package net.fabricmc.fabric.api.client.networking.v1 does not exist
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+                                                   ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TransformationAbilityPacket.java:17: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TransformationAbilityPacket.java:18: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TransformationAbilityPacket.java:19: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TransformationAbilityPacket.java:34: error: cannot find symbol
+	public static final AbilitySource VAMPIRE_FLIGHT_SOURCE = Pal.getAbilitySource(Bewitchment.id("vampire_flight"));
+	                    ^
+  symbol:   class AbilitySource
+  location: class TransformationAbilityPacket
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TransformationAbilityPacket.java:97: error: package ServerPlayNetworking does not exist
+	public static class Receiver implements ServerPlayNetworking.PlayChannelHandler {
+	                                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TransformationAbilityPacket.java:99: error: cannot find symbol
+		public void receive(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf, PacketSender responseSender) {
+		                                                                                                                            ^
+  symbol:   class PacketSender
+  location: class Receiver
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TogglePressingForwardPacket.java:12: error: package net.fabricmc.fabric.api.client.networking.v1 does not exist
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+                                                   ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TogglePressingForwardPacket.java:13: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TogglePressingForwardPacket.java:14: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TogglePressingForwardPacket.java:30: error: package ServerPlayNetworking does not exist
+	public static class Receiver implements ServerPlayNetworking.PlayChannelHandler {
+	                                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TogglePressingForwardPacket.java:32: error: cannot find symbol
+		public void receive(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf, PacketSender responseSender) {
+		                                                                                                                            ^
+  symbol:   class PacketSender
+  location: class Receiver
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/OilRecipe.java:13: error: package net.minecraft.recipe does not exist
+import net.minecraft.recipe.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:13: error: package net.fabricmc.fabric.api.biome.v1 does not exist
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+                                       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:14: error: package net.fabricmc.fabric.api.biome.v1 does not exist
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
+                                       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:15: error: package net.fabricmc.fabric.api.biome.v1 does not exist
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+                                       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:16: error: package net.fabricmc.fabric.api.loot.v2 does not exist
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+                                      ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:17: error: package net.fabricmc.fabric.api.tag.convention.v1 does not exist
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:98: error: cannot find symbol
+	private static boolean registerEntitySpawn(EntityType<?> type, Predicate<BiomeSelectionContext> predicate, int weight, int minGroupSize, int maxGroupSize) {
+	                                                                         ^
+  symbol:   class BiomeSelectionContext
+  location: class BWWorldGenerators
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:7: error: package com.terraformersmc.terraform.sign.block does not exist
+import com.terraformersmc.terraform.sign.block.TerraformHangingSignBlock;
+                                              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:8: error: package com.terraformersmc.terraform.sign.block does not exist
+import com.terraformersmc.terraform.sign.block.TerraformSignBlock;
+                                              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:9: error: package com.terraformersmc.terraform.sign.block does not exist
+import com.terraformersmc.terraform.sign.block.TerraformWallHangingSignBlock;
+                                              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:10: error: package com.terraformersmc.terraform.sign.block does not exist
+import com.terraformersmc.terraform.sign.block.TerraformWallSignBlock;
+                                              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:11: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.TrinketItem;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:33: error: package net.fabricmc.fabric.api.itemgroup.v1 does not exist
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+                                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:34: error: package net.fabricmc.fabric.api.object.builder.v1.block does not exist
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+                                                      ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:35: error: package net.fabricmc.fabric.api.registry does not exist
+import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
+                                       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:36: error: package net.fabricmc.fabric.api.registry does not exist
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
+                                       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:37: error: package net.fabricmc.fabric.api.registry does not exist
+import net.fabricmc.fabric.api.registry.FuelRegistry;
+                                       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:38: error: package net.fabricmc.fabric.api.registry does not exist
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
+                                       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:96: error: package net.fabricmc.fabric.api.object.builder.v1.block does not exist
+import static net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings.copyOf;
+                                                             ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:96: error: static import only from classes and interfaces
+import static net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings.copyOf;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:432: error: cannot find symbol
+	private static Block[] createAltar(String name, FabricBlockSettings settings) {
+	                                                ^
+  symbol:   class FabricBlockSettings
+  location: class BWObjects
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:39: error: package net.minecraft.block does not exist
+import net.minecraft.block.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:43: error: package net.minecraft.item does not exist
+import net.minecraft.item.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:7: error: package dev.onyxstudios.cca.api.v3.component does not exist
+import dev.onyxstudios.cca.api.v3.component.ComponentKey;
+                                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:8: error: package dev.onyxstudios.cca.api.v3.component does not exist
+import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
+                                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:9: error: package dev.onyxstudios.cca.api.v3.entity does not exist
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
+                                        ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:10: error: package dev.onyxstudios.cca.api.v3.entity does not exist
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
+                                        ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:11: error: package dev.onyxstudios.cca.api.v3.entity does not exist
+import dev.onyxstudios.cca.api.v3.entity.RespawnCopyStrategy;
+                                        ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:23: error: cannot find symbol
+public class BWComponents implements EntityComponentInitializer {
+                                     ^
+  symbol: class EntityComponentInitializer
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:24: error: cannot find symbol
+	public static final ComponentKey<ContractsComponent> CONTRACTS_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("contracts"), ContractsComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:25: error: cannot find symbol
+	public static final ComponentKey<FortuneComponent> FORTUNE_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("fortune"), FortuneComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:26: error: cannot find symbol
+	public static final ComponentKey<MagicComponent> MAGIC_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("magic"), MagicComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:27: error: cannot find symbol
+	public static final ComponentKey<PledgeComponent> PLEDGE_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("pledge"), PledgeComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:28: error: cannot find symbol
+	public static final ComponentKey<TransformationComponent> TRANSFORMATION_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("transformation"), TransformationComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:29: error: cannot find symbol
+	public static final ComponentKey<BloodComponent> BLOOD_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("blood"), BloodComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:30: error: cannot find symbol
+	public static final ComponentKey<CursesComponent> CURSES_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("curses"), CursesComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:32: error: cannot find symbol
+	public static final ComponentKey<AdditionalWerewolfDataComponent> ADDITIONAL_WEREWOLF_DATA_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("additional_werewolf_data"), AdditionalWerewolfDataComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/AdditionalWerewolfDataComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
+import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/AdditionalWerewolfDataComponent.java:12: error: cannot find symbol
+public class AdditionalWerewolfDataComponent implements AutoSyncedComponent {
+                                                        ^
+  symbol: class AutoSyncedComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:33: error: cannot find symbol
+	public static final ComponentKey<RespawnTimerComponent> RESPAWN_TIMER_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("respawn_timer"), RespawnTimerComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/RespawnTimerComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/RespawnTimerComponent.java:10: error: cannot find symbol
+public class RespawnTimerComponent implements ServerTickingComponent {
+                                              ^
+  symbol: class ServerTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:34: error: cannot find symbol
+	public static final ComponentKey<TeleportTimerComponent> TELEPORT_TIMER_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("teleport_timer"), TeleportTimerComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/TeleportTimerComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/TeleportTimerComponent.java:10: error: cannot find symbol
+public class TeleportTimerComponent implements ServerTickingComponent {
+                                               ^
+  symbol: class ServerTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:35: error: cannot find symbol
+	public static final ComponentKey<FullInvisibilityComponent> FULL_INVISIBILITY_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("full_invisibility"), FullInvisibilityComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/FullInvisibilityComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
+import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/FullInvisibilityComponent.java:8: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/FullInvisibilityComponent.java:14: error: cannot find symbol
+public class FullInvisibilityComponent implements AutoSyncedComponent, ServerTickingComponent {
+                                                  ^
+  symbol: class AutoSyncedComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/FullInvisibilityComponent.java:14: error: cannot find symbol
+public class FullInvisibilityComponent implements AutoSyncedComponent, ServerTickingComponent {
+                                                                       ^
+  symbol: class ServerTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:36: error: cannot find symbol
+	public static final ComponentKey<BroomUserComponent> BROOM_USER_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("broom_user"), BroomUserComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/BroomUserComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
+import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/BroomUserComponent.java:12: error: cannot find symbol
+public class BroomUserComponent implements AutoSyncedComponent {
+                                           ^
+  symbol: class AutoSyncedComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:37: error: cannot find symbol
+	public static final ComponentKey<PolymorphComponent> POLYMORPH_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("polymorph"), PolymorphComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/PolymorphComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/PolymorphComponent.java:8: error: package io.github.ladysnake.impersonate does not exist
+import io.github.ladysnake.impersonate.Impersonator;
+                                      ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/PolymorphComponent.java:18: error: cannot find symbol
+public class PolymorphComponent implements ServerTickingComponent {
+                                           ^
+  symbol: class ServerTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:38: error: cannot find symbol
+	public static final ComponentKey<AdditionalWaterDataComponent> ADDITIONAL_WATER_DATA_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("additional_water_data"), AdditionalWaterDataComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/AdditionalWaterDataComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
+import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/AdditionalWaterDataComponent.java:8: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/AdditionalWaterDataComponent.java:13: error: cannot find symbol
+public class AdditionalWaterDataComponent implements AutoSyncedComponent, ServerTickingComponent {
+                                                     ^
+  symbol: class AutoSyncedComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/AdditionalWaterDataComponent.java:13: error: cannot find symbol
+public class AdditionalWaterDataComponent implements AutoSyncedComponent, ServerTickingComponent {
+                                                                          ^
+  symbol: class ServerTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:39: error: cannot find symbol
+	public static final ComponentKey<FamiliarComponent> FAMILIAR_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("familiar"), FamiliarComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/FamiliarComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
+import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/FamiliarComponent.java:8: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/FamiliarComponent.java:15: error: cannot find symbol
+public class FamiliarComponent implements AutoSyncedComponent, CommonTickingComponent {
+                                          ^
+  symbol: class AutoSyncedComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/FamiliarComponent.java:15: error: cannot find symbol
+public class FamiliarComponent implements AutoSyncedComponent, CommonTickingComponent {
+                                                               ^
+  symbol: class CommonTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:40: error: cannot find symbol
+	public static final ComponentKey<MinionComponent> MINION_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("minion"), MinionComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/MinionComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/MinionComponent.java:10: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/MinionComponent.java:17: error: cannot find symbol
+public class MinionComponent implements ServerTickingComponent {
+                                        ^
+  symbol: class ServerTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:41: error: cannot find symbol
+	public static final ComponentKey<FakeMobComponent> FAKE_MOB_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("fake_mob"), FakeMobComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/FakeMobComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.sync does not exist
+import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/FakeMobComponent.java:8: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/FakeMobComponent.java:18: error: cannot find symbol
+public class FakeMobComponent implements AutoSyncedComponent, ServerTickingComponent {
+                                         ^
+  symbol: class AutoSyncedComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/FakeMobComponent.java:18: error: cannot find symbol
+public class FakeMobComponent implements AutoSyncedComponent, ServerTickingComponent {
+                                                              ^
+  symbol: class ServerTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:42: error: cannot find symbol
+	public static final ComponentKey<WerewolfVillagerComponent> WEREWOLF_VILLAGER_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("werewolf_villager"), WerewolfVillagerComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/WerewolfVillagerComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
+import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/WerewolfVillagerComponent.java:14: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/WerewolfVillagerComponent.java:20: error: cannot find symbol
+public class WerewolfVillagerComponent implements ServerTickingComponent {
+                                                  ^
+  symbol: class ServerTickingComponent
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:43: error: cannot find symbol
+	public static final ComponentKey<CaduceusFireballComponent> CADUCEUS_FIREBALL_COMPONENT = ComponentRegistry.getOrCreate(Bewitchment.id("caduceus_fireball"), CaduceusFireballComponent.class);
+	                    ^
+  symbol:   class ComponentKey
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/CaduceusFireballComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component does not exist
+import dev.onyxstudios.cca.api.v3.component.Component;
+                                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/CaduceusFireballComponent.java:10: error: cannot find symbol
+public class CaduceusFireballComponent implements Component {
+                                                  ^
+  symbol: class Component
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:46: error: cannot find symbol
+	public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
+	                                             ^
+  symbol:   class EntityComponentFactoryRegistry
+  location: class BWComponents
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWRegistries.java:9: error: package net.fabricmc.fabric.api.event.registry does not exist
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+                                             ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWEntityTypes.java:15: error: package net.fabricmc.fabric.api.object.builder.v1.entity does not exist
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+                                                       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWParticleTypes.java:8: error: package net.fabricmc.fabric.api.particle.v1 does not exist
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
+                                          ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWBlockEntityTypes.java:10: error: package net.fabricmc.fabric.api.object.builder.v1.block.entity does not exist
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+                                                             ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/entity/GlyphBlockEntity.java:16: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/entity/BrazierBlockEntity.java:7: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.TrinketsApi;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/entity/PoppetShelfBlockEntity.java:11: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:7: error: package com.terraformersmc.terraform.boat.api does not exist
+import com.terraformersmc.terraform.boat.api.TerraformBoatType;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:8: error: package com.terraformersmc.terraform.boat.api does not exist
+import com.terraformersmc.terraform.boat.api.TerraformBoatTypeRegistry;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:9: error: package com.terraformersmc.terraform.boat.api.item does not exist
+import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
+                                                 ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWMaterials.java:7: error: package net.minecraft.item does not exist
+import net.minecraft.item.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:25: error: package net.fabricmc.fabric.api.command.v2 does not exist
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+                                         ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:26: error: package net.fabricmc.fabric.api.entity.event.v1 does not exist
+import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
+                                              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:27: error: package net.fabricmc.fabric.api.entity.event.v1 does not exist
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
+                                              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:28: error: package net.fabricmc.fabric.api.entity.event.v1 does not exist
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+                                              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:29: error: package net.fabricmc.fabric.api.event.lifecycle.v1 does not exist
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+                                                 ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:30: error: package net.fabricmc.fabric.api.event.player does not exist
+import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+                                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:31: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:32: error: package net.fabricmc.fabric.api.tag.convention.v1 does not exist
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/BrambleBlock.java:14: error: package net.minecraft.block does not exist
+import net.minecraft.block.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/BrambleBlock.java:19: error: package net.minecraft.registry.tag does not exist
+import net.minecraft.registry.tag.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/BrazierBlock.java:11: error: package net.minecraft.block does not exist
+import net.minecraft.block.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/WitchCauldronBlock.java:16: error: package net.minecraft.block does not exist
+import net.minecraft.block.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/SigilBlock.java:13: error: package net.minecraft.block does not exist
+import net.minecraft.block.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/elder/ElderDoorBlock.java:10: error: package net.minecraft.block does not exist
+import net.minecraft.block.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/elder/ElderTrapdoorBlock.java:9: error: package net.minecraft.block does not exist
+import net.minecraft.block.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/elder/ElderFenceGateBlock.java:9: error: package net.minecraft.block does not exist
+import net.minecraft.block.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/GlyphBlock.java:11: error: package net.minecraft.block does not exist
+import net.minecraft.block.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/SaltLineBlock.java:10: error: package net.minecraft.block does not exist
+import net.minecraft.block.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/statuseffect/WednesdayStatusEffect.java:10: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/statuseffect/PolymorphStatusEffect.java:8: error: package io.github.ladysnake.impersonate does not exist
+import io.github.ladysnake.impersonate.Impersonator;
+                                      ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/event/TransformationAbilityEvent.java:7: error: package net.fabricmc.fabric.api.client.event.lifecycle.v1 does not exist
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+                                                        ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/event/TransformationAbilityEvent.java:12: error: package ClientTickEvents does not exist
+public class TransformationAbilityEvent implements ClientTickEvents.EndWorldTick {
+                                                                   ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/event/CauldronTeleportEvent.java:4: error: package net.fabricmc.fabric.api.client.message.v1 does not exist
+import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/event/CauldronTeleportEvent.java:8: error: package ClientSendMessageEvents does not exist
+public class CauldronTeleportEvent implements ClientSendMessageEvents.AllowChat {
+                                                                     ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncDemonTradesPacket.java:12: error: package net.fabricmc.fabric.api.client.networking.v1 does not exist
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+                                                   ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncDemonTradesPacket.java:13: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncDemonTradesPacket.java:14: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncDemonTradesPacket.java:36: error: package ClientPlayNetworking does not exist
+	public static class Receiver implements ClientPlayNetworking.PlayChannelHandler {
+	                                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncDemonTradesPacket.java:38: error: cannot find symbol
+		public void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+		                                                                                         ^
+  symbol:   class PacketSender
+  location: class Receiver
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncPoppetShelfPacket.java:11: error: package net.fabricmc.fabric.api.client.networking.v1 does not exist
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+                                                   ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncPoppetShelfPacket.java:12: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncPoppetShelfPacket.java:13: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncPoppetShelfPacket.java:41: error: package ClientPlayNetworking does not exist
+	public static class Receiver implements ClientPlayNetworking.PlayChannelHandler {
+	                                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncPoppetShelfPacket.java:43: error: cannot find symbol
+		public void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+		                                                                                         ^
+  symbol:   class PacketSender
+  location: class Receiver
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnSmokeParticlesPacket.java:9: error: package net.fabricmc.fabric.api.client.networking.v1 does not exist
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+                                                   ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnSmokeParticlesPacket.java:10: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnSmokeParticlesPacket.java:11: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnSmokeParticlesPacket.java:30: error: package ClientPlayNetworking does not exist
+	public static class Receiver implements ClientPlayNetworking.PlayChannelHandler {
+	                                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnSmokeParticlesPacket.java:32: error: cannot find symbol
+		public void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+		                                                                                         ^
+  symbol:   class PacketSender
+  location: class Receiver
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncContractsPacket.java:12: error: package net.fabricmc.fabric.api.client.networking.v1 does not exist
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+                                                   ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncContractsPacket.java:13: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncContractsPacket.java:14: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncContractsPacket.java:36: error: package ClientPlayNetworking does not exist
+	public static class Receiver implements ClientPlayNetworking.PlayChannelHandler {
+	                                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncContractsPacket.java:38: error: cannot find symbol
+		public void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+		                                                                                         ^
+  symbol:   class PacketSender
+  location: class Receiver
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnPortalParticlesPacket.java:9: error: package net.fabricmc.fabric.api.client.networking.v1 does not exist
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+                                                   ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnPortalParticlesPacket.java:10: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnPortalParticlesPacket.java:11: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnPortalParticlesPacket.java:30: error: package ClientPlayNetworking does not exist
+	public static class Receiver implements ClientPlayNetworking.PlayChannelHandler {
+	                                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnPortalParticlesPacket.java:32: error: cannot find symbol
+		public void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+		                                                                                         ^
+  symbol:   class PacketSender
+  location: class Receiver
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnSpecterBangleParticlesPacket.java:9: error: package net.fabricmc.fabric.api.client.networking.v1 does not exist
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+                                                   ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnSpecterBangleParticlesPacket.java:10: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnSpecterBangleParticlesPacket.java:11: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnSpecterBangleParticlesPacket.java:30: error: package ClientPlayNetworking does not exist
+	public static class Receiver implements ClientPlayNetworking.PlayChannelHandler {
+	                                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnSpecterBangleParticlesPacket.java:32: error: cannot find symbol
+		public void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+		                                                                                         ^
+  symbol:   class PacketSender
+  location: class Receiver
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncHornedSpearPacket.java:10: error: package net.fabricmc.fabric.api.client.networking.v1 does not exist
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+                                                   ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncHornedSpearPacket.java:11: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncHornedSpearPacket.java:12: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncHornedSpearPacket.java:31: error: package ClientPlayNetworking does not exist
+	public static class Receiver implements ClientPlayNetworking.PlayChannelHandler {
+	                                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SyncHornedSpearPacket.java:33: error: cannot find symbol
+		public void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+		                                                                                         ^
+  symbol:   class PacketSender
+  location: class Receiver
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnExplosionParticlesPacket.java:9: error: package net.fabricmc.fabric.api.client.networking.v1 does not exist
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+                                                   ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnExplosionParticlesPacket.java:10: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnExplosionParticlesPacket.java:11: error: package net.fabricmc.fabric.api.networking.v1 does not exist
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnExplosionParticlesPacket.java:30: error: package ClientPlayNetworking does not exist
+	public static class Receiver implements ClientPlayNetworking.PlayChannelHandler {
+	                                                            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/packet/SpawnExplosionParticlesPacket.java:32: error: cannot find symbol
+		public void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+		                                                                                         ^
+  symbol:   class PacketSender
+  location: class Receiver
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/integration/appleskin/BWAppleskinIntegration.java:9: error: cannot find symbol
+import squeek.appleskin.api.AppleSkinApi;
+                           ^
+  symbol:   class AppleSkinApi
+  location: package squeek.appleskin.api
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/integration/appleskin/BWAppleskinIntegration.java:12: error: cannot find symbol
+public class BWAppleskinIntegration implements AppleSkinApi {
+                                               ^
+  symbol: class AppleSkinApi
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/integration/emi/BWEmiIntegration.java:7: error: cannot find symbol
+import dev.emi.emi.EmiRenderHelper;
+                  ^
+  symbol:   class EmiRenderHelper
+  location: package dev.emi.emi
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/integration/emi/BWEmiIntegration.java:13: error: package dev.emi.emi.runtime does not exist
+import dev.emi.emi.runtime.EmiDrawContext;
+                          ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/integration/emi/recipe/EmiAthameStrippingRecipe.java:7: error: cannot find symbol
+import dev.emi.emi.EmiPort;
+                  ^
+  symbol:   class EmiPort
+  location: package dev.emi.emi
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/integration/emi/recipe/EmiOilRecipe.java:7: error: cannot find symbol
+import dev.emi.emi.EmiPort;
+                  ^
+  symbol:   class EmiPort
+  location: package dev.emi.emi
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/integration/emi/recipe/EmiAthameDropRecipe.java:7: error: cannot find symbol
+import dev.emi.emi.EmiPort;
+                  ^
+  symbol:   class EmiPort
+  location: package dev.emi.emi
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/BewitchmentClient.java:8: error: package com.terraformersmc.terraform.boat.api.client does not exist
+import com.terraformersmc.terraform.boat.api.client.TerraformBoatClientHelper;
+                                                   ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/BewitchmentClient.java:9: error: package com.terraformersmc.terraform.sign does not exist
+import com.terraformersmc.terraform.sign.SpriteIdentifierRegistry;
+                                        ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/BewitchmentClient.java:10: error: package dev.emi.trinkets.api.client does not exist
+import dev.emi.trinkets.api.client.TrinketRendererRegistry;
+                                  ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/BewitchmentClient.java:38: error: package net.fabricmc.fabric.api.blockrenderlayer.v1 does not exist
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+                                                  ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/BewitchmentClient.java:39: error: package net.fabricmc.fabric.api.client.event.lifecycle.v1 does not exist
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+                                                        ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/BewitchmentClient.java:40: error: package net.fabricmc.fabric.api.client.keybinding.v1 does not exist
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+                                                   ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/BewitchmentClient.java:41: error: package net.fabricmc.fabric.api.client.message.v1 does not exist
+import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
+                                                ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/BewitchmentClient.java:42: error: package net.fabricmc.fabric.api.client.networking.v1 does not exist
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+                                                   ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/BewitchmentClient.java:43: error: package net.fabricmc.fabric.api.client.particle.v1 does not exist
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+                                                 ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/BewitchmentClient.java:44: error: package net.fabricmc.fabric.api.client.rendering.v1 does not exist
+import net.fabricmc.fabric.api.client.rendering.v1.*;
+^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/WitchArmorRenderer.java:11: error: package net.fabricmc.fabric.api.client.rendering.v1 does not exist
+import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
+                                                  ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/WitchArmorRenderer.java:22: error: cannot find symbol
+public class WitchArmorRenderer implements ArmorRenderer {
+                                           ^
+  symbol: class ArmorRenderer
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/ZephyrHarnessRenderer.java:4: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.SlotReference;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/ZephyrHarnessRenderer.java:5: error: package dev.emi.trinkets.api.client does not exist
+import dev.emi.trinkets.api.client.TrinketRenderer;
+                                  ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/ZephyrHarnessRenderer.java:20: error: cannot find symbol
+public class ZephyrHarnessRenderer implements TrinketRenderer {
+                                              ^
+  symbol: class TrinketRenderer
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/ZephyrHarnessRenderer.java:25: error: cannot find symbol
+	public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+	                                    ^
+  symbol:   class SlotReference
+  location: class ZephyrHarnessRenderer
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/SpecterBangleRenderer.java:4: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.SlotReference;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/SpecterBangleRenderer.java:5: error: package dev.emi.trinkets.api.client does not exist
+import dev.emi.trinkets.api.client.TrinketRenderer;
+                                  ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/SpecterBangleRenderer.java:20: error: cannot find symbol
+public class SpecterBangleRenderer implements TrinketRenderer {
+                                              ^
+  symbol: class TrinketRenderer
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/SpecterBangleRenderer.java:25: error: cannot find symbol
+	public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+	                                    ^
+  symbol:   class SlotReference
+  location: class SpecterBangleRenderer
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/DruidBandRenderer.java:4: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.SlotReference;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/DruidBandRenderer.java:5: error: package dev.emi.trinkets.api.client does not exist
+import dev.emi.trinkets.api.client.TrinketRenderer;
+                                  ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/DruidBandRenderer.java:20: error: cannot find symbol
+public class DruidBandRenderer implements TrinketRenderer {
+                                          ^
+  symbol: class TrinketRenderer
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/DruidBandRenderer.java:25: error: cannot find symbol
+	public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+	                                    ^
+  symbol:   class SlotReference
+  location: class DruidBandRenderer
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/PricklyBeltRenderer.java:4: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.SlotReference;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/PricklyBeltRenderer.java:5: error: package dev.emi.trinkets.api.client does not exist
+import dev.emi.trinkets.api.client.TrinketRenderer;
+                                  ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/PricklyBeltRenderer.java:20: error: cannot find symbol
+public class PricklyBeltRenderer implements TrinketRenderer {
+                                            ^
+  symbol: class TrinketRenderer
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/PricklyBeltRenderer.java:25: error: cannot find symbol
+	public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+	                                    ^
+  symbol:   class SlotReference
+  location: class PricklyBeltRenderer
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/NazarRenderer.java:5: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.SlotReference;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/NazarRenderer.java:6: error: package dev.emi.trinkets.api.client does not exist
+import dev.emi.trinkets.api.client.TrinketRenderer;
+                                  ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/NazarRenderer.java:17: error: cannot find symbol
+public class NazarRenderer implements TrinketRenderer {
+                                      ^
+  symbol: class TrinketRenderer
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/NazarRenderer.java:19: error: cannot find symbol
+	public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+	                                    ^
+  symbol:   class SlotReference
+  location: class NazarRenderer
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/HellishBaubleRenderer.java:5: error: package dev.emi.trinkets.api does not exist
+import dev.emi.trinkets.api.SlotReference;
+                           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/HellishBaubleRenderer.java:6: error: package dev.emi.trinkets.api.client does not exist
+import dev.emi.trinkets.api.client.TrinketRenderer;
+                                  ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/HellishBaubleRenderer.java:17: error: cannot find symbol
+public class HellishBaubleRenderer implements TrinketRenderer {
+                                              ^
+  symbol: class TrinketRenderer
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/HellishBaubleRenderer.java:19: error: cannot find symbol
+	public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+	                                    ^
+  symbol:   class SlotReference
+  location: class HellishBaubleRenderer
+Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-refmap.json
+Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-refmap.json
+Note: Writing searge composite mappings to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-mappings.tsrg
+340 errors
+60 warnings
+
+> Task :compileJava FAILED
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1791814535856.json
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler error output for details.
+
+* Try:
+> Run with --info option to get more log output.
+> Run with --scan to get full insights.
+
+* Exception is:
+org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':compileJava'.
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.lambda$executeIfValid$1(ExecuteActionsTaskExecuter.java:130)
+	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:293)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:128)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
+	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
+	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
+	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
+Caused by: org.gradle.api.internal.tasks.compile.CompilationFailedException: Compilation failed; see the compiler error output for details.
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:79)
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:46)
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.delegateAndHandleErrors(NormalizingJavaCompiler.java:98)
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(NormalizingJavaCompiler.java:52)
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(NormalizingJavaCompiler.java:38)
+	at org.gradle.api.internal.tasks.compile.AnnotationProcessorDiscoveringCompiler.execute(AnnotationProcessorDiscoveringCompiler.java:52)
+	at org.gradle.api.internal.tasks.compile.AnnotationProcessorDiscoveringCompiler.execute(AnnotationProcessorDiscoveringCompiler.java:38)
+	at org.gradle.api.internal.tasks.compile.ModuleApplicationNameWritingCompiler.execute(ModuleApplicationNameWritingCompiler.java:46)
+	at org.gradle.api.internal.tasks.compile.ModuleApplicationNameWritingCompiler.execute(ModuleApplicationNameWritingCompiler.java:36)
+	at org.gradle.jvm.toolchain.internal.DefaultToolchainJavaCompiler.execute(DefaultToolchainJavaCompiler.java:57)
+	at org.gradle.api.tasks.compile.JavaCompile.lambda$createToolchainCompiler$3(JavaCompile.java:204)
+	at org.gradle.api.internal.tasks.compile.CleaningJavaCompiler.execute(CleaningJavaCompiler.java:53)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalCompilerFactory.lambda$createRebuildAllCompiler$0(IncrementalCompilerFactory.java:52)
+	at org.gradle.api.internal.tasks.compile.incremental.SelectiveCompiler.execute(SelectiveCompiler.java:70)
+	at org.gradle.api.internal.tasks.compile.incremental.SelectiveCompiler.execute(SelectiveCompiler.java:44)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringCompiler.execute(IncrementalResultStoringCompiler.java:66)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringCompiler.execute(IncrementalResultStoringCompiler.java:52)
+	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler$1.call(CompileJavaBuildOperationReportingCompiler.java:64)
+	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler$1.call(CompileJavaBuildOperationReportingCompiler.java:48)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler.execute(CompileJavaBuildOperationReportingCompiler.java:48)
+	at org.gradle.api.tasks.compile.JavaCompile.performCompilation(JavaCompile.java:222)
+	at org.gradle.api.tasks.compile.JavaCompile.performIncrementalCompilation(JavaCompile.java:163)
+	at org.gradle.api.tasks.compile.JavaCompile.compile(JavaCompile.java:148)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:125)
+	at org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.doExecute(IncrementalTaskAction.java:45)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:51)
+	at org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.execute(IncrementalTaskAction.java:26)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:29)
+	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:244)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:29)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:26)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:47)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:229)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:212)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:195)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:162)
+	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:105)
+	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:44)
+	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:59)
+	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:56)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:56)
+	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:44)
+	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:42)
+	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:75)
+	at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)
+	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:50)
+	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:28)
+	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:67)
+	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:37)
+	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:61)
+	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:26)
+	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:69)
+	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:46)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:40)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:29)
+	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(BuildCacheStep.java:189)
+	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$1(BuildCacheStep.java:75)
+	at org.gradle.internal.Either$Right.fold(Either.java:175)
+	at org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:62)
+	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:73)
+	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:48)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:46)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:35)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:75)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipUpToDateStep.java:53)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:53)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:35)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:37)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:27)
+	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:49)
+	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:27)
+	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:71)
+	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:39)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:65)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:36)
+	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:107)
+	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:56)
+	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:64)
+	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:43)
+	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:125)
+	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:61)
+	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:36)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
+	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)
+	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)
+	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:75)
+	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:41)
+	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execute$0(AssignMutableWorkspaceStep.java:35)
+	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:289)
+	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:31)
+	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:22)
+	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
+	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
+	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
+	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
+	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
+	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
+	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
+	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:48)
+	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:35)
+	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:61)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:127)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
+	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
+	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
+	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
+
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.10/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 6m 13s
+4 actionable tasks: 4 executed

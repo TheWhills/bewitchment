@@ -1,0 +1,4 @@
+commit: f47bb76
+result: failure
+java errors: 340
+files with errors: 106
