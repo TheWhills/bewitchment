@@ -39,13 +39,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class LivingEntityMixin extends Entity {
 	@Shadow
 	@Nullable
-	public abstract MobEffectInstance getStatusEffect(MobEffect effect);
+	public abstract MobEffectInstance getEffect(MobEffect effect);
 
 	@Shadow
-	public abstract boolean hasStatusEffect(MobEffect effect);
+	public abstract boolean hasEffect(MobEffect effect);
 
 	@Shadow
-	public abstract boolean removeStatusEffect(MobEffect type);
+	public abstract boolean removeEffect(MobEffect type);
 
 	@Shadow
 	public abstract void heal(float amount);
@@ -71,15 +71,15 @@ public abstract class LivingEntityMixin extends Entity {
 	@ModifyVariable(method = "getDamageAfterArmorAbsorb", at = @At("HEAD"), argsOnly = true)
 	private float modifyDamage1(float amount, DamageSource source) {
 		if (!level().isClientSide) {
-			if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && (hasStatusEffect(BWStatusEffects.ETHEREAL.get()) || (source.getEntity() instanceof LivingEntity livingAttacker && livingAttacker.hasEffect(BWStatusEffects.ETHEREAL.get())))) {
+			if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && (hasEffect(BWStatusEffects.ETHEREAL.get()) || (source.getEntity() instanceof LivingEntity livingAttacker && livingAttacker.hasEffect(BWStatusEffects.ETHEREAL.get())))) {
 				return 0;
 			}
 			if (source.getDirectEntity() instanceof LivingEntity livingSource && livingSource.hasEffect(BWStatusEffects.ENCHANTED.get())) {
 				amount /= 4;
 				amount += livingSource.getEffect(BWStatusEffects.ENCHANTED.get()).getAmplifier();
 			}
-			if (hasStatusEffect(BWStatusEffects.MAGIC_SPONGE.get()) && source.is(DamageTypeTags.WITCH_RESISTANT_TO)) {
-				float magicAmount = (0.3f + (0.1f * getStatusEffect(BWStatusEffects.MAGIC_SPONGE.get()).getAmplifier()));
+			if (hasEffect(BWStatusEffects.MAGIC_SPONGE.get()) && source.is(DamageTypeTags.WITCH_RESISTANT_TO)) {
+				float magicAmount = (0.3f + (0.1f * getEffect(BWStatusEffects.MAGIC_SPONGE.get()).getAmplifier()));
 				amount *= (1 - magicAmount);
 				if ((Object) this instanceof Player player) {
 					BewitchmentAPI.fillMagic(player, (int) (amount * magicAmount), false);
@@ -93,25 +93,25 @@ public abstract class LivingEntityMixin extends Entity {
 	private void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (!level().isClientSide) {
 			Entity directSource = source.getDirectEntity();
-			if (hasStatusEffect(BWStatusEffects.DEFLECTION.get()) && directSource != null && directSource.getType().is(EntityTypeTags.ARROWS)) {
-				int amplifier = getStatusEffect(BWStatusEffects.DEFLECTION.get()).getAmplifier() + 1;
+			if (hasEffect(BWStatusEffects.DEFLECTION.get()) && directSource != null && directSource.getType().is(EntityTypeTags.ARROWS)) {
+				int amplifier = getEffect(BWStatusEffects.DEFLECTION.get()).getAmplifier() + 1;
 				Vec3 velocity = directSource.getDeltaMovement();
 				directSource.setDeltaMovement(velocity.x() * 2 * amplifier, velocity.y() * 2 * amplifier, velocity.z() * 2 * amplifier);
 				callbackInfo.setReturnValue(false);
 			} else if (amount > 0 && hurtTime == 0) {
-				if (!hasStatusEffect(MobEffects.DAMAGE_BOOST) && !hasStatusEffect(MobEffects.REGENERATION) && !hasStatusEffect(MobEffects.DAMAGE_RESISTANCE) && directSource instanceof LivingEntity livingSource && livingSource.hasEffect(BWStatusEffects.LEECHING.get())) {
+				if (!hasEffect(MobEffects.DAMAGE_BOOST) && !hasEffect(MobEffects.REGENERATION) && !hasEffect(MobEffects.DAMAGE_RESISTANCE) && directSource instanceof LivingEntity livingSource && livingSource.hasEffect(BWStatusEffects.LEECHING.get())) {
 					livingSource.heal(amount * (livingSource.getEffect(BWStatusEffects.LEECHING.get()).getAmplifier() + 1) / 8);
 				}
-				if (directSource != null && hasStatusEffect(BWStatusEffects.THORNS.get()) && source.is(DamageTypes.THORNS)) {
-					directSource.hurt(level().damageSources().thorns(directSource), 2 * (getStatusEffect(BWStatusEffects.THORNS.get()).getAmplifier() + 1));
+				if (directSource != null && hasEffect(BWStatusEffects.THORNS.get()) && source.is(DamageTypes.THORNS)) {
+					directSource.hurt(level().damageSources().thorns(directSource), 2 * (getEffect(BWStatusEffects.THORNS.get()).getAmplifier() + 1));
 				}
-				if (hasStatusEffect(BWStatusEffects.VOLATILITY.get()) && !source.is(DamageTypeTags.IS_EXPLOSION)) {
+				if (hasEffect(BWStatusEffects.VOLATILITY.get()) && !source.is(DamageTypeTags.IS_EXPLOSION)) {
 					for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(3), foundEntity -> foundEntity.isAlive() && !foundEntity.getUUID().equals(getUUID()))) {
-						entity.hurt(level().damageSources().explosion(((LivingEntity) (Object) this), ((LivingEntity) (Object) this)), 4 * (getStatusEffect(BWStatusEffects.VOLATILITY.get()).getAmplifier() + 1));
+						entity.hurt(level().damageSources().explosion(((LivingEntity) (Object) this), ((LivingEntity) (Object) this)), 4 * (getEffect(BWStatusEffects.VOLATILITY.get()).getAmplifier() + 1));
 					}
 					level().playSound(null, blockPosition(), SoundEvents.GENERIC_EXPLODE, SoundSource.NEUTRAL, 1, 1);
 					BWNetwork.sendToTrackingAndSelf(this, new SpawnExplosionParticlesPacket(this));
-					removeStatusEffect(BWStatusEffects.VOLATILITY.get());
+					removeEffect(BWStatusEffects.VOLATILITY.get());
 				}
 			}
 		}
@@ -133,14 +133,14 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "canBreatheUnderwater", at = @At("RETURN"), cancellable = true)
 	private void canBreatheInWater(CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (!callbackInfo.getReturnValueZ() && !level().isClientSide && hasStatusEffect(BWStatusEffects.GILLS.get())) {
+		if (!callbackInfo.getReturnValueZ() && !level().isClientSide && hasEffect(BWStatusEffects.GILLS.get())) {
 			callbackInfo.setReturnValue(true);
 		}
 	}
 
 	@Inject(method = "onClimbable", at = @At("RETURN"), cancellable = true)
 	private void isClimbing(CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (!callbackInfo.getReturnValueZ() && hasStatusEffect(BWStatusEffects.CLIMBING.get()) && horizontalCollision) {
+		if (!callbackInfo.getReturnValueZ() && hasEffect(BWStatusEffects.CLIMBING.get()) && horizontalCollision) {
 			callbackInfo.setReturnValue(true);
 		}
 	}

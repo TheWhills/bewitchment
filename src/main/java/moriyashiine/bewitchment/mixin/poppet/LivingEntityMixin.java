@@ -42,10 +42,10 @@ import java.util.stream.Stream;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
 	@Shadow
-	public abstract boolean addStatusEffect(MobEffectInstance effect);
+	public abstract boolean addEffect(MobEffectInstance effect);
 
 	@Shadow
-	public abstract boolean clearStatusEffects();
+	public abstract boolean removeAllEffects();
 
 	@Shadow
 	public abstract void setHealth(float health);
@@ -54,7 +54,7 @@ public abstract class LivingEntityMixin extends Entity {
 	protected abstract float getSoundVolume();
 
 	@Shadow
-	public abstract float getSoundPitch();
+	public abstract float getVoicePitch();
 
 	public LivingEntityMixin(EntityType<?> type, Level world) {
 		super(type, world);
@@ -140,10 +140,10 @@ public abstract class LivingEntityMixin extends Entity {
 					}
 					poppetData.update(level(), sync);
 					setHealth(1);
-					clearStatusEffects();
-					addStatusEffect(new MobEffectInstance(MobEffects.REGENERATION, 900, 1));
-					addStatusEffect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 1));
-					addStatusEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 800, 0));
+					removeAllEffects();
+					addEffect(new MobEffectInstance(MobEffects.REGENERATION, 900, 1));
+					addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 1));
+					addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 800, 0));
 					callbackInfo.setReturnValue(true);
 				}
 			}
@@ -155,7 +155,7 @@ public abstract class LivingEntityMixin extends Entity {
 							transformationComponent.setTransformation(BWTransformations.VAMPIRE.get());
 							transformationComponent.getTransformation().onAdded(player);
 							BWNetwork.sendToTrackingAndSelf(this, new SpawnSmokeParticlesPacket(this));
-							level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_CURSE.get(), getSoundSource(), getSoundVolume(), getSoundPitch());
+							level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_CURSE.get(), getSoundSource(), getSoundVolume(), getVoicePitch());
 						} else if (source.getDirectEntity() instanceof WerewolfEntity || (source.getDirectEntity() instanceof Player playerSource && BewitchmentAPI.isWerewolf(playerSource, false) && BewitchmentAPI.isPledged(playerSource, BWPledges.HERNE))) {
 							transformationComponent.getTransformation().onRemoved(player);
 							transformationComponent.setTransformation(BWTransformations.WEREWOLF.get());
@@ -170,7 +170,7 @@ public abstract class LivingEntityMixin extends Entity {
 								BWComponents.ADDITIONAL_WEREWOLF_DATA_COMPONENT.get(player).setVariant(variant);
 							}
 							BWNetwork.sendToTrackingAndSelf(this, new SpawnSmokeParticlesPacket(this));
-							level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_CURSE.get(), getSoundSource(), getSoundVolume(), getSoundPitch());
+							level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_CURSE.get(), getSoundSource(), getSoundVolume(), getVoicePitch());
 						}
 					}
 				});

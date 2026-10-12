@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Player.class)
 public abstract class PlayerEntityMixin extends LivingEntity {
 	@Shadow
-	public abstract FoodData getHungerManager();
+	public abstract FoodData getFoodData();
 
 	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, Level world) {
 		super(entityType, world);
@@ -42,7 +42,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 		if (!world.isClientSide) {
 			FoodProperties foodComponent = stack.getItem().getFoodProperties();
 			if (foodComponent != null && BWComponents.CONTRACTS_COMPONENT.get(this).hasContract(BWContracts.GLUTTONY.get())) {
-				getHungerManager().eat(foodComponent.getNutrition(), foodComponent.getSaturationModifier());
+				getFoodData().eat(foodComponent.getNutrition(), foodComponent.getSaturationModifier());
 			}
 		}
 	}

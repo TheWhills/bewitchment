@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Villager.class)
 public abstract class VillagerEntityMixin extends AbstractVillager {
 	@Shadow
-	protected abstract void sayNo();
+	protected abstract void setUnhappy();
 
 	public VillagerEntityMixin(EntityType<? extends AbstractVillager> entityType, Level world) {
 		super(entityType, world);
@@ -30,7 +30,7 @@ public abstract class VillagerEntityMixin extends AbstractVillager {
 	@Inject(method = "mobInteract", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/world/entity/npc/Villager;getOffers()Lnet/minecraft/world/item/trading/MerchantOffers;"), cancellable = true)
 	private void interactMob(Player player, InteractionHand hand, CallbackInfoReturnable<MerchantOffers> callbackInfo) {
 		if (!level().isClientSide && BWUtil.rejectTrades(this)) {
-			sayNo();
+			setUnhappy();
 			callbackInfo.setReturnValue(BWUtil.EMPTY_TRADES);
 		}
 	}

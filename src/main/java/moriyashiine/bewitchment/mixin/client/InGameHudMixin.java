@@ -38,11 +38,11 @@ public abstract class InGameHudMixin {
 
 	@Shadow
 	@Final
-	private Minecraft client;
+	private Minecraft minecraft;
 
-	@Inject(method = "renderPlayerHealth", at = @At(value = "INVOKE", shift = At.Shift.AFTER, ordinal = 2, target = "Lnet/minecraft/client/Minecraft;getProfiler()Lnet/minecraft/util/profiling/ProfilerFiller;"))
+	@Inject(method = "renderPlayerHealth", at = @At(value = "INVOKE", shift = At.Shift.AFTER, ordinal = 2, target = "Lnet/minecraft/minecraft/Minecraft;getProfiler()Lnet/minecraft/util/profiling/ProfilerFiller;"))
 	private void renderPre(GuiGraphics context, CallbackInfo ci) {
-		BWComponents.MAGIC_COMPONENT.maybeGet(client.player).ifPresent(magicComponent -> {
+		BWComponents.MAGIC_COMPONENT.maybeGet(minecraft.player).ifPresent(magicComponent -> {
 			if (magicComponent.getMagicTimer() > 0) {
 				RenderSystem.setShaderColor(1, 1, 1, magicComponent.getMagicTimer() / 10f);
 				context.blit(BEWITCHMENT_GUI_ICONS_TEXTURE, 13, (context.guiHeight() - 74) / 2, 25, 0, 7, 74);
@@ -51,18 +51,18 @@ public abstract class InGameHudMixin {
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 			}
 		});
-		if (BewitchmentAPI.isVampire(client.player, true)) {
+		if (BewitchmentAPI.isVampire(minecraft.player, true)) {
 			hidden = true;
-			drawBlood(context, client.player, (int) (context.guiWidth() / 2F + 82), context.guiHeight() - 39, 10);
-			if (client.player.isShiftKeyDown() && client.player.canBeSeenByAnyone()) {
-				if (client.crosshairPickEntity instanceof LivingEntity living && living.getType().is(BWTags.HAS_BLOOD)) {
+			drawBlood(context, minecraft.player, (int) (context.guiWidth() / 2F + 82), context.guiHeight() - 39, 10);
+			if (minecraft.player.isShiftKeyDown() && minecraft.player.canBeSeenByAnyone()) {
+				if (minecraft.crosshairPickEntity instanceof LivingEntity living && living.getType().is(BWTags.HAS_BLOOD)) {
 					drawBlood(context, living, (int) (context.guiWidth() / 2F + 12), (int) (context.guiHeight() / 2F + 9), 5);
 				}
 			}
 		}
 	}
 
-	@ModifyArg(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V", ordinal = 3))
+	@ModifyArg(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/minecraft/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V", ordinal = 3))
 	private ResourceLocation bewitchment$vampireHideFood0(ResourceLocation value) {
 		if (hidden) {
 			return EMPTY_TEXTURE;
@@ -70,7 +70,7 @@ public abstract class InGameHudMixin {
 		return value;
 	}
 
-	@ModifyArg(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V", ordinal = 4))
+	@ModifyArg(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/minecraft/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V", ordinal = 4))
 	private ResourceLocation bewitchment$vampireHideFood1(ResourceLocation value) {
 		if (hidden) {
 			return EMPTY_TEXTURE;
@@ -78,7 +78,7 @@ public abstract class InGameHudMixin {
 		return value;
 	}
 
-	@ModifyArg(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V", ordinal = 5))
+	@ModifyArg(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/minecraft/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V", ordinal = 5))
 	private ResourceLocation bewitchment$vampireHideFood2(ResourceLocation value) {
 		if (hidden) {
 			return EMPTY_TEXTURE;
@@ -86,7 +86,7 @@ public abstract class InGameHudMixin {
 		return value;
 	}
 
-	@Inject(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;getProfiler()Lnet/minecraft/util/profiling/ProfilerFiller;", ordinal = 3, shift = At.Shift.BEFORE))
+	@Inject(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/minecraft/Minecraft;getProfiler()Lnet/minecraft/util/profiling/ProfilerFiller;", ordinal = 3, shift = At.Shift.BEFORE))
 	private void bewitchment$vampireShowHunger(GuiGraphics context, CallbackInfo ci) {
 		hidden = false;
 	}

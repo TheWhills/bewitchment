@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Player.class)
 public abstract class PlayerEntityMixin extends LivingEntity {
 	@Shadow
-	public abstract FoodData getHungerManager();
+	public abstract FoodData getFoodData();
 
 	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, Level world) {
 		super(entityType, world);
@@ -30,7 +30,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 	@Inject(method = "eat", at = @At("HEAD"))
 	private void eatFood(Level world, ItemStack stack, CallbackInfoReturnable<ItemStack> callbackInfo) {
 		if (!world.isClientSide && hasEffect(BWStatusEffects.NOURISHING.get())) {
-			getHungerManager().eat(getEffect(BWStatusEffects.NOURISHING.get()).getAmplifier() + 2, 0.5f);
+			getFoodData().eat(getEffect(BWStatusEffects.NOURISHING.get()).getAmplifier() + 2, 0.5f);
 		}
 	}
 }

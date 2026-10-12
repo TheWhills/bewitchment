@@ -18,15 +18,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class DamageEnchantmentMixin {
 	@Shadow
 	@Final
-	public int typeIndex;
+	public int type;
 
 	@Shadow
-	public abstract float getAttackDamage(int level, MobType group);
+	public abstract float getDamageBonus(int level, MobType group);
 
 	@Inject(method = "getDamageBonus", at = @At("HEAD"), cancellable = true)
-	private void getAttackDamage(int level, MobType group, CallbackInfoReturnable<Float> callbackInfo) {
-		if (typeIndex == 1 && group == BewitchmentAPI.DEMON) {
-			callbackInfo.setReturnValue(getAttackDamage(level, MobType.UNDEAD));
+	private void getDamageBonus(int level, MobType group, CallbackInfoReturnable<Float> callbackInfo) {
+		if (type == 1 && group == BewitchmentAPI.DEMON) {
+			callbackInfo.setReturnValue(getDamageBonus(level, MobType.UNDEAD));
 		}
 	}
 }

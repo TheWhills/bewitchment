@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ItemEntity.class)
 public abstract class ItemEntityMixin extends Entity {
 	@Shadow
-	public abstract ItemStack getStack();
+	public abstract ItemStack getItem();
 
 	public ItemEntityMixin(EntityType<?> type, Level world) {
 		super(type, world);
@@ -37,13 +37,13 @@ public abstract class ItemEntityMixin extends Entity {
 
 	@Inject(method = "tick", at = @At("TAIL"))
 	private void tick(CallbackInfo callbackInfo) {
-		if (getStack().getItem() == BWObjects.VOODOO_POPPET.get() && !BWConfig.disabledPoppets.contains("bewitchment:voodoo_poppet")) {
-			LivingEntity owner = BewitchmentAPI.getTaglockOwner(level(), getStack());
+		if (getItem().getItem() == BWObjects.VOODOO_POPPET.get() && !BWConfig.disabledPoppets.contains("bewitchment:voodoo_poppet")) {
+			LivingEntity owner = BewitchmentAPI.getTaglockOwner(level(), getItem());
 			if (owner != null) {
 				if (getDeltaMovement().length() > 1 / 8f) {
 					int damage = random.nextFloat() < 1 / 4f ? 1 : 0;
-					if (getStack().hurt(damage, random, null) && getStack().getDamageValue() >= getStack().getMaxDamage()) {
-						getStack().shrink(1);
+					if (getItem().hurt(damage, random, null) && getItem().getDamageValue() >= getItem().getMaxDamage()) {
+						getItem().shrink(1);
 					}
 					if (!BewitchmentAPI.hasVoodooProtection(owner, damage)) {
 						owner.push(getDeltaMovement().x / 2, getDeltaMovement().y / 2, getDeltaMovement().z / 2);
@@ -52,8 +52,8 @@ public abstract class ItemEntityMixin extends Entity {
 				}
 				if (isUnderWater()) {
 					int damage = tickCount % 20 == 0 ? 1 : 0;
-					if (getStack().hurt(damage, random, null) && getStack().getDamageValue() >= getStack().getMaxDamage()) {
-						getStack().shrink(1);
+					if (getItem().hurt(damage, random, null) && getItem().getDamageValue() >= getItem().getMaxDamage()) {
+						getItem().shrink(1);
 					}
 					if (!BewitchmentAPI.hasVoodooProtection(owner, damage)) {
 						BWComponents.ADDITIONAL_WATER_DATA_COMPONENT.get(owner).setSubmerged(true);
@@ -65,19 +65,19 @@ public abstract class ItemEntityMixin extends Entity {
 
 	@Inject(method = "hurt", at = @At("HEAD"), cancellable = true)
 	private void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (getStack().getItem() == BWObjects.VOODOO_POPPET.get() && !BWConfig.disabledPoppets.contains("bewitchment:voodoo_poppet")) {
+		if (getItem().getItem() == BWObjects.VOODOO_POPPET.get() && !BWConfig.disabledPoppets.contains("bewitchment:voodoo_poppet")) {
 			if (!level().isClientSide) {
-				LivingEntity owner = BewitchmentAPI.getTaglockOwner(level(), getStack());
+				LivingEntity owner = BewitchmentAPI.getTaglockOwner(level(), getItem());
 				if (owner != null) {
 					if (source.is(DamageTypeTags.IS_FIRE) || source.is(DamageTypes.LIGHTNING_BOLT)) {
 						remove(RemovalReason.DISCARDED);
-						if (!BewitchmentAPI.hasVoodooProtection(owner, getStack().getMaxDamage() / 4)) {
+						if (!BewitchmentAPI.hasVoodooProtection(owner, getItem().getMaxDamage() / 4)) {
 							owner.setRemainingFireTicks(Integer.MAX_VALUE);
 						}
 					}
 					if (source.is(DamageTypes.CACTUS) && owner.hurtTime == 0) {
-						if (getStack().hurt(1, random, null) && getStack().getDamageValue() >= getStack().getMaxDamage()) {
-							getStack().shrink(1);
+						if (getItem().hurt(1, random, null) && getItem().getDamageValue() >= getItem().getMaxDamage()) {
+							getItem().shrink(1);
 						}
 						if (!BewitchmentAPI.hasVoodooProtection(owner, 1)) {
 							owner.hurt(level().damageSources().cactus(), 1);
@@ -93,7 +93,7 @@ public abstract class ItemEntityMixin extends Entity {
 
 	@Inject(method = "setUnderwaterMovement", at = @At("HEAD"), cancellable = true)
 	private void bewitchment$stopPoppetsFromFloating(CallbackInfo ci) {
-		if (getStack().getItem() instanceof PoppetItem) {
+		if (getItem().getItem() instanceof PoppetItem) {
 			Vec3 velocity = getDeltaMovement();
 			setDeltaMovement(velocity.x * 0.99, velocity.y * 0.9, velocity.z * 0.99);
 			ci.cancel();

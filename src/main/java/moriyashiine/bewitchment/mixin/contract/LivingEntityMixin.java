@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
 	@Shadow
-	public abstract boolean addStatusEffect(MobEffectInstance effect);
+	public abstract boolean addEffect(MobEffectInstance effect);
 
 	public LivingEntityMixin(EntityType<?> type, Level world) {
 		super(type, world);
@@ -40,9 +40,9 @@ public abstract class LivingEntityMixin extends Entity {
 				amount *= (3 - 2 * (player.getHealth() / player.getMaxHealth()));
 			}
 			if (directSource instanceof Player player && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.PESTILENCE.get())) {
-				addStatusEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100));
-				addStatusEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100));
-				addStatusEffect(new MobEffectInstance(MobEffects.WITHER, 100));
+				addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100));
+				addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100));
+				addEffect(new MobEffectInstance(MobEffects.WITHER, 100));
 			}
 		}
 		return amount;

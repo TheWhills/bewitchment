@@ -36,7 +36,7 @@ import java.util.Set;
 @Mixin(InteractWithDoor.class)
 public abstract class OpenDoorsTaskMixin {
 	@Shadow
-	private static Optional<Set<GlobalPos>> storePos(MemoryAccessor<OptionalBox.Mu, Set<GlobalPos>> queryResult, Optional<Set<GlobalPos>> doors, ServerLevel world, BlockPos pos) {
+	private static Optional<Set<GlobalPos>> rememberDoorToClose(MemoryAccessor<OptionalBox.Mu, Set<GlobalPos>> queryResult, Optional<Set<GlobalPos>> doors, ServerLevel world, BlockPos pos) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -70,14 +70,14 @@ public abstract class OpenDoorsTaskMixin {
 				if (!doorBlock.isOpen(blockState) && !failed) {
 					doorBlock.setOpen(entity, world, blockState, blockPos, true);
 				}
-				optional = storePos(doorsToClose, optional, world, blockPos);
+				optional = rememberDoorToClose(doorsToClose, optional, world, blockPos);
 			}
 			blockPos = currentNode.asBlockPos();
 			blockState = world.getBlockState(blockPos);
 			if (blockState.is(BlockTags.WOODEN_DOORS, foundState -> foundState.getBlock() instanceof DoorBlock) && blockState.getBlock() instanceof DoorBlock doorBlock && !doorBlock.isOpen(blockState)) {
 				if (!failed) {
 					doorBlock.setOpen(entity, world, blockState, blockPos, true);
-					optional = storePos(doorsToClose, optional, world, blockPos);
+					optional = rememberDoorToClose(doorsToClose, optional, world, blockPos);
 				}
 			}
 			optional.ifPresent(doors -> InteractWithDoor.closeDoorsThatIHaveOpenedOrPassedThrough(world, entity, lastNode, currentNode, doors, context.tryGet(mobs)));

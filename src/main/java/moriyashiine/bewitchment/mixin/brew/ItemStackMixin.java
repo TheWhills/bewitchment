@@ -32,14 +32,14 @@ public abstract class ItemStackMixin {
 
 	@Shadow
 	@Nullable
-	public abstract CompoundTag getNbt();
+	public abstract CompoundTag getTag();
 
 	@Shadow
 	public abstract Item getItem();
 
 	@Inject(method = "getHoverName", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, ordinal = 0, target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"), cancellable = true)
 	private void getName(CallbackInfoReturnable<Component> callbackInfo) {
-		CompoundTag nbt = getNbt();
+		CompoundTag nbt = getTag();
 		if (nbt != null && nbt.getBoolean("BewitchmentBrew")) {
 			if (getItem() == Items.POTION) {
 				callbackInfo.setReturnValue(POTION);

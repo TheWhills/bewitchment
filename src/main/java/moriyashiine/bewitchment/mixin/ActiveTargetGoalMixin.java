@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(NearestAttackableTargetGoal.class)
 public abstract class ActiveTargetGoalMixin<T extends LivingEntity> extends TargetGoal {
 	@Shadow
-	protected LivingEntity targetEntity;
+	protected LivingEntity target;
 
 	public ActiveTargetGoalMixin(Mob mob, boolean checkVisibility) {
 		super(mob, checkVisibility);
@@ -29,10 +29,10 @@ public abstract class ActiveTargetGoalMixin<T extends LivingEntity> extends Targ
 
 	@Inject(method = "findTarget", at = @At("TAIL"))
 	private void findClosestTarget(CallbackInfo callbackInfo) {
-		if (targetEntity instanceof Player player && BWComponents.FULL_INVISIBILITY_COMPONENT.get(player).isFullInvisible()) {
-			targetEntity = null;
-		} else if (BWComponents.MINION_COMPONENT.get(mob).getMaster() == null && mob.isInvertedHealAndHarm() && targetEntity != null && BWUtil.getArmorPieces(targetEntity, stack -> stack.getItem() == BWObjects.HARBINGER.get()) > 0) {
-			targetEntity = null;
+		if (target instanceof Player player && BWComponents.FULL_INVISIBILITY_COMPONENT.get(player).isFullInvisible()) {
+			target = null;
+		} else if (BWComponents.MINION_COMPONENT.get(mob).getMaster() == null && mob.isInvertedHealAndHarm() && target != null && BWUtil.getArmorPieces(target, stack -> stack.getItem() == BWObjects.HARBINGER.get()) > 0) {
+			target = null;
 		}
 	}
 }

@@ -42,7 +42,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
 	@Shadow
-	public abstract boolean removeStatusEffect(MobEffect type);
+	public abstract boolean removeEffect(MobEffect type);
 
 	@Shadow
 	public abstract Iterable<ItemStack> getArmorSlots();
@@ -139,16 +139,16 @@ public abstract class LivingEntityMixin extends Entity {
 		if (!level().isClientSide) {
 			Entity attacker = source.getEntity();
 			if (attacker instanceof LeonardEntity) {
-				removeStatusEffect(BWStatusEffects.MAGIC_SPONGE.get());
+				removeEffect(BWStatusEffects.MAGIC_SPONGE.get());
 			}
 			if (attacker instanceof BaphometEntity) {
-				removeStatusEffect(MobEffects.FIRE_RESISTANCE);
+				removeEffect(MobEffects.FIRE_RESISTANCE);
 			}
 			if (attacker instanceof LilithEntity) {
-				removeStatusEffect(MobEffects.DAMAGE_BOOST);
+				removeEffect(MobEffects.DAMAGE_BOOST);
 			}
 			if (attacker instanceof HerneEntity) {
-				removeStatusEffect(MobEffects.DAMAGE_RESISTANCE);
+				removeEffect(MobEffects.DAMAGE_RESISTANCE);
 			}
 			if (attacker instanceof Pledgeable pledgeable) {
 				pledgeable.setTimeSinceLastAttack(0);

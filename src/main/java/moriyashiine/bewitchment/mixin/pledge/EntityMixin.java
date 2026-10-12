@@ -17,12 +17,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Entity.class)
 public abstract class EntityMixin {
 	@Shadow
-	private Level world;
+	private Level level;
 
 	@Inject(method = "setRemoved", at = @At("TAIL"))
 	private void bewitchment$pledge$markAsRemoved(Entity.RemovalReason reason, CallbackInfo ci) {
-		if (!world.isClientSide && reason.shouldDestroy() && this instanceof Pledgeable pledgeable) {
-			BWUniversalWorldState universalWorldState = BWUniversalWorldState.get(world);
+		if (!level.isClientSide && reason.shouldDestroy() && this instanceof Pledgeable pledgeable) {
+			BWUniversalWorldState universalWorldState = BWUniversalWorldState.get(level);
 			universalWorldState.pledgesToRemove.addAll(pledgeable.getPledgedPlayerUUIDs());
 			universalWorldState.setDirty();
 		}

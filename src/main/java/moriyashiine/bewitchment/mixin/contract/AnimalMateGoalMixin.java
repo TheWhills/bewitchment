@@ -24,14 +24,14 @@ public abstract class AnimalMateGoalMixin extends Goal {
 	protected Animal animal;
 
 	@Shadow
-	protected Animal mate;
+	protected Animal partner;
 
 	@Inject(method = "breed", at = @At("HEAD"))
 	private void breed(CallbackInfo callbackInfo) {
 		ServerPlayer player = animal.getLoveCause();
 		if (player != null && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.LUST.get())) {
-			animal.spawnChildFromBreeding(player.serverLevel(), mate);
-			animal.spawnChildFromBreeding(player.serverLevel(), mate);
+			animal.spawnChildFromBreeding(player.serverLevel(), partner);
+			animal.spawnChildFromBreeding(player.serverLevel(), partner);
 		}
 	}
 }
