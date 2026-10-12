@@ -1,4 +1,4 @@
-commit: eb8065d
-result: failure
-java errors: 301
-files with errors: 82
+commit: 50464be
+result: cancelled
+java errors: 0
+files with errors: 0
