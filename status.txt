@@ -1,4 +1,4 @@
-commit: 5ea1fb3
+commit: ea50e53
 result: failure
-java errors: 142
-files with errors: 52
+java errors: 1
+files with errors: 1
