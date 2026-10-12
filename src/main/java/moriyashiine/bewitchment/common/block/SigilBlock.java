@@ -66,7 +66,7 @@ public class SigilBlock extends HorizontalDirectionalBlock implements EntityBloc
 		if (world.getBlockEntity(pos) instanceof SigilHolder sigilHolder) {
 			for (Item sigil : BuiltInRegistries.ITEM) {
 				if (sigil instanceof SigilItem sigilItem) {
-					if (sigilHolder.getSigil() == sigilItem.sigil) {
+					if (sigilHolder.getSigil() == sigilItem.getSigil()) {
 						return new ItemStack(sigil);
 					}
 				}

@@ -62,8 +62,8 @@ public class DragonsBloodBroomEntity extends BroomEntity {
 		if (player.isShiftKeyDown()) {
 			if (!client && player.getUUID().equals(getOwner())) {
 				ItemStack stack = player.getItemInHand(hand);
-				if (stack.getItem() instanceof SigilItem sigilItem && sigilItem.sigil.active) {
-					sigil = sigilItem.sigil;
+				if (stack.getItem() instanceof SigilItem sigilItem && sigilItem.getSigil().active) {
+					sigil = sigilItem.getSigil();
 					uses = sigil.uses * (BewitchmentAPI.getFamiliar(player) == BWEntityTypes.SNAKE.get() ? 2 : 1);
 					modeOnWhitelist = true;
 					stack.shrink(1);

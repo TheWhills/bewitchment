@@ -16,21 +16,27 @@ import java.util.Map;
 
 @SuppressWarnings("ConstantConditions")
 public class CorruptionStatusEffect extends MobEffect {
-	public static final Map<MobEffect, MobEffect> INVERSE_EFFECTS = new HashMap<>();
+	/** Built on first use: several entries are Bewitchment effects that do not exist while effects are still registering. */
+	private static Map<MobEffect, MobEffect> inverseEffects;
 
-	static {
-		INVERSE_EFFECTS.put(MobEffects.DAMAGE_BOOST, MobEffects.WEAKNESS);
-		INVERSE_EFFECTS.put(MobEffects.REGENERATION, MobEffects.POISON);
-		INVERSE_EFFECTS.put(MobEffects.NIGHT_VISION, MobEffects.BLINDNESS);
-		INVERSE_EFFECTS.put(MobEffects.DIG_SPEED, MobEffects.DIG_SLOWDOWN);
-		INVERSE_EFFECTS.put(MobEffects.MOVEMENT_SPEED, MobEffects.MOVEMENT_SLOWDOWN);
-		INVERSE_EFFECTS.put(MobEffects.JUMP, BWStatusEffects.SINKING.get());
-		INVERSE_EFFECTS.put(MobEffects.FIRE_RESISTANCE, BWStatusEffects.IGNITION.get());
-		INVERSE_EFFECTS.put(MobEffects.WATER_BREATHING, BWStatusEffects.GILLS.get());
-		INVERSE_EFFECTS.put(MobEffects.SLOW_FALLING, MobEffects.LEVITATION);
-		INVERSE_EFFECTS.put(BWStatusEffects.HARDENING.get(), BWStatusEffects.CORROSION.get());
-		INVERSE_EFFECTS.put(BWStatusEffects.ENCHANTED.get(), BWStatusEffects.INHIBITED.get());
-		INVERSE_EFFECTS.put(BWStatusEffects.NOURISHING.get(), MobEffects.HUNGER);
+	public static Map<MobEffect, MobEffect> getInverseEffects() {
+		if (inverseEffects == null) {
+			Map<MobEffect, MobEffect> map = new HashMap<>();
+			map.put(MobEffects.DAMAGE_BOOST, MobEffects.WEAKNESS);
+			map.put(MobEffects.REGENERATION, MobEffects.POISON);
+			map.put(MobEffects.NIGHT_VISION, MobEffects.BLINDNESS);
+			map.put(MobEffects.DIG_SPEED, MobEffects.DIG_SLOWDOWN);
+			map.put(MobEffects.MOVEMENT_SPEED, MobEffects.MOVEMENT_SLOWDOWN);
+			map.put(MobEffects.JUMP, BWStatusEffects.SINKING.get());
+			map.put(MobEffects.FIRE_RESISTANCE, BWStatusEffects.IGNITION.get());
+			map.put(MobEffects.WATER_BREATHING, BWStatusEffects.GILLS.get());
+			map.put(MobEffects.SLOW_FALLING, MobEffects.LEVITATION);
+			map.put(BWStatusEffects.HARDENING.get(), BWStatusEffects.CORROSION.get());
+			map.put(BWStatusEffects.ENCHANTED.get(), BWStatusEffects.INHIBITED.get());
+			map.put(BWStatusEffects.NOURISHING.get(), MobEffects.HUNGER);
+			inverseEffects = map;
+		}
+		return inverseEffects;
 	}
 
 	public CorruptionStatusEffect(MobEffectCategory category, int color) {
@@ -52,7 +58,7 @@ public class CorruptionStatusEffect extends MobEffect {
 		if (!entity.level().isClientSide) {
 			BuiltInRegistries.MOB_EFFECT.stream().forEach(effect -> {
 				if (effect.getCategory() == MobEffectCategory.BENEFICIAL && entity.hasEffect(effect) && !entity.getEffect(effect).isAmbient()) {
-					MobEffect inverse = INVERSE_EFFECTS.get(effect);
+					MobEffect inverse = getInverseEffects().get(effect);
 					MobEffectInstance inverseEffect = null;
 					if (inverse != null) {
 						MobEffectInstance goodEffect = entity.getEffect(effect);

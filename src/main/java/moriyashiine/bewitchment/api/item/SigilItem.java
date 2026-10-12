@@ -32,12 +32,14 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 @SuppressWarnings("ConstantConditions")
 public class SigilItem extends Item {
-	public final Sigil sigil;
+	private final Supplier<? extends Sigil> sigil;
 
-	public SigilItem(Properties settings, Sigil sigil) {
+	/** The sigil is a supplier because items register before Bewitchment's sigil registry. */
+	public SigilItem(Properties settings, Supplier<? extends Sigil> sigil) {
 		super(settings);
 		this.sigil = sigil;
 	}
@@ -50,7 +52,7 @@ public class SigilItem extends Item {
 		Player player = context.getPlayer();
 		boolean client = world.isClientSide;
 		BlockState state = world.getBlockState(pos);
-		if (!sigil.active) {
+		if (!getSigil().active) {
 			BlockPlaceContext placementContext = new BlockPlaceContext(context);
 			if (!state.canBeReplaced(placementContext)) {
 				pos = pos.relative(context.getClickedFace());
@@ -65,8 +67,8 @@ public class SigilItem extends Item {
 					world.setBlockAndUpdate(pos, sigilState);
 					BlockEntity blockEntity = world.getBlockEntity(pos);
 					SigilHolder sigilHolder = (SigilHolder) blockEntity;
-					sigilHolder.setSigil(sigil);
-					sigilHolder.setUses(sigil.uses * (BewitchmentAPI.getFamiliar(player) == BWEntityTypes.SNAKE.get() ? 2 : 1));
+					sigilHolder.setSigil(getSigil());
+					sigilHolder.setUses(getSigil().uses * (BewitchmentAPI.getFamiliar(player) == BWEntityTypes.SNAKE.get() ? 2 : 1));
 					sigilHolder.setOwner(player.getUUID());
 					sigilHolder.syncSigilHolder(blockEntity);
 					blockEntity.setChanged();
@@ -86,8 +88,8 @@ public class SigilItem extends Item {
 					blockEntity = world.getBlockEntity(pos.below());
 				}
 				if (!client) {
-					sigilHolder.setSigil(sigil);
-					sigilHolder.setUses(sigil.uses * (BewitchmentAPI.getFamiliar(player) == BWEntityTypes.SNAKE.get() ? 2 : 1));
+					sigilHolder.setSigil(getSigil());
+					sigilHolder.setUses(getSigil().uses * (BewitchmentAPI.getFamiliar(player) == BWEntityTypes.SNAKE.get() ? 2 : 1));
 					sigilHolder.setOwner(player.getUUID());
 					sigilHolder.syncSigilHolder(blockEntity);
 					blockEntity.setChanged();
@@ -108,6 +110,10 @@ public class SigilItem extends Item {
 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
-		tooltip.add(Component.translatable("sigil." + BWRegistries.SIGIL.getKey(sigil).toString().replace(":", ".")).withStyle(ChatFormatting.GRAY));
+		tooltip.add(Component.translatable("sigil." + BWRegistries.SIGIL.getKey(getSigil()).toString().replace(":", ".")).withStyle(ChatFormatting.GRAY));
+	}
+
+	public Sigil getSigil() {
+		return sigil.get();
 	}
 }
