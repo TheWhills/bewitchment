@@ -4,7 +4,6 @@
 
 package moriyashiine.bewitchment.common.item;
 
-import dev.emi.trinkets.api.TrinketItem;
 import moriyashiine.bewitchment.common.Bewitchment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -17,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
-public class PricklyBeltItem extends TrinketItem {
+public class PricklyBeltItem extends AccessoryItem {
 	public PricklyBeltItem(Properties settings) {
 		super(settings);
 	}

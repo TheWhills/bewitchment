@@ -26,7 +26,6 @@ import moriyashiine.bewitchment.common.world.generator.tree.generator.ElderSapli
 import moriyashiine.bewitchment.common.world.generator.tree.generator.JuniperSaplingGenerator;
 import moriyashiine.bewitchment.mixin.BlocksAccessor;
 
-import dev.emi.trinkets.api.TrinketItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -316,7 +315,7 @@ public class BWObjects {
 	public static final RegistryObject<Item> BESMIRCHED_PANTS = create("besmirched_pants", () -> new WitchArmorItem(BWMaterials.BESMIRCHED_ARMOR, ArmorItem.Type.LEGGINGS, gen(), Bewitchment.id("textures/entity/armor/besmirched.png"), false));
 	public static final RegistryObject<Item> HARBINGER = create("harbinger", () -> new WitchArmorItem(BWMaterials.HARBINGER_ARMOR, ArmorItem.Type.BOOTS, gen().rarity(Rarity.RARE).durability(444).fireResistant(), Bewitchment.id("textures/entity/armor/harbinger.png"), false));
 	//trinket
-	public static final RegistryObject<Item> NAZAR = create("nazar", () -> new TrinketItem(gen().stacksTo(1)));
+	public static final RegistryObject<Item> NAZAR = create("nazar", () -> new AccessoryItem(gen().stacksTo(1)));
 	public static final RegistryObject<Item> SPECTER_BANGLE = create("specter_bangle", () -> new SpecterBangleItem(gen().stacksTo(1)));
 	public static final RegistryObject<Item> PRICKLY_BELT = create("prickly_belt", () -> new PricklyBeltItem(gen().stacksTo(1)));
 	public static final RegistryObject<Item> HELLISH_BAUBLE = create("hellish_bauble", () -> new HellishBaubleItem(gen().stacksTo(1).fireResistant()));

@@ -4,7 +4,7 @@
 
 package moriyashiine.bewitchment.common.block.entity;
 
-import dev.emi.trinkets.api.TrinketsApi;
+import moriyashiine.bewitchment.common.misc.BWCurios;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.api.block.entity.UsesAltarPower;
 import moriyashiine.bewitchment.api.misc.PoppetData;
@@ -154,7 +154,7 @@ public class BrazierBlockEntity extends BlockEntity implements Container, UsesAl
 										if (BewitchmentAPI.getFamiliar(closestPlayer) == BWEntityTypes.RAVEN.get()) {
 											duration *= 2;
 										}
-										if (target instanceof Player player && TrinketsApi.getTrinketComponent((LivingEntity) target).get().isEquipped(BWObjects.NAZAR.get()) && BewitchmentAPI.drainMagic(player, 50, false)) {
+										if (target instanceof Player player && BWCurios.isEquipped(player, BWObjects.NAZAR.get()) && BewitchmentAPI.drainMagic(player, 50, false)) {
 											duration /= 2;
 										}
 										BWComponents.CURSES_COMPONENT.get(livingEntity).addCurse(new Curse.Instance(blockEntity.curseRecipe.curse, duration));

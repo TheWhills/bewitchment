@@ -30,7 +30,6 @@ import moriyashiine.bewitchment.common.item.TaglockItem;
 import moriyashiine.bewitchment.common.registry.*;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.Minecraft;
@@ -43,6 +42,7 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
@@ -118,13 +118,13 @@ public class BewitchmentClient {
 			Sheets.addWoodType(BWObjects.CYPRESS_WOOD_TYPE);
 			Sheets.addWoodType(BWObjects.ELDER_WOOD_TYPE);
 			Sheets.addWoodType(BWObjects.DRAGONS_BLOOD_WOOD_TYPE);
-			// TODO(forge-port): Curios renderers replace these in the Trinkets -> Curios step.
-			TrinketRendererRegistry.registerRenderer(BWObjects.NAZAR.get(), new NazarRenderer());
-			TrinketRendererRegistry.registerRenderer(BWObjects.SPECTER_BANGLE.get(), new SpecterBangleRenderer());
-			TrinketRendererRegistry.registerRenderer(BWObjects.PRICKLY_BELT.get(), new PricklyBeltRenderer());
-			TrinketRendererRegistry.registerRenderer(BWObjects.HELLISH_BAUBLE.get(), new HellishBaubleRenderer());
-			TrinketRendererRegistry.registerRenderer(BWObjects.DRUID_BAND.get(), new DruidBandRenderer());
-			TrinketRendererRegistry.registerRenderer(BWObjects.ZEPHYR_HARNESS.get(), new ZephyrHarnessRenderer());
+			// Accessory renderers for Curios slots (were Trinkets renderers).
+			CuriosRendererRegistry.register(BWObjects.NAZAR.get(), NazarRenderer::new);
+			CuriosRendererRegistry.register(BWObjects.SPECTER_BANGLE.get(), SpecterBangleRenderer::new);
+			CuriosRendererRegistry.register(BWObjects.PRICKLY_BELT.get(), PricklyBeltRenderer::new);
+			CuriosRendererRegistry.register(BWObjects.HELLISH_BAUBLE.get(), HellishBaubleRenderer::new);
+			CuriosRendererRegistry.register(BWObjects.DRUID_BAND.get(), DruidBandRenderer::new);
+			CuriosRendererRegistry.register(BWObjects.ZEPHYR_HARNESS.get(), ZephyrHarnessRenderer::new);
 		});
 	}
 

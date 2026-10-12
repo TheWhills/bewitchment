@@ -2,24 +2,28 @@ package moriyashiine.bewitchment.client.render.trinket;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import dev.emi.trinkets.api.SlotReference;
-import dev.emi.trinkets.api.client.TrinketRenderer;
 import net.minecraft.client.Minecraft;
+import top.theillusivec4.curios.api.client.ICurioRenderer;
+import top.theillusivec4.curios.api.SlotContext;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-public class NazarRenderer implements TrinketRenderer {
+public class NazarRenderer implements ICurioRenderer {
 	@Override
-	public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+	public <T extends LivingEntity, M extends EntityModel<T>> void render(ItemStack stack, SlotContext slotContext, PoseStack matrices, RenderLayerParent<T, M> renderLayerParent, MultiBufferSource vertexConsumers, int light, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+		LivingEntity entity = slotContext.entity();
+		if (!(renderLayerParent.getModel() instanceof HumanoidModel<?> contextModel)) {
+			return;
+		}
 		ItemStack copy = stack.copy();
 		copy.getOrCreateTag().putBoolean("Worn", true);
-		TrinketRenderer.translateToChest(matrices, (PlayerModel<AbstractClientPlayer>) contextModel, (AbstractClientPlayer) entity);
+		AccessoryTransforms.translateToChest(matrices, contextModel, entity);
 		matrices.translate(0, -1 / 4.25f, 1 / 48f);
 		matrices.scale(1 / 3f, 1 / 3f, 1 / 3f);
 		matrices.mulPose(Axis.XP.rotationDegrees(180));

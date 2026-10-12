@@ -4,13 +4,11 @@
 
 package moriyashiine.bewitchment.mixin.trinket;
 
-import dev.emi.trinkets.api.SlotReference;
-import dev.emi.trinkets.api.TrinketsApi;
+import moriyashiine.bewitchment.common.misc.BWCurios;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWObjects;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -34,10 +32,10 @@ import java.util.List;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
 	@Shadow
-	public abstract boolean hasStatusEffect(MobEffect effect);
+	public abstract boolean hasEffect(MobEffect effect);
 
 	@Shadow
-	public abstract boolean addStatusEffect(MobEffectInstance effect);
+	public abstract boolean addEffect(MobEffectInstance effect);
 
 	@Shadow
 	public int hurtTime;
@@ -51,9 +49,8 @@ public abstract class LivingEntityMixin extends Entity {
 		if (!level().isClientSide) {
 			if (amount > 0 && hurtTime == 0) {
 				if ((Object) this instanceof Player player && source.getDirectEntity() instanceof LivingEntity livingSource) {
-					List<Tuple<SlotReference, ItemStack>> component = TrinketsApi.getTrinketComponent(player).get().getEquipped(BWObjects.PRICKLY_BELT.get());
-					if (!component.isEmpty()) {
-						ItemStack belt = component.get(0).getB();
+					ItemStack belt = BWCurios.findFirst(player, BWObjects.PRICKLY_BELT.get());
+					if (!belt.isEmpty()) {
 						if (belt.hasTag() && belt.getTag().getInt("PotionUses") > 0) {
 							boolean used = false;
 							List<MobEffectInstance> effects = PotionUtils.getMobEffects(belt);
@@ -62,7 +59,7 @@ public abstract class LivingEntityMixin extends Entity {
 									if (!livingSource.hasEffect(effect.getEffect()) && BewitchmentAPI.drainMagic(player, 2, true) && livingSource.addEffect(effect)) {
 										used = true;
 									}
-								} else if (!hasStatusEffect(effect.getEffect()) && BewitchmentAPI.drainMagic(player, 2, true) && addStatusEffect(effect)) {
+								} else if (!hasEffect(effect.getEffect()) && BewitchmentAPI.drainMagic(player, 2, true) && addEffect(effect)) {
 									if (belt.getTag().contains("PolymorphUUID")) {
 										BWComponents.POLYMORPH_COMPONENT.maybeGet(this).ifPresent(polymorphComponent -> {
 											polymorphComponent.setUuid(belt.getTag().getUUID("PolymorphUUID"));
@@ -91,7 +88,7 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "hurt", at = @At("RETURN"))
 	private void damageReturn(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (callbackInfo.getReturnValueZ() && !level().isClientSide && source.getDirectEntity() instanceof Player player && player.getMainHandItem().isEmpty() && TrinketsApi.getTrinketComponent(player).get().isEquipped(BWObjects.ZEPHYR_HARNESS.get()) && BewitchmentAPI.drainMagic(player, 1, false)) {
+		if (callbackInfo.getReturnValueZ() && !level().isClientSide && source.getDirectEntity() instanceof Player player && player.getMainHandItem().isEmpty() && BWCurios.isEquipped(player, BWObjects.ZEPHYR_HARNESS.get()) && BewitchmentAPI.drainMagic(player, 1, false)) {
 			push(0, 2 / 3f, 0);
 		}
 	}
