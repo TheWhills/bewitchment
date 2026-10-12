@@ -37,36 +37,18 @@ Executing steps
  > Running 'listLibraries'
  > Running 'rename'
 Stopping at requested step: /home/runner/.gradle/caches/forge_gradle/mcp_repo/de/oceanlabs/mcp/mcp_config/1.20.1-20230612.114412/joined/rename/output.jar
-[16:51:06] [main/INFO]: Writing debug log file accesstransform.log
-[16:51:06] [main/INFO]: Access Transformer processor running version 8.2.14
-[16:51:06] [main/INFO]: Command line arguments [--inJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar, --outJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, --logFile, accesstransform.log, --atFile, /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg]
-[16:51:06] [main/INFO]: Reading from /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar
-[16:51:06] [main/INFO]: Writing to /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
-[16:51:06] [main/INFO]: Transformer file /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg
-[16:51:06] [main/WARN]: Found existing output jar /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, overwriting
-[16:51:10] [main/INFO]: JAR transformation complete /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
+[16:58:11] [main/INFO]: Writing debug log file accesstransform.log
+[16:58:11] [main/INFO]: Access Transformer processor running version 8.2.14
+[16:58:11] [main/INFO]: Command line arguments [--inJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar, --outJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, --logFile, accesstransform.log, --atFile, /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg]
+[16:58:11] [main/INFO]: Reading from /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar
+[16:58:11] [main/INFO]: Writing to /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
+[16:58:11] [main/INFO]: Transformer file /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg
+[16:58:11] [main/WARN]: Found existing output jar /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, overwriting
+[16:58:14] [main/INFO]: JAR transformation complete /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
 Creating SRG -> MCP TSRG
 Note: SpongePowered MIXIN Annotation Processor Version=0.8.5 (MixinGradle Version=0.7.38)
 Note: Supported obfuscation types: ObfuscationServiceMCP supports [notch] ObfuscationServiceFG3 supports [searge]
 Note: Loading searge mappings from /home/runner/work/bewitchment/bewitchment/build/createMcpToSrg/output.tsrg
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/client/GameRendererMixin.java:31: warning: Unable to locate method mapping for @At(INVOKE.<target>) 'Lnet/minecraft/minecraft/renderer/LevelRenderer;renderLevel(Lcom/mojang/blaze3d/vertex/PoseStack;FJZLnet/minecraft/minecraft/Camera;Lnet/minecraft/minecraft/renderer/GameRenderer;Lnet/minecraft/minecraft/renderer/LightTexture;Lorg/joml/Matrix4f;)V'
-	@Inject(method = "renderLevel", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/minecraft/renderer/LevelRenderer;renderLevel(Lcom/mojang/blaze3d/vertex/PoseStack;FJZLnet/minecraft/minecraft/Camera;Lnet/minecraft/minecraft/renderer/GameRenderer;Lnet/minecraft/minecraft/renderer/LightTexture;Lorg/joml/Matrix4f;)V"))
-	^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/client/InGameHudMixin.java:43: warning: Unable to locate method mapping for @At(INVOKE.<target>) 'Lnet/minecraft/minecraft/Minecraft;getProfiler()Lnet/minecraft/util/profiling/ProfilerFiller;'
-	@Inject(method = "renderPlayerHealth", at = @At(value = "INVOKE", shift = At.Shift.AFTER, ordinal = 2, target = "Lnet/minecraft/minecraft/Minecraft;getProfiler()Lnet/minecraft/util/profiling/ProfilerFiller;"))
-	^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/client/InGameHudMixin.java:89: warning: Unable to locate method mapping for @At(INVOKE.<target>) 'Lnet/minecraft/minecraft/Minecraft;getProfiler()Lnet/minecraft/util/profiling/ProfilerFiller;'
-	@Inject(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/minecraft/Minecraft;getProfiler()Lnet/minecraft/util/profiling/ProfilerFiller;", ordinal = 3, shift = At.Shift.BEFORE))
-	^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/client/InGameHudMixin.java:65: warning: Unable to locate method mapping for @At(INVOKE.<target>) 'Lnet/minecraft/minecraft/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V'
-	@ModifyArg(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/minecraft/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V", ordinal = 3))
-	^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/client/InGameHudMixin.java:73: warning: Unable to locate method mapping for @At(INVOKE.<target>) 'Lnet/minecraft/minecraft/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V'
-	@ModifyArg(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/minecraft/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V", ordinal = 4))
-	^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/client/InGameHudMixin.java:81: warning: Unable to locate method mapping for @At(INVOKE.<target>) 'Lnet/minecraft/minecraft/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V'
-	@ModifyArg(method = "renderPlayerHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/minecraft/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V", ordinal = 5))
-	^
 Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-refmap.json
 Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-refmap.json
 Note: Writing searge composite mappings to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-mappings.tsrg
@@ -75,7 +57,6 @@ Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/comp
 Note: Writing searge composite mappings to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-mappings.tsrg
 Note: Some input files use or override a deprecated API.
 Note: Recompile with -Xlint:deprecation for details.
-6 warnings
 
 > Task :addMixinsToJar
 > Task :processResources
@@ -94,7 +75,7 @@ Note: Recompile with -Xlint:deprecation for details.
 > Task :test NO-SOURCE
 > Task :check UP-TO-DATE
 > Task :build
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1791823513684.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1791823958024.json
 
 Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
 
@@ -102,5 +83,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/8.10/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD SUCCESSFUL in 6m 44s
+BUILD SUCCESSFUL in 6m 9s
 11 actionable tasks: 11 executed
