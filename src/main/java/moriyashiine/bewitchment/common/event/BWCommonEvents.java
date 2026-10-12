@@ -49,6 +49,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraft.world.effect.MobEffectUtil;
+import net.minecraftforge.event.entity.living.LivingBreatheEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
@@ -76,6 +78,7 @@ public final class BWCommonEvents {
 		forgeBus.addListener(BWCommonEvents::onEntityInteract);
 		forgeBus.addListener(BWCommonEvents::onSleepingTimeCheck);
 		forgeBus.addListener(BWCommonEvents::onSleepInBed);
+		forgeBus.addListener(BWCommonEvents::onLivingBreathe);
 		forgeBus.addListener(BWCommonEvents::onNameFormat);
 		forgeBus.addListener(BWCommonEvents::onTabListNameFormat);
 	}
@@ -229,6 +232,23 @@ public final class BWCommonEvents {
 				event.setResult(Player.BedSleepingProblem.OTHER_PROBLEM);
 				return;
 			}
+		}
+	}
+
+	/**
+	 * A voodoo poppet held under water drowns its target as if their head were under water.
+	 * (Fabric: a redirect in LivingEntity.baseTick; Forge moved drowning into ForgeHooks.onLivingBreathe.)
+	 */
+	private static void onLivingBreathe(LivingBreatheEvent event) {
+		LivingEntity entity = event.getEntity();
+		if (!BWComponents.ADDITIONAL_WATER_DATA_COMPONENT.get(entity).isSubmerged()) {
+			return;
+		}
+		@SuppressWarnings("deprecation")
+		boolean canBreatheWater = entity.canBreatheUnderwater() || MobEffectUtil.hasWaterBreathing(entity) || (entity instanceof Player player && player.getAbilities().invulnerable);
+		if (!canBreatheWater) {
+			event.setCanBreathe(false);
+			event.setCanRefillAir(false);
 		}
 	}
 
