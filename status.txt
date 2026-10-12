@@ -1,4 +1,4 @@
-commit: e469220
+commit: a3a1618
 result: failure
-java errors: 130
-files with errors: 39
+java errors: 4
+files with errors: 1
