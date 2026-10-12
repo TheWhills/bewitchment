@@ -37,14 +37,14 @@ Executing steps
  > Running 'listLibraries'
  > Running 'rename'
 Stopping at requested step: /home/runner/.gradle/caches/forge_gradle/mcp_repo/de/oceanlabs/mcp/mcp_config/1.20.1-20230612.114412/joined/rename/output.jar
-[16:18:27] [main/INFO]: Writing debug log file accesstransform.log
-[16:18:27] [main/INFO]: Access Transformer processor running version 8.2.14
-[16:18:27] [main/INFO]: Command line arguments [--inJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar, --outJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, --logFile, accesstransform.log, --atFile, /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg]
-[16:18:27] [main/INFO]: Reading from /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar
-[16:18:27] [main/INFO]: Writing to /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
-[16:18:27] [main/INFO]: Transformer file /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg
-[16:18:27] [main/WARN]: Found existing output jar /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, overwriting
-[16:18:30] [main/INFO]: JAR transformation complete /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
+[16:28:06] [main/INFO]: Writing debug log file accesstransform.log
+[16:28:06] [main/INFO]: Access Transformer processor running version 8.2.14
+[16:28:06] [main/INFO]: Command line arguments [--inJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar, --outJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, --logFile, accesstransform.log, --atFile, /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg]
+[16:28:06] [main/INFO]: Reading from /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar
+[16:28:06] [main/INFO]: Writing to /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
+[16:28:06] [main/INFO]: Transformer file /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg
+[16:28:06] [main/WARN]: Found existing output jar /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, overwriting
+[16:28:09] [main/INFO]: JAR transformation complete /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
 Creating SRG -> MCP TSRG
 Note: SpongePowered MIXIN Annotation Processor Version=0.8.5 (MixinGradle Version=0.7.38)
 Note: Supported obfuscation types: ObfuscationServiceMCP supports [notch] ObfuscationServiceFG3 supports [searge]
@@ -220,81 +220,476 @@ Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/comp
 	^
 Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-refmap.json
 Note: Writing searge composite mappings to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-mappings.tsrg
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:7: error: package com.jamieswhiteshirt.reachentityattributes does not exist
-import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
-                                                 ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:12: error: package dev.emi.stepheightentityattribute does not exist
-import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
-                                        ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/HornedSpearItem.java:9: error: package com.jamieswhiteshirt.reachentityattributes does not exist
-import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
-                                                 ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/AthameItem.java:9: error: package com.jamieswhiteshirt.reachentityattributes does not exist
-import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
-                                                 ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:7: error: package com.jamieswhiteshirt.reachentityattributes does not exist
-import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
-                                                 ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:8: error: package dev.emi.stepheightentityattribute does not exist
-import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
-                                        ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TransformationAbilityPacket.java:7: error: package io.github.ladysnake.pal does not exist
-import io.github.ladysnake.pal.AbilitySource;
-                              ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TransformationAbilityPacket.java:8: error: package io.github.ladysnake.pal does not exist
-import io.github.ladysnake.pal.Pal;
-                              ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TransformationAbilityPacket.java:9: error: package io.github.ladysnake.pal does not exist
-import io.github.ladysnake.pal.VanillaAbilities;
-                              ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/TransformationAbilityPacket.java:28: error: cannot find symbol
-	public static final AbilitySource VAMPIRE_FLIGHT_SOURCE = Pal.getAbilitySource(Bewitchment.id("vampire_flight"));
-	                    ^
-  symbol:   class AbilitySource
-  location: class TransformationAbilityPacket
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:13: error: package net.fabricmc.fabric.api.biome.v1 does not exist
-import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
-                                       ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:14: error: package net.fabricmc.fabric.api.biome.v1 does not exist
-import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
-                                       ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:15: error: package net.fabricmc.fabric.api.biome.v1 does not exist
-import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-                                       ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:16: error: package net.fabricmc.fabric.api.loot.v2 does not exist
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
-                                      ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:17: error: package net.fabricmc.fabric.api.tag.convention.v1 does not exist
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
-                                                ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:98: error: cannot find symbol
-	private static boolean registerEntitySpawn(EntityType<?> type, Predicate<BiomeSelectionContext> predicate, int weight, int minGroupSize, int maxGroupSize) {
-	                                                                         ^
-  symbol:   class BiomeSelectionContext
-  location: class BWWorldGenerators
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/PolymorphComponent.java:8: error: package io.github.ladysnake.impersonate does not exist
-import io.github.ladysnake.impersonate.Impersonator;
-                                      ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:7: error: package com.terraformersmc.terraform.boat.api does not exist
-import com.terraformersmc.terraform.boat.api.TerraformBoatType;
-                                            ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:8: error: package com.terraformersmc.terraform.boat.api does not exist
-import com.terraformersmc.terraform.boat.api.TerraformBoatTypeRegistry;
-                                            ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:9: error: package com.terraformersmc.terraform.boat.api.item does not exist
-import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
-                                                 ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/statuseffect/PolymorphStatusEffect.java:8: error: package io.github.ladysnake.impersonate does not exist
-import io.github.ladysnake.impersonate.Impersonator;
-                                      ^
 Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-refmap.json
 Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-refmap.json
 Note: Writing searge composite mappings to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-mappings.tsrg
-21 errors
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/transformation/VillagerEntityMixin.java:21: error: incompatible types: VillagerEntityMixin cannot be converted to Entity
+		BWComponents.WEREWOLF_VILLAGER_COMPONENT.get(this).setDespawnTimer(-1);
+		                                             ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/ritual/EntityMixin.java:18: error: incompatible types: EntityMixin cannot be converted to Entity
+		if (!callbackInfo.getReturnValueZ() && BWComponents.ADDITIONAL_WATER_DATA_COMPONENT.get(this).getWetTimer() > 0) {
+		                                                                                        ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/ritual/EntityMixin.java:25: error: incompatible types: EntityMixin cannot be converted to Entity
+		if (!callbackInfo.getReturnValueZ() && BWComponents.ADDITIONAL_WATER_DATA_COMPONENT.get(this).getWetTimer() > 0) {
+		                                                                                        ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/client/model/BroomEntityModel.java:19: error: BroomEntityModel is not abstract and does not override abstract method setupAnim(BroomEntity,float,float,float,float,float) in EntityModel
+public class BroomEntityModel extends EntityModel<BroomEntity> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/client/model/BroomEntityModel.java:33: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/event/BWCommonEvents.java:119: error: expression type LivingEntity is a subtype of pattern type LivingEntity
+		if (entity instanceof LivingEntity livingEntity) {
+		           ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/util/BWTameableEntity.java:40: error: level() in BWTameableEntity cannot override level() in Entity
+	public EntityGetter level() {
+	                    ^
+  return type EntityGetter is not compatible with Level
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/util/BWTameableEntity.java:81: error: cannot find symbol
+		boolean client = level().isClientSide;
+		                        ^
+  symbol:   variable isClientSide
+  location: interface EntityGetter
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/util/BWTameableEntity.java:101: error: cannot find symbol
+							level().broadcastEntityEvent(this, (byte) 7);
+							       ^
+  symbol:   method broadcastEntityEvent(BWTameableEntity,byte)
+  location: interface EntityGetter
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/util/BWTameableEntity.java:103: error: cannot find symbol
+							level().broadcastEntityEvent(this, (byte) 6);
+							       ^
+  symbol:   method broadcastEntityEvent(BWTameableEntity,byte)
+  location: interface EntityGetter
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/DemonEntity.java:180: error: cannot find symbol
+		entityData.set(MALE, random.nextBoolean());
+		          ^
+  symbol:   method set(EntityDataAccessor<Boolean>,boolean)
+  location: variable entityData of type @org.jetbrains.annotations.Nullable SpawnGroupData
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/SnakeEntity.java:200: error: cannot find symbol
+			level().broadcastEntityEvent(this, (byte) 4);
+			       ^
+  symbol:   method broadcastEntityEvent(SnakeEntity,byte)
+  location: interface EntityGetter
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/SnakeEntity.java:203: error: cannot find symbol
+			level().broadcastEntityEvent(this, (byte) 5);
+			       ^
+  symbol:   method broadcastEntityEvent(SnakeEntity,byte)
+  location: interface EntityGetter
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:133: error: cannot find symbol
+		if (entityData.get(VARIANT) != 0) {
+		              ^
+  symbol:   method get(EntityDataAccessor<Integer>)
+  location: variable entityData of type @org.jetbrains.annotations.Nullable SpawnGroupData
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:136: error: cannot find symbol
+				entityData.set(VARIANT, random.nextBoolean() ? 1 : 2);
+				          ^
+  symbol:   method set(EntityDataAccessor<Integer>,int)
+  location: variable entityData of type @org.jetbrains.annotations.Nullable SpawnGroupData
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:138: error: cannot find symbol
+				entityData.set(VARIANT, random.nextBoolean() ? 3 : 4);
+				          ^
+  symbol:   method set(EntityDataAccessor<Integer>,int)
+  location: variable entityData of type @org.jetbrains.annotations.Nullable SpawnGroupData
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:141: error: cannot find symbol
+				entityData.set(VARIANT, random.nextBoolean() ? 5 : 6);
+				          ^
+  symbol:   method set(EntityDataAccessor<Integer>,int)
+  location: variable entityData of type @org.jetbrains.annotations.Nullable SpawnGroupData
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:143: error: cannot find symbol
+				entityData.set(VARIANT, random.nextInt(getVariants() - 1) + 1);
+				          ^
+  symbol:   method set(EntityDataAccessor<Integer>,int)
+  location: variable entityData of type @org.jetbrains.annotations.Nullable SpawnGroupData
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/ScepterCraftingRecipe.java:21: error: ScepterCraftingRecipe is not abstract and does not override abstract method assemble(CraftingContainer,RegistryAccess) in Recipe
+public class ScepterCraftingRecipe extends CustomRecipe {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/ScepterCraftingRecipe.java:47: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/CurseRecipe.java:75: error: Serializer is not abstract and does not override abstract method toNetwork(FriendlyByteBuf,CurseRecipe) in RecipeSerializer
+	public static class Serializer implements RecipeSerializer<CurseRecipe> {
+	              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/CurseRecipe.java:106: error: method does not override or implement a method from a supertype
+		@Override
+		^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/CauldronBrewingRecipe.java:72: error: Serializer is not abstract and does not override abstract method toNetwork(FriendlyByteBuf,CauldronBrewingRecipe) in RecipeSerializer
+	public static class Serializer implements RecipeSerializer<CauldronBrewingRecipe> {
+	              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/CauldronBrewingRecipe.java:83: error: method does not override or implement a method from a supertype
+		@Override
+		^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/AthameDropRecipe.java:71: error: Serializer is not abstract and does not override abstract method toNetwork(FriendlyByteBuf,AthameDropRecipe) in RecipeSerializer
+	public static class Serializer implements RecipeSerializer<AthameDropRecipe> {
+	              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/AthameDropRecipe.java:82: error: method does not override or implement a method from a supertype
+		@Override
+		^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/TaglockCraftingRecipe.java:19: error: TaglockCraftingRecipe is not abstract and does not override abstract method assemble(CraftingContainer,RegistryAccess) in Recipe
+public class TaglockCraftingRecipe extends CustomRecipe {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/TaglockCraftingRecipe.java:45: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/PricklyBeltCraftingRecipe.java:23: error: PricklyBeltCraftingRecipe is not abstract and does not override abstract method assemble(CraftingContainer,RegistryAccess) in Recipe
+public class PricklyBeltCraftingRecipe extends CustomRecipe {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/PricklyBeltCraftingRecipe.java:49: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/IncenseRecipe.java:74: error: Serializer is not abstract and does not override abstract method toNetwork(FriendlyByteBuf,IncenseRecipe) in RecipeSerializer
+	public static class Serializer implements RecipeSerializer<IncenseRecipe> {
+	              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/IncenseRecipe.java:93: error: method does not override or implement a method from a supertype
+		@Override
+		^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/RitualRecipe.java:108: error: Serializer is not abstract and does not override abstract method toNetwork(FriendlyByteBuf,RitualRecipe) in RecipeSerializer
+	public static class Serializer implements RecipeSerializer<RitualRecipe> {
+	              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/RitualRecipe.java:131: error: method does not override or implement a method from a supertype
+		@Override
+		^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/AthameStrippingRecipe.java:70: error: Serializer is not abstract and does not override abstract method toNetwork(FriendlyByteBuf,AthameStrippingRecipe) in RecipeSerializer
+	public static class Serializer implements RecipeSerializer<AthameStrippingRecipe> {
+	              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/AthameStrippingRecipe.java:81: error: method does not override or implement a method from a supertype
+		@Override
+		^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/OilRecipe.java:72: error: Serializer is not abstract and does not override abstract method toNetwork(FriendlyByteBuf,OilRecipe) in RecipeSerializer
+	public static class Serializer implements RecipeSerializer<OilRecipe> {
+	              ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/OilRecipe.java:91: error: method does not override or implement a method from a supertype
+		@Override
+		^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:524: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(STRIPPED_JUNIPER_LOG.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:525: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(STRIPPED_JUNIPER_WOOD.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:526: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(JUNIPER_LOG.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:527: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(JUNIPER_WOOD.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:528: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(JUNIPER_LEAVES.get(), 30, 60);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:529: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(JUNIPER_PLANKS.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:530: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(JUNIPER_STAIRS.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:531: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(JUNIPER_SLAB.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:532: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(JUNIPER_FENCE.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:533: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(JUNIPER_FENCE_GATE.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:534: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(STRIPPED_CYPRESS_LOG.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:535: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(STRIPPED_CYPRESS_WOOD.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:536: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(CYPRESS_LOG.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:537: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(CYPRESS_WOOD.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:538: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(CYPRESS_LEAVES.get(), 30, 60);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:539: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(CYPRESS_PLANKS.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:540: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(CYPRESS_STAIRS.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:541: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(CYPRESS_SLAB.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:542: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(CYPRESS_FENCE.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:543: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(CYPRESS_FENCE_GATE.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:544: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(STRIPPED_ELDER_LOG.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:545: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(STRIPPED_ELDER_WOOD.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:546: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(ELDER_LOG.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:547: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(ELDER_WOOD.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:548: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(ELDER_LEAVES.get(), 30, 60);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:549: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(ELDER_PLANKS.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:550: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(ELDER_STAIRS.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:551: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(ELDER_SLAB.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:552: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(ELDER_FENCE.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:553: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(ELDER_FENCE_GATE.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:554: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(STRIPPED_DRAGONS_BLOOD_LOG.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:555: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(STRIPPED_DRAGONS_BLOOD_WOOD.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:556: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(DRAGONS_BLOOD_LOG.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:557: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(DRAGONS_BLOOD_WOOD.get(), 5, 5);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:558: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(DRAGONS_BLOOD_LEAVES.get(), 30, 60);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:559: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(DRAGONS_BLOOD_PLANKS.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:560: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(DRAGONS_BLOOD_STAIRS.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:561: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(DRAGONS_BLOOD_SLAB.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:562: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(DRAGONS_BLOOD_FENCE.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:563: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(DRAGONS_BLOOD_FENCE_GATE.get(), 5, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:564: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(HEDGEWITCH_WOOL.get(), 30, 60);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:565: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(ALCHEMIST_WOOL.get(), 30, 60);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:566: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(BESMIRCHED_WOOL.get(), 30, 60);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:567: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(HEDGEWITCH_CARPET.get(), 60, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:568: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(ALCHEMIST_CARPET.get(), 60, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:569: error: setFlammable(Block,int,int) has private access in FireBlock
+		fire.setFlammable(BESMIRCHED_CARPET.get(), 60, 20);
+		    ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/PolymorphComponent.java:62: error: package BWComponents does not exist
+		BWComponents.POLYMORPH_COMPONENT.sync(player);
+		            ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/LeonardEntityModel.java:96: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/WerewolfEntityModel.java:107: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/RavenEntityModel.java:18: error: RavenEntityModel is not abstract and does not override abstract method setupAnim(T,float,float,float,float,float) in EntityModel
+public class RavenEntityModel<T extends RavenEntity> extends AgeableListModel<T> {
+       ^
+  where T is a type-variable:
+    T extends RavenEntity declared in class RavenEntityModel
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/RavenEntityModel.java:81: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/OwlEntityModel.java:18: error: OwlEntityModel is not abstract and does not override abstract method setupAnim(T,float,float,float,float,float) in EntityModel
+public class OwlEntityModel<T extends OwlEntity> extends AgeableListModel<T> {
+       ^
+  where T is a type-variable:
+    T extends OwlEntity declared in class OwlEntityModel
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/OwlEntityModel.java:84: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/HerneEntityModel.java:136: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/VampireEntityModel.java:68: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/BaphometEntityModel.java:128: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/LilithEntityModel.java:132: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/GhostEntityModel.java:55: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/SnakeEntityModel.java:19: error: SnakeEntityModel is not abstract and does not override abstract method setupAnim(T,float,float,float,float,float) in EntityModel
+public class SnakeEntityModel<T extends SnakeEntity> extends AgeableListModel<T> {
+       ^
+  where T is a type-variable:
+    T extends SnakeEntity declared in class SnakeEntityModel
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/SnakeEntityModel.java:73: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/DemonEntityModel.java:157: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/ToadEntityModel.java:17: error: ToadEntityModel is not abstract and does not override abstract method setupAnim(T,float,float,float,float,float) in EntityModel
+public class ToadEntityModel<T extends ToadEntity> extends AgeableListModel<T> {
+       ^
+  where T is a type-variable:
+    T extends ToadEntity declared in class ToadEntityModel
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/ToadEntityModel.java:68: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/HellhoundEntityModel.java:20: error: HellhoundEntityModel is not abstract and does not override abstract method setupAnim(T,float,float,float,float,float) in EntityModel
+public class HellhoundEntityModel<T extends HellhoundEntity> extends EntityModel<T> {
+       ^
+  where T is a type-variable:
+    T extends HellhoundEntity declared in class HellhoundEntityModel
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/model/entity/living/HellhoundEntityModel.java:76: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/CypressBroomEntityRenderer.java:13: error: CypressBroomEntityRenderer is not abstract and does not override abstract method getTextureLocation(BroomEntity) in EntityRenderer
+public class CypressBroomEntityRenderer extends BroomEntityRenderer<BroomEntity> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/CypressBroomEntityRenderer.java:20: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/WerewolfEntityRenderer.java:16: error: WerewolfEntityRenderer is not abstract and does not override abstract method getTextureLocation(WerewolfEntity) in EntityRenderer
+public class WerewolfEntityRenderer extends MobRenderer<WerewolfEntity, WerewolfEntityModel<WerewolfEntity>> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/WerewolfEntityRenderer.java:24: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/SnakeEntityRenderer.java:15: error: SnakeEntityRenderer is not abstract and does not override abstract method getTextureLocation(SnakeEntity) in EntityRenderer
+public class SnakeEntityRenderer extends MobRenderer<SnakeEntity, SnakeEntityModel<SnakeEntity>> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/SnakeEntityRenderer.java:22: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/HerneEntityRenderer.java:16: error: HerneEntityRenderer is not abstract and does not override abstract method getTextureLocation(HerneEntity) in EntityRenderer
+public class HerneEntityRenderer extends MobRenderer<HerneEntity, HerneEntityModel<HerneEntity>> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/HerneEntityRenderer.java:24: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/VampireEntityRenderer.java:15: error: VampireEntityRenderer is not abstract and does not override abstract method getTextureLocation(VampireEntity) in EntityRenderer
+public class VampireEntityRenderer extends MobRenderer<VampireEntity, VampireEntityModel<VampireEntity>> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/VampireEntityRenderer.java:22: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/DemonEntityRenderer.java:18: error: DemonEntityRenderer is not abstract and does not override abstract method getTextureLocation(DemonEntity) in EntityRenderer
+public class DemonEntityRenderer extends MobRenderer<DemonEntity, DemonEntityModel<DemonEntity>> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/DemonEntityRenderer.java:30: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/BaphometEntityRenderer.java:22: error: BaphometEntityRenderer is not abstract and does not override abstract method getTextureLocation(BaphometEntity) in EntityRenderer
+public class BaphometEntityRenderer extends MobRenderer<BaphometEntity, BaphometEntityModel<BaphometEntity>> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/BaphometEntityRenderer.java:44: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/HellhoundEntityRenderer.java:15: error: HellhoundEntityRenderer is not abstract and does not override abstract method getTextureLocation(HellhoundEntity) in EntityRenderer
+public class HellhoundEntityRenderer extends MobRenderer<HellhoundEntity, HellhoundEntityModel<HellhoundEntity>> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/HellhoundEntityRenderer.java:22: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/GhostEntityRenderer.java:23: error: GhostEntityRenderer is not abstract and does not override abstract method getTextureLocation(GhostEntity) in EntityRenderer
+public class GhostEntityRenderer extends MobRenderer<GhostEntity, GhostEntityModel<GhostEntity>> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/GhostEntityRenderer.java:46: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/GhostEntityRenderer.java:51: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/RavenEntityRenderer.java:15: error: RavenEntityRenderer is not abstract and does not override abstract method getTextureLocation(RavenEntity) in EntityRenderer
+public class RavenEntityRenderer extends MobRenderer<RavenEntity, RavenEntityModel<RavenEntity>> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/RavenEntityRenderer.java:22: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/LilithEntityRenderer.java:16: error: LilithEntityRenderer is not abstract and does not override abstract method getTextureLocation(LilithEntity) in EntityRenderer
+public class LilithEntityRenderer extends MobRenderer<LilithEntity, LilithEntityModel<LilithEntity>> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/LilithEntityRenderer.java:24: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/OwlEntityRenderer.java:15: error: OwlEntityRenderer is not abstract and does not override abstract method getTextureLocation(OwlEntity) in EntityRenderer
+public class OwlEntityRenderer extends MobRenderer<OwlEntity, OwlEntityModel<OwlEntity>> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/OwlEntityRenderer.java:22: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/ToadEntityRenderer.java:15: error: ToadEntityRenderer is not abstract and does not override abstract method getTextureLocation(ToadEntity) in EntityRenderer
+public class ToadEntityRenderer extends MobRenderer<ToadEntity, ToadEntityModel<ToadEntity>> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/ToadEntityRenderer.java:22: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/LeonardEntityRenderer.java:16: error: LeonardEntityRenderer is not abstract and does not override abstract method getTextureLocation(LeonardEntity) in EntityRenderer
+public class LeonardEntityRenderer extends MobRenderer<LeonardEntity, LeonardEntityModel<LeonardEntity>> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/living/LeonardEntityRenderer.java:24: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/ElderBroomEntityRenderer.java:13: error: ElderBroomEntityRenderer is not abstract and does not override abstract method getTextureLocation(BroomEntity) in EntityRenderer
+public class ElderBroomEntityRenderer extends BroomEntityRenderer<BroomEntity> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/ElderBroomEntityRenderer.java:20: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/DragonsBloodBroomEntityRenderer.java:13: error: DragonsBloodBroomEntityRenderer is not abstract and does not override abstract method getTextureLocation(BroomEntity) in EntityRenderer
+public class DragonsBloodBroomEntityRenderer extends BroomEntityRenderer<BroomEntity> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/DragonsBloodBroomEntityRenderer.java:20: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/JuniperBroomEntityRenderer.java:13: error: JuniperBroomEntityRenderer is not abstract and does not override abstract method getTextureLocation(BroomEntity) in EntityRenderer
+public class JuniperBroomEntityRenderer extends BroomEntityRenderer<BroomEntity> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/JuniperBroomEntityRenderer.java:20: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/SilverArrowEntityRenderer.java:13: error: SilverArrowEntityRenderer is not abstract and does not override abstract method getTextureLocation(SilverArrowEntity) in EntityRenderer
+public class SilverArrowEntityRenderer extends ArrowRenderer<SilverArrowEntity> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/SilverArrowEntityRenderer.java:20: error: method does not override or implement a method from a supertype
+	@Override
+	^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/HornedSpearEntityRenderer.java:22: error: HornedSpearEntityRenderer is not abstract and does not override abstract method getTextureLocation(HornedSpearEntity) in EntityRenderer
+public class HornedSpearEntityRenderer extends EntityRenderer<HornedSpearEntity> {
+       ^
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/entity/HornedSpearEntityRenderer.java:27: error: method does not override or implement a method from a supertype
+	@Override
+	^
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+142 errors
 56 warnings
 
 > Task :compileJava FAILED
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1791821568109.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1791822153855.json
 
 FAILURE: Build failed with an exception.
 
@@ -499,5 +894,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/8.10/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD FAILED in 6m 9s
+BUILD FAILED in 6m 8s
 4 actionable tasks: 4 executed
