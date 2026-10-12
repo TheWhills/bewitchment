@@ -37,14 +37,14 @@ Executing steps
  > Running 'listLibraries'
  > Running 'rename'
 Stopping at requested step: /home/runner/.gradle/caches/forge_gradle/mcp_repo/de/oceanlabs/mcp/mcp_config/1.20.1-20230612.114412/joined/rename/output.jar
-[16:01:35] [main/INFO]: Writing debug log file accesstransform.log
-[16:01:35] [main/INFO]: Access Transformer processor running version 8.2.14
-[16:01:35] [main/INFO]: Command line arguments [--inJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar, --outJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, --logFile, accesstransform.log, --atFile, /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg]
-[16:01:35] [main/INFO]: Reading from /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar
-[16:01:35] [main/INFO]: Writing to /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
-[16:01:35] [main/INFO]: Transformer file /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg
-[16:01:35] [main/WARN]: Found existing output jar /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, overwriting
-[16:01:39] [main/INFO]: JAR transformation complete /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
+[16:11:46] [main/INFO]: Writing debug log file accesstransform.log
+[16:11:46] [main/INFO]: Access Transformer processor running version 8.2.14
+[16:11:46] [main/INFO]: Command line arguments [--inJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar, --outJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, --logFile, accesstransform.log, --atFile, /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg]
+[16:11:46] [main/INFO]: Reading from /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar
+[16:11:46] [main/INFO]: Writing to /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
+[16:11:46] [main/INFO]: Transformer file /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg
+[16:11:46] [main/WARN]: Found existing output jar /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, overwriting
+[16:11:48] [main/INFO]: JAR transformation complete /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
 Creating SRG -> MCP TSRG
 Note: SpongePowered MIXIN Annotation Processor Version=0.8.5 (MixinGradle Version=0.7.38)
 Note: Supported obfuscation types: ObfuscationServiceMCP supports [notch] ObfuscationServiceFG3 supports [searge]
@@ -152,18 +152,6 @@ Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/comp
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/ActiveTargetGoalMixin.java:23: warning: Unable to locate obfuscation mapping for @Shadow field
 	@Shadow
 	^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/trinket/LivingEntityMixin.java:36: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.LivingEntity
-	@Shadow
-	^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/trinket/LivingEntityMixin.java:36: warning: Unable to locate obfuscation mapping for @Shadow method
-	@Shadow
-	^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/trinket/LivingEntityMixin.java:39: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.LivingEntity
-	@Shadow
-	^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/trinket/LivingEntityMixin.java:39: warning: Unable to locate obfuscation mapping for @Shadow method
-	@Shadow
-	^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/LivingEntityMixin.java:44: warning: Cannot find target for @Shadow method in net.minecraft.world.entity.LivingEntity
 	@Shadow
 	^
@@ -232,12 +220,6 @@ Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/comp
 	^
 Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-refmap.json
 Note: Writing searge composite mappings to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-mappings.tsrg
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/trinket/LivingEntityMixin.java:7: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.SlotReference;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/trinket/LivingEntityMixin.java:8: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.TrinketsApi;
-                           ^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:7: error: package com.jamieswhiteshirt.reachentityattributes does not exist
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
                                                  ^
@@ -247,101 +229,9 @@ import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/HornedSpearItem.java:9: error: package com.jamieswhiteshirt.reachentityattributes does not exist
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
                                                  ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/PricklyBeltItem.java:7: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.TrinketItem;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/PricklyBeltItem.java:20: error: cannot find symbol
-public class PricklyBeltItem extends TrinketItem {
-                                     ^
-  symbol: class TrinketItem
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/PricklyBeltItem.java:21: error: cannot find symbol
-	public PricklyBeltItem(Properties settings) {
-	                       ^
-  symbol:   class Properties
-  location: class PricklyBeltItem
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/AthameItem.java:9: error: package com.jamieswhiteshirt.reachentityattributes does not exist
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
                                                  ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/ZephyrHarnessItem.java:8: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.SlotReference;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/ZephyrHarnessItem.java:9: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.TrinketItem;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/ZephyrHarnessItem.java:17: error: cannot find symbol
-public class ZephyrHarnessItem extends TrinketItem {
-                                       ^
-  symbol: class TrinketItem
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/ZephyrHarnessItem.java:18: error: cannot find symbol
-	public ZephyrHarnessItem(Properties settings) {
-	                         ^
-  symbol:   class Properties
-  location: class ZephyrHarnessItem
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/ZephyrHarnessItem.java:23: error: cannot find symbol
-	public Multimap<Attribute, AttributeModifier> getModifiers(ItemStack stack, SlotReference slot, LivingEntity entity, UUID uuid) {
-	                                                                            ^
-  symbol:   class SlotReference
-  location: class ZephyrHarnessItem
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/HellishBaubleItem.java:7: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.SlotReference;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/HellishBaubleItem.java:8: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.TrinketItem;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/HellishBaubleItem.java:16: error: cannot find symbol
-public class HellishBaubleItem extends TrinketItem {
-                                       ^
-  symbol: class TrinketItem
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/HellishBaubleItem.java:17: error: cannot find symbol
-	public HellishBaubleItem(Properties settings) {
-	                         ^
-  symbol:   class Properties
-  location: class HellishBaubleItem
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/HellishBaubleItem.java:22: error: cannot find symbol
-	public void tick(ItemStack stack, SlotReference slot, LivingEntity entity) {
-	                                  ^
-  symbol:   class SlotReference
-  location: class HellishBaubleItem
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/DruidBandItem.java:7: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.SlotReference;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/DruidBandItem.java:8: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.TrinketItem;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/DruidBandItem.java:17: error: cannot find symbol
-public class DruidBandItem extends TrinketItem {
-                                   ^
-  symbol: class TrinketItem
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/DruidBandItem.java:18: error: cannot find symbol
-	public DruidBandItem(Properties settings) {
-	                     ^
-  symbol:   class Properties
-  location: class DruidBandItem
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/DruidBandItem.java:23: error: cannot find symbol
-	public void tick(ItemStack stack, SlotReference slot, LivingEntity entity) {
-	                                  ^
-  symbol:   class SlotReference
-  location: class DruidBandItem
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:7: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.SlotReference;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:8: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.TrinketItem;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:17: error: cannot find symbol
-public class SpecterBangleItem extends TrinketItem {
-                                       ^
-  symbol: class TrinketItem
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:18: error: cannot find symbol
-	public SpecterBangleItem(Properties settings) {
-	                         ^
-  symbol:   class Properties
-  location: class SpecterBangleItem
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:23: error: cannot find symbol
-	public void tick(ItemStack stack, SlotReference slot, LivingEntity entity) {
-	                                  ^
-  symbol:   class SlotReference
-  location: class SpecterBangleItem
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:7: error: package com.jamieswhiteshirt.reachentityattributes does not exist
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
                                                  ^
@@ -382,10 +272,7 @@ import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 	                                                                         ^
   symbol:   class BiomeSelectionContext
   location: class BWWorldGenerators
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:29: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.TrinketItem;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:54: error: cannot find symbol
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:53: error: cannot find symbol
 import net.minecraftforge.common.ForgeSoundType;
                                 ^
   symbol:   class ForgeSoundType
@@ -393,9 +280,6 @@ import net.minecraftforge.common.ForgeSoundType;
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/component/entity/PolymorphComponent.java:8: error: package io.github.ladysnake.impersonate does not exist
 import io.github.ladysnake.impersonate.Impersonator;
                                       ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/entity/BrazierBlockEntity.java:7: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.TrinketsApi;
-                           ^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:7: error: package com.terraformersmc.terraform.boat.api does not exist
 import com.terraformersmc.terraform.boat.api.TerraformBoatType;
                                             ^
@@ -408,107 +292,14 @@ import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/statuseffect/PolymorphStatusEffect.java:8: error: package io.github.ladysnake.impersonate does not exist
 import io.github.ladysnake.impersonate.Impersonator;
                                       ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/BewitchmentClient.java:33: error: package dev.emi.trinkets.api.client does not exist
-import dev.emi.trinkets.api.client.TrinketRendererRegistry;
-                                  ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/ZephyrHarnessRenderer.java:4: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.SlotReference;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/ZephyrHarnessRenderer.java:5: error: package dev.emi.trinkets.api.client does not exist
-import dev.emi.trinkets.api.client.TrinketRenderer;
-                                  ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/ZephyrHarnessRenderer.java:20: error: cannot find symbol
-public class ZephyrHarnessRenderer implements TrinketRenderer {
-                                              ^
-  symbol: class TrinketRenderer
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/ZephyrHarnessRenderer.java:25: error: cannot find symbol
-	public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-	                                    ^
-  symbol:   class SlotReference
-  location: class ZephyrHarnessRenderer
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/SpecterBangleRenderer.java:4: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.SlotReference;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/SpecterBangleRenderer.java:5: error: package dev.emi.trinkets.api.client does not exist
-import dev.emi.trinkets.api.client.TrinketRenderer;
-                                  ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/SpecterBangleRenderer.java:20: error: cannot find symbol
-public class SpecterBangleRenderer implements TrinketRenderer {
-                                              ^
-  symbol: class TrinketRenderer
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/SpecterBangleRenderer.java:25: error: cannot find symbol
-	public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-	                                    ^
-  symbol:   class SlotReference
-  location: class SpecterBangleRenderer
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/DruidBandRenderer.java:4: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.SlotReference;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/DruidBandRenderer.java:5: error: package dev.emi.trinkets.api.client does not exist
-import dev.emi.trinkets.api.client.TrinketRenderer;
-                                  ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/DruidBandRenderer.java:20: error: cannot find symbol
-public class DruidBandRenderer implements TrinketRenderer {
-                                          ^
-  symbol: class TrinketRenderer
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/DruidBandRenderer.java:25: error: cannot find symbol
-	public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-	                                    ^
-  symbol:   class SlotReference
-  location: class DruidBandRenderer
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/PricklyBeltRenderer.java:4: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.SlotReference;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/PricklyBeltRenderer.java:5: error: package dev.emi.trinkets.api.client does not exist
-import dev.emi.trinkets.api.client.TrinketRenderer;
-                                  ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/PricklyBeltRenderer.java:20: error: cannot find symbol
-public class PricklyBeltRenderer implements TrinketRenderer {
-                                            ^
-  symbol: class TrinketRenderer
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/PricklyBeltRenderer.java:25: error: cannot find symbol
-	public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-	                                    ^
-  symbol:   class SlotReference
-  location: class PricklyBeltRenderer
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/NazarRenderer.java:5: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.SlotReference;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/NazarRenderer.java:6: error: package dev.emi.trinkets.api.client does not exist
-import dev.emi.trinkets.api.client.TrinketRenderer;
-                                  ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/NazarRenderer.java:17: error: cannot find symbol
-public class NazarRenderer implements TrinketRenderer {
-                                      ^
-  symbol: class TrinketRenderer
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/NazarRenderer.java:19: error: cannot find symbol
-	public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-	                                    ^
-  symbol:   class SlotReference
-  location: class NazarRenderer
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/HellishBaubleRenderer.java:5: error: package dev.emi.trinkets.api does not exist
-import dev.emi.trinkets.api.SlotReference;
-                           ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/HellishBaubleRenderer.java:6: error: package dev.emi.trinkets.api.client does not exist
-import dev.emi.trinkets.api.client.TrinketRenderer;
-                                  ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/HellishBaubleRenderer.java:17: error: cannot find symbol
-public class HellishBaubleRenderer implements TrinketRenderer {
-                                              ^
-  symbol: class TrinketRenderer
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/client/render/trinket/HellishBaubleRenderer.java:19: error: cannot find symbol
-	public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, PoseStack matrices, MultiBufferSource vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-	                                    ^
-  symbol:   class SlotReference
-  location: class HellishBaubleRenderer
 Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-refmap.json
 Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-refmap.json
 Note: Writing searge composite mappings to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-mappings.tsrg
-74 errors
-60 warnings
+22 errors
+56 warnings
 
 > Task :compileJava FAILED
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1791820460421.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1791821190085.json
 
 FAILURE: Build failed with an exception.
 
@@ -713,5 +504,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/8.10/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD FAILED in 7m 46s
+BUILD FAILED in 5m 34s
 4 actionable tasks: 4 executed

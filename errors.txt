@@ -1,32 +1,7 @@
-src/main/java/moriyashiine/bewitchment/mixin/trinket/LivingEntityMixin.java:7: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/mixin/trinket/LivingEntityMixin.java:8: error: package dev.emi.trinkets.api does not exist
 src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:7: error: package com.jamieswhiteshirt.reachentityattributes does not exist
 src/main/java/moriyashiine/bewitchment/api/component/TransformationComponent.java:12: error: package dev.emi.stepheightentityattribute does not exist
 src/main/java/moriyashiine/bewitchment/common/item/HornedSpearItem.java:9: error: package com.jamieswhiteshirt.reachentityattributes does not exist
-src/main/java/moriyashiine/bewitchment/common/item/PricklyBeltItem.java:7: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/common/item/PricklyBeltItem.java:20: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/item/PricklyBeltItem.java:21: error: cannot find symbol
 src/main/java/moriyashiine/bewitchment/common/item/AthameItem.java:9: error: package com.jamieswhiteshirt.reachentityattributes does not exist
-src/main/java/moriyashiine/bewitchment/common/item/ZephyrHarnessItem.java:8: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/common/item/ZephyrHarnessItem.java:9: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/common/item/ZephyrHarnessItem.java:17: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/item/ZephyrHarnessItem.java:18: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/item/ZephyrHarnessItem.java:23: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/item/HellishBaubleItem.java:7: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/common/item/HellishBaubleItem.java:8: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/common/item/HellishBaubleItem.java:16: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/item/HellishBaubleItem.java:17: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/item/HellishBaubleItem.java:22: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/item/DruidBandItem.java:7: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/common/item/DruidBandItem.java:8: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/common/item/DruidBandItem.java:17: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/item/DruidBandItem.java:18: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/item/DruidBandItem.java:23: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:7: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:8: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:17: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:18: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:23: error: cannot find symbol
 src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:7: error: package com.jamieswhiteshirt.reachentityattributes does not exist
 src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:8: error: package dev.emi.stepheightentityattribute does not exist
 src/main/java/moriyashiine/bewitchment/common/packet/TransformationAbilityPacket.java:7: error: package io.github.ladysnake.pal does not exist
@@ -39,36 +14,9 @@ src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:15
 src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:16: error: package net.fabricmc.fabric.api.loot.v2 does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:17: error: package net.fabricmc.fabric.api.tag.convention.v1 does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:98: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:29: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:54: error: cannot find symbol
+src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:53: error: cannot find symbol
 src/main/java/moriyashiine/bewitchment/common/component/entity/PolymorphComponent.java:8: error: package io.github.ladysnake.impersonate does not exist
-src/main/java/moriyashiine/bewitchment/common/block/entity/BrazierBlockEntity.java:7: error: package dev.emi.trinkets.api does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:7: error: package com.terraformersmc.terraform.boat.api does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:8: error: package com.terraformersmc.terraform.boat.api does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:9: error: package com.terraformersmc.terraform.boat.api.item does not exist
 src/main/java/moriyashiine/bewitchment/common/statuseffect/PolymorphStatusEffect.java:8: error: package io.github.ladysnake.impersonate does not exist
-src/main/java/moriyashiine/bewitchment/client/BewitchmentClient.java:33: error: package dev.emi.trinkets.api.client does not exist
-src/main/java/moriyashiine/bewitchment/client/render/trinket/ZephyrHarnessRenderer.java:4: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/client/render/trinket/ZephyrHarnessRenderer.java:5: error: package dev.emi.trinkets.api.client does not exist
-src/main/java/moriyashiine/bewitchment/client/render/trinket/ZephyrHarnessRenderer.java:20: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/client/render/trinket/ZephyrHarnessRenderer.java:25: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/client/render/trinket/SpecterBangleRenderer.java:4: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/client/render/trinket/SpecterBangleRenderer.java:5: error: package dev.emi.trinkets.api.client does not exist
-src/main/java/moriyashiine/bewitchment/client/render/trinket/SpecterBangleRenderer.java:20: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/client/render/trinket/SpecterBangleRenderer.java:25: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/client/render/trinket/DruidBandRenderer.java:4: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/client/render/trinket/DruidBandRenderer.java:5: error: package dev.emi.trinkets.api.client does not exist
-src/main/java/moriyashiine/bewitchment/client/render/trinket/DruidBandRenderer.java:20: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/client/render/trinket/DruidBandRenderer.java:25: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/client/render/trinket/PricklyBeltRenderer.java:4: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/client/render/trinket/PricklyBeltRenderer.java:5: error: package dev.emi.trinkets.api.client does not exist
-src/main/java/moriyashiine/bewitchment/client/render/trinket/PricklyBeltRenderer.java:20: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/client/render/trinket/PricklyBeltRenderer.java:25: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/client/render/trinket/NazarRenderer.java:5: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/client/render/trinket/NazarRenderer.java:6: error: package dev.emi.trinkets.api.client does not exist
-src/main/java/moriyashiine/bewitchment/client/render/trinket/NazarRenderer.java:17: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/client/render/trinket/NazarRenderer.java:19: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/client/render/trinket/HellishBaubleRenderer.java:5: error: package dev.emi.trinkets.api does not exist
-src/main/java/moriyashiine/bewitchment/client/render/trinket/HellishBaubleRenderer.java:6: error: package dev.emi.trinkets.api.client does not exist
-src/main/java/moriyashiine/bewitchment/client/render/trinket/HellishBaubleRenderer.java:17: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/client/render/trinket/HellishBaubleRenderer.java:19: error: cannot find symbol
