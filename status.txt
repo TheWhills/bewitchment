@@ -1,4 +1,4 @@
-commit: a3a1618
+commit: 0f6186b
 result: failure
-java errors: 4
-files with errors: 1
+java errors: 74
+files with errors: 24
