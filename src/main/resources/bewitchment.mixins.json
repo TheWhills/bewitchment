@@ -1,7 +1,8 @@
 {
   "required": true,
   "package": "moriyashiine.bewitchment.mixin",
-  "plugin": "moriyashiine.bewitchment.common.BWMixinPlugin",
+  "minVersion": "0.8",
+  "refmap": "bewitchment.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
 	"AbstractBlockMixin",
@@ -24,6 +25,7 @@
 	"ServerWorldMixin",
 	"SpawnHelperMixin",
 	"VillagerEntityMixin",
+	"WalkAnimationAccessor",
 	"brew.ArrowEntityMixin",
 	"brew.BrewingRecipeRegistryMixin",
 	"brew.ItemStackMixin",
@@ -54,7 +56,6 @@
 	"familiar.SwoopMovementGoalMixin",
 	"fortune.BlockMixin",
 	"fortune.LivingEntityMixin",
-	"integration.apoli.PreventItemUsePowerMixin",
 	"pledge.EntityMixin",
 	"pledge.LivingEntityMixin",
 	"pledge.MobEntityMixin",

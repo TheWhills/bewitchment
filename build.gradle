@@ -1,111 +1,131 @@
 plugins {
-    id 'fabric-loom' version '1.7-SNAPSHOT'
+    id 'eclipse'
+    id 'idea'
     id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'org.spongepowered.mixin' version '0.7.+'
 }
 
 version = project.mod_version
 group = project.maven_group
 
 base {
-    archivesName = project.archives_base_name
+    archivesName = "${project.archives_base_name}-forge"
 }
 
-loom {
-    accessWidenerPath = file("src/main/resources/bewitchment.accesswidener")
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+minecraft {
+    // Mojang official names with Parchment parameter names/javadoc.
+    mappings channel: 'parchment', version: "${parchment_version}-${minecraft_version}"
+    copyIdeResources = true
+
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+        client {}
+        server {
+            args '--nogui'
+        }
+        data {
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+    }
 }
+
+mixin {
+    add sourceSets.main, "${mod_id}.refmap.json"
+    config "${mod_id}.mixins.json"
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven {
-        name "cardinal components, playerabilitylib, trinkets"
-        url "https://maven.ladysnake.org/releases"
+        name = "curios"
+        url = "https://maven.theillusivec4.top/"
     }
     maven {
-        name "impersonate"
-        url "https://oss.sonatype.org/content/repositories/snapshots"
+        name = "patchouli"
+        url = "https://maven.blamejared.com"
     }
     maven {
-        name "reach entity attributes"
-        url "https://maven.jamieswhiteshirt.com/libs-release"
+        name = "emi"
+        url = "https://maven.terraformersmc.com"
     }
     maven {
-        name "terraform api, trinkets, emi"
-        url "https://maven.terraformersmc.com"
+        name = "appleskin"
+        url = "https://maven.ryanliptak.com"
     }
     maven {
-        name "patchouli"
-        url "https://maven.blamejared.com"
-    }
-    maven {
-        name "appleskin"
-        url "https://maven.ryanliptak.com"
-    }
-    maven {
-        name "appleskin"
-        url "https://maven.shedaniel.me"
-    }
-    maven {
-        name "modrinth"
-        url "https://api.modrinth.com/maven"
-    }
-    maven {
-        name "jitpack"
-        url "https://jitpack.io"
+        name = "modrinth"
+        url = "https://api.modrinth.com/maven"
+        content { includeGroup "maven.modrinth" }
     }
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${minecraft_version}"
-    mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    modApi "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cardinal_components_version}"
-    modApi "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${cardinal_components_version}"
-    //^ don't include because trinkets already does
-    include modApi("maven.modrinth:impersonate:${impersonate_version}")
-    include modApi("maven.modrinth:midnightlib:${midnightlib_version}")
-    include modApi("io.github.ladysnake:PlayerAbilityLib:${playerabilitylib_version}")
-    include modApi("com.jamieswhiteshirt:reach-entity-attributes:${reach_entity_attributes_version}")
-    include modApi("com.github.emilyploszaj:step-height-entity-attribute:${step_height_entity_attribute_version}")
-    include modApi("com.terraformersmc.terraform-api:terraform-wood-api-v1:${terraform_api_version}")
+    // Required mods
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+    implementation fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+    implementation fg.deobf("maven.modrinth:pehkui:${pehkui_version}")
+    implementation fg.deobf("maven.modrinth:midnightlib:${midnightlib_version}")
 
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
-    modImplementation "vazkii.patchouli:Patchouli:${patchouli_version}"
-    modImplementation("com.github.Virtuoel:Pehkui:${pehkui_version}") {
-        exclude group: "net.fabricmc.fabric-api"
-    }
-    modImplementation "dev.emi:trinkets:${trinkets_version}"
-
-    modImplementation "dev.emi:emi-fabric:${emi_version}"
-
-    modCompileOnly("com.github.apace100:apoli:${apoli_version}") {
-        exclude(group: "*")
-    }
-    modCompileOnly "squeek.appleskin:appleskin-fabric:${appleskin_version}:api"
-
-    modRuntimeOnly "maven.modrinth:modmenu:${mod_menu_version}"
+    // Optional integrations
+    compileOnly fg.deobf("dev.emi:emi-forge:${emi_version}:api")
+    runtimeOnly fg.deobf("dev.emi:emi-forge:${emi_version}")
+    compileOnly fg.deobf("squeek.appleskin:appleskin-forge:${appleskin_version}:api")
 }
 
+def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']
+def replaceProperties = [
+        minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
+        forge_version: forge_version, forge_version_range: forge_version_range,
+        loader_version_range: loader_version_range,
+        mod_id: mod_id, mod_version: mod_version,
+        curios_version_range: curios_version_range, patchouli_version_range: patchouli_version_range,
+        pehkui_version_range: pehkui_version_range
+]
 processResources {
-    inputs.property "version", project.version
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
+    inputs.properties replaceProperties
+    filesMatching(resourceTargets) {
+        expand replaceProperties
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 17
-}
-
-java {
-    withSourcesJar()
-
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    options.encoding = 'UTF-8'
+    options.release = 17
+    // Report every error, not just the first 100, so CI logs show the full porting surface.
+    options.compilerArgs += ['-Xmaxerrs', '100000', '-Xmaxwarns', '0']
 }
 
 jar {
-    from("LICENSE") {
-        rename { "${it}_${project.base.archivesName.get()}" }
+    manifest {
+        attributes([
+                'Specification-Title'     : mod_id,
+                'Specification-Vendor'    : 'MoriyaShiine, cybercat5555',
+                'Specification-Version'   : '1',
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.jar.archiveVersion,
+                'Implementation-Vendor'   : 'MoriyaShiine, cybercat5555',
+                'MixinConfigs'            : "${mod_id}.mixins.json"
+        ])
     }
+    finalizedBy 'reobfJar'
 }

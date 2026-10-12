@@ -4,6 +4,7 @@
 
 package moriyashiine.bewitchment.mixin.client;
 
+import moriyashiine.bewitchment.mixin.WalkAnimationAccessor;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.api.entity.BroomEntity;
 import moriyashiine.bewitchment.client.render.ContributorHornsFeatureRenderer;
@@ -58,7 +59,7 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
 			entity.tickCount = player.tickCount;
 			entity.hurtTime = player.hurtTime;
 			entity.hurtDuration = Integer.MAX_VALUE;
-			entity.walkAnimation = player.walkAnimation;
+			((WalkAnimationAccessor) entity).bewitchment$setWalkAnimation(player.walkAnimation);
 			entity.yHeadRot = player.yHeadRot;
 			entity.yHeadRotO = player.yHeadRotO;
 			entity.yBodyRot = player.yBodyRot;

@@ -35,7 +35,6 @@ import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.block.entity.BWChestBlockEntity;
 import moriyashiine.bewitchment.common.item.TaglockItem;
 import moriyashiine.bewitchment.common.registry.*;
-import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -60,7 +59,11 @@ import net.minecraft.world.level.block.Block;
 import org.lwjgl.glfw.GLFW;
 
 @SuppressWarnings({"unchecked", "ConstantConditions"})
-public class BewitchmentClient implements ClientModInitializer {
+public class BewitchmentClient {
+	public static void init() {
+		new BewitchmentClient().onInitializeClient();
+	}
+
 	public static final KeyMapping TRANSFORMATION_ABILITY = KeyBindingHelper.registerKeyBinding(new KeyMapping("key." + Bewitchment.MOD_ID + ".transformation_ability", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, "itemGroup." + Bewitchment.MOD_ID));
 
 	public static final ModelLayerLocation CONTRIBUTOR_HORNS_MODEL_LAYER = new ModelLayerLocation(Bewitchment.id("contributor_horns"), "main");
@@ -86,8 +89,8 @@ public class BewitchmentClient implements ClientModInitializer {
 	public static final ModelLayerLocation LILITH_MODEL_LAYER = new ModelLayerLocation(Bewitchment.id("lilith"), "main");
 	public static final ModelLayerLocation HERNE_MODEL_LAYER = new ModelLayerLocation(Bewitchment.id("herne"), "main");
 
-	@Override
-	public void onInitializeClient() {
+	// TODO(forge-port): move to FMLClientSetupEvent / RegisterRenderers etc.
+	private void onInitializeClient() {
 		ClientPlayNetworking.registerGlobalReceiver(SyncContractsPacket.ID, new SyncContractsPacket.Receiver());
 		ClientPlayNetworking.registerGlobalReceiver(SyncDemonTradesPacket.ID, new SyncDemonTradesPacket.Receiver());
 		ClientPlayNetworking.registerGlobalReceiver(SyncPoppetShelfPacket.ID, new SyncPoppetShelfPacket.Receiver());

@@ -6,6 +6,7 @@ package moriyashiine.bewitchment.common;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
+import moriyashiine.bewitchment.client.BewitchmentClient;
 import moriyashiine.bewitchment.api.component.BloodComponent;
 import moriyashiine.bewitchment.api.event.BloodSuckEvents;
 import moriyashiine.bewitchment.common.block.CoffinBlock;
@@ -21,7 +22,6 @@ import moriyashiine.bewitchment.common.recipe.AthameDropRecipe;
 import moriyashiine.bewitchment.common.recipe.IncenseRecipe;
 import moriyashiine.bewitchment.common.registry.*;
 import moriyashiine.bewitchment.common.world.BWWorldState;
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
@@ -54,13 +54,22 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.common.Mod;
 
-public class Bewitchment implements ModInitializer {
+@Mod(Bewitchment.MOD_ID)
+public class Bewitchment {
 	public static final String MOD_ID = "bewitchment";
 
+	public Bewitchment() {
+		onInitialize();
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> BewitchmentClient::init);
+	}
+
+	// TODO(forge-port): split into DeferredRegister setup + event subscribers; body is still Fabric-shaped.
 	@SuppressWarnings("ConstantConditions")
-	@Override
-	public void onInitialize() {
+	private void onInitialize() {
 		MidnightConfig.init(MOD_ID, BWConfig.class);
 		ServerPlayNetworking.registerGlobalReceiver(CauldronTeleportPacket.ID, new CauldronTeleportPacket.Receiver());
 		ServerPlayNetworking.registerGlobalReceiver(TransformationAbilityPacket.ID, new TransformationAbilityPacket.Receiver());
