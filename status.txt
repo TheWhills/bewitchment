@@ -1,6 +1,6 @@
-commit: 8174bb2
+commit: 98a91a1
 result: success
 java errors: 0
 files with errors: 0
-gametests: failure
-gametest summary: 
+gametests: success
+gametest summary: ========= 23 GAME TESTS COMPLETE ====================== All 23 required tests passed :) 
