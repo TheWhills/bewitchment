@@ -35,7 +35,7 @@ public class JuniperChestBlock extends BWChestBlock {
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new JuniperChestBlockEntity(BWBlockEntityTypes.JUNIPER_CHEST, pos, state, BWChestBlockEntity.Type.JUNIPER, trapped);
+		return new JuniperChestBlockEntity(BWBlockEntityTypes.JUNIPER_CHEST.get(), pos, state, BWChestBlockEntity.Type.JUNIPER, trapped);
 	}
 
 	@Override

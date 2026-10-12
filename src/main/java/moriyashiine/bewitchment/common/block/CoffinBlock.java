@@ -34,6 +34,6 @@ public class CoffinBlock extends BedBlock {
 
 	@Override
 	public void updateEntityAfterFallOn(BlockGetter world, Entity entity) {
-		BWObjects.CYPRESS_PLANKS.updateEntityAfterFallOn(world, entity);
+		BWObjects.CYPRESS_PLANKS.get().updateEntityAfterFallOn(world, entity);
 	}
 }

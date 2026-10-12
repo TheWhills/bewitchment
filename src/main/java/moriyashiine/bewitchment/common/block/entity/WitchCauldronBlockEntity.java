@@ -66,7 +66,7 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Container, 
 	private boolean loaded = false;
 
 	public WitchCauldronBlockEntity(BlockPos pos, BlockState state) {
-		super(BWBlockEntityTypes.WITCH_CAULDRON, pos, state);
+		super(BWBlockEntityTypes.WITCH_CAULDRON.get(), pos, state);
 	}
 
 	@Override
@@ -135,7 +135,7 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Container, 
 			if (!blockEntity.loaded) {
 				blockEntity.setChanged();
 				blockEntity.box = new AABB(pos).deflate(0.75);
-				blockEntity.oilRecipe = world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.OIL_RECIPE_TYPE).stream().filter(recipe -> recipe.matches(blockEntity, world)).findFirst().orElse(null);
+				blockEntity.oilRecipe = world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.OIL_RECIPE_TYPE.get()).stream().filter(recipe -> recipe.matches(blockEntity, world)).findFirst().orElse(null);
 				blockEntity.loaded = true;
 			}
 			blockEntity.heatTimer = Mth.clamp(blockEntity.heatTimer + (state.getValue(BlockStateProperties.LIT) && state.getValue(BWProperties.LEVEL) > 0 ? 1 : -1), 0, 160);
@@ -146,7 +146,7 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Container, 
 					}
 					if (world.getGameTime() % 5 == 0) {
 						world.getEntities(EntityType.ITEM, blockEntity.box, entity -> true).forEach(itemEntity -> {
-							if (itemEntity.getItem().getItem() == BWObjects.WOOD_ASH || state.getValue(BWProperties.LEVEL) == 3) {
+							if (itemEntity.getItem().getItem() == BWObjects.WOOD_ASH.get() || state.getValue(BWProperties.LEVEL) == 3) {
 								world.playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 1 / 3f, 1);
 								ItemStack stack = itemEntity.getItem();
 								if (stack.getItem().hasCraftingRemainingItem()) {
@@ -247,7 +247,7 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Container, 
 
 	private Mode insertStack(ItemStack stack) {
 		if (level != null) {
-			if (stack.getItem() == BWObjects.WOOD_ASH) {
+			if (stack.getItem() == BWObjects.WOOD_ASH.get()) {
 				Mode reset = reset();
 				syncCauldron();
 				return reset;
@@ -255,12 +255,12 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Container, 
 				int firstEmpty = getFirstEmptySlot();
 				if (firstEmpty != -1) {
 					setItem(firstEmpty, stack);
-					if (mode == Mode.NORMAL && stack.getItem() == BWObjects.MANDRAKE_ROOT) {
+					if (mode == Mode.NORMAL && stack.getItem() == BWObjects.MANDRAKE_ROOT.get()) {
 						clearContent();
 						return Mode.BREWING;
 					}
 					if (mode == Mode.BREWING) {
-						CauldronBrewingRecipe cauldronBrewingRecipe = level.getRecipeManager().getAllRecipesFor(BWRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE).stream().filter(recipe -> recipe.input.test(stack)).findFirst().orElse(null);
+						CauldronBrewingRecipe cauldronBrewingRecipe = level.getRecipeManager().getAllRecipesFor(BWRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get()).stream().filter(recipe -> recipe.input.test(stack)).findFirst().orElse(null);
 						if (isRecipeValid(cauldronBrewingRecipe) || stack.getItem() == Items.REDSTONE || stack.getItem() == Items.GLOWSTONE_DUST) {
 							BlockPos altarPos = getAltarPos();
 							if (altarPos != null && ((WitchAltarBlockEntity) level.getBlockEntity(altarPos)).drain(getBrewCost(), true)) {
@@ -269,7 +269,7 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Container, 
 							}
 						}
 					} else {
-						oilRecipe = level.getRecipeManager().getAllRecipesFor(BWRecipeTypes.OIL_RECIPE_TYPE).stream().filter(recipe -> recipe.matches(this, level)).findFirst().orElse(null);
+						oilRecipe = level.getRecipeManager().getAllRecipesFor(BWRecipeTypes.OIL_RECIPE_TYPE.get()).stream().filter(recipe -> recipe.matches(this, level)).findFirst().orElse(null);
 						if (oilRecipe != null) {
 							setColor(oilRecipe.color);
 							return Mode.OIL_CRAFTING;
@@ -300,7 +300,7 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Container, 
 					stack.getOrCreateTag().putUUID("PolymorphUUID", TaglockItem.getTaglockUUID(stackInSlot));
 					stack.getOrCreateTag().putString("PolymorphName", TaglockItem.getTaglockName(stackInSlot));
 				}
-				CauldronBrewingRecipe cauldronBrewingRecipe = level.getRecipeManager().getAllRecipesFor(BWRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE).stream().filter(recipe -> recipe.input.test(stackInSlot)).findFirst().orElse(null);
+				CauldronBrewingRecipe cauldronBrewingRecipe = level.getRecipeManager().getAllRecipesFor(BWRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get()).stream().filter(recipe -> recipe.input.test(stackInSlot)).findFirst().orElse(null);
 				if (cauldronBrewingRecipe != null && effects.stream().noneMatch(effect -> effect.getEffect() == cauldronBrewingRecipe.output)) {
 					effects.add(new MobEffectInstance(cauldronBrewingRecipe.output, cauldronBrewingRecipe.time));
 				} else if (stackInSlot.getItem() == Items.REDSTONE) {
@@ -326,9 +326,9 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Container, 
 			}
 			List<MobEffectInstance> finalEffects = new ArrayList<>();
 			for (int i = effects.size() - 1; i >= 0; i--) {
-				if (effects.get(i).getEffect() == BWStatusEffects.CORRUPTION) {
+				if (effects.get(i).getEffect() == BWStatusEffects.CORRUPTION.get()) {
 					finalEffects.add(effects.remove(i));
-				} else if (effects.get(i).getEffect() == BWStatusEffects.POLYMORPH) {
+				} else if (effects.get(i).getEffect() == BWStatusEffects.POLYMORPH.get()) {
 					MobEffectInstance removed = effects.remove(i);
 					finalEffects.add(new MobEffectInstance(removed.getEffect(), removed.getDuration(), removed.getAmplifier(), removed.isAmbient(), false, removed.showIcon()));
 				}
@@ -380,7 +380,7 @@ public class WitchCauldronBlockEntity extends BlockEntity implements Container, 
 		if (cauldronBrewingRecipe == null) {
 			return false;
 		}
-		return BWConfig.enablePolymorph || cauldronBrewingRecipe.output != BWStatusEffects.POLYMORPH;
+		return BWConfig.enablePolymorph || cauldronBrewingRecipe.output != BWStatusEffects.POLYMORPH.get();
 	}
 
 	public enum Mode {

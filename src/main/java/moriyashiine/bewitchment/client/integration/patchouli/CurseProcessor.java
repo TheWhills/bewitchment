@@ -21,7 +21,7 @@ public class CurseProcessor implements IComponentProcessor {
 
 	@Override
 	public void setup(Level level, IVariableProvider variables) {
-		recipe = (CurseRecipe) level.getRecipeManager().byKey(new ResourceLocation(variables.get("recipe").asString())).filter(recipe -> recipe.getType().equals(BWRecipeTypes.CURSE_RECIPE_TYPE)).orElseThrow(IllegalArgumentException::new);
+		recipe = (CurseRecipe) level.getRecipeManager().byKey(new ResourceLocation(variables.get("recipe").asString())).filter(recipe -> recipe.getType().equals(BWRecipeTypes.CURSE_RECIPE_TYPE.get())).orElseThrow(IllegalArgumentException::new);
 	}
 
 	@Override

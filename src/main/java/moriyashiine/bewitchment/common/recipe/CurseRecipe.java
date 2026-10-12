@@ -63,17 +63,17 @@ public class CurseRecipe implements Recipe<Container> {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return BWRecipeTypes.CURSE_RECIPE_SERIALIZER;
+		return BWRecipeTypes.CURSE_RECIPE_SERIALIZER.get();
 	}
 
 	@Override
 	public RecipeType<?> getType() {
-		return BWRecipeTypes.CURSE_RECIPE_TYPE;
+		return BWRecipeTypes.CURSE_RECIPE_TYPE.get();
 	}
 
 	@SuppressWarnings("ConstantConditions")
 	public static class Serializer implements RecipeSerializer<CurseRecipe> {
-		private static final ItemStack TAGLOCK = new ItemStack(BWObjects.TAGLOCK);
+		private static final ItemStack TAGLOCK = new ItemStack(BWObjects.TAGLOCK.get());
 
 		@Override
 		public CurseRecipe fromJson(ResourceLocation id, JsonObject json) {

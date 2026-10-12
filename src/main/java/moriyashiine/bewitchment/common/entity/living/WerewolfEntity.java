@@ -77,7 +77,7 @@ public class WerewolfEntity extends BWHostileEntity {
 				Villager entity = EntityType.VILLAGER.create(level());
 				if (entity != null) {
 					PlayerLookup.tracking(this).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, this));
-					level().playSound(null, getX(), getY(), getZ(), BWSoundEvents.ENTITY_GENERIC_TRANSFORM, getSoundSource(), getSoundVolume(), getVoicePitch());
+					level().playSound(null, getX(), getY(), getZ(), BWSoundEvents.ENTITY_GENERIC_TRANSFORM.get(), getSoundSource(), getSoundVolume(), getVoicePitch());
 					entity.load(storedVillager);
 					entity.absMoveTo(getX(), getY(), getZ(), random.nextFloat() * 360, 0);
 					entity.setHealth(entity.getMaxHealth() * (getHealth() / getMaxHealth()));
@@ -114,17 +114,17 @@ public class WerewolfEntity extends BWHostileEntity {
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return BWSoundEvents.ENTITY_WEREWOLF_AMBIENT;
+		return BWSoundEvents.ENTITY_WEREWOLF_AMBIENT.get();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return BWSoundEvents.ENTITY_WEREWOLF_HURT;
+		return BWSoundEvents.ENTITY_WEREWOLF_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return BWSoundEvents.ENTITY_WEREWOLF_DEATH;
+		return BWSoundEvents.ENTITY_WEREWOLF_DEATH.get();
 	}
 
 	@Override

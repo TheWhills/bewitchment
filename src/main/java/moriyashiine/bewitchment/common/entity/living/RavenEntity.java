@@ -73,7 +73,7 @@ public class RavenEntity extends BWTameableEntity {
 	@Nullable
 	@Override
 	public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob entity) {
-		RavenEntity child = BWEntityTypes.RAVEN.create(world);
+		RavenEntity child = BWEntityTypes.RAVEN.get().create(world);
 		if (child != null) {
 			child.finalizeSpawn(world, world.getCurrentDifficultyAt(blockPosition()), MobSpawnType.BREEDING, null, null);
 			UUID owner = getOwnerUUID();
@@ -100,17 +100,17 @@ public class RavenEntity extends BWTameableEntity {
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return BWSoundEvents.ENTITY_RAVEN_AMBIENT;
+		return BWSoundEvents.ENTITY_RAVEN_AMBIENT.get();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return BWSoundEvents.ENTITY_RAVEN_HURT;
+		return BWSoundEvents.ENTITY_RAVEN_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return BWSoundEvents.ENTITY_RAVEN_DEATH;
+		return BWSoundEvents.ENTITY_RAVEN_DEATH.get();
 	}
 
 	@Override
@@ -125,7 +125,7 @@ public class RavenEntity extends BWTameableEntity {
 
 	@Override
 	protected void onFlap() {
-		playSound(BWSoundEvents.ENTITY_RAVEN_FLY, 0.15f, 1);
+		playSound(BWSoundEvents.ENTITY_RAVEN_FLY.get(), 0.15f, 1);
 	}
 
 	@Override

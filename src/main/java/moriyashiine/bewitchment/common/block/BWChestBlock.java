@@ -32,7 +32,7 @@ public class BWChestBlock extends ChestBlock {
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new BWChestBlockEntity(BWBlockEntityTypes.BW_CHEST, pos, state, getType(this), trapped);
+		return new BWChestBlockEntity(BWBlockEntityTypes.BW_CHEST.get(), pos, state, getType(this), trapped);
 	}
 
 	@Override
@@ -56,6 +56,6 @@ public class BWChestBlock extends ChestBlock {
 	}
 
 	public static BWChestBlockEntity.Type getType(Block block) {
-		return block == BWObjects.JUNIPER_CHEST || block == BWObjects.TRAPPED_JUNIPER_CHEST ? BWChestBlockEntity.Type.JUNIPER : block == BWObjects.CYPRESS_CHEST || block == BWObjects.TRAPPED_CYPRESS_CHEST ? BWChestBlockEntity.Type.CYPRESS : block == BWObjects.ELDER_CHEST || block == BWObjects.TRAPPED_ELDER_CHEST ? BWChestBlockEntity.Type.ELDER : BWChestBlockEntity.Type.DRAGONS_BLOOD;
+		return block == BWObjects.JUNIPER_CHEST.get() || block == BWObjects.TRAPPED_JUNIPER_CHEST.get() ? BWChestBlockEntity.Type.JUNIPER : block == BWObjects.CYPRESS_CHEST.get() || block == BWObjects.TRAPPED_CYPRESS_CHEST.get() ? BWChestBlockEntity.Type.CYPRESS : block == BWObjects.ELDER_CHEST.get() || block == BWObjects.TRAPPED_ELDER_CHEST.get() ? BWChestBlockEntity.Type.ELDER : BWChestBlockEntity.Type.DRAGONS_BLOOD;
 	}
 }

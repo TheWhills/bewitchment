@@ -59,12 +59,12 @@ public class AthameStrippingRecipe implements Recipe<Container> {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return BWRecipeTypes.ATHAME_STRIPPING_RECIPE_SERIALIZER;
+		return BWRecipeTypes.ATHAME_STRIPPING_RECIPE_SERIALIZER.get();
 	}
 
 	@Override
 	public RecipeType<?> getType() {
-		return BWRecipeTypes.ATHAME_STRIPPING_RECIPE_TYPE;
+		return BWRecipeTypes.ATHAME_STRIPPING_RECIPE_TYPE.get();
 	}
 
 	public static class Serializer implements RecipeSerializer<AthameStrippingRecipe> {

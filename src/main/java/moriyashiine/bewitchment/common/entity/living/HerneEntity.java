@@ -89,7 +89,7 @@ public class HerneEntity extends BWHostileEntity implements Pledgeable {
 				}
 				lookAt(target, 360, 360);
 				if (timer % 80 == 0) {
-					HornedSpearItem.spawnEntity(level(), this, new ItemStack(BWObjects.HORNED_SPEAR));
+					HornedSpearItem.spawnEntity(level(), this, new ItemStack(BWObjects.HORNED_SPEAR.get()));
 					swing(InteractionHand.MAIN_HAND);
 				}
 				if (timer % 600 == 0) {
@@ -116,12 +116,12 @@ public class HerneEntity extends BWHostileEntity implements Pledgeable {
 
 	@Override
 	public EntityType<?> getMinionType() {
-		return BWEntityTypes.WEREWOLF;
+		return BWEntityTypes.WEREWOLF.get();
 	}
 
 	@Override
 	public Collection<MobEffectInstance> getMinionBuffs() {
-		return Sets.newHashSet(new MobEffectInstance(MobEffects.DAMAGE_BOOST, Integer.MAX_VALUE, 1), new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1), new MobEffectInstance(BWStatusEffects.HARDENING, Integer.MAX_VALUE, 1));
+		return Sets.newHashSet(new MobEffectInstance(MobEffects.DAMAGE_BOOST, Integer.MAX_VALUE, 1), new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1), new MobEffectInstance(BWStatusEffects.HARDENING.get(), Integer.MAX_VALUE, 1));
 	}
 
 	@Override
@@ -152,37 +152,37 @@ public class HerneEntity extends BWHostileEntity implements Pledgeable {
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return BWSoundEvents.ENTITY_HERNE_AMBIENT;
+		return BWSoundEvents.ENTITY_HERNE_AMBIENT.get();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return BWSoundEvents.ENTITY_HERNE_HURT;
+		return BWSoundEvents.ENTITY_HERNE_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return BWSoundEvents.ENTITY_HERNE_DEATH;
+		return BWSoundEvents.ENTITY_HERNE_DEATH.get();
 	}
 
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (isAlive() && getTarget() == null && BewitchmentAPI.isWerewolf(player, true)) {
 			ItemStack stack = player.getItemInHand(hand);
-			if (stack.getItem() == BWObjects.ACONITE) {
+			if (stack.getItem() == BWObjects.ACONITE.get()) {
 				if (player instanceof ServerPlayer serverPlayer) {
 					if (!player.isCreative()) {
 						stack.shrink(1);
 					}
 					PlayerLookup.tracking(player).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, player));
 					SpawnSmokeParticlesPacket.send(serverPlayer, player);
-					level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_PLING, player.getSoundSource(), 1, 1);
+					level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_PLING.get(), player.getSoundSource(), 1, 1);
 					BWComponents.TRANSFORMATION_COMPONENT.maybeGet(player).ifPresent(transformationComponent -> {
 						if (transformationComponent.isAlternateForm()) {
 							TransformationAbilityPacket.useAbility(player, true);
 						}
 						transformationComponent.getTransformation().onRemoved(player);
-						transformationComponent.setTransformation(BWTransformations.HUMAN);
+						transformationComponent.setTransformation(BWTransformations.HUMAN.get());
 						transformationComponent.getTransformation().onAdded(player);
 					});
 				}
@@ -221,7 +221,7 @@ public class HerneEntity extends BWHostileEntity implements Pledgeable {
 	public boolean doHurtTarget(Entity target) {
 		boolean flag = super.doHurtTarget(target);
 		if (flag && target instanceof LivingEntity livingEntity) {
-			livingEntity.addEffect(new MobEffectInstance(BWStatusEffects.MORTAL_COIL, 1200));
+			livingEntity.addEffect(new MobEffectInstance(BWStatusEffects.MORTAL_COIL.get(), 1200));
 			target.setSecondsOnFire(16);
 			target.push(0, 0.2, 0);
 			swing(InteractionHand.MAIN_HAND);

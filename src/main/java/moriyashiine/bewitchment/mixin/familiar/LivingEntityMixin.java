@@ -34,7 +34,7 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@ModifyVariable(method = "addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z", at = @At("HEAD"), argsOnly = true)
 	private MobEffectInstance modifyStatusEffect(MobEffectInstance effect) {
-		if (!level().isClientSide && !effect.isAmbient() && effect.getEffect().getCategory() == MobEffectCategory.BENEFICIAL && (Object) this instanceof Player player && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.TOAD) {
+		if (!level().isClientSide && !effect.isAmbient() && effect.getEffect().getCategory() == MobEffectCategory.BENEFICIAL && (Object) this instanceof Player player && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.TOAD.get()) {
 			return new MobEffectInstance(effect.getEffect(), (int) (effect.getDuration() * (effect.getEffect().isInstantenous() ? 1 : 1.5f)), effect.getAmplifier() + (effect.getEffect().isInstantenous() ? 1 : 0), false, effect.isVisible(), effect.showIcon());
 		}
 		return effect;
@@ -64,14 +64,14 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "causeFallDamage", at = @At("HEAD"), cancellable = true)
 	private void handleFallDamage(float fallDistance, float damageMultiplier, DamageSource source, CallbackInfoReturnable<Boolean> callbackInfo) {
-		if ((Object) this instanceof Player player && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.OWL) {
+		if ((Object) this instanceof Player player && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.OWL.get()) {
 			callbackInfo.setReturnValue(false);
 		}
 	}
 
 	@Inject(method = "checkFallDamage", at = @At("HEAD"), cancellable = true)
 	private void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition, CallbackInfo callbackInfo) {
-		if ((Object) this instanceof Player player && onGround && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.OWL) {
+		if ((Object) this instanceof Player player && onGround && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.OWL.get()) {
 			callbackInfo.cancel();
 		}
 	}

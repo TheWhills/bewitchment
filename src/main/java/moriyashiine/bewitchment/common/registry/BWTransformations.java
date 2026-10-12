@@ -8,24 +8,18 @@ import moriyashiine.bewitchment.api.registry.Transformation;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.transformation.VampireTransformation;
 import moriyashiine.bewitchment.common.transformation.WerewolfTransformation;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
+import java.util.function.Supplier;
 
 public class BWTransformations {
-	private static final Map<Transformation, ResourceLocation> TRANSFORMATIONS = new LinkedHashMap<>();
+	public static final DeferredRegister<Transformation> TRANSFORMATIONS = DeferredRegister.create(BWRegistries.TRANSFORMATION_KEY, Bewitchment.MOD_ID);
 
-	public static final Transformation HUMAN = create("human", new Transformation());
-	public static final Transformation VAMPIRE = create("vampire", new VampireTransformation());
-	public static final Transformation WEREWOLF = create("werewolf", new WerewolfTransformation());
+	public static final RegistryObject<Transformation> HUMAN = create("human", () -> new Transformation());
+	public static final RegistryObject<Transformation> VAMPIRE = create("vampire", () -> new VampireTransformation());
+	public static final RegistryObject<Transformation> WEREWOLF = create("werewolf", () -> new WerewolfTransformation());
 
-	private static <T extends Transformation> T create(String name, T transformation) {
-		TRANSFORMATIONS.put(transformation, Bewitchment.id(name));
-		return transformation;
-	}
-
-	public static void init() {
-		TRANSFORMATIONS.keySet().forEach(contract -> Registry.register(BWRegistries.TRANSFORMATION, TRANSFORMATIONS.get(contract), contract));
+	private static <T extends Transformation> RegistryObject<T> create(String name, Supplier<T> value) {
+		return TRANSFORMATIONS.register(name, value);
 	}
 }

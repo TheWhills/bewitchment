@@ -43,12 +43,12 @@ public class WednesdayRitualFunction extends RitualFunction {
 		if (!world.isClientSide) {
 			if (world.getGameTime() % 20 == 0) {
 				for (int i = 0; i < world.random.nextInt(4) + (catFamiliar ? 3 : 1); i++) {
-					ToadEntity entity = BWEntityTypes.TOAD.create(world);
+					ToadEntity entity = BWEntityTypes.TOAD.get().create(world);
 					if (entity != null) {
 						entity.finalizeSpawn((ServerLevelAccessor) world, world.getCurrentDifficultyAt(effectivePos), MobSpawnType.EVENT, null, null);
 						entity.getEntityData().set(BWTameableEntity.VARIANT, 0);
 						entity.absMoveTo(effectivePos.getX() + 0.5 + Mth.nextDouble(world.random, -3, 3), effectivePos.getY() + 3, effectivePos.getZ() + 0.5 + Mth.nextDouble(world.random, -3, 3), world.random.nextFloat() * 360, 0);
-						entity.addEffect(new MobEffectInstance(BWStatusEffects.WEDNESDAY, world.random.nextInt(100)));
+						entity.addEffect(new MobEffectInstance(BWStatusEffects.WEDNESDAY.get(), world.random.nextInt(100)));
 						entity.isFromWednesdayRitual = true;
 						world.addFreshEntity(entity);
 					}

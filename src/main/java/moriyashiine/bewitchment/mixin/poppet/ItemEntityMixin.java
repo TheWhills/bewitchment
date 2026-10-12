@@ -37,7 +37,7 @@ public abstract class ItemEntityMixin extends Entity {
 
 	@Inject(method = "tick", at = @At("TAIL"))
 	private void tick(CallbackInfo callbackInfo) {
-		if (getStack().getItem() == BWObjects.VOODOO_POPPET && !BWConfig.disabledPoppets.contains("bewitchment:voodoo_poppet")) {
+		if (getStack().getItem() == BWObjects.VOODOO_POPPET.get() && !BWConfig.disabledPoppets.contains("bewitchment:voodoo_poppet")) {
 			LivingEntity owner = BewitchmentAPI.getTaglockOwner(level(), getStack());
 			if (owner != null) {
 				if (getDeltaMovement().length() > 1 / 8f) {
@@ -65,7 +65,7 @@ public abstract class ItemEntityMixin extends Entity {
 
 	@Inject(method = "hurt", at = @At("HEAD"), cancellable = true)
 	private void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (getStack().getItem() == BWObjects.VOODOO_POPPET && !BWConfig.disabledPoppets.contains("bewitchment:voodoo_poppet")) {
+		if (getStack().getItem() == BWObjects.VOODOO_POPPET.get() && !BWConfig.disabledPoppets.contains("bewitchment:voodoo_poppet")) {
 			if (!level().isClientSide) {
 				LivingEntity owner = BewitchmentAPI.getTaglockOwner(level(), getStack());
 				if (owner != null) {

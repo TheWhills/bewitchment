@@ -33,13 +33,13 @@ public abstract class LivingEntityMixin extends Entity {
 	private float modifyDamage(float amount, DamageSource source) {
 		if (!level().isClientSide) {
 			Entity directSource = source.getDirectEntity();
-			if ((Object) this instanceof Player player && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.FAMINE)) {
+			if ((Object) this instanceof Player player && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.FAMINE.get())) {
 				amount /= (2 - (player.getFoodData().getFoodLevel() / 20f));
 			}
-			if (directSource instanceof Player player && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.WRATH)) {
+			if (directSource instanceof Player player && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.WRATH.get())) {
 				amount *= (3 - 2 * (player.getHealth() / player.getMaxHealth()));
 			}
-			if (directSource instanceof Player player && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.PESTILENCE)) {
+			if (directSource instanceof Player player && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.PESTILENCE.get())) {
 				addStatusEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100));
 				addStatusEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100));
 				addStatusEffect(new MobEffectInstance(MobEffects.WITHER, 100));

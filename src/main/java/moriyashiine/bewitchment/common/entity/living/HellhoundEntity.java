@@ -81,17 +81,17 @@ public class HellhoundEntity extends BWHostileEntity {
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return BWSoundEvents.ENTITY_HELLHOUND_AMBIENT;
+		return BWSoundEvents.ENTITY_HELLHOUND_AMBIENT.get();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return BWSoundEvents.ENTITY_HELLHOUND_HURT;
+		return BWSoundEvents.ENTITY_HELLHOUND_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return BWSoundEvents.ENTITY_HELLHOUND_DEATH;
+		return BWSoundEvents.ENTITY_HELLHOUND_DEATH.get();
 	}
 
 	@Override

@@ -33,6 +33,6 @@ public class SilverArrowItem extends ArrowItem {
 
 	@Override
 	public AbstractArrow createArrow(Level world, ItemStack stack, LivingEntity shooter) {
-		return new SilverArrowEntity(BWEntityTypes.SILVER_ARROW, shooter, world);
+		return new SilverArrowEntity(BWEntityTypes.SILVER_ARROW.get(), shooter, world);
 	}
 }

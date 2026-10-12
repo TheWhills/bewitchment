@@ -29,7 +29,7 @@ public class PoppetShelfBlockEntity extends BlockEntity {
 	public NonNullList<ItemStack> clientInventory = NonNullList.withSize(9, ItemStack.EMPTY);
 
 	public PoppetShelfBlockEntity(BlockPos pos, BlockState state) {
-		super(BWBlockEntityTypes.POPPET_SHELF, pos, state);
+		super(BWBlockEntityTypes.POPPET_SHELF.get(), pos, state);
 	}
 
 	public void onUse(Level world, BlockPos pos, Player player, InteractionHand hand) {

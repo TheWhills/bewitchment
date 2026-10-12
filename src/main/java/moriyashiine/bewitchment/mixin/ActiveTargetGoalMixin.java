@@ -31,7 +31,7 @@ public abstract class ActiveTargetGoalMixin<T extends LivingEntity> extends Targ
 	private void findClosestTarget(CallbackInfo callbackInfo) {
 		if (targetEntity instanceof Player player && BWComponents.FULL_INVISIBILITY_COMPONENT.get(player).isFullInvisible()) {
 			targetEntity = null;
-		} else if (BWComponents.MINION_COMPONENT.get(mob).getMaster() == null && mob.isInvertedHealAndHarm() && targetEntity != null && BWUtil.getArmorPieces(targetEntity, stack -> stack.getItem() == BWObjects.HARBINGER) > 0) {
+		} else if (BWComponents.MINION_COMPONENT.get(mob).getMaster() == null && mob.isInvertedHealAndHarm() && targetEntity != null && BWUtil.getArmorPieces(targetEntity, stack -> stack.getItem() == BWObjects.HARBINGER.get()) > 0) {
 			targetEntity = null;
 		}
 	}

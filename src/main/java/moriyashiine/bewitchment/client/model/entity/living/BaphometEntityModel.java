@@ -22,7 +22,7 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
 
 public class BaphometEntityModel<T extends BaphometEntity> extends HumanoidModel<T> {
-	private static final ItemStack CADUCEUS = new ItemStack(BWObjects.CADUCEUS);
+	private static final ItemStack CADUCEUS = new ItemStack(BWObjects.CADUCEUS.get());
 
 	private final ModelPart realBody;
 	private final ModelPart frontLoincloth;

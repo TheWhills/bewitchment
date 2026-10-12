@@ -38,9 +38,9 @@ public abstract class BlockMixin {
 			boolean damage = false;
 			if (state.getBlock() instanceof SaltLineBlock && BewitchmentAPI.isWeakToSilver(living)) {
 				damage = true;
-			} else if (state.getBlock() == BWObjects.GARLIC_CROP && BewitchmentAPI.isVampire(entity, true)) {
+			} else if (state.getBlock() == BWObjects.GARLIC_CROP.get() && BewitchmentAPI.isVampire(entity, true)) {
 				damage = true;
-			} else if (state.getBlock() == BWObjects.ACONITE_CROP && BewitchmentAPI.isWerewolf(entity, true)) {
+			} else if (state.getBlock() == BWObjects.ACONITE_CROP.get() && BewitchmentAPI.isWerewolf(entity, true)) {
 				damage = true;
 			}
 			if (damage) {

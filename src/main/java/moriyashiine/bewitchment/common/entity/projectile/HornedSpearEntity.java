@@ -33,7 +33,7 @@ public class HornedSpearEntity extends AbstractArrow {
 	}
 
 	public HornedSpearEntity(Level world, double x, double y, double z) {
-		super(BWEntityTypes.HORNED_SPEAR, x, y, z, world);
+		super(BWEntityTypes.HORNED_SPEAR.get(), x, y, z, world);
 	}
 
 	public HornedSpearEntity(EntityType<? extends AbstractArrow> type, LivingEntity owner, Level world, ItemStack stack) {

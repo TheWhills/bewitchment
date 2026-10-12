@@ -35,7 +35,7 @@ public class DragonsBloodChestBlockEntity extends BWChestBlockEntity implements 
 	}
 
 	public DragonsBloodChestBlockEntity(BlockPos blockPos, BlockState blockState) {
-		this(BWBlockEntityTypes.DRAGONS_BLOOD_CHEST, blockPos, blockState, Type.DRAGONS_BLOOD, false);
+		this(BWBlockEntityTypes.DRAGONS_BLOOD_CHEST.get(), blockPos, blockState, Type.DRAGONS_BLOOD, false);
 	}
 
 	@Override

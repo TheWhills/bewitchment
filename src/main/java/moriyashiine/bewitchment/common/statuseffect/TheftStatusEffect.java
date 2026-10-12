@@ -38,6 +38,6 @@ public class TheftStatusEffect extends MobEffect {
 	@Override
 	public void addAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {
 		super.addAttributeModifiers(entity, attributes, amplifier);
-		entity.removeEffect(BWStatusEffects.SYNCHRONIZED);
+		entity.removeEffect(BWStatusEffects.SYNCHRONIZED.get());
 	}
 }

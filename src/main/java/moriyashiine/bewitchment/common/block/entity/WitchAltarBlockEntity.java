@@ -49,7 +49,7 @@ public class WitchAltarBlockEntity extends BlockEntity implements Container {
 	private final NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
 
 	public WitchAltarBlockEntity(BlockPos pos, BlockState state) {
-		super(BWBlockEntityTypes.WITCH_ALTAR, pos, state);
+		super(BWBlockEntityTypes.WITCH_ALTAR.get(), pos, state);
 	}
 
 	@Override
@@ -109,13 +109,13 @@ public class WitchAltarBlockEntity extends BlockEntity implements Container {
 				}
 				blockEntity.scan(40);
 				if (world.getGameTime() % 20 == 0) {
-					if (world.getBlockState(pos.above()).getBlock() == BWObjects.BLESSED_STONE) {
+					if (world.getBlockState(pos.above()).getBlock() == BWObjects.BLESSED_STONE.get()) {
 						blockEntity.power = Integer.MAX_VALUE;
 					} else {
 						blockEntity.power = Math.min(blockEntity.power + blockEntity.gain, blockEntity.maxPower);
 					}
 					PlayerLookup.around((ServerLevel) world, Vec3.atLowerCornerOf(pos), 24).forEach(player -> {
-						if (player.canBeSeenByAnyone() && !player.isCreative() && !BWComponents.CURSES_COMPONENT.get(player).hasCurse(BWCurses.APATHY) && BewitchmentAPI.fillMagic(player, 5, true) && blockEntity.drain(10, true)) {
+						if (player.canBeSeenByAnyone() && !player.isCreative() && !BWComponents.CURSES_COMPONENT.get(player).hasCurse(BWCurses.APATHY.get()) && BewitchmentAPI.fillMagic(player, 5, true) && blockEntity.drain(10, true)) {
 							BewitchmentAPI.fillMagic(player, 5, false);
 							blockEntity.drain(10, false);
 						}

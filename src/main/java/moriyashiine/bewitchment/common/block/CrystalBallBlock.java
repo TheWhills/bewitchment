@@ -66,16 +66,16 @@ public class CrystalBallBlock extends Block implements SimpleWaterloggedBlock {
 				world.addParticle(new DustParticleOptions(new Vector3f(1, 1, 1), 1), pos.getX() + world.random.nextFloat(), pos.getY() + world.random.nextFloat(), pos.getZ() + world.random.nextFloat(), 0, 0, 0);
 			}
 		} else {
-			SoundEvent sound = BWSoundEvents.BLOCK_CRYSTAL_BALL_FAIL;
+			SoundEvent sound = BWSoundEvents.BLOCK_CRYSTAL_BALL_FAIL.get();
 			BlockPos nearestAltarPos = WitchAltarBlock.getClosestAltarPos(world, pos);
 			if (nearestAltarPos != null && ((WitchAltarBlockEntity) world.getBlockEntity(nearestAltarPos)).drain(500, false)) {
 				ItemStack stack = player.getItemInHand(hand);
 				if (stack.getItem() instanceof TaglockItem && TaglockItem.isTaglockFromPlayer(stack) && !stack.getTag().contains("UsedForScrying")) {
 					if (BewitchmentAPI.getTaglockOwner(world, stack) instanceof Player owner) {
 						boolean failed = false;
-						BlockPos sigilPos = BWUtil.getClosestBlockPos(owner.blockPosition(), 16, currentPos -> world.getBlockEntity(currentPos) instanceof SigilHolder sigilHolder && sigilHolder.getSigil() == BWSigils.SHADOWS);
+						BlockPos sigilPos = BWUtil.getClosestBlockPos(owner.blockPosition(), 16, currentPos -> world.getBlockEntity(currentPos) instanceof SigilHolder sigilHolder && sigilHolder.getSigil() == BWSigils.SHADOWS.get());
 						if (sigilPos == null) {
-							sigilPos = BWUtil.getClosestBlockPos(pos, 16, currentPos -> world.getBlockEntity(currentPos) instanceof SigilHolder sigilHolder && sigilHolder.getSigil() == BWSigils.SHADOWS);
+							sigilPos = BWUtil.getClosestBlockPos(pos, 16, currentPos -> world.getBlockEntity(currentPos) instanceof SigilHolder sigilHolder && sigilHolder.getSigil() == BWSigils.SHADOWS.get());
 						}
 						if (sigilPos != null) {
 							BlockEntity blockEntity = world.getBlockEntity(sigilPos);
@@ -86,7 +86,7 @@ public class CrystalBallBlock extends Block implements SimpleWaterloggedBlock {
 								failed = true;
 							}
 						}
-						ItemStack newTaglock = new ItemStack(BWObjects.TAGLOCK);
+						ItemStack newTaglock = new ItemStack(BWObjects.TAGLOCK.get());
 						CompoundTag taglockCompound = newTaglock.getOrCreateTag().merge(stack.getTag());
 						taglockCompound.putBoolean("UsedForScrying", true);
 						if (!failed) {
@@ -106,7 +106,7 @@ public class CrystalBallBlock extends Block implements SimpleWaterloggedBlock {
 							}
 							taglockCompound.putString("Familiar", familiar);
 							taglockCompound.putString("Pledge", BWComponents.PLEDGE_COMPONENT.get(owner).getPledge());
-							sound = BWSoundEvents.BLOCK_CRYSTAL_BALL_FIRE;
+							sound = BWSoundEvents.BLOCK_CRYSTAL_BALL_FIRE.get();
 						} else {
 							taglockCompound.putBoolean("Failed", true);
 							player.displayClientMessage(Component.translatable(Bewitchment.MOD_ID + ".message.blocked_by_shadows"), true);
@@ -118,9 +118,9 @@ public class CrystalBallBlock extends Block implements SimpleWaterloggedBlock {
 				} else {
 					FortuneComponent fortuneComponent = BWComponents.FORTUNE_COMPONENT.get(player);
 					if (fortuneComponent.getFortune() == null) {
-						sound = BWSoundEvents.BLOCK_CRYSTAL_BALL_FIRE;
+						sound = BWSoundEvents.BLOCK_CRYSTAL_BALL_FIRE.get();
 						Fortune fortune = BWRegistries.FORTUNE.byId(world.random.nextInt(BWRegistries.FORTUNE.size()));
-						if (BWComponents.CURSES_COMPONENT.get(player).hasCurse(BWCurses.UNLUCKY)) {
+						if (BWComponents.CURSES_COMPONENT.get(player).hasCurse(BWCurses.UNLUCKY.get())) {
 							while (fortune.positive) {
 								fortune = BWRegistries.FORTUNE.byId(world.random.nextInt(BWRegistries.FORTUNE.size()));
 							}

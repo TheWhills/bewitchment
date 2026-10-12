@@ -15,10 +15,10 @@ import net.minecraft.world.item.Item;
 
 public class BWBoatTypes {
 	public static void init() {
-		registerBoat("juniper", BWObjects.JUNIPER_PLANKS.asItem());
-		registerBoat("cypress", BWObjects.CYPRESS_PLANKS.asItem());
-		registerBoat("elder", BWObjects.ELDER_PLANKS.asItem());
-		registerBoat("dragons_blood", BWObjects.DRAGONS_BLOOD_PLANKS.asItem());
+		registerBoat("juniper", BWObjects.JUNIPER_PLANKS.get().asItem());
+		registerBoat("cypress", BWObjects.CYPRESS_PLANKS.get().asItem());
+		registerBoat("elder", BWObjects.ELDER_PLANKS.get().asItem());
+		registerBoat("dragons_blood", BWObjects.DRAGONS_BLOOD_PLANKS.get().asItem());
 	}
 
 	private static void registerBoat(String name, Item planks) {

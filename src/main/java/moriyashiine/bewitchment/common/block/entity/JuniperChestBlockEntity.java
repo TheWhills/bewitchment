@@ -29,7 +29,7 @@ public class JuniperChestBlockEntity extends BWChestBlockEntity implements Taglo
 	}
 
 	public JuniperChestBlockEntity(BlockPos blockPos, BlockState blockState) {
-		this(BWBlockEntityTypes.JUNIPER_CHEST, blockPos, blockState, Type.JUNIPER, false);
+		this(BWBlockEntityTypes.JUNIPER_CHEST.get(), blockPos, blockState, Type.JUNIPER, false);
 	}
 
 	@Override

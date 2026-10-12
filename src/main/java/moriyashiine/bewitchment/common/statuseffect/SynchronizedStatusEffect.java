@@ -35,6 +35,6 @@ public class SynchronizedStatusEffect extends MobEffect {
 	@Override
 	public void addAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {
 		super.addAttributeModifiers(entity, attributes, amplifier);
-		entity.removeEffect(BWStatusEffects.THEFT);
+		entity.removeEffect(BWStatusEffects.THEFT.get());
 	}
 }

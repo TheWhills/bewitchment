@@ -35,7 +35,7 @@ public abstract class LivingEntityMixin extends Entity {
 	private float modifyDamage(float amount, DamageSource source) {
 		if (!level().isClientSide && source.is(DamageTypeTags.IS_FALL)) {
 			BWWorldState worldState = BWWorldState.get(level());
-			BlockPos sigilPos = BWUtil.getClosestBlockPos(blockPosition(), 16, currentPos -> worldState.potentialSigils.contains(currentPos.asLong()) && level().getBlockEntity(currentPos) instanceof SigilHolder sigilHolder && sigilHolder.getSigil() == BWSigils.HEAVY);
+			BlockPos sigilPos = BWUtil.getClosestBlockPos(blockPosition(), 16, currentPos -> worldState.potentialSigils.contains(currentPos.asLong()) && level().getBlockEntity(currentPos) instanceof SigilHolder sigilHolder && sigilHolder.getSigil() == BWSigils.HEAVY.get());
 			if (sigilPos != null) {
 				BlockEntity blockEntity = level().getBlockEntity(sigilPos);
 				SigilHolder sigilHolder = (SigilHolder) blockEntity;
@@ -53,7 +53,7 @@ public abstract class LivingEntityMixin extends Entity {
 	private void canHaveStatusEffect(MobEffectInstance effect, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (callbackInfo.getReturnValueZ() && !level().isClientSide && !effect.isAmbient() && effect.getEffect().getCategory() != MobEffectCategory.HARMFUL) {
 			BWWorldState worldState = BWWorldState.get(level());
-			BlockPos sigilPos = BWUtil.getClosestBlockPos(blockPosition(), 16, currentPos -> worldState.potentialSigils.contains(currentPos.asLong()) && level().getBlockEntity(currentPos) instanceof SigilHolder sigilHolder && sigilHolder.getSigil() == BWSigils.RUIN);
+			BlockPos sigilPos = BWUtil.getClosestBlockPos(blockPosition(), 16, currentPos -> worldState.potentialSigils.contains(currentPos.asLong()) && level().getBlockEntity(currentPos) instanceof SigilHolder sigilHolder && sigilHolder.getSigil() == BWSigils.RUIN.get());
 			if (sigilPos != null) {
 				BlockEntity blockEntity = level().getBlockEntity(sigilPos);
 				SigilHolder sigilHolder = (SigilHolder) blockEntity;

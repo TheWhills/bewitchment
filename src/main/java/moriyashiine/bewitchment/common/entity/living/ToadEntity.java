@@ -77,7 +77,7 @@ public class ToadEntity extends BWTameableEntity {
 	@Nullable
 	@Override
 	public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob entity) {
-		ToadEntity child = BWEntityTypes.TOAD.create(world);
+		ToadEntity child = BWEntityTypes.TOAD.get().create(world);
 		if (child != null) {
 			child.finalizeSpawn(world, world.getCurrentDifficultyAt(blockPosition()), MobSpawnType.BREEDING, null, null);
 			UUID owner = getOwnerUUID();
@@ -95,17 +95,17 @@ public class ToadEntity extends BWTameableEntity {
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return BWSoundEvents.ENTITY_TOAD_AMBIENT;
+		return BWSoundEvents.ENTITY_TOAD_AMBIENT.get();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return BWSoundEvents.ENTITY_TOAD_HURT;
+		return BWSoundEvents.ENTITY_TOAD_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return BWSoundEvents.ENTITY_TOAD_DEATH;
+		return BWSoundEvents.ENTITY_TOAD_DEATH.get();
 	}
 
 	@Override

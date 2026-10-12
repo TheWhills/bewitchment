@@ -105,7 +105,7 @@ public interface SigilHolder {
 					setModeOnWhitelist(false);
 					syncSigilHolder(blockEntity);
 					blockEntity.setChanged();
-					if (blockEntity.getBlockState().getBlock() == BWObjects.SIGIL) {
+					if (blockEntity.getBlockState().getBlock() == BWObjects.SIGIL.get()) {
 						world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 					}
 				}

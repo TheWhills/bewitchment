@@ -22,7 +22,7 @@ public class SummonDemonRitualFunction extends RitualFunction {
 
 	@Override
 	public void start(ServerLevel world, BlockPos glyphPos, BlockPos effectivePos, Container inventory, boolean catFamiliar) {
-		DemonEntity entity = BWEntityTypes.DEMON.create(world);
+		DemonEntity entity = BWEntityTypes.DEMON.get().create(world);
 		if (entity != null) {
 			entity.finalizeSpawn(world, world.getCurrentDifficultyAt(effectivePos), MobSpawnType.EVENT, null, null);
 			entity.absMoveTo(effectivePos.getX() + 0.5, effectivePos.getY(), effectivePos.getZ() + 0.5, world.random.nextFloat() * 360, 0);

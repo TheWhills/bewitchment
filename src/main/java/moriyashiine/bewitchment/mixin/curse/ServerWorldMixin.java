@@ -22,7 +22,7 @@ public abstract class ServerWorldMixin {
 	private void spawnEntity(Entity entity, CallbackInfoReturnable<Boolean> callbackInfo) {
 		if (entity instanceof LightningBolt) {
 			LivingEntity closest = null;
-			for (LivingEntity foundLiving : entity.level().getEntitiesOfClass(LivingEntity.class, new AABB(entity.blockPosition()).inflate(256), currentLiving -> currentLiving.isAlive() && BWComponents.CURSES_COMPONENT.get(currentLiving).hasCurse(BWCurses.LIGHTNING_ROD))) {
+			for (LivingEntity foundLiving : entity.level().getEntitiesOfClass(LivingEntity.class, new AABB(entity.blockPosition()).inflate(256), currentLiving -> currentLiving.isAlive() && BWComponents.CURSES_COMPONENT.get(currentLiving).hasCurse(BWCurses.LIGHTNING_ROD.get()))) {
 				if (closest == null || foundLiving.distanceTo(entity) < closest.distanceTo(entity)) {
 					closest = foundLiving;
 				}

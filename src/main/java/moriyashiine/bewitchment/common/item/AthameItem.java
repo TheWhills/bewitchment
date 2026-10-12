@@ -58,8 +58,8 @@ public class AthameItem extends SwordItem {
 			BlockPos pos = pointer.getPos().relative(pointer.getBlockState().getValue(BlockStateProperties.FACING));
 			if (cutLog(world, pos, stack)) {
 				setSuccess(true);
-			} else if (world.getBlockState(pos).getBlock() == BWObjects.GOLDEN_GLYPH) {
-				BWObjects.GOLDEN_GLYPH.use(world.getBlockState(pos), world, pos, BewitchmentAPI.getFakePlayer(world), InteractionHand.MAIN_HAND, BlockHitResult.miss(new Vec3(pos.getX(), pos.getY(), pos.getZ()), Direction.DOWN, pos));
+			} else if (world.getBlockState(pos).getBlock() == BWObjects.GOLDEN_GLYPH.get()) {
+				BWObjects.GOLDEN_GLYPH.get().use(world.getBlockState(pos), world, pos, BewitchmentAPI.getFakePlayer(world), InteractionHand.MAIN_HAND, BlockHitResult.miss(new Vec3(pos.getX(), pos.getY(), pos.getZ()), Direction.DOWN, pos));
 				setSuccess(true);
 			}
 			return stack;
@@ -78,9 +78,9 @@ public class AthameItem extends SwordItem {
 		BlockState state = world.getBlockState(pos);
 		Player player = context.getPlayer();
 		boolean client = world.isClientSide;
-		AthameStrippingRecipe entry = world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.ATHAME_STRIPPING_RECIPE_TYPE).stream().filter(recipe -> recipe.log == state.getBlock()).findFirst().orElse(null);
+		AthameStrippingRecipe entry = world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.ATHAME_STRIPPING_RECIPE_TYPE.get()).stream().filter(recipe -> recipe.log == state.getBlock()).findFirst().orElse(null);
 		if (entry != null) {
-			world.playSound(player, pos, BWSoundEvents.ITEM_ATHAME_STRIP, SoundSource.BLOCKS, 1, 1);
+			world.playSound(player, pos, BWSoundEvents.ITEM_ATHAME_STRIP.get(), SoundSource.BLOCKS, 1, 1);
 			if (!client) {
 				world.setBlock(pos, entry.strippedLog.defaultBlockState().setValue(RotatedPillarBlock.AXIS, state.getValue(RotatedPillarBlock.AXIS)), 11);
 				if (player != null) {
@@ -100,7 +100,7 @@ public class AthameItem extends SwordItem {
 			if (player != null && player.getUUID().equals(sigilHolder.getOwner())) {
 				if (!client && !sigilHolder.getEntities().isEmpty()) {
 					boolean whitelist = sigilHolder.getModeOnWhitelist();
-					world.playSound(null, pos, BWSoundEvents.BLOCK_SIGIL_PLING, SoundSource.BLOCKS, 1, whitelist ? 0.5f : 1);
+					world.playSound(null, pos, BWSoundEvents.BLOCK_SIGIL_PLING.get(), SoundSource.BLOCKS, 1, whitelist ? 0.5f : 1);
 					player.displayClientMessage(Component.translatable(Bewitchment.MOD_ID + ".message.toggle_" + (!whitelist ? "whitelist" : "blacklist")), true);
 					sigilHolder.setModeOnWhitelist(!whitelist);
 					blockEntity.setChanged();
@@ -120,7 +120,7 @@ public class AthameItem extends SwordItem {
 			if (player != null && player.getUUID().equals(lockable.getOwner()) && !lockable.getEntities().isEmpty()) {
 				if (!client) {
 					boolean whitelist = lockable.getModeOnWhitelist();
-					world.playSound(null, pos, BWSoundEvents.BLOCK_SIGIL_PLING, SoundSource.BLOCKS, 1, whitelist ? 0.5f : 1);
+					world.playSound(null, pos, BWSoundEvents.BLOCK_SIGIL_PLING.get(), SoundSource.BLOCKS, 1, whitelist ? 0.5f : 1);
 					player.displayClientMessage(Component.translatable(Bewitchment.MOD_ID + ".message.toggle_" + (!whitelist ? "whitelist" : "blacklist")), true);
 					lockable.setModeOnWhitelist(!whitelist);
 					blockEntity.setChanged();
@@ -143,7 +143,7 @@ public class AthameItem extends SwordItem {
 	private static boolean cutLog(Level world, BlockPos pos, ItemStack stack) {
 		BlockState state = world.getBlockState(pos);
 		if (state.getBlock() instanceof DragonsBloodLogBlock && state.getValue(BWProperties.NATURAL) && !state.getValue(BWProperties.CUT)) {
-			world.playSound(null, pos, BWSoundEvents.ITEM_ATHAME_STRIP, SoundSource.BLOCKS, 1, 1);
+			world.playSound(null, pos, BWSoundEvents.ITEM_ATHAME_STRIP.get(), SoundSource.BLOCKS, 1, 1);
 			world.setBlockAndUpdate(pos, state.setValue(BWProperties.CUT, true));
 			if (stack.hurt(1, world.random, null) && stack.getDamageValue() >= stack.getMaxDamage()) {
 				stack.shrink(1);

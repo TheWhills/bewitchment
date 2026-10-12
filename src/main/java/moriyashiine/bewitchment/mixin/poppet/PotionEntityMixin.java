@@ -38,7 +38,7 @@ public abstract class PotionEntityMixin extends ThrowableItemProjectile {
 		}
 		List<ItemEntity> itemEntities = level().getEntitiesOfClass(ItemEntity.class, box);
 		for (ItemEntity itemEntity : itemEntities) {
-			if (itemEntity.getItem().getItem() == BWObjects.VOODOO_POPPET) {
+			if (itemEntity.getItem().getItem() == BWObjects.VOODOO_POPPET.get()) {
 				LivingEntity owner = BewitchmentAPI.getTaglockOwner(level(), itemEntity.getItem());
 				if (owner != null && owner.isAffectedByPotions()) {
 					for (MobEffectInstance effect : statusEffects) {

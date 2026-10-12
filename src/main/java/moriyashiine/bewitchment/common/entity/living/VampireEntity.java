@@ -91,17 +91,17 @@ public class VampireEntity extends BWHostileEntity {
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return BWSoundEvents.ENTITY_VAMPIRE_AMBIENT;
+		return BWSoundEvents.ENTITY_VAMPIRE_AMBIENT.get();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return BWSoundEvents.ENTITY_VAMPIRE_HURT;
+		return BWSoundEvents.ENTITY_VAMPIRE_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return BWSoundEvents.ENTITY_VAMPIRE_DEATH;
+		return BWSoundEvents.ENTITY_VAMPIRE_DEATH.get();
 	}
 
 	@Override

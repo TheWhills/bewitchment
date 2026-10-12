@@ -34,16 +34,16 @@ public class BWCropBlock extends CropBlock {
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
 		int age = getAge(state);
 		int modelAge = 0;
-		if (this == BWObjects.ACONITE_CROP) {
+		if (this == BWObjects.ACONITE_CROP.get()) {
 			modelAge = age == 0 ? 1 : age == 1 ? 3 : age == 2 ? 5 : 7;
 		}
-		if (this == BWObjects.BELLADONNA_CROP) {
+		if (this == BWObjects.BELLADONNA_CROP.get()) {
 			modelAge = age == 0 ? 1 : age == 1 ? 3 : age == 2 ? 5 : 6;
 		}
-		if (this == BWObjects.GARLIC_CROP) {
+		if (this == BWObjects.GARLIC_CROP.get()) {
 			modelAge = age == 0 ? 2 : age == 1 ? 3 : age == 2 ? 5 : 6;
 		}
-		if (this == BWObjects.MANDRAKE_CROP) {
+		if (this == BWObjects.MANDRAKE_CROP.get()) {
 			modelAge = age == 0 ? 1 : age == 1 ? 2 : 3;
 		}
 		return AGE_TO_SHAPE[modelAge];
@@ -51,7 +51,7 @@ public class BWCropBlock extends CropBlock {
 
 	@Override
 	protected ItemLike getBaseSeedId() {
-		return this == BWObjects.ACONITE_CROP ? BWObjects.ACONITE_SEEDS : this == BWObjects.BELLADONNA_CROP ? BWObjects.BELLADONNA_SEEDS : this == BWObjects.GARLIC_CROP ? BWObjects.GARLIC : BWObjects.MANDRAKE_SEEDS;
+		return this == BWObjects.ACONITE_CROP.get() ? BWObjects.ACONITE_SEEDS.get() : this == BWObjects.BELLADONNA_CROP.get() ? BWObjects.BELLADONNA_SEEDS.get() : this == BWObjects.GARLIC_CROP.get() ? BWObjects.GARLIC.get() : BWObjects.MANDRAKE_SEEDS.get();
 	}
 
 	@Override
@@ -74,9 +74,9 @@ public class BWCropBlock extends CropBlock {
 		super.entityInside(state, world, pos, entity);
 		if (entity instanceof LivingEntity livingEntity) {
 			boolean damage = false;
-			if (this == BWObjects.GARLIC_CROP && BewitchmentAPI.isVampire(entity, true)) {
+			if (this == BWObjects.GARLIC_CROP.get() && BewitchmentAPI.isVampire(entity, true)) {
 				damage = true;
-			} else if (this == BWObjects.ACONITE_CROP && BewitchmentAPI.isWerewolf(entity, true)) {
+			} else if (this == BWObjects.ACONITE_CROP.get() && BewitchmentAPI.isWerewolf(entity, true)) {
 				damage = true;
 			}
 			if (damage) {

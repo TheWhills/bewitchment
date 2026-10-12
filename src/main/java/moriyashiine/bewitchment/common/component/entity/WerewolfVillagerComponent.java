@@ -54,10 +54,10 @@ public class WerewolfVillagerComponent implements ServerTickingComponent {
 				}
 			}
 			if (obj.tickCount % 20 == 0 && obj.level().isNight() && BewitchmentAPI.getMoonPhase(obj.level()) == 0 && (obj.hasCustomName() || obj.level().canSeeSky(obj.blockPosition()))) {
-				WerewolfEntity entity = BWEntityTypes.WEREWOLF.create(obj.level());
+				WerewolfEntity entity = BWEntityTypes.WEREWOLF.get().create(obj.level());
 				if (entity != null) {
 					PlayerLookup.tracking(obj).forEach(trackingPlayer -> SpawnSmokeParticlesPacket.send(trackingPlayer, obj));
-					obj.level().playSound(null, obj.getX(), obj.getY(), obj.getZ(), BWSoundEvents.ENTITY_GENERIC_TRANSFORM, obj.getSoundSource(), 1, obj.getVoicePitch());
+					obj.level().playSound(null, obj.getX(), obj.getY(), obj.getZ(), BWSoundEvents.ENTITY_GENERIC_TRANSFORM.get(), obj.getSoundSource(), 1, obj.getVoicePitch());
 					entity.load(getStoredWerewolf());
 					entity.absMoveTo(obj.getX(), obj.getY(), obj.getZ(), obj.getRandom().nextFloat() * 360, 0);
 					entity.setHealth(entity.getMaxHealth() * (obj.getHealth() / obj.getMaxHealth()));

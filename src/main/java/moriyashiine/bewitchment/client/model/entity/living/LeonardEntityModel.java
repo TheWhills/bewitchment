@@ -21,7 +21,7 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
 
 public class LeonardEntityModel<T extends LeonardEntity> extends HumanoidModel<T> {
-	private static final ItemStack SCEPTER = new ItemStack(BWObjects.SCEPTER);
+	private static final ItemStack SCEPTER = new ItemStack(BWObjects.SCEPTER.get());
 
 	private final ModelPart realBody;
 	private final ModelPart frontLoincloth00;

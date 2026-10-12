@@ -53,7 +53,7 @@ public abstract class MobEntityMixin extends LivingEntity {
 
 	@Inject(method = "dropFromLootTable", at = @At("HEAD"))
 	private void dropLoot(DamageSource source, boolean causedByPlayer, CallbackInfo callbackInfo) {
-		if (!level().isClientSide && (Object) this instanceof Spider && !spawnedByArachnophobia && source.getEntity() instanceof LivingEntity livingAttacker && BWComponents.CURSES_COMPONENT.get(livingAttacker).hasCurse(BWCurses.ARACHNOPHOBIA)) {
+		if (!level().isClientSide && (Object) this instanceof Spider && !spawnedByArachnophobia && source.getEntity() instanceof LivingEntity livingAttacker && BWComponents.CURSES_COMPONENT.get(livingAttacker).hasCurse(BWCurses.ARACHNOPHOBIA.get())) {
 			for (int i = 0; i < random.nextInt(3) + 3; i++) {
 				Spider spider;
 				if (random.nextFloat() < 1 / 8192f) {

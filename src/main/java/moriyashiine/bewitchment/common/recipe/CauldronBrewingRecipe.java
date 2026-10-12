@@ -60,12 +60,12 @@ public class CauldronBrewingRecipe implements Recipe<Container> {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return BWRecipeTypes.CAULDRON_BREWING_RECIPE_SERIALIZER;
+		return BWRecipeTypes.CAULDRON_BREWING_RECIPE_SERIALIZER.get();
 	}
 
 	@Override
 	public RecipeType<?> getType() {
-		return BWRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE;
+		return BWRecipeTypes.CAULDRON_BREWING_RECIPE_TYPE.get();
 	}
 
 	@SuppressWarnings("ConstantConditions")

@@ -56,18 +56,37 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(Bewitchment.MOD_ID)
 public class Bewitchment {
 	public static final String MOD_ID = "bewitchment";
 
 	public Bewitchment() {
+		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+		BWRegistration.register(modBus);
+		modBus.addListener(this::commonSetup);
 		onInitialize();
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> BewitchmentClient::init);
 	}
 
-	// TODO(forge-port): split into DeferredRegister setup + event subscribers; body is still Fabric-shaped.
+	private void commonSetup(FMLCommonSetupEvent event) {
+		event.enqueueWork(() -> BewitchmentAPI.registerAltarMapEntries(
+				BWObjects.STONE_WITCH_ALTAR.get(),
+				BWObjects.MOSSY_COBBLESTONE_WITCH_ALTAR.get(),
+				BWObjects.PRISMARINE_WITCH_ALTAR.get(),
+				BWObjects.NETHER_BRICK_WITCH_ALTAR.get(),
+				BWObjects.BLACKSTONE_WITCH_ALTAR.get(),
+				BWObjects.GOLDEN_WITCH_ALTAR.get(),
+				BWObjects.END_STONE_WITCH_ALTAR.get(),
+				BWObjects.OBSIDIAN_WITCH_ALTAR.get(),
+				BWObjects.PURPUR_WITCH_ALTAR.get()));
+	}
+
+	// TODO(forge-port): split into event subscribers; body is still Fabric-shaped.
 	@SuppressWarnings("ConstantConditions")
 	private void onInitialize() {
 		MidnightConfig.init(MOD_ID, BWConfig.class);
@@ -87,10 +106,10 @@ public class Bewitchment {
 		});
 		ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register((world, entity, killedEntity) -> {
 			if (entity instanceof LivingEntity livingEntity) {
-				if (livingEntity instanceof Player player && killedEntity.getMobType() == MobType.ARTHROPOD && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.TOAD) {
+				if (livingEntity instanceof Player player && killedEntity.getMobType() == MobType.ARTHROPOD && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.TOAD.get()) {
 					livingEntity.heal(livingEntity.getMaxHealth() * 1 / 4f);
 				}
-				if (livingEntity instanceof Player player && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.DEATH)) {
+				if (livingEntity instanceof Player player && BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.DEATH.get())) {
 					livingEntity.heal(livingEntity.getMaxHealth() / 4f);
 				}
 				if (livingEntity.getMainHandItem().getItem() instanceof AthameItem) {
@@ -105,16 +124,16 @@ public class Bewitchment {
 							Mob boss = null;
 							if (chicken) {
 								if (biome.is(ConventionalBiomeTags.EXTREME_HILLS) || biome.is(ConventionalBiomeTags.ICY) || biome.is(ConventionalBiomeTags.MOUNTAIN)) {
-									boss = BWEntityTypes.LILITH.create(world);
+									boss = BWEntityTypes.LILITH.get().create(world);
 								}
 							}
 							if (wolf) {
 								if (biome.is(ConventionalBiomeTags.TAIGA) || biome.is(ConventionalBiomeTags.FOREST)) {
-									boss = BWEntityTypes.HERNE.create(world);
+									boss = BWEntityTypes.HERNE.get().create(world);
 								}
 							}
 							if (boss != null) {
-								BlockPos brazierPos = BWUtil.getClosestBlockPos(killedEntity.blockPosition(), 8, currentPos -> world.getBlockEntity(currentPos) instanceof BrazierBlockEntity brazier && brazier.incenseRecipe.effect == BWStatusEffects.MORTAL_COIL);
+								BlockPos brazierPos = BWUtil.getClosestBlockPos(killedEntity.blockPosition(), 8, currentPos -> world.getBlockEntity(currentPos) instanceof BrazierBlockEntity brazier && brazier.incenseRecipe.effect == BWStatusEffects.MORTAL_COIL.get());
 								if (brazierPos != null) {
 									world.destroyBlock(brazierPos, false);
 									world.explode(null, brazierPos.getX() + 0.5, brazierPos.getY() + 0.5, brazierPos.getZ() + 0.5, 3, Level.ExplosionInteraction.TNT);
@@ -125,7 +144,7 @@ public class Bewitchment {
 							}
 						}
 					}
-					for (AthameDropRecipe recipe : world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.ATHAME_DROP_RECIPE_TYPE)) {
+					for (AthameDropRecipe recipe : world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.ATHAME_DROP_RECIPE_TYPE.get())) {
 						if (recipe.entity_type.equals(killedEntity.getType()) && world.random.nextFloat() < recipe.chance * (EnchantmentHelper.getMobLooting(livingEntity) + 1)) {
 							ItemStack drop = recipe.getResultItem(entity.level().registryAccess()).copy();
 							if (recipe.entity_type == EntityType.PLAYER) {
@@ -136,7 +155,7 @@ public class Bewitchment {
 					}
 					if (livingEntity instanceof Player player && livingEntity.getOffhandItem().getItem() == Items.GLASS_BOTTLE && BWComponents.BLOOD_COMPONENT.get(killedEntity).getBlood() > 20 && killedEntity.getType().is(BWTags.HAS_BLOOD)) {
 						world.playSound(null, livingEntity.blockPosition(), SoundEvents.BOTTLE_FILL, SoundSource.PLAYERS, 1, 0.5f);
-						BWUtil.addItemToInventoryAndConsume(player, InteractionHand.OFF_HAND, new ItemStack(BWObjects.BOTTLE_OF_BLOOD));
+						BWUtil.addItemToInventoryAndConsume(player, InteractionHand.OFF_HAND, new ItemStack(BWObjects.BOTTLE_OF_BLOOD.get()));
 					}
 				}
 			}
@@ -187,7 +206,7 @@ public class Bewitchment {
 						IncenseRecipe recipe = brazier.incenseRecipe;
 						int durationMultiplier = 1;
 						for (BlockPos sigilPos : BWUtil.getBlockPoses(foundPos, 16)) {
-							if (entity.level().getWorldBorder().isWithinBounds(foundPos) && worldState.potentialSigils.contains(sigilPos.asLong()) && entity.level().getBlockEntity(sigilPos) instanceof SigilBlockEntity sigil && sigil.getSigil() == BWSigils.EXTENDING) {
+							if (entity.level().getWorldBorder().isWithinBounds(foundPos) && worldState.potentialSigils.contains(sigilPos.asLong()) && entity.level().getBlockEntity(sigilPos) instanceof SigilBlockEntity sigil && sigil.getSigil() == BWSigils.EXTENDING.get()) {
 								if (sigil.test(entity)) {
 									sigil.setUses(sigil.getUses() - 1);
 									sigil.setChanged();
@@ -201,33 +220,10 @@ public class Bewitchment {
 				}
 			}
 		});
+		// TODO(forge-port): Pehkui scale types, Terraform boats and biome modifications are ported in later steps.
 		BWScaleTypes.init();
-		BWObjects.init();
 		BWBoatTypes.init();
-		BWBlockEntityTypes.init();
-		BWEntityTypes.init();
-		BWStatusEffects.init();
-		BWEnchantments.init();
-		BWRitualFunctions.init();
-		BWFortunes.init();
-		BWSigils.init();
-		BWTransformations.init();
-		BWContracts.init();
-		BWCurses.init();
-		BWSoundEvents.init();
-		BWParticleTypes.init();
-		BWRecipeTypes.init();
 		BWWorldGenerators.init();
-		BWScreenHandlerTypes.init();
-		BewitchmentAPI.registerAltarMapEntries(BWObjects.STONE_WITCH_ALTAR);
-		BewitchmentAPI.registerAltarMapEntries(BWObjects.MOSSY_COBBLESTONE_WITCH_ALTAR);
-		BewitchmentAPI.registerAltarMapEntries(BWObjects.PRISMARINE_WITCH_ALTAR);
-		BewitchmentAPI.registerAltarMapEntries(BWObjects.NETHER_BRICK_WITCH_ALTAR);
-		BewitchmentAPI.registerAltarMapEntries(BWObjects.BLACKSTONE_WITCH_ALTAR);
-		BewitchmentAPI.registerAltarMapEntries(BWObjects.GOLDEN_WITCH_ALTAR);
-		BewitchmentAPI.registerAltarMapEntries(BWObjects.END_STONE_WITCH_ALTAR);
-		BewitchmentAPI.registerAltarMapEntries(BWObjects.OBSIDIAN_WITCH_ALTAR);
-		BewitchmentAPI.registerAltarMapEntries(BWObjects.PURPUR_WITCH_ALTAR);
 	}
 
 	public static ResourceLocation id(String value) {

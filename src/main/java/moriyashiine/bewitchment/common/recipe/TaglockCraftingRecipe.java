@@ -63,7 +63,7 @@ public class TaglockCraftingRecipe extends CustomRecipe {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return BWRecipeTypes.TAGLOCK_CRAFTING_SERIALIZER;
+		return BWRecipeTypes.TAGLOCK_CRAFTING_SERIALIZER.get();
 	}
 
 	private static boolean isTaglockCraftable(ItemStack stack) {

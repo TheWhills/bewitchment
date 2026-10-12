@@ -5,28 +5,21 @@
 package moriyashiine.bewitchment.common.registry;
 
 import moriyashiine.bewitchment.common.Bewitchment;
-import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
+import java.util.function.Supplier;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class BWParticleTypes {
-	private static final Map<ParticleType<?>, ResourceLocation> PARTICLE_TYPES = new LinkedHashMap<>();
+	public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, Bewitchment.MOD_ID);
 
-	public static final ParticleType<SimpleParticleType> CAULDRON_BUBBLE = create("cauldron_bubble", FabricParticleTypes.simple());
-	public static final ParticleType<SimpleParticleType> INCENSE_SMOKE = create("incense_smoke", FabricParticleTypes.simple());
+	public static final RegistryObject<ParticleType<SimpleParticleType>> CAULDRON_BUBBLE = create("cauldron_bubble", () -> new SimpleParticleType(false));
+	public static final RegistryObject<ParticleType<SimpleParticleType>> INCENSE_SMOKE = create("incense_smoke", () -> new SimpleParticleType(false));
 
-	private static <T extends ParticleOptions> ParticleType<T> create(String name, ParticleType<T> type) {
-		PARTICLE_TYPES.put(type, Bewitchment.id(name));
-		return type;
-	}
-
-	public static void init() {
-		PARTICLE_TYPES.keySet().forEach(particleType -> Registry.register(BuiltInRegistries.PARTICLE_TYPE, PARTICLE_TYPES.get(particleType), particleType));
+	private static <T extends ParticleOptions> RegistryObject<ParticleType<T>> create(String name, Supplier<ParticleType<T>> type) {
+		return PARTICLE_TYPES.register(name, type);
 	}
 }

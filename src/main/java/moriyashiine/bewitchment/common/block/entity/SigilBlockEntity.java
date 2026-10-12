@@ -30,7 +30,7 @@ public class SigilBlockEntity extends BlockEntity implements SigilHolder {
 	private boolean modeOnWhitelist = false;
 
 	public SigilBlockEntity(BlockPos pos, BlockState state) {
-		super(BWBlockEntityTypes.SIGIL, pos, state);
+		super(BWBlockEntityTypes.SIGIL.get(), pos, state);
 	}
 
 	@Override

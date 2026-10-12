@@ -109,7 +109,7 @@ public class BaphometEntity extends BWHostileEntity implements Pledgeable, Demon
 						LargeFireball fireball = new LargeFireball(level(), this, target.getX() - getX() + (i * 2), target.getY(0.5) - getY(0.5), target.getZ() - getZ() + (i * 2), 1);
 						fireball.absMoveTo(fireball.getX(), getY(0.5), fireball.getZ());
 						fireball.setOwner(this);
-						level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_SHOOT, getSoundSource(), getSoundVolume(), getVoicePitch());
+						level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_SHOOT.get(), getSoundSource(), getSoundVolume(), getVoicePitch());
 						level().addFreshEntity(fireball);
 					}
 					swing(InteractionHand.MAIN_HAND);
@@ -143,7 +143,7 @@ public class BaphometEntity extends BWHostileEntity implements Pledgeable, Demon
 
 	@Override
 	public Collection<MobEffectInstance> getMinionBuffs() {
-		return Sets.newHashSet(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE), new MobEffectInstance(BWStatusEffects.HARDENING, Integer.MAX_VALUE, 1));
+		return Sets.newHashSet(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE), new MobEffectInstance(BWStatusEffects.HARDENING.get(), Integer.MAX_VALUE, 1));
 	}
 
 	@Override
@@ -174,17 +174,17 @@ public class BaphometEntity extends BWHostileEntity implements Pledgeable, Demon
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return BWSoundEvents.ENTITY_BAPHOMET_AMBIENT;
+		return BWSoundEvents.ENTITY_BAPHOMET_AMBIENT.get();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return BWSoundEvents.ENTITY_BAPHOMET_HURT;
+		return BWSoundEvents.ENTITY_BAPHOMET_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return BWSoundEvents.ENTITY_BAPHOMET_DEATH;
+		return BWSoundEvents.ENTITY_BAPHOMET_DEATH.get();
 	}
 
 	@Override
@@ -347,7 +347,7 @@ public class BaphometEntity extends BWHostileEntity implements Pledgeable, Demon
 	@Override
 	public void onSell(DemonEntity.DemonTradeOffer offer) {
 		if (!level().isClientSide) {
-			level().playSound(null, blockPosition(), BWSoundEvents.ITEM_CONTRACT_USE, getSoundSource(), getSoundVolume(), getVoicePitch());
+			level().playSound(null, blockPosition(), BWSoundEvents.ITEM_CONTRACT_USE.get(), getSoundSource(), getSoundVolume(), getVoicePitch());
 			level().playSound(null, blockPosition(), getAmbientSound(), getSoundSource(), getSoundVolume(), getVoicePitch());
 		}
 	}

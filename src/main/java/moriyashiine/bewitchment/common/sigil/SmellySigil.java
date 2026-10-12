@@ -29,7 +29,7 @@ public class SmellySigil extends Sigil {
 			double x = pos.getX() + 0.5, y = pos.getY() + 0.5, z = pos.getZ() + 0.5;
 			for (Monster entity : world.getEntitiesOfClass(Monster.class, new AABB(pos).inflate(16, 6, 16), LivingEntity::isAlive)) {
 				if (!entity.getType().is(BWTags.TAGLOCK_BLACKLIST) && sigil.test(entity)) {
-					if (entity.getNavigation().getTargetPos() == null || world.getBlockState(entity.getNavigation().getTargetPos()).getBlock() != BWObjects.SIGIL) {
+					if (entity.getNavigation().getTargetPos() == null || world.getBlockState(entity.getNavigation().getTargetPos()).getBlock() != BWObjects.SIGIL.get()) {
 						if (entity.getTarget() == null && Math.sqrt(entity.distanceToSqr(new Vec3(x, y, z))) > 3 && (entity.getNavigation().getTargetPos() == null || entity.getNavigation().getTargetPos().distSqr(pos) > 1)) {
 							entity.getNavigation().moveTo(x, y, z, 1);
 							amount++;

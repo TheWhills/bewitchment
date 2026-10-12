@@ -41,7 +41,7 @@ public abstract class BlockMixin {
 				List<ItemStack> drops = callbackInfo.getReturnValue();
 				if (!drops.isEmpty() && !EnchantmentHelper.getEnchantments(stack).containsKey(Enchantments.SILK_TOUCH)) {
 					if (fortuneComponent.getFortune() != null) {
-						if (fortuneComponent.getFortune().fortune == BWFortunes.TREASURE && world.random.nextFloat() < 1 / 25f) {
+						if (fortuneComponent.getFortune().fortune == BWFortunes.TREASURE.get() && world.random.nextFloat() < 1 / 25f) {
 							Set<ItemStack> treasure = new HashSet<>();
 							for (int i = 0; i < world.random.nextInt(1) + 1; i++) {
 								switch (world.random.nextInt(4)) {
@@ -52,13 +52,13 @@ public abstract class BlockMixin {
 									case 2 ->
 											treasure.add(new ItemStack(Items.IRON_INGOT, Mth.nextInt(world.random, 2, 10)));
 									case 3 ->
-											treasure.add(new ItemStack(BWObjects.SILVER_INGOT, Mth.nextInt(world.random, 1, 5)));
+											treasure.add(new ItemStack(BWObjects.SILVER_INGOT.get(), Mth.nextInt(world.random, 1, 5)));
 									default -> treasure.add(ItemStack.EMPTY);
 								}
 							}
 							drops.addAll(treasure);
 							fortuneComponent.getFortune().duration = 0;
-						} else if (fortuneComponent.getFortune().fortune == BWFortunes.INFESTED && world.random.nextFloat() < 1 / 25f) {
+						} else if (fortuneComponent.getFortune().fortune == BWFortunes.INFESTED.get() && world.random.nextFloat() < 1 / 25f) {
 							Silverfish silverfish = EntityType.SILVERFISH.create(world);
 							if (silverfish != null) {
 								silverfish.finalizeSpawn(world, world.getCurrentDifficultyAt(pos), MobSpawnType.EVENT, null, null);

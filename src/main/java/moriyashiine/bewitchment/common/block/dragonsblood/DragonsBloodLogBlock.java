@@ -39,7 +39,7 @@ public class DragonsBloodLogBlock extends RotatedPillarBlock {
 			boolean client = world.isClientSide;
 			if (!client) {
 				world.setBlockAndUpdate(pos, state.setValue(BWProperties.CUT, true));
-				world.playSound(null, pos, BWSoundEvents.ITEM_ATHAME_STRIP, SoundSource.BLOCKS, 1, 1);
+				world.playSound(null, pos, BWSoundEvents.ITEM_ATHAME_STRIP.get(), SoundSource.BLOCKS, 1, 1);
 				stack.hurtAndBreak(1, player, stackUser -> stackUser.broadcastBreakEvent(hand));
 			}
 			return InteractionResult.sidedSuccess(client);
@@ -54,7 +54,7 @@ public class DragonsBloodLogBlock extends RotatedPillarBlock {
 				for (int i = 0; i < 8; i++) {
 					BlockPos offset = pos.relative(Direction.Plane.HORIZONTAL.getRandomDirection(random));
 					if (world.getBlockState(offset).isAir()) {
-						Containers.dropItemStack(world, offset.getX() + 0.5, offset.getY() + 0.5, offset.getZ() + 0.5, new ItemStack(BWObjects.DRAGONS_BLOOD_RESIN));
+						Containers.dropItemStack(world, offset.getX() + 0.5, offset.getY() + 0.5, offset.getZ() + 0.5, new ItemStack(BWObjects.DRAGONS_BLOOD_RESIN.get()));
 						world.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1, 1);
 						break;
 					}

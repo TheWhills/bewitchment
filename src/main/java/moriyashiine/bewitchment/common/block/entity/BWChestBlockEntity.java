@@ -22,7 +22,7 @@ public class BWChestBlockEntity extends ChestBlockEntity {
 	}
 
 	public BWChestBlockEntity(BlockPos blockPos, BlockState blockState) {
-		this(BWBlockEntityTypes.BW_CHEST, blockPos, blockState, Type.JUNIPER, false);
+		this(BWBlockEntityTypes.BW_CHEST.get(), blockPos, blockState, Type.JUNIPER, false);
 	}
 
 	@Override

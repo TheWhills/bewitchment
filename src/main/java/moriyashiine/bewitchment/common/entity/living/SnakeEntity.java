@@ -92,7 +92,7 @@ public class SnakeEntity extends BWTameableEntity {
 	@Nullable
 	@Override
 	public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob entity) {
-		SnakeEntity child = BWEntityTypes.SNAKE.create(world);
+		SnakeEntity child = BWEntityTypes.SNAKE.get().create(world);
 		if (child != null) {
 			child.finalizeSpawn(world, world.getCurrentDifficultyAt(blockPosition()), MobSpawnType.BREEDING, null, null);
 			UUID owner = getOwnerUUID();
@@ -110,17 +110,17 @@ public class SnakeEntity extends BWTameableEntity {
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return BWSoundEvents.ENTITY_SNAKE_AMBIENT;
+		return BWSoundEvents.ENTITY_SNAKE_AMBIENT.get();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return BWSoundEvents.ENTITY_SNAKE_HURT;
+		return BWSoundEvents.ENTITY_SNAKE_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return BWSoundEvents.ENTITY_SNAKE_DEATH;
+		return BWSoundEvents.ENTITY_SNAKE_DEATH.get();
 	}
 
 	@Override

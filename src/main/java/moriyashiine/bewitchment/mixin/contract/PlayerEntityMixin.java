@@ -31,7 +31,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 	@ModifyVariable(method = "giveExperiencePoints", at = @At("HEAD"), argsOnly = true)
 	private int modifyAddExperience(int experience) {
-		if (BWComponents.CONTRACTS_COMPONENT.get(this).hasContract(BWContracts.PRIDE)) {
+		if (BWComponents.CONTRACTS_COMPONENT.get(this).hasContract(BWContracts.PRIDE.get())) {
 			experience *= 2;
 		}
 		return experience;
@@ -41,7 +41,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 	private void eatFood(Level world, ItemStack stack, CallbackInfoReturnable<ItemStack> callbackInfo) {
 		if (!world.isClientSide) {
 			FoodProperties foodComponent = stack.getItem().getFoodProperties();
-			if (foodComponent != null && BWComponents.CONTRACTS_COMPONENT.get(this).hasContract(BWContracts.GLUTTONY)) {
+			if (foodComponent != null && BWComponents.CONTRACTS_COMPONENT.get(this).hasContract(BWContracts.GLUTTONY.get())) {
 				getHungerManager().eat(foodComponent.getNutrition(), foodComponent.getSaturationModifier());
 			}
 		}

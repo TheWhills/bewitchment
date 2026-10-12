@@ -58,7 +58,7 @@ public class SigilItem extends Item {
 			if (!world.getBlockState(pos).canBeReplaced(placementContext)) {
 				return InteractionResult.PASS;
 			}
-			BlockState sigilState = BWObjects.SIGIL.getStateForPlacement(placementContext);
+			BlockState sigilState = BWObjects.SIGIL.get().getStateForPlacement(placementContext);
 			if (sigilState.canSurvive(world, pos)) {
 				if (!client) {
 					world.playSound(null, pos, sigilState.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1, Mth.nextFloat(world.random, 0.8f, 1.2f));
@@ -66,7 +66,7 @@ public class SigilItem extends Item {
 					BlockEntity blockEntity = world.getBlockEntity(pos);
 					SigilHolder sigilHolder = (SigilHolder) blockEntity;
 					sigilHolder.setSigil(sigil);
-					sigilHolder.setUses(sigil.uses * (BewitchmentAPI.getFamiliar(player) == BWEntityTypes.SNAKE ? 2 : 1));
+					sigilHolder.setUses(sigil.uses * (BewitchmentAPI.getFamiliar(player) == BWEntityTypes.SNAKE.get() ? 2 : 1));
 					sigilHolder.setOwner(player.getUUID());
 					sigilHolder.syncSigilHolder(blockEntity);
 					blockEntity.setChanged();
@@ -81,13 +81,13 @@ public class SigilItem extends Item {
 			}
 		} else {
 			BlockEntity blockEntity = world.getBlockEntity(pos);
-			if (blockEntity instanceof SigilHolder sigilHolder && state.getBlock() != BWObjects.SIGIL) {
+			if (blockEntity instanceof SigilHolder sigilHolder && state.getBlock() != BWObjects.SIGIL.get()) {
 				if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER) {
 					blockEntity = world.getBlockEntity(pos.below());
 				}
 				if (!client) {
 					sigilHolder.setSigil(sigil);
-					sigilHolder.setUses(sigil.uses * (BewitchmentAPI.getFamiliar(player) == BWEntityTypes.SNAKE ? 2 : 1));
+					sigilHolder.setUses(sigil.uses * (BewitchmentAPI.getFamiliar(player) == BWEntityTypes.SNAKE.get() ? 2 : 1));
 					sigilHolder.setOwner(player.getUUID());
 					sigilHolder.syncSigilHolder(blockEntity);
 					blockEntity.setChanged();
@@ -103,7 +103,7 @@ public class SigilItem extends Item {
 
 	@Override
 	public String getDescriptionId() {
-		return BWObjects.SIGIL.getDescriptionId();
+		return BWObjects.SIGIL.get().getDescriptionId();
 	}
 
 	@Override

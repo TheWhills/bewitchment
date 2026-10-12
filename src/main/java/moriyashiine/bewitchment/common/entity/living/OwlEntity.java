@@ -76,7 +76,7 @@ public class OwlEntity extends BWTameableEntity {
 	@Nullable
 	@Override
 	public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob entity) {
-		OwlEntity child = BWEntityTypes.OWL.create(world);
+		OwlEntity child = BWEntityTypes.OWL.get().create(world);
 		if (child != null) {
 			child.finalizeSpawn(world, world.getCurrentDifficultyAt(blockPosition()), MobSpawnType.BREEDING, null, null);
 			UUID owner = getOwnerUUID();
@@ -103,17 +103,17 @@ public class OwlEntity extends BWTameableEntity {
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return BWSoundEvents.ENTITY_OWL_AMBIENT;
+		return BWSoundEvents.ENTITY_OWL_AMBIENT.get();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return BWSoundEvents.ENTITY_OWL_HURT;
+		return BWSoundEvents.ENTITY_OWL_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return BWSoundEvents.ENTITY_OWL_DEATH;
+		return BWSoundEvents.ENTITY_OWL_DEATH.get();
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class OwlEntity extends BWTameableEntity {
 
 	@Override
 	protected void onFlap() {
-		playSound(BWSoundEvents.ENTITY_OWL_FLY, 0.15f, 1);
+		playSound(BWSoundEvents.ENTITY_OWL_FLY.get(), 0.15f, 1);
 	}
 
 	@Override

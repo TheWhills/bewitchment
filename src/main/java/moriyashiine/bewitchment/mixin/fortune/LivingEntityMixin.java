@@ -28,7 +28,7 @@ public abstract class LivingEntityMixin extends Entity {
 	private float modifyDamage(float amount, DamageSource source) {
 		if (!level().isClientSide && amount > 0 && source.is(DamageTypeTags.IS_PROJECTILE) && source.getEntity() instanceof Player player) {
 			FortuneComponent fortuneComponent = BWComponents.FORTUNE_COMPONENT.get(player);
-			if (fortuneComponent.getFortune() != null && fortuneComponent.getFortune().fortune == BWFortunes.HAWKEYE) {
+			if (fortuneComponent.getFortune() != null && fortuneComponent.getFortune().fortune == BWFortunes.HAWKEYE.get()) {
 				fortuneComponent.getFortune().duration = 0;
 				amount *= 3;
 			}

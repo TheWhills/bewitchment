@@ -32,7 +32,7 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@ModifyVariable(method = "addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z", at = @At("HEAD"), argsOnly = true)
 	private MobEffectInstance modifyStatusEffect(MobEffectInstance effect) {
-		if (!level().isClientSide && !effect.isAmbient() && effect.getEffect().getCategory() == MobEffectCategory.HARMFUL && BWComponents.CURSES_COMPONENT.get(this).hasCurse(BWCurses.COMPROMISED)) {
+		if (!level().isClientSide && !effect.isAmbient() && effect.getEffect().getCategory() == MobEffectCategory.HARMFUL && BWComponents.CURSES_COMPONENT.get(this).hasCurse(BWCurses.COMPROMISED.get())) {
 			return new MobEffectInstance(effect.getEffect(), effect.getDuration(), effect.getAmplifier() + 1, false, effect.isVisible(), effect.showIcon());
 		}
 		return effect;
@@ -42,10 +42,10 @@ public abstract class LivingEntityMixin extends Entity {
 	private float modifyDamage(float amount, DamageSource source) {
 		if (!level().isClientSide) {
 			CursesComponent cursesComponent = BWComponents.CURSES_COMPONENT.get(this);
-			if (cursesComponent.hasCurse(BWCurses.FORESTS_WRATH) && (source.is(DamageTypeTags.IS_FIRE) || ((source.getDirectEntity() instanceof LivingEntity livingSource && livingSource.getMainHandItem().getItem() instanceof AxeItem)))) {
+			if (cursesComponent.hasCurse(BWCurses.FORESTS_WRATH.get()) && (source.is(DamageTypeTags.IS_FIRE) || ((source.getDirectEntity() instanceof LivingEntity livingSource && livingSource.getMainHandItem().getItem() instanceof AxeItem)))) {
 				amount *= 2;
 			}
-			if (cursesComponent.hasCurse(BWCurses.SUSCEPTIBILITY) && source.is(DamageTypeTags.WITCH_RESISTANT_TO)) {
+			if (cursesComponent.hasCurse(BWCurses.SUSCEPTIBILITY.get()) && source.is(DamageTypeTags.WITCH_RESISTANT_TO)) {
 				amount *= 2;
 			}
 		}
@@ -61,7 +61,7 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "canBeAffected", at = @At("RETURN"), cancellable = true)
 	private void canHaveStatusEffect(MobEffectInstance effect, CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (callbackInfo.getReturnValueZ() && !level().isClientSide && !effect.isAmbient() && effect.getEffect().getCategory() == MobEffectCategory.BENEFICIAL && BWComponents.CURSES_COMPONENT.get(this).hasCurse(BWCurses.UNLUCKY) && random.nextBoolean()) {
+		if (callbackInfo.getReturnValueZ() && !level().isClientSide && !effect.isAmbient() && effect.getEffect().getCategory() == MobEffectCategory.BENEFICIAL && BWComponents.CURSES_COMPONENT.get(this).hasCurse(BWCurses.UNLUCKY.get()) && random.nextBoolean()) {
 			callbackInfo.setReturnValue(false);
 		}
 	}

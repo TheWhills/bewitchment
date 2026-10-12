@@ -28,7 +28,7 @@ public abstract class LivingEntityMixin extends Entity {
 	private float modifyDamage(float amount, DamageSource source) {
 		if (!level().isClientSide && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && level().getWorldBorder().isWithinBounds(blockPosition())) {
 			for (BlockPos foundPos : BWUtil.getBlockPoses(blockPosition(), 16)) {
-				if (level().getWorldBorder().isWithinBounds(foundPos) && level().getBlockEntity(foundPos) instanceof GlyphBlockEntity glyph && glyph.ritualFunction == BWRitualFunctions.PREVENT_DAMAGE) {
+				if (level().getWorldBorder().isWithinBounds(foundPos) && level().getBlockEntity(foundPos) instanceof GlyphBlockEntity glyph && glyph.ritualFunction == BWRitualFunctions.PREVENT_DAMAGE.get()) {
 					return 0;
 				}
 			}

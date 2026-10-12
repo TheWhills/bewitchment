@@ -17,8 +17,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
+import java.util.function.Supplier;
+
 public class DragonsBloodBroomItem extends BroomItem {
-	public DragonsBloodBroomItem(Properties settings, EntityType<?> broom) {
+	public DragonsBloodBroomItem(Properties settings, Supplier<? extends EntityType<?>> broom) {
 		super(settings, broom);
 	}
 

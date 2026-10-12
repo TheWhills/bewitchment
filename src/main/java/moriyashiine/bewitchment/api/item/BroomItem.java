@@ -14,10 +14,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
-public class BroomItem extends Item {
-	private final EntityType<?> broom;
+import java.util.function.Supplier;
 
-	public BroomItem(Properties settings, EntityType<?> broom) {
+public class BroomItem extends Item {
+	private final Supplier<? extends EntityType<?>> broom;
+
+	public BroomItem(Properties settings, Supplier<? extends EntityType<?>> broom) {
 		super(settings);
 		this.broom = broom;
 	}
@@ -29,7 +31,7 @@ public class BroomItem extends Item {
 		boolean client = world.isClientSide;
 		if (world.getBlockState(pos).isAir()) {
 			if (!client) {
-				Entity entity = broom.create(world);
+				Entity entity = broom.get().create(world);
 				if (entity instanceof BroomEntity broomEntity) {
 					entity.absMoveTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, context.getRotation(), context.getPlayer() == null ? 0 : context.getPlayer().getXRot());
 					if (context.getPlayer() != null) {

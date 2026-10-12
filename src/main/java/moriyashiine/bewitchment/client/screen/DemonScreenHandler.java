@@ -29,7 +29,7 @@ public class DemonScreenHandler extends AbstractContainerMenu {
 	public final Container demonInventory = new SimpleContainer(getOfferCount());
 
 	public DemonScreenHandler(int syncId, DemonMerchant merchant) {
-		this(BWScreenHandlerTypes.DEMON_SCREEN_HANDLER, syncId, merchant);
+		this(BWScreenHandlerTypes.DEMON_SCREEN_HANDLER.get(), syncId, merchant);
 	}
 
 	protected DemonScreenHandler(MenuType<?> type, int syncId, DemonMerchant merchant) {
@@ -110,7 +110,7 @@ public class DemonScreenHandler extends AbstractContainerMenu {
 		public ItemStack getItem() {
 			DemonEntity.DemonTradeOffer offer = getOffer();
 			if (offer != null) {
-				ItemStack contract = new ItemStack(BWObjects.DEMONIC_CONTRACT);
+				ItemStack contract = new ItemStack(BWObjects.DEMONIC_CONTRACT.get());
 				contract.getOrCreateTag().putString("Contract", BWRegistries.CONTRACT.getKey(getOffer().getContract()).toString());
 				contract.getOrCreateTag().putInt("Duration", getOffer().getDuration());
 				return contract;

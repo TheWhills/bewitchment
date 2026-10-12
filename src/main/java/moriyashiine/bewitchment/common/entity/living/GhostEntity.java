@@ -107,17 +107,17 @@ public class GhostEntity extends BWHostileEntity {
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return BWSoundEvents.ENTITY_GHOST_AMBIENT;
+		return BWSoundEvents.ENTITY_GHOST_AMBIENT.get();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return BWSoundEvents.ENTITY_GHOST_HURT;
+		return BWSoundEvents.ENTITY_GHOST_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return BWSoundEvents.ENTITY_GHOST_DEATH;
+		return BWSoundEvents.ENTITY_GHOST_DEATH.get();
 	}
 
 	@Override
@@ -173,7 +173,7 @@ public class GhostEntity extends BWHostileEntity {
 	}
 
 	public static MobEffectInstance getEffect(int type, int duration) {
-		return new MobEffectInstance(type == 1 ? MobEffects.HUNGER : type == 2 ? MobEffects.MOVEMENT_SLOWDOWN : type == 3 ? BWStatusEffects.CORROSION : BWStatusEffects.SINKING, duration);
+		return new MobEffectInstance(type == 1 ? MobEffects.HUNGER : type == 2 ? MobEffects.MOVEMENT_SLOWDOWN : type == 3 ? BWStatusEffects.CORROSION.get() : BWStatusEffects.SINKING.get(), duration);
 	}
 
 	private class GhostMoveControl extends MoveControl {

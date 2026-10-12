@@ -25,7 +25,7 @@ public class TaglockHolderBlockEntity extends BlockEntity implements TaglockHold
 	private UUID owner = null;
 
 	public TaglockHolderBlockEntity(BlockPos pos, BlockState state) {
-		super(BWBlockEntityTypes.TAGLOCK_HOLDER, pos, state);
+		super(BWBlockEntityTypes.TAGLOCK_HOLDER.get(), pos, state);
 	}
 
 	@Override

@@ -77,7 +77,7 @@ public class SigilBlock extends HorizontalDirectionalBlock implements EntityBloc
 
 	@Override
 	public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-		return BWObjects.SALT_LINE.canSurvive(state, world, pos);
+		return BWObjects.SALT_LINE.get().canSurvive(state, world, pos);
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class SigilBlock extends HorizontalDirectionalBlock implements EntityBloc
 
 	@Override
 	public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-		BWObjects.SALT_LINE.neighborChanged(state, world, pos, block, fromPos, notify);
+		BWObjects.SALT_LINE.get().neighborChanged(state, world, pos, block, fromPos, notify);
 	}
 
 	@Override

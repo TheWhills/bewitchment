@@ -50,7 +50,7 @@ public class BrambleBlock extends SugarCaneBlock {
 
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-		if (this == BWObjects.THICK_BRAMBLE && context instanceof EntityShapeContextAdditionAccessor accessor) {
+		if (this == BWObjects.THICK_BRAMBLE.get() && context instanceof EntityShapeContextAdditionAccessor accessor) {
 			Entity entity = accessor.bw_getEntity();
 			if (entity instanceof LivingEntity && !entity.isShiftKeyDown()) {
 				return Shapes.block();
@@ -67,7 +67,7 @@ public class BrambleBlock extends SugarCaneBlock {
 
 	@Override
 	public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) {
-		if (this == BWObjects.GLOWING_BRAMBLE && !world.isClientSide && state.getBlock() != oldState.getBlock()) {
+		if (this == BWObjects.GLOWING_BRAMBLE.get() && !world.isClientSide && state.getBlock() != oldState.getBlock()) {
 			BWWorldState worldState = BWWorldState.get(world);
 			worldState.glowingBrambles.add(pos.asLong());
 			worldState.setDirty();
@@ -76,7 +76,7 @@ public class BrambleBlock extends SugarCaneBlock {
 
 	@Override
 	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
-		if (this == BWObjects.GLOWING_BRAMBLE && !world.isClientSide && state.getBlock() != newState.getBlock()) {
+		if (this == BWObjects.GLOWING_BRAMBLE.get() && !world.isClientSide && state.getBlock() != newState.getBlock()) {
 			BWWorldState worldState = BWWorldState.get(world);
 			for (int i = worldState.glowingBrambles.size() - 1; i >= 0; i--) {
 				if (worldState.glowingBrambles.get(i) == pos.asLong()) {
@@ -91,7 +91,7 @@ public class BrambleBlock extends SugarCaneBlock {
 	@Override
 	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
 		if (!world.isClientSide && entity instanceof LivingEntity) {
-			if (this == BWObjects.ENDER_BRAMBLE && !entity.isPassenger()) {
+			if (this == BWObjects.ENDER_BRAMBLE.get() && !entity.isPassenger()) {
 				boolean teleport = true;
 				if (entity instanceof Player player) {
 					TeleportTimerComponent teleportTimerComponent = BWComponents.TELEPORT_TIMER_COMPONENT.get(player);
@@ -105,14 +105,14 @@ public class BrambleBlock extends SugarCaneBlock {
 					BWUtil.attemptTeleport(entity, entity.blockPosition(), 64, true);
 				}
 			}
-			if (this == BWObjects.SCORCHED_BRAMBLE) {
+			if (this == BWObjects.SCORCHED_BRAMBLE.get()) {
 				entity.setSecondsOnFire(10);
 			}
 		}
-		if (this == BWObjects.THICK_BRAMBLE && !entity.isShiftKeyDown()) {
+		if (this == BWObjects.THICK_BRAMBLE.get() && !entity.isShiftKeyDown()) {
 			entity.makeStuckInBlock(state, new Vec3(0.25, 0.5, 0.25));
 		}
-		if (this == BWObjects.FLEETING_BRAMBLE) {
+		if (this == BWObjects.FLEETING_BRAMBLE.get()) {
 			if (entity.isCrouching()) {
 				entity.setDeltaMovement(entity.getDeltaMovement().multiply(1, 0.5, 1));
 				entity.fallDistance = 0;
@@ -125,11 +125,11 @@ public class BrambleBlock extends SugarCaneBlock {
 	@Override
 	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
 		ParticleType<?> particleType = null;
-		if (this == BWObjects.ENDER_BRAMBLE) {
+		if (this == BWObjects.ENDER_BRAMBLE.get()) {
 			particleType = ParticleTypes.PORTAL;
-		} else if (this == BWObjects.SCORCHED_BRAMBLE) {
+		} else if (this == BWObjects.SCORCHED_BRAMBLE.get()) {
 			particleType = ParticleTypes.FLAME;
-		} else if (this == BWObjects.FLEETING_BRAMBLE) {
+		} else if (this == BWObjects.FLEETING_BRAMBLE.get()) {
 			particleType = ParticleTypes.CLOUD;
 		}
 		if (particleType != null) {
@@ -150,7 +150,7 @@ public class BrambleBlock extends SugarCaneBlock {
 				if (!client) {
 					world.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.LEVEL, 0).setValue(BWProperties.HAS_FRUIT, false));
 					world.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1, 1);
-					ItemStack stack = new ItemStack(BWObjects.WITCHBERRY);
+					ItemStack stack = new ItemStack(BWObjects.WITCHBERRY.get());
 					if (!player.getInventory().add(stack)) {
 						player.spawnAtLocation(stack);
 					}

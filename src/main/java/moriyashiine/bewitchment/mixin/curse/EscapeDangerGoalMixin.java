@@ -26,7 +26,7 @@ public abstract class EscapeDangerGoalMixin extends Goal {
 
 	@Inject(method = "canUse", at = @At("RETURN"), cancellable = true)
 	private void canStart(CallbackInfoReturnable<Boolean> callbackInfo) {
-		if (!callbackInfo.getReturnValueZ() && !mob.level().isClientSide && mob.tickCount % 20 == 0 && !mob.level().getEntitiesOfClass(LivingEntity.class, new AABB(mob.blockPosition()).inflate(8), living -> mob.hasLineOfSight(living) && living.isAlive() && BWComponents.CURSES_COMPONENT.get(living).hasCurse(BWCurses.APATHY)).isEmpty()) {
+		if (!callbackInfo.getReturnValueZ() && !mob.level().isClientSide && mob.tickCount % 20 == 0 && !mob.level().getEntitiesOfClass(LivingEntity.class, new AABB(mob.blockPosition()).inflate(8), living -> mob.hasLineOfSight(living) && living.isAlive() && BWComponents.CURSES_COMPONENT.get(living).hasCurse(BWCurses.APATHY.get())).isEmpty()) {
 			callbackInfo.setReturnValue(true);
 		}
 	}

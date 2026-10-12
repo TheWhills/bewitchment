@@ -33,7 +33,7 @@ public class TogglePressingForwardPacket {
 			try { // attempt normal runtime of TogglePressingForward
 				boolean pressingForward = buf.readBoolean();
 				server.execute(() -> {
-					if (pressingForward && BewitchmentAPI.getFamiliar(player) != BWEntityTypes.OWL) {
+					if (pressingForward && BewitchmentAPI.getFamiliar(player) != BWEntityTypes.OWL.get()) {
 						if (!BewitchmentAPI.drainMagic(player, 1, true)) {
 							return;
 						}

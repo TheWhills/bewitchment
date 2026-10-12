@@ -73,7 +73,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 					addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 1));
 					addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 1));
 				}
-				if (vampire && (stack.getItem() == BWObjects.GARLIC || stack.getItem() == BWObjects.GRILLED_GARLIC || stack.getItem() == BWObjects.GARLIC_BREAD)) {
+				if (vampire && (stack.getItem() == BWObjects.GARLIC.get() || stack.getItem() == BWObjects.GRILLED_GARLIC.get() || stack.getItem() == BWObjects.GARLIC_BREAD.get())) {
 					hurt(BWDamageSources.create(world, BWDamageSources.MAGIC_COPY), Float.MAX_VALUE);
 				}
 			}

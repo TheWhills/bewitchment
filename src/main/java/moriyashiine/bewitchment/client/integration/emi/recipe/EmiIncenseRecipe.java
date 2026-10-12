@@ -25,7 +25,7 @@ public class EmiIncenseRecipe extends BasicEmiRecipe {
 			}
 		}
 		width += 58;
-		outputs.add(EmiStack.of(BWObjects.BRAZIER.asItem().getDefaultInstance().setHoverName(Component.translatable(recipe.effect.getDescriptionId()))));
+		outputs.add(EmiStack.of(BWObjects.BRAZIER.get().asItem().getDefaultInstance().setHoverName(Component.translatable(recipe.effect.getDescriptionId()))));
 	}
 
 	@Override

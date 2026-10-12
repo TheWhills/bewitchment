@@ -36,7 +36,7 @@ public class BWMaterials {
 
 		@Override
 		public Ingredient getRepairIngredient() {
-			return Ingredient.of(BWObjects.HEDGEWITCH_WOOL);
+			return Ingredient.of(BWObjects.HEDGEWITCH_WOOL.get());
 		}
 
 		@Override
@@ -78,7 +78,7 @@ public class BWMaterials {
 
 		@Override
 		public Ingredient getRepairIngredient() {
-			return Ingredient.of(BWObjects.ALCHEMIST_WOOL);
+			return Ingredient.of(BWObjects.ALCHEMIST_WOOL.get());
 		}
 
 		@Override
@@ -120,7 +120,7 @@ public class BWMaterials {
 
 		@Override
 		public Ingredient getRepairIngredient() {
-			return Ingredient.of(BWObjects.BESMIRCHED_WOOL);
+			return Ingredient.of(BWObjects.BESMIRCHED_WOOL.get());
 		}
 
 		@Override
@@ -209,7 +209,7 @@ public class BWMaterials {
 
 		@Override
 		public Ingredient getRepairIngredient() {
-			return Ingredient.of(BWObjects.SILVER_INGOT);
+			return Ingredient.of(BWObjects.SILVER_INGOT.get());
 		}
 	};
 }

@@ -30,7 +30,7 @@ public class ElderChestBlockEntity extends BWChestBlockEntity implements Lockabl
 	}
 
 	public ElderChestBlockEntity(BlockPos blockPos, BlockState blockState) {
-		this(BWBlockEntityTypes.ELDER_CHEST, blockPos, blockState, Type.ELDER, false);
+		this(BWBlockEntityTypes.ELDER_CHEST.get(), blockPos, blockState, Type.ELDER, false);
 	}
 
 	@Override

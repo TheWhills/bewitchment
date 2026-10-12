@@ -42,7 +42,7 @@ public class PolymorphComponent implements ServerTickingComponent {
 
 	@Override
 	public void serverTick() {
-		if (obj instanceof Player player && getUuid() != null && !player.hasEffect(BWStatusEffects.POLYMORPH)) {
+		if (obj instanceof Player player && getUuid() != null && !player.hasEffect(BWStatusEffects.POLYMORPH.get())) {
 			setUuid(null);
 			setName(null);
 			Impersonator.get(player).stopImpersonation(PolymorphStatusEffect.IMPERSONATE_IDENTIFIER);

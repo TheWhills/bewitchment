@@ -26,7 +26,7 @@ public class LockableBlockEntity extends BlockEntity implements Lockable {
 	private boolean modeOnWhitelist = false, locked = false;
 
 	public LockableBlockEntity(BlockPos pos, BlockState state) {
-		super(BWBlockEntityTypes.LOCKABLE, pos, state);
+		super(BWBlockEntityTypes.LOCKABLE.get(), pos, state);
 	}
 
 	@Override

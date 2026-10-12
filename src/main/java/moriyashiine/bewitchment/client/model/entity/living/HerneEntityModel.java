@@ -21,7 +21,7 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
 
 public class HerneEntityModel<T extends HerneEntity> extends HumanoidModel<T> {
-	public static final ItemStack HORNED_SPEAR = new ItemStack(BWObjects.HORNED_SPEAR);
+	public static final ItemStack HORNED_SPEAR = new ItemStack(BWObjects.HORNED_SPEAR.get());
 
 	private final ModelPart chest;
 	private final ModelPart moss01;

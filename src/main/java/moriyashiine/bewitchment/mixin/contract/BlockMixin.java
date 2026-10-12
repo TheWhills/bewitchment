@@ -36,7 +36,7 @@ public abstract class BlockMixin {
 			BWComponents.CONTRACTS_COMPONENT.maybeGet(player).ifPresent(contractsComponent -> {
 				List<ItemStack> drops = callbackInfo.getReturnValue();
 				if (!drops.isEmpty() && !EnchantmentHelper.getEnchantments(stack).containsKey(Enchantments.SILK_TOUCH)) {
-					if (contractsComponent.hasContract(BWContracts.GREED)) {
+					if (contractsComponent.hasContract(BWContracts.GREED.get())) {
 						for (int i = 0; i < drops.size(); i++) {
 							if (state.is(BWTags.ORES)) {
 								for (Recipe<?> smeltingRecipe : world.getRecipeManager().getAllRecipesFor(RecipeType.SMELTING)) {

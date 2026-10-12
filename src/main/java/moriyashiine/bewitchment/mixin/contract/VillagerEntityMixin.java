@@ -26,7 +26,7 @@ public abstract class VillagerEntityMixin extends AbstractVillager {
 	@Inject(method = "die", at = @At("HEAD"))
 	private void onDeath(CallbackInfo callbackInfo) {
 		if (!level().isClientSide && lastHurtByPlayer != null) {
-			if (BWComponents.CONTRACTS_COMPONENT.get(lastHurtByPlayer).hasContract(BWContracts.ENVY) && !getOffers().isEmpty()) {
+			if (BWComponents.CONTRACTS_COMPONENT.get(lastHurtByPlayer).hasContract(BWContracts.ENVY.get()) && !getOffers().isEmpty()) {
 				for (MerchantOffer offer : getOffers()) {
 					if (!offer.isOutOfStock()) {
 						Containers.dropItemStack(level(), getX() + 0.5, getY() + 0.5, getZ() + 0.5, offer.getResult());

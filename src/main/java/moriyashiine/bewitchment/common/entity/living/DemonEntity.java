@@ -96,7 +96,7 @@ public class DemonEntity extends BWHostileEntity implements DemonMerchant {
 				if ((tickCount + getId()) % 40 == 0) {
 					SmallFireball fireball = new SmallFireball(level(), this, target.getX() - getX(), target.getY(0.5) - getY(0.5), target.getZ() - getZ());
 					fireball.absMoveTo(fireball.getX(), getY(0.5), fireball.getZ());
-					level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_SHOOT, getSoundSource(), getSoundVolume(), getVoicePitch());
+					level().playSound(null, blockPosition(), BWSoundEvents.ENTITY_GENERIC_SHOOT.get(), getSoundSource(), getSoundVolume(), getVoicePitch());
 					level().addFreshEntity(fireball);
 					swing(InteractionHand.MAIN_HAND);
 				}
@@ -122,17 +122,17 @@ public class DemonEntity extends BWHostileEntity implements DemonMerchant {
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return BWSoundEvents.ENTITY_DEMON_AMBIENT;
+		return BWSoundEvents.ENTITY_DEMON_AMBIENT.get();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return BWSoundEvents.ENTITY_DEMON_HURT;
+		return BWSoundEvents.ENTITY_DEMON_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return BWSoundEvents.ENTITY_DEMON_DEATH;
+		return BWSoundEvents.ENTITY_DEMON_DEATH.get();
 	}
 
 	@Override
@@ -262,7 +262,7 @@ public class DemonEntity extends BWHostileEntity implements DemonMerchant {
 	@Override
 	public void onSell(DemonEntity.DemonTradeOffer offer) {
 		if (!level().isClientSide) {
-			level().playSound(null, blockPosition(), BWSoundEvents.ITEM_CONTRACT_USE, getSoundSource(), getSoundVolume(), getVoicePitch());
+			level().playSound(null, blockPosition(), BWSoundEvents.ITEM_CONTRACT_USE.get(), getSoundSource(), getSoundVolume(), getVoicePitch());
 			level().playSound(null, blockPosition(), getAmbientSound(), getSoundSource(), getSoundVolume(), getVoicePitch());
 		}
 	}

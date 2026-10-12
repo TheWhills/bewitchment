@@ -80,7 +80,7 @@ public class HornedSpearItem extends SwordItem {
 
 	public static void spawnEntity(Level world, LivingEntity owner, ItemStack stack) {
 		stack.hurtAndBreak(1, owner, stackUser -> stackUser.broadcastBreakEvent(stackUser.getUsedItemHand()));
-		HornedSpearEntity spear = new HornedSpearEntity(BWEntityTypes.HORNED_SPEAR, owner, world, stack.copy());
+		HornedSpearEntity spear = new HornedSpearEntity(BWEntityTypes.HORNED_SPEAR.get(), owner, world, stack.copy());
 		spear.shootFromRotation(owner, owner.getXRot(), owner.getYRot(), 0, 3, 1);
 		if (owner instanceof Player player) {
 			if (player.isCreative()) {
@@ -91,7 +91,7 @@ public class HornedSpearItem extends SwordItem {
 		}
 		world.addFreshEntity(spear);
 		PlayerLookup.tracking(spear).forEach(trackingPlayer -> SyncHornedSpearPacket.send(trackingPlayer, spear));
-		world.playSound(null, spear, BWSoundEvents.ITEM_HORNED_SPEAR_USE, SoundSource.PLAYERS, 1, 1);
+		world.playSound(null, spear, BWSoundEvents.ITEM_HORNED_SPEAR_USE.get(), SoundSource.PLAYERS, 1, 1);
 		if (owner instanceof Player player && !player.isCreative()) {
 			stack.shrink(1);
 		}

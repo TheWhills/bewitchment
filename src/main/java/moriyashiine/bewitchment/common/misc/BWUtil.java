@@ -69,7 +69,7 @@ public class BWUtil {
 	}
 
 	public static boolean rejectTrades(LivingEntity merchant) {
-		return !merchant.level().getEntitiesOfClass(Player.class, new AABB(merchant.blockPosition()).inflate(8), foundEntity -> merchant.hasLineOfSight(foundEntity) && foundEntity.isAlive() && BWComponents.CURSES_COMPONENT.get(foundEntity).hasCurse(BWCurses.APATHY)).isEmpty();
+		return !merchant.level().getEntitiesOfClass(Player.class, new AABB(merchant.blockPosition()).inflate(8), foundEntity -> merchant.hasLineOfSight(foundEntity) && foundEntity.isAlive() && BWComponents.CURSES_COMPONENT.get(foundEntity).hasCurse(BWCurses.APATHY.get())).isEmpty();
 	}
 
 	public static int getArmorPieces(LivingEntity livingEntity, Predicate<ItemStack> predicate) {
@@ -120,7 +120,7 @@ public class BWUtil {
 	public static void teleport(Entity entity, double x, double y, double z, boolean hasEffects) {
 		if (hasEffects) {
 			if (!entity.isSilent()) {
-				entity.level().playSound(null, entity.blockPosition(), BWSoundEvents.ENTITY_GENERIC_TELEPORT, entity.getSoundSource(), 1, 1);
+				entity.level().playSound(null, entity.blockPosition(), BWSoundEvents.ENTITY_GENERIC_TELEPORT.get(), entity.getSoundSource(), 1, 1);
 			}
 			PlayerLookup.tracking(entity).forEach(trackingPlayer -> SpawnPortalParticlesPacket.send(trackingPlayer, entity));
 			if (entity instanceof ServerPlayer player) {
@@ -137,7 +137,7 @@ public class BWUtil {
 		entity.teleportToWithTicket(x, y + 0.5, z);
 		if (hasEffects) {
 			if (!entity.isSilent()) {
-				entity.level().playSound(null, entity.blockPosition(), BWSoundEvents.ENTITY_GENERIC_TELEPORT, entity.getSoundSource(), 1, 1);
+				entity.level().playSound(null, entity.blockPosition(), BWSoundEvents.ENTITY_GENERIC_TELEPORT.get(), entity.getSoundSource(), 1, 1);
 			}
 			PlayerLookup.tracking(entity).forEach(trackingPlayer -> SpawnPortalParticlesPacket.send(trackingPlayer, entity));
 			if (entity instanceof ServerPlayer player) {

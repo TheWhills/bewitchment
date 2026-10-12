@@ -19,7 +19,7 @@ public class IncenseProcessor implements IComponentProcessor {
 
 	@Override
 	public void setup(Level level, IVariableProvider variables) {
-		recipe = (IncenseRecipe) level.getRecipeManager().byKey(new ResourceLocation(variables.get("recipe").asString())).filter(recipe -> recipe.getType().equals(BWRecipeTypes.INCENSE_RECIPE_TYPE)).orElseThrow(IllegalArgumentException::new);
+		recipe = (IncenseRecipe) level.getRecipeManager().byKey(new ResourceLocation(variables.get("recipe").asString())).filter(recipe -> recipe.getType().equals(BWRecipeTypes.INCENSE_RECIPE_TYPE.get())).orElseThrow(IllegalArgumentException::new);
 	}
 
 	@Override

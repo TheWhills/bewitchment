@@ -62,12 +62,12 @@ public class IncenseRecipe implements Recipe<Container> {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return BWRecipeTypes.INCENSE_RECIPE_SERIALIZER;
+		return BWRecipeTypes.INCENSE_RECIPE_SERIALIZER.get();
 	}
 
 	@Override
 	public RecipeType<?> getType() {
-		return BWRecipeTypes.INCENSE_RECIPE_TYPE;
+		return BWRecipeTypes.INCENSE_RECIPE_TYPE.get();
 	}
 
 	@SuppressWarnings("ConstantConditions")

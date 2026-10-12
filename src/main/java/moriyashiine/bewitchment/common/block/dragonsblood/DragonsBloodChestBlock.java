@@ -32,7 +32,7 @@ public class DragonsBloodChestBlock extends BWChestBlock {
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new DragonsBloodChestBlockEntity(BWBlockEntityTypes.DRAGONS_BLOOD_CHEST, pos, state, BWChestBlockEntity.Type.DRAGONS_BLOOD, trapped);
+		return new DragonsBloodChestBlockEntity(BWBlockEntityTypes.DRAGONS_BLOOD_CHEST.get(), pos, state, BWChestBlockEntity.Type.DRAGONS_BLOOD, trapped);
 	}
 
 	@Nullable

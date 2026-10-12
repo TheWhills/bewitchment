@@ -52,13 +52,13 @@ public class GlyphBlock extends HorizontalDirectionalBlock implements EntityBloc
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return state.getBlock() == BWObjects.GOLDEN_GLYPH ? new GlyphBlockEntity(pos, state) : null;
+		return state.getBlock() == BWObjects.GOLDEN_GLYPH.get() ? new GlyphBlockEntity(pos, state) : null;
 	}
 
 	@Nullable
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
-		return state.getBlock() == BWObjects.GOLDEN_GLYPH ? (tickerWorld, pos, tickerState, blockEntity) -> GlyphBlockEntity.tick(tickerWorld, pos, tickerState, (GlyphBlockEntity) blockEntity) : null;
+		return state.getBlock() == BWObjects.GOLDEN_GLYPH.get() ? (tickerWorld, pos, tickerState, blockEntity) -> GlyphBlockEntity.tick(tickerWorld, pos, tickerState, (GlyphBlockEntity) blockEntity) : null;
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class GlyphBlock extends HorizontalDirectionalBlock implements EntityBloc
 
 	@Override
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-		if (this == BWObjects.GOLDEN_GLYPH) {
+		if (this == BWObjects.GOLDEN_GLYPH.get()) {
 			boolean client = world.isClientSide;
 			if (!client) {
 				((GlyphBlockEntity) world.getBlockEntity(pos)).onUse(world, pos, player, hand, null);
@@ -91,17 +91,17 @@ public class GlyphBlock extends HorizontalDirectionalBlock implements EntityBloc
 
 	@Override
 	public ItemStack getCloneItemStack(BlockGetter world, BlockPos pos, BlockState state) {
-		return new ItemStack(this == BWObjects.GLYPH ? BWObjects.CHALK : this == BWObjects.GOLDEN_GLYPH ? BWObjects.GOLDEN_CHALK : this == BWObjects.FIERY_GLYPH ? BWObjects.FIERY_CHALK : BWObjects.ELDRITCH_CHALK);
+		return new ItemStack(this == BWObjects.GLYPH.get() ? BWObjects.CHALK.get() : this == BWObjects.GOLDEN_GLYPH.get() ? BWObjects.GOLDEN_CHALK.get() : this == BWObjects.FIERY_GLYPH.get() ? BWObjects.FIERY_CHALK.get() : BWObjects.ELDRITCH_CHALK.get());
 	}
 
 	@Override
 	public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-		return BWObjects.SALT_LINE.canSurvive(state, world, pos);
+		return BWObjects.SALT_LINE.get().canSurvive(state, world, pos);
 	}
 
 	@Override
 	public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
-		return this != BWObjects.GOLDEN_GLYPH;
+		return this != BWObjects.GOLDEN_GLYPH.get();
 	}
 
 	@Override
@@ -126,9 +126,9 @@ public class GlyphBlock extends HorizontalDirectionalBlock implements EntityBloc
 	@Override
 	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
 		ParticleType<?> particleType = null;
-		if (this == BWObjects.FIERY_GLYPH) {
+		if (this == BWObjects.FIERY_GLYPH.get()) {
 			particleType = ParticleTypes.FLAME;
-		} else if (this == BWObjects.ELDRITCH_GLYPH) {
+		} else if (this == BWObjects.ELDRITCH_GLYPH.get()) {
 			particleType = ParticleTypes.REVERSE_PORTAL;
 		}
 		if (particleType != null) {

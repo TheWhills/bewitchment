@@ -25,7 +25,7 @@ public class EmiCurseRecipe extends BasicEmiRecipe {
 			}
 		}
 		width += 58;
-		outputs.add(EmiStack.of(BWObjects.BRAZIER.asItem().getDefaultInstance().setHoverName(Component.translatable("curse." + recipe.getId().toString().replaceAll("curses.", "").replaceAll(":", ".").replaceAll("/", ".")))));
+		outputs.add(EmiStack.of(BWObjects.BRAZIER.get().asItem().getDefaultInstance().setHoverName(Component.translatable("curse." + recipe.getId().toString().replaceAll("curses.", "").replaceAll(":", ".").replaceAll("/", ".")))));
 	}
 
 	@Override

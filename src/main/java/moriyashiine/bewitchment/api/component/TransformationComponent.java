@@ -53,7 +53,7 @@ public class TransformationComponent implements AutoSyncedComponent, ServerTicki
 	private static final AttributeModifier WEREWOLF_MOVEMENT_SPEED_MODIFIER_1 = new AttributeModifier(UUID.fromString("718104a6-aa19-4b53-bad9-1f9edd46d38a"), "Transformation modifier", 0.16, AttributeModifier.Operation.ADDITION);
 
 	private final Player obj;
-	private Transformation transformation = BWTransformations.HUMAN;
+	private Transformation transformation = BWTransformations.HUMAN.get();
 	private boolean alternateForm = false;
 
 	public TransformationComponent(Player obj) {

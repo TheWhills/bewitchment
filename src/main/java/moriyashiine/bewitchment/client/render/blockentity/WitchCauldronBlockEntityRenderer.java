@@ -64,7 +64,7 @@ public class WitchCauldronBlockEntityRenderer implements BlockEntityRenderer<Wit
 						if (entity.mode == WitchCauldronBlockEntity.Mode.BREWING) {
 							world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5 + Mth.nextDouble(world.random, -width, width), pos.getY() + fluidHeight, pos.getZ() + 0.5 + Mth.nextDouble(world.random, -width, width), ((entity.color >> 16) & 0xff) / 255f, ((entity.color >> 8) & 0xff) / 255f, (entity.color & 0xff) / 255f);
 						}
-						world.addParticle((ParticleOptions) BWParticleTypes.CAULDRON_BUBBLE, pos.getX() + 0.5 + Mth.nextDouble(world.random, -width, width), pos.getY() + fluidHeight, pos.getZ() + 0.5 + Mth.nextDouble(world.random, -width, width), ((entity.color >> 16) & 0xff) / 255f, ((entity.color >> 8) & 0xff) / 255f, (entity.color & 0xff) / 255f);
+						world.addParticle((ParticleOptions) BWParticleTypes.CAULDRON_BUBBLE.get(), pos.getX() + 0.5 + Mth.nextDouble(world.random, -width, width), pos.getY() + fluidHeight, pos.getZ() + 0.5 + Mth.nextDouble(world.random, -width, width), ((entity.color >> 16) & 0xff) / 255f, ((entity.color >> 8) & 0xff) / 255f, (entity.color & 0xff) / 255f);
 					}
 				}
 			}

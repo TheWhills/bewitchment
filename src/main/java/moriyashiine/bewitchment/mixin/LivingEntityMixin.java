@@ -59,16 +59,16 @@ public abstract class LivingEntityMixin extends Entity {
 		if (!level().isClientSide) {
 			LivingEntity living = (LivingEntity) (Object) this;
 			int damage = 0;
-			if (living.getMainHandItem().getItem() == BWObjects.GARLIC && BewitchmentAPI.isVampire(this, true)) {
+			if (living.getMainHandItem().getItem() == BWObjects.GARLIC.get() && BewitchmentAPI.isVampire(this, true)) {
 				damage++;
 			}
-			if (living.getOffhandItem().getItem() == BWObjects.GARLIC && BewitchmentAPI.isVampire(this, true)) {
+			if (living.getOffhandItem().getItem() == BWObjects.GARLIC.get() && BewitchmentAPI.isVampire(this, true)) {
 				damage++;
 			}
-			if (living.getMainHandItem().getItem() == BWObjects.ACONITE && BewitchmentAPI.isWerewolf(this, true)) {
+			if (living.getMainHandItem().getItem() == BWObjects.ACONITE.get() && BewitchmentAPI.isWerewolf(this, true)) {
 				damage++;
 			}
-			if (living.getOffhandItem().getItem() == BWObjects.ACONITE && BewitchmentAPI.isWerewolf(this, true)) {
+			if (living.getOffhandItem().getItem() == BWObjects.ACONITE.get() && BewitchmentAPI.isWerewolf(this, true)) {
 				damage++;
 			}
 			if (damage > 0) {
@@ -82,7 +82,7 @@ public abstract class LivingEntityMixin extends Entity {
 		if (!level().isClientSide && !effect.isAmbient() && !effect.getEffect().isInstantenous() && effect.getEffect().getCategory() == MobEffectCategory.HARMFUL) {
 			float durationMultiplier = 1;
 			for (ItemStack stack : getArmorSlots()) {
-				durationMultiplier -= EnchantmentHelper.getItemEnchantmentLevel(BWEnchantments.MAGIC_PROTECTION, stack) / 32f;
+				durationMultiplier -= EnchantmentHelper.getItemEnchantmentLevel(BWEnchantments.MAGIC_PROTECTION.get(), stack) / 32f;
 			}
 			if (durationMultiplier < 1) {
 				return new MobEffectInstance(effect.getEffect(), (int) (effect.getDuration() * durationMultiplier), effect.getAmplifier(), false, effect.isVisible(), effect.showIcon());
@@ -127,7 +127,7 @@ public abstract class LivingEntityMixin extends Entity {
 					amount *= (1 - (0.2f * armorPieces));
 				}
 			}
-			if ((getVehicle() != null && getVehicle().getType() == BWEntityTypes.CYPRESS_BROOM) || (source.getEntity() != null && source.getEntity().getVehicle() != null && source.getEntity().getVehicle().getType() == BWEntityTypes.CYPRESS_BROOM)) {
+			if ((getVehicle() != null && getVehicle().getType() == BWEntityTypes.CYPRESS_BROOM.get()) || (source.getEntity() != null && source.getEntity().getVehicle() != null && source.getEntity().getVehicle().getType() == BWEntityTypes.CYPRESS_BROOM.get())) {
 				amount *= 0.2f;
 			}
 		}
@@ -139,7 +139,7 @@ public abstract class LivingEntityMixin extends Entity {
 		if (!level().isClientSide) {
 			Entity attacker = source.getEntity();
 			if (attacker instanceof LeonardEntity) {
-				removeStatusEffect(BWStatusEffects.MAGIC_SPONGE);
+				removeStatusEffect(BWStatusEffects.MAGIC_SPONGE.get());
 			}
 			if (attacker instanceof BaphometEntity) {
 				removeStatusEffect(MobEffects.FIRE_RESISTANCE);

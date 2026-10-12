@@ -89,6 +89,6 @@ public class PricklyBeltCraftingRecipe extends CustomRecipe {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return BWRecipeTypes.PRICKLY_BELT_CRAFTING_SERIALIZER;
+		return BWRecipeTypes.PRICKLY_BELT_CRAFTING_SERIALIZER.get();
 	}
 }

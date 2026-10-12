@@ -31,7 +31,7 @@ public class WebbedStatusEffect extends MobEffect {
 		if (!entity.level().isClientSide) {
 			for (BlockPos foundPos : BWUtil.getBlockPoses(entity.blockPosition(), Math.min(3, amplifier + 1))) {
 				if (entity.level().getWorldBorder().isWithinBounds(foundPos) && entity.level().getBlockState(foundPos).isAir()) {
-					entity.level().setBlockAndUpdate(foundPos, BWObjects.TEMPORARY_COBWEB.defaultBlockState());
+					entity.level().setBlockAndUpdate(foundPos, BWObjects.TEMPORARY_COBWEB.get().defaultBlockState());
 				}
 			}
 		}

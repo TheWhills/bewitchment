@@ -45,7 +45,7 @@ public class ContractItem extends Item {
 			Contract contract = BWRegistries.CONTRACT.get(new ResourceLocation(stack.getOrCreateTag().getString("Contract")));
 			if (contract != null) {
 				BWComponents.CONTRACTS_COMPONENT.get(player).addContract(new Contract.Instance(contract, stack.getTag().getInt("Duration"), 0));
-				world.playSound(null, player.blockPosition(), BWSoundEvents.ITEM_CONTRACT_USE, SoundSource.PLAYERS, 1, 1);
+				world.playSound(null, player.blockPosition(), BWSoundEvents.ITEM_CONTRACT_USE.get(), SoundSource.PLAYERS, 1, 1);
 				if (!player.isCreative()) {
 					stack.shrink(1);
 				}

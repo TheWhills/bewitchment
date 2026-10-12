@@ -29,8 +29,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 	@Inject(method = "eat", at = @At("HEAD"))
 	private void eatFood(Level world, ItemStack stack, CallbackInfoReturnable<ItemStack> callbackInfo) {
-		if (!world.isClientSide && hasEffect(BWStatusEffects.NOURISHING)) {
-			getHungerManager().eat(getEffect(BWStatusEffects.NOURISHING).getAmplifier() + 2, 0.5f);
+		if (!world.isClientSide && hasEffect(BWStatusEffects.NOURISHING.get())) {
+			getHungerManager().eat(getEffect(BWStatusEffects.NOURISHING.get()).getAmplifier() + 2, 0.5f);
 		}
 	}
 }

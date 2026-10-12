@@ -37,7 +37,7 @@ public class GrotestqueStewItem extends Item {
 				if (closest instanceof Pledgeable pledgeable) {
 					pledgeComponent.setPledge(pledgeable.getPledgeID());
 					pledgeable.getPledgedPlayerUUIDs().add(user.getUUID());
-					world.playSound(null, user.blockPosition(), BWSoundEvents.ENTITY_GENERIC_PLEDGE, SoundSource.PLAYERS, 1, 1);
+					world.playSound(null, user.blockPosition(), BWSoundEvents.ENTITY_GENERIC_PLEDGE.get(), SoundSource.PLAYERS, 1, 1);
 				}
 			}
 		}

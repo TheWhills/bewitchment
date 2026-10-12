@@ -24,13 +24,13 @@ public class CorruptionStatusEffect extends MobEffect {
 		INVERSE_EFFECTS.put(MobEffects.NIGHT_VISION, MobEffects.BLINDNESS);
 		INVERSE_EFFECTS.put(MobEffects.DIG_SPEED, MobEffects.DIG_SLOWDOWN);
 		INVERSE_EFFECTS.put(MobEffects.MOVEMENT_SPEED, MobEffects.MOVEMENT_SLOWDOWN);
-		INVERSE_EFFECTS.put(MobEffects.JUMP, BWStatusEffects.SINKING);
-		INVERSE_EFFECTS.put(MobEffects.FIRE_RESISTANCE, BWStatusEffects.IGNITION);
-		INVERSE_EFFECTS.put(MobEffects.WATER_BREATHING, BWStatusEffects.GILLS);
+		INVERSE_EFFECTS.put(MobEffects.JUMP, BWStatusEffects.SINKING.get());
+		INVERSE_EFFECTS.put(MobEffects.FIRE_RESISTANCE, BWStatusEffects.IGNITION.get());
+		INVERSE_EFFECTS.put(MobEffects.WATER_BREATHING, BWStatusEffects.GILLS.get());
 		INVERSE_EFFECTS.put(MobEffects.SLOW_FALLING, MobEffects.LEVITATION);
-		INVERSE_EFFECTS.put(BWStatusEffects.HARDENING, BWStatusEffects.CORROSION);
-		INVERSE_EFFECTS.put(BWStatusEffects.ENCHANTED, BWStatusEffects.INHIBITED);
-		INVERSE_EFFECTS.put(BWStatusEffects.NOURISHING, MobEffects.HUNGER);
+		INVERSE_EFFECTS.put(BWStatusEffects.HARDENING.get(), BWStatusEffects.CORROSION.get());
+		INVERSE_EFFECTS.put(BWStatusEffects.ENCHANTED.get(), BWStatusEffects.INHIBITED.get());
+		INVERSE_EFFECTS.put(BWStatusEffects.NOURISHING.get(), MobEffects.HUNGER);
 	}
 
 	public CorruptionStatusEffect(MobEffectCategory category, int color) {

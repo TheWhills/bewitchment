@@ -34,7 +34,7 @@ public class ElderChestBlock extends BWChestBlock {
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new ElderChestBlockEntity(BWBlockEntityTypes.ELDER_CHEST, pos, state, BWChestBlockEntity.Type.ELDER, trapped);
+		return new ElderChestBlockEntity(BWBlockEntityTypes.ELDER_CHEST.get(), pos, state, BWChestBlockEntity.Type.ELDER, trapped);
 	}
 
 	@Override

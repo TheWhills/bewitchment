@@ -27,7 +27,7 @@ public class EmiRitualRecipe extends BasicEmiRecipe {
 			}
 		}
 		width += 58;
-		ItemStack chalk = new ItemStack(BWObjects.GOLDEN_CHALK).setHoverName(Component.translatable("ritual." + recipe.getId().toString().replaceAll(":", ".").replaceAll("/", ".")));
+		ItemStack chalk = new ItemStack(BWObjects.GOLDEN_CHALK.get()).setHoverName(Component.translatable("ritual." + recipe.getId().toString().replaceAll(":", ".").replaceAll("/", ".")));
 		chalk.getOrCreateTag().putString("InnerCircle", "chalk." + Bewitchment.MOD_ID + "." + recipe.inner);
 		if (!recipe.outer.isEmpty()) {
 			chalk.getTag().putString("OuterCircle", "chalk." + Bewitchment.MOD_ID + "." + recipe.outer);

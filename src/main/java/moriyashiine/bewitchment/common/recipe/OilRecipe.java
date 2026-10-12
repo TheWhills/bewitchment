@@ -61,12 +61,12 @@ public class OilRecipe implements Recipe<Container> {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return BWRecipeTypes.OIL_RECIPE_SERIALIZER;
+		return BWRecipeTypes.OIL_RECIPE_SERIALIZER.get();
 	}
 
 	@Override
 	public RecipeType<?> getType() {
-		return BWRecipeTypes.OIL_RECIPE_TYPE;
+		return BWRecipeTypes.OIL_RECIPE_TYPE.get();
 	}
 
 	public static class Serializer implements RecipeSerializer<OilRecipe> {

@@ -22,11 +22,11 @@ public class SilverArrowEntity extends AbstractArrow {
 	}
 
 	public SilverArrowEntity(Level world, double x, double y, double z) {
-		super(BWEntityTypes.SILVER_ARROW, x, y, z, world);
+		super(BWEntityTypes.SILVER_ARROW.get(), x, y, z, world);
 	}
 
 	@Override
 	protected ItemStack getPickupItem() {
-		return new ItemStack(BWObjects.SILVER_ARROW);
+		return new ItemStack(BWObjects.SILVER_ARROW.get());
 	}
 }

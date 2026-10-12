@@ -69,12 +69,12 @@ public class RitualRecipe implements Recipe<Container> {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return BWRecipeTypes.RITUAL_RECIPE_SERIALIZER;
+		return BWRecipeTypes.RITUAL_RECIPE_SERIALIZER.get();
 	}
 
 	@Override
 	public RecipeType<?> getType() {
-		return BWRecipeTypes.RITUAL_RECIPE_TYPE;
+		return BWRecipeTypes.RITUAL_RECIPE_TYPE.get();
 	}
 
 	public static boolean matches(Container inv, NonNullList<Ingredient> input) {

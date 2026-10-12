@@ -7,34 +7,28 @@ package moriyashiine.bewitchment.common.registry;
 import moriyashiine.bewitchment.api.registry.Fortune;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.fortune.*;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
+import java.util.function.Supplier;
 
 public class BWFortunes {
-	private static final Map<Fortune, ResourceLocation> FORTUNES = new LinkedHashMap<>();
+	public static final DeferredRegister<Fortune> FORTUNES = DeferredRegister.create(BWRegistries.FORTUNE_KEY, Bewitchment.MOD_ID);
 
-	public static final Fortune POWER = create("power", new PowerFortune(true));
-	public static final Fortune WISDOM = create("wisdom", new WisdomFortune(true));
-	public static final Fortune COURAGE = create("courage", new CourageFortune(true));
-	public static final Fortune TREASURE = create("treasure", new Fortune(true));
-	public static final Fortune HAWKEYE = create("hawkeye", new Fortune(true));
-	public static final Fortune MERCHANT = create("merchant", new MerchantFortune(true));
+	public static final RegistryObject<Fortune> POWER = create("power", () -> new PowerFortune(true));
+	public static final RegistryObject<Fortune> WISDOM = create("wisdom", () -> new WisdomFortune(true));
+	public static final RegistryObject<Fortune> COURAGE = create("courage", () -> new CourageFortune(true));
+	public static final RegistryObject<Fortune> TREASURE = create("treasure", () -> new Fortune(true));
+	public static final RegistryObject<Fortune> HAWKEYE = create("hawkeye", () -> new Fortune(true));
+	public static final RegistryObject<Fortune> MERCHANT = create("merchant", () -> new MerchantFortune(true));
 
-	public static final Fortune ILLNESS = create("illness", new IllnessFortune(false));
-	public static final Fortune INFESTED = create("infested", new Fortune(false));
-	public static final Fortune THUNDERBOLT = create("thunderbolt", new ThunderboltFortune(false));
-	public static final Fortune CLUMSINESS = create("clumsiness", new ClumsinessFortune(false));
-	public static final Fortune ENCOUNTER = create("encounter", new EncounterFortune(false));
-	public static final Fortune EXHAUSTED = create("exhausted", new ExhaustedFortune(false));
+	public static final RegistryObject<Fortune> ILLNESS = create("illness", () -> new IllnessFortune(false));
+	public static final RegistryObject<Fortune> INFESTED = create("infested", () -> new Fortune(false));
+	public static final RegistryObject<Fortune> THUNDERBOLT = create("thunderbolt", () -> new ThunderboltFortune(false));
+	public static final RegistryObject<Fortune> CLUMSINESS = create("clumsiness", () -> new ClumsinessFortune(false));
+	public static final RegistryObject<Fortune> ENCOUNTER = create("encounter", () -> new EncounterFortune(false));
+	public static final RegistryObject<Fortune> EXHAUSTED = create("exhausted", () -> new ExhaustedFortune(false));
 
-	private static <T extends Fortune> T create(String name, T fortune) {
-		FORTUNES.put(fortune, Bewitchment.id(name));
-		return fortune;
-	}
-
-	public static void init() {
-		FORTUNES.keySet().forEach(contract -> Registry.register(BWRegistries.FORTUNE, FORTUNES.get(contract), contract));
+	private static <T extends Fortune> RegistryObject<T> create(String name, Supplier<T> value) {
+		return FORTUNES.register(name, value);
 	}
 }

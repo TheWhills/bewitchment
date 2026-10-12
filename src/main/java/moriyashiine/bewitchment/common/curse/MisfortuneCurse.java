@@ -23,6 +23,6 @@ public class MisfortuneCurse extends Curse {
 	}
 
 	private static MobEffectInstance getEffect(int value) {
-		return new MobEffectInstance(value == 1 ? MobEffects.POISON : value == 2 ? MobEffects.WEAKNESS : value == 3 ? MobEffects.MOVEMENT_SLOWDOWN : value == 4 ? MobEffects.BLINDNESS : value == 5 ? MobEffects.CONFUSION : value == 6 ? MobEffects.DIG_SLOWDOWN : value == 7 ? BWStatusEffects.CORROSION : BWStatusEffects.SINKING, 400);
+		return new MobEffectInstance(value == 1 ? MobEffects.POISON : value == 2 ? MobEffects.WEAKNESS : value == 3 ? MobEffects.MOVEMENT_SLOWDOWN : value == 4 ? MobEffects.BLINDNESS : value == 5 ? MobEffects.CONFUSION : value == 6 ? MobEffects.DIG_SLOWDOWN : value == 7 ? BWStatusEffects.CORROSION.get() : BWStatusEffects.SINKING.get(), 400);
 	}
 }

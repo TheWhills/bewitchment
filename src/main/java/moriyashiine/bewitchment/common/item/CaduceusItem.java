@@ -41,7 +41,7 @@ public class CaduceusItem extends DiggerItem {
 				fireball.setOwner(user);
 				fireball.setPosRaw(fireball.getX(), fireball.getY() + 1, fireball.getZ());
 				BWComponents.CADUCEUS_FIREBALL_COMPONENT.get(fireball).setFromCaduceus(true);
-				world.playSound(null, user.blockPosition(), BWSoundEvents.ENTITY_GENERIC_SHOOT, SoundSource.HOSTILE, 1, 1);
+				world.playSound(null, user.blockPosition(), BWSoundEvents.ENTITY_GENERIC_SHOOT.get(), SoundSource.HOSTILE, 1, 1);
 				world.addFreshEntity(fireball);
 				stack.hurtAndBreak(1, user, stackUser -> stackUser.broadcastBreakEvent(user.getUsedItemHand()));
 			}

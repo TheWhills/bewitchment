@@ -66,7 +66,7 @@ public class GlyphBlockEntity extends BlockEntity implements WorldlyContainer, U
 	private boolean loaded = false;
 
 	public GlyphBlockEntity(BlockPos pos, BlockState state) {
-		super(BWBlockEntityTypes.GLYPH, pos, state);
+		super(BWBlockEntityTypes.GLYPH.get(), pos, state);
 	}
 
 	@Override
@@ -174,7 +174,7 @@ public class GlyphBlockEntity extends BlockEntity implements WorldlyContainer, U
 						world.getChunkAt(blockEntity.effectivePos);
 						if (blockEntity.timer == 0) {
 							blockEntity.ritualFunction.start((ServerLevel) world, pos, targetPos, blockEntity, blockEntity.catFamiliar);
-							world.playSound(null, pos, BWSoundEvents.BLOCK_GLYPH_PLING, SoundSource.BLOCKS, 1, 1);
+							world.playSound(null, pos, BWSoundEvents.BLOCK_GLYPH_PLING.get(), SoundSource.BLOCKS, 1, 1);
 							Containers.dropContents(world, pos, blockEntity);
 						}
 						if (blockEntity.timer >= blockEntity.endTime) {
@@ -253,12 +253,12 @@ public class GlyphBlockEntity extends BlockEntity implements WorldlyContainer, U
 				for (ItemEntity entity : items) {
 					test.addItem(entity.getItem().copy().split(1));
 				}
-				RitualRecipe recipe = world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.RITUAL_RECIPE_TYPE).stream().filter(ritualRecipe -> ritualRecipe.matches(test, world)).findFirst().orElse(null);
+				RitualRecipe recipe = world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.RITUAL_RECIPE_TYPE.get()).stream().filter(ritualRecipe -> ritualRecipe.matches(test, world)).findFirst().orElse(null);
 				if (recipe != null && recipe.input.size() == items.size() && hasValidChalk(recipe)) {
 					if (recipe.ritualFunction.isValid((ServerLevel) world, pos, test) || (recipe.ritualFunction.sacrifice != null && sacrifice != null && recipe.ritualFunction.sacrifice.test(sacrifice))) {
 						boolean cat = user instanceof Player player && BewitchmentAPI.getFamiliar(player) == EntityType.CAT;
 						if (altarPos != null && ((WitchAltarBlockEntity) world.getBlockEntity(altarPos)).drain((int) (recipe.cost * (cat ? 0.75f : 1)), false)) {
-							world.playSound(null, pos, BWSoundEvents.BLOCK_GLYPH_FIRE, SoundSource.BLOCKS, 1, 1);
+							world.playSound(null, pos, BWSoundEvents.BLOCK_GLYPH_FIRE.get(), SoundSource.BLOCKS, 1, 1);
 							if (user instanceof Player player) {
 								player.displayClientMessage(Component.translatable("ritual." + recipe.getId().toString().replace(":", ".").replace("/", ".")), true);
 							}
@@ -275,24 +275,24 @@ public class GlyphBlockEntity extends BlockEntity implements WorldlyContainer, U
 							syncGlyph();
 							return;
 						}
-						world.playSound(null, pos, BWSoundEvents.BLOCK_GLYPH_FAIL, SoundSource.BLOCKS, 1, 1);
+						world.playSound(null, pos, BWSoundEvents.BLOCK_GLYPH_FAIL.get(), SoundSource.BLOCKS, 1, 1);
 						if (user instanceof Player player) {
 							player.displayClientMessage(Component.translatable(Bewitchment.MOD_ID + ".message.insufficent_altar_power"), true);
 						}
 						return;
 					}
-					world.playSound(null, pos, BWSoundEvents.BLOCK_GLYPH_FAIL, SoundSource.BLOCKS, 1, 1);
+					world.playSound(null, pos, BWSoundEvents.BLOCK_GLYPH_FAIL.get(), SoundSource.BLOCKS, 1, 1);
 					if (user instanceof Player player) {
 						player.displayClientMessage(Component.translatable(recipe.ritualFunction.getInvalidMessage()), true);
 					}
 					return;
 				}
-				world.playSound(null, pos, BWSoundEvents.BLOCK_GLYPH_FAIL, SoundSource.BLOCKS, 1, 1);
+				world.playSound(null, pos, BWSoundEvents.BLOCK_GLYPH_FAIL.get(), SoundSource.BLOCKS, 1, 1);
 				if (user instanceof Player player) {
 					player.displayClientMessage(Component.translatable("ritual.none"), true);
 				}
 			} else if (sacrifice == null) {
-				world.playSound(null, pos, BWSoundEvents.BLOCK_GLYPH_FAIL, SoundSource.BLOCKS, 1, 1);
+				world.playSound(null, pos, BWSoundEvents.BLOCK_GLYPH_FAIL.get(), SoundSource.BLOCKS, 1, 1);
 				Containers.dropContents(world, pos, this);
 				effectivePos = null;
 				ritualFunction = null;
@@ -327,15 +327,15 @@ public class GlyphBlockEntity extends BlockEntity implements WorldlyContainer, U
 
 	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	private boolean isValidGlyph(String name, Block block) {
-		if (name.equals("normal") && block == BWObjects.GLYPH) {
+		if (name.equals("normal") && block == BWObjects.GLYPH.get()) {
 			return true;
 		}
-		if (name.equals("fiery") && block == BWObjects.FIERY_GLYPH) {
+		if (name.equals("fiery") && block == BWObjects.FIERY_GLYPH.get()) {
 			return true;
 		}
-		if (name.equals("eldritch") && block == BWObjects.ELDRITCH_GLYPH) {
+		if (name.equals("eldritch") && block == BWObjects.ELDRITCH_GLYPH.get()) {
 			return true;
 		}
-		return name.equals("any") && block instanceof GlyphBlock && block != BWObjects.GOLDEN_GLYPH;
+		return name.equals("any") && block instanceof GlyphBlock && block != BWObjects.GOLDEN_GLYPH.get();
 	}
 }

@@ -125,7 +125,7 @@ public class LeonardEntity extends BWHostileEntity implements Pledgeable {
 
 	@Override
 	public Collection<MobEffectInstance> getMinionBuffs() {
-		return Sets.newHashSet(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE), new MobEffectInstance(BWStatusEffects.HARDENING, Integer.MAX_VALUE, 1));
+		return Sets.newHashSet(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE), new MobEffectInstance(BWStatusEffects.HARDENING.get(), Integer.MAX_VALUE, 1));
 	}
 
 	@Override
@@ -156,17 +156,17 @@ public class LeonardEntity extends BWHostileEntity implements Pledgeable {
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return BWSoundEvents.ENTITY_LEONARD_AMBIENT;
+		return BWSoundEvents.ENTITY_LEONARD_AMBIENT.get();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return BWSoundEvents.ENTITY_LEONARD_HURT;
+		return BWSoundEvents.ENTITY_LEONARD_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return BWSoundEvents.ENTITY_LEONARD_DEATH;
+		return BWSoundEvents.ENTITY_LEONARD_DEATH.get();
 	}
 
 	@Override

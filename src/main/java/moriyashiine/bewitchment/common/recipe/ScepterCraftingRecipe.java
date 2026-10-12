@@ -71,6 +71,6 @@ public class ScepterCraftingRecipe extends CustomRecipe {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return BWRecipeTypes.SCEPTER_CRAFTING_SERIALIZER;
+		return BWRecipeTypes.SCEPTER_CRAFTING_SERIALIZER.get();
 	}
 }

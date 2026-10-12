@@ -18,6 +18,6 @@ public class SusceptibilityCurse extends Curse {
 	@Override
 	public void tick(LivingEntity target) {
 		target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 19, 1, true, false));
-		target.addEffect(new MobEffectInstance(BWStatusEffects.SINKING, 19, 0, true, false));
+		target.addEffect(new MobEffectInstance(BWStatusEffects.SINKING.get(), 19, 0, true, false));
 	}
 }

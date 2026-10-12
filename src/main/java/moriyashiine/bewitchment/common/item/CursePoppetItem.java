@@ -58,7 +58,7 @@ public class CursePoppetItem extends PoppetItem {
 					if (entity instanceof LivingEntity livingEntity) {
 						boolean failed = false;
 						Curse curse = BWRegistries.CURSE.get(new ResourceLocation(stack.getOrCreateTag().getString("Curse")));
-						PoppetData poppetData = BewitchmentAPI.getPoppet(world, BWObjects.CURSE_POPPET, entity);
+						PoppetData poppetData = BewitchmentAPI.getPoppet(world, BWObjects.CURSE_POPPET.get(), entity);
 						if (!poppetData.stack().isEmpty() && poppetData.stack().hasTag() && !poppetData.stack().getTag().getBoolean("Cursed")) {
 							poppetData.stack().getTag().putString("Curse", BWRegistries.CURSE.getKey(curse).toString());
 							poppetData.stack().getTag().putBoolean("Cursed", true);
@@ -70,7 +70,7 @@ public class CursePoppetItem extends PoppetItem {
 							if (!failed) {
 								BWComponents.CURSES_COMPONENT.get(livingEntity).addCurse(new Curse.Instance(curse, 168000));
 							}
-							world.playSound(null, user.blockPosition(), BWSoundEvents.ENTITY_GENERIC_CURSE, SoundSource.PLAYERS, 1, 1);
+							world.playSound(null, user.blockPosition(), BWSoundEvents.ENTITY_GENERIC_CURSE.get(), SoundSource.PLAYERS, 1, 1);
 							if (!(user instanceof Player && ((Player) user).isCreative())) {
 								stack.shrink(1);
 							}

@@ -52,7 +52,7 @@ public class ContractsComponent implements ServerTickingComponent {
 			}
 		}
 		if (level > 0) {
-			obj.addEffect(new MobEffectInstance(BWStatusEffects.PACT, 10, level - 1, true, false));
+			obj.addEffect(new MobEffectInstance(BWStatusEffects.PACT.get(), 10, level - 1, true, false));
 			if (obj.getHealth() > obj.getMaxHealth()) {
 				obj.setHealth(obj.getMaxHealth());
 			}

@@ -64,7 +64,7 @@ public class DragonsBloodBroomEntity extends BroomEntity {
 				ItemStack stack = player.getItemInHand(hand);
 				if (stack.getItem() instanceof SigilItem sigilItem && sigilItem.sigil.active) {
 					sigil = sigilItem.sigil;
-					uses = sigil.uses * (BewitchmentAPI.getFamiliar(player) == BWEntityTypes.SNAKE ? 2 : 1);
+					uses = sigil.uses * (BewitchmentAPI.getFamiliar(player) == BWEntityTypes.SNAKE.get() ? 2 : 1);
 					modeOnWhitelist = true;
 					stack.shrink(1);
 				} else if (sigil != null) {
@@ -72,7 +72,7 @@ public class DragonsBloodBroomEntity extends BroomEntity {
 						entities.add(TaglockItem.getTaglockUUID(stack));
 						stack.shrink(1);
 					} else if (stack.getItem() instanceof AthameItem && !entities.isEmpty()) {
-						level().playSound(null, blockPosition(), BWSoundEvents.BLOCK_SIGIL_PLING, SoundSource.NEUTRAL, 1, modeOnWhitelist ? 0.5f : 1);
+						level().playSound(null, blockPosition(), BWSoundEvents.BLOCK_SIGIL_PLING.get(), SoundSource.NEUTRAL, 1, modeOnWhitelist ? 0.5f : 1);
 						player.displayClientMessage(Component.translatable(Bewitchment.MOD_ID + ".message.toggle_" + (!modeOnWhitelist ? "whitelist" : "blacklist")), true);
 						modeOnWhitelist = !modeOnWhitelist;
 					}

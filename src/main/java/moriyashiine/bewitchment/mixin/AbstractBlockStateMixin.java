@@ -27,9 +27,9 @@ public abstract class AbstractBlockStateMixin {
 
 	@Inject(method = "getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;", at = @At("HEAD"), cancellable = true)
 	private void getCollisionShape(BlockGetter world, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> callbackInfo) {
-		if (context instanceof EntityCollisionContext entityShapeContext && entityShapeContext.getEntity() != null && getBlock() != BWObjects.SALT_LINE) {
+		if (context instanceof EntityCollisionContext entityShapeContext && entityShapeContext.getEntity() != null && getBlock() != BWObjects.SALT_LINE.get()) {
 			BlockState down = world.getBlockState(pos.below());
-			if (down != null && down.is(BWObjects.SALT_LINE) && down.getCollisionShape(world, pos, context) == Shapes.block()) {
+			if (down != null && down.is(BWObjects.SALT_LINE.get()) && down.getCollisionShape(world, pos, context) == Shapes.block()) {
 				callbackInfo.setReturnValue(Shapes.block());
 			}
 		}

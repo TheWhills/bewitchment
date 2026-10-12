@@ -26,7 +26,7 @@ public abstract class MobEntityMixin extends LivingEntity {
 	@ModifyVariable(method = "setTarget", at = @At("HEAD"), argsOnly = true)
 	private LivingEntity modifyTarget(LivingEntity target) {
 		if (!level().isClientSide && target instanceof Player player) {
-			if (BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.WAR)) {
+			if (BWComponents.CONTRACTS_COMPONENT.get(player).hasContract(BWContracts.WAR.get())) {
 				Entity nearest = null;
 				for (Entity entity : level().getEntities(getType(), new AABB(blockPosition()).inflate(16), entity -> entity != this)) {
 					if (nearest == null || entity.distanceTo(this) < nearest.distanceTo(this)) {

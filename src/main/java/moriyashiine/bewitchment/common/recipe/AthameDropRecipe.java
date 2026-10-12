@@ -60,12 +60,12 @@ public class AthameDropRecipe implements Recipe<Container> {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return BWRecipeTypes.ATHAME_DROP_RECIPE_SERIALIZER;
+		return BWRecipeTypes.ATHAME_DROP_RECIPE_SERIALIZER.get();
 	}
 
 	@Override
 	public RecipeType<?> getType() {
-		return BWRecipeTypes.ATHAME_DROP_RECIPE_TYPE;
+		return BWRecipeTypes.ATHAME_DROP_RECIPE_TYPE.get();
 	}
 
 	public static class Serializer implements RecipeSerializer<AthameDropRecipe> {

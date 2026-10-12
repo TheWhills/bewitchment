@@ -57,7 +57,7 @@ public class BrazierBlockEntity extends BlockEntity implements Container, UsesAl
 	private boolean loaded = false, hasIncense;
 
 	public BrazierBlockEntity(BlockPos pos, BlockState state) {
-		super(BWBlockEntityTypes.BRAZIER, pos, state);
+		super(BWBlockEntityTypes.BRAZIER.get(), pos, state);
 	}
 
 	@Override
@@ -116,9 +116,9 @@ public class BrazierBlockEntity extends BlockEntity implements Container, UsesAl
 		if (world != null) {
 			if (!blockEntity.loaded) {
 				if (!world.isClientSide && state.getValue(BlockStateProperties.LIT)) {
-					blockEntity.incenseRecipe = world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.INCENSE_RECIPE_TYPE).stream().filter(recipe -> recipe.matches(blockEntity, world)).findFirst().orElse(null);
+					blockEntity.incenseRecipe = world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.INCENSE_RECIPE_TYPE.get()).stream().filter(recipe -> recipe.matches(blockEntity, world)).findFirst().orElse(null);
 					if (BWConfig.enableCurses) {
-						blockEntity.curseRecipe = world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.CURSE_RECIPE_TYPE).stream().filter(recipe -> recipe.matches(blockEntity, world)).findFirst().orElse(null);
+						blockEntity.curseRecipe = world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.CURSE_RECIPE_TYPE.get()).stream().filter(recipe -> recipe.matches(blockEntity, world)).findFirst().orElse(null);
 					}
 					blockEntity.hasIncense = blockEntity.incenseRecipe != null;
 					blockEntity.setChanged();
@@ -130,7 +130,7 @@ public class BrazierBlockEntity extends BlockEntity implements Container, UsesAl
 				blockEntity.timer++;
 				if (world.isClientSide) {
 					if (world.random.nextBoolean()) {
-						world.addParticle(blockEntity.hasIncense ? (ParticleOptions) BWParticleTypes.INCENSE_SMOKE : ParticleTypes.LARGE_SMOKE, pos.getX() + 0.5 + Mth.nextDouble(world.random, -0.2, 0.2), pos.getY() + (state.getValue(BlockStateProperties.HANGING) ? 0.4 : 1.25), pos.getZ() + 0.5 + Mth.nextDouble(world.random, -0.2, 0.2), 0, 0.05, 0);
+						world.addParticle(blockEntity.hasIncense ? (ParticleOptions) BWParticleTypes.INCENSE_SMOKE.get() : ParticleTypes.LARGE_SMOKE, pos.getX() + 0.5 + Mth.nextDouble(world.random, -0.2, 0.2), pos.getY() + (state.getValue(BlockStateProperties.HANGING) ? 0.4 : 1.25), pos.getZ() + 0.5 + Mth.nextDouble(world.random, -0.2, 0.2), 0, 0.05, 0);
 					}
 				} else if (blockEntity.timer == 0) {
 					boolean clear = blockEntity.hasIncense;
@@ -139,11 +139,11 @@ public class BrazierBlockEntity extends BlockEntity implements Container, UsesAl
 						if (blockEntity.altarPos != null && ((WitchAltarBlockEntity) world.getBlockEntity(blockEntity.altarPos)).drain(blockEntity.curseRecipe.cost, false)) {
 							if (closestPlayer != null) {
 								Entity target = blockEntity.getTarget();
-								if (target instanceof Player player && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.RAVEN && world.random.nextBoolean()) {
+								if (target instanceof Player player && BewitchmentAPI.getFamiliar(player) == BWEntityTypes.RAVEN.get() && world.random.nextBoolean()) {
 									target = closestPlayer;
 								}
 								if (target instanceof LivingEntity livingEntity) {
-									PoppetData poppetData = BewitchmentAPI.getPoppet(world, BWObjects.CURSE_POPPET, target);
+									PoppetData poppetData = BewitchmentAPI.getPoppet(world, BWObjects.CURSE_POPPET.get(), target);
 									if (!poppetData.stack().isEmpty() && poppetData.stack().hasTag() && !poppetData.stack().getTag().getBoolean("Cursed")) {
 										poppetData.stack().getTag().putString("Curse", BWRegistries.CURSE.getKey(blockEntity.curseRecipe.curse).toString());
 										poppetData.stack().getTag().putBoolean("Cursed", true);
@@ -151,19 +151,19 @@ public class BrazierBlockEntity extends BlockEntity implements Container, UsesAl
 										poppetData.update(world, true);
 									} else {
 										int duration = 168000;
-										if (BewitchmentAPI.getFamiliar(closestPlayer) == BWEntityTypes.RAVEN) {
+										if (BewitchmentAPI.getFamiliar(closestPlayer) == BWEntityTypes.RAVEN.get()) {
 											duration *= 2;
 										}
-										if (target instanceof Player player && TrinketsApi.getTrinketComponent((LivingEntity) target).get().isEquipped(BWObjects.NAZAR) && BewitchmentAPI.drainMagic(player, 50, false)) {
+										if (target instanceof Player player && TrinketsApi.getTrinketComponent((LivingEntity) target).get().isEquipped(BWObjects.NAZAR.get()) && BewitchmentAPI.drainMagic(player, 50, false)) {
 											duration /= 2;
 										}
 										BWComponents.CURSES_COMPONENT.get(livingEntity).addCurse(new Curse.Instance(blockEntity.curseRecipe.curse, duration));
 									}
-									world.playSound(null, pos, BWSoundEvents.ENTITY_GENERIC_CURSE, SoundSource.BLOCKS, 1, 1);
+									world.playSound(null, pos, BWSoundEvents.ENTITY_GENERIC_CURSE.get(), SoundSource.BLOCKS, 1, 1);
 									clear = true;
 								}
 							} else {
-								world.playSound(null, pos, BWSoundEvents.BLOCK_BRAZIER_FAIL, SoundSource.BLOCKS, 1, 1);
+								world.playSound(null, pos, BWSoundEvents.BLOCK_BRAZIER_FAIL.get(), SoundSource.BLOCKS, 1, 1);
 								if (closestPlayer != null) {
 									String entityName = "";
 									for (int i = 0; i < blockEntity.getContainerSize(); i++) {
@@ -178,7 +178,7 @@ public class BrazierBlockEntity extends BlockEntity implements Container, UsesAl
 							}
 						} else {
 							if (closestPlayer != null) {
-								world.playSound(null, pos, BWSoundEvents.BLOCK_BRAZIER_FAIL, SoundSource.BLOCKS, 1, 1);
+								world.playSound(null, pos, BWSoundEvents.BLOCK_BRAZIER_FAIL.get(), SoundSource.BLOCKS, 1, 1);
 								closestPlayer.displayClientMessage(Component.translatable(Bewitchment.MOD_ID + ".message.insufficent_altar_power"), true);
 							}
 						}
@@ -261,14 +261,14 @@ public class BrazierBlockEntity extends BlockEntity implements Container, UsesAl
 					world.setBlockAndUpdate(pos, getBlockState().setValue(BlockStateProperties.LIT, true));
 					world.playSound(null, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1, 1);
 					stack.hurtAndBreak(1, player, stackUser -> stackUser.broadcastBreakEvent(hand));
-					IncenseRecipe foundIncenseRecipe = world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.INCENSE_RECIPE_TYPE).stream().filter(recipe -> recipe.matches(this, world)).findFirst().orElse(null);
+					IncenseRecipe foundIncenseRecipe = world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.INCENSE_RECIPE_TYPE.get()).stream().filter(recipe -> recipe.matches(this, world)).findFirst().orElse(null);
 					if (foundIncenseRecipe != null) {
 						incenseRecipe = foundIncenseRecipe;
 						timer = -6000;
 						hasIncense = true;
 						syncBrazier();
 					} else if (BWConfig.enableCurses) {
-						CurseRecipe foundCurseRecipe = world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.CURSE_RECIPE_TYPE).stream().filter(recipe -> recipe.matches(this, world)).findFirst().orElse(null);
+						CurseRecipe foundCurseRecipe = world.getRecipeManager().getAllRecipesFor(BWRecipeTypes.CURSE_RECIPE_TYPE.get()).stream().filter(recipe -> recipe.matches(this, world)).findFirst().orElse(null);
 						if (foundCurseRecipe != null && getTarget() != null) {
 							curseRecipe = foundCurseRecipe;
 							timer = -100;

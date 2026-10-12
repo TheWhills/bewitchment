@@ -148,7 +148,7 @@ public class BewitchmentAPI {
 			entity.setResting(false);
 			return entity;
 		} else if (BewitchmentAPI.isWerewolf(player, false)) {
-			WerewolfEntity entity = BWEntityTypes.WEREWOLF.create(player.level());
+			WerewolfEntity entity = BWEntityTypes.WEREWOLF.get().create(player.level());
 			entity.getEntityData().set(BWHostileEntity.VARIANT, BWComponents.ADDITIONAL_WEREWOLF_DATA_COMPONENT.get(player).getVariant());
 			return entity;
 		}
@@ -181,7 +181,7 @@ public class BewitchmentAPI {
 		if (player.isCreative()) {
 			return true;
 		}
-		if (player.hasEffect(BWStatusEffects.INHIBITED)) {
+		if (player.hasEffect(BWStatusEffects.INHIBITED.get())) {
 			return false;
 		}
 		return BWComponents.MAGIC_COMPONENT.get(player).drainMagic(amount, simulate);
@@ -190,7 +190,7 @@ public class BewitchmentAPI {
 	public static boolean isVampire(Entity entity, boolean includeHumanForm) {
 		if (entity instanceof Player player) {
 			TransformationComponent transformationComponent = BWComponents.TRANSFORMATION_COMPONENT.get(player);
-			if (transformationComponent.getTransformation() == BWTransformations.VAMPIRE) {
+			if (transformationComponent.getTransformation() == BWTransformations.VAMPIRE.get()) {
 				return includeHumanForm || transformationComponent.isAlternateForm();
 			}
 		}
@@ -200,7 +200,7 @@ public class BewitchmentAPI {
 	public static boolean isWerewolf(Entity entity, boolean includeHumanForm) {
 		if (entity instanceof Player player) {
 			TransformationComponent transformationComponent = BWComponents.TRANSFORMATION_COMPONENT.get(player);
-			if (transformationComponent.getTransformation() == BWTransformations.WEREWOLF) {
+			if (transformationComponent.getTransformation() == BWTransformations.WEREWOLF.get()) {
 				return includeHumanForm || transformationComponent.isAlternateForm();
 			}
 		}
@@ -237,7 +237,7 @@ public class BewitchmentAPI {
 	}
 
 	public static boolean hasVoodooProtection(LivingEntity living, int damage) {
-		PoppetData poppetData = BewitchmentAPI.getPoppet(living.level(), BWObjects.VOODOO_PROTECTION_POPPET, living);
+		PoppetData poppetData = BewitchmentAPI.getPoppet(living.level(), BWObjects.VOODOO_PROTECTION_POPPET.get(), living);
 		if (!poppetData.stack().isEmpty()) {
 			boolean sync = false;
 			if (poppetData.stack().hurt(damage, living.getRandom(), null) && poppetData.stack().getDamageValue() >= poppetData.stack().getMaxDamage()) {
@@ -286,9 +286,9 @@ public class BewitchmentAPI {
 			}
 		}
 		for (Block[] altars : altarArray) {
-			ALTAR_MAP_ENTRIES.add(new AltarMapEntry(altars[0], altars[18], BWObjects.HEDGEWITCH_CARPET.asItem()));
-			ALTAR_MAP_ENTRIES.add(new AltarMapEntry(altars[0], altars[19], BWObjects.ALCHEMIST_CARPET.asItem()));
-			ALTAR_MAP_ENTRIES.add(new AltarMapEntry(altars[0], altars[20], BWObjects.BESMIRCHED_CARPET.asItem()));
+			ALTAR_MAP_ENTRIES.add(new AltarMapEntry(altars[0], altars[18], BWObjects.HEDGEWITCH_CARPET.get().asItem()));
+			ALTAR_MAP_ENTRIES.add(new AltarMapEntry(altars[0], altars[19], BWObjects.ALCHEMIST_CARPET.get().asItem()));
+			ALTAR_MAP_ENTRIES.add(new AltarMapEntry(altars[0], altars[20], BWObjects.BESMIRCHED_CARPET.get().asItem()));
 		}
 	}
 }

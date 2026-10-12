@@ -37,8 +37,8 @@ public abstract class ClientWorldMixin extends Level {
 	private float modifySound0(float volume, double x, double y, double z, SoundEvent sound, SoundSource category) {
 		if (category != SoundSource.MASTER && category != SoundSource.VOICE) {
 			LocalPlayer clientPlayer = Minecraft.getInstance().player;
-			if (clientPlayer != null && clientPlayer.hasEffect(BWStatusEffects.DEAFENED)) {
-				return Math.max(0, volume * (1 - (0.2f * (clientPlayer.getEffect(BWStatusEffects.DEAFENED).getAmplifier() + 1))));
+			if (clientPlayer != null && clientPlayer.hasEffect(BWStatusEffects.DEAFENED.get())) {
+				return Math.max(0, volume * (1 - (0.2f * (clientPlayer.getEffect(BWStatusEffects.DEAFENED.get()).getAmplifier() + 1))));
 			}
 		}
 		return volume;
@@ -48,8 +48,8 @@ public abstract class ClientWorldMixin extends Level {
 	private float modifySound1(float volume, @Nullable Player except, Entity entity, Holder<SoundEvent> sound, SoundSource category) {
 		if (category != SoundSource.MASTER && category != SoundSource.VOICE) {
 			LocalPlayer clientPlayer = Minecraft.getInstance().player;
-			if (clientPlayer != null && clientPlayer.hasEffect(BWStatusEffects.DEAFENED)) {
-				return Math.max(0, volume * (1 - (0.2f * (clientPlayer.getEffect(BWStatusEffects.DEAFENED).getAmplifier() + 1))));
+			if (clientPlayer != null && clientPlayer.hasEffect(BWStatusEffects.DEAFENED.get())) {
+				return Math.max(0, volume * (1 - (0.2f * (clientPlayer.getEffect(BWStatusEffects.DEAFENED.get()).getAmplifier() + 1))));
 			}
 		}
 		return volume;
