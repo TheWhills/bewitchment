@@ -24,7 +24,7 @@ public abstract class ActiveTargetGoalMixin<T extends LivingEntity> {
 	@Shadow
 	protected TargetingConditions targetPredicate;
 
-	@Inject(method = "<init>(Lnet/minecraft/entity/mob/MobEntity;Ljava/lang/Class;IZZLjava/util/function/Predicate;)V", at = @At("TAIL"))
+	@Inject(method = "<init>(Lnet/minecraft/world/entity/Mob;Ljava/lang/Class;IZZLjava/util/function/Predicate;)V", at = @At("TAIL"))
 	private void init(Mob mob, Class<T> targetClass, int reciprocalChance, boolean checkVisibility, boolean checkCanNavigate, @Nullable Predicate<LivingEntity> predicate, CallbackInfo callbackInfo) {
 		if (predicate != null) {
 			targetPredicate.selector(predicate.or(livingEntity -> BWComponents.CURSES_COMPONENT.get(livingEntity).hasCurse(BWCurses.OUTRAGE)));

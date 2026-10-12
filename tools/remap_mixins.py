@@ -165,8 +165,12 @@ for root, _, files in os.walk(src):
         new = text
 
         def fix_method_string(s):
-            if s in SKIP_NAMES or s.startswith("<init>("):
+            if s in SKIP_NAMES:
                 return s
+            if s.startswith("<init>("):
+                out = "<init>" + o2m_desc(y2o_desc(s[len("<init>"):]))
+                if out != s: report.append((rel, s, out, "ctor"))
+                return out
             m = re.match(r"^([\w$]+)(\(.*)?$", s)
             if not m:
                 report.append((rel, s, "?", "unparsed")); return s
