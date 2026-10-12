@@ -25,7 +25,7 @@ public class HornedSpearEntityRenderer extends EntityRenderer<HornedSpearEntity>
 	}
 
 	@Override
-	public ResourceLocation getTexture(HornedSpearEntity entity) {
+	public ResourceLocation getTextureLocation(HornedSpearEntity entity) {
 		return GhostEntityRenderer.EMPTY;
 	}
 

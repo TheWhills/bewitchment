@@ -79,7 +79,7 @@ public class AthameStrippingRecipe implements Recipe<Container> {
 		}
 
 		@Override
-		public void write(FriendlyByteBuf buf, AthameStrippingRecipe recipe) {
+		public void toNetwork(FriendlyByteBuf buf, AthameStrippingRecipe recipe) {
 			buf.writeUtf(BuiltInRegistries.BLOCK.getKey(recipe.log).toString());
 			buf.writeUtf(BuiltInRegistries.BLOCK.getKey(recipe.strippedLog).toString());
 			buf.writeItem(recipe.getResultItem(null));

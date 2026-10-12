@@ -35,12 +35,12 @@ public abstract class BWHostileEntity extends Monster {
 		if (variants > 1) {
 			if (hasShiny()) {
 				if (random.nextInt(8192) == 0) {
-					entityData.set(VARIANT, 0);
+					this.entityData.set(VARIANT, 0);
 				} else {
-					entityData.set(VARIANT, random.nextInt(variants - 1) + 1);
+					this.entityData.set(VARIANT, random.nextInt(variants - 1) + 1);
 				}
 			} else {
-				entityData.set(VARIANT, random.nextInt(variants));
+				this.entityData.set(VARIANT, random.nextInt(variants));
 			}
 		}
 	}
@@ -49,7 +49,7 @@ public abstract class BWHostileEntity extends Monster {
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		if (getVariants() > 1) {
-			entityData.define(VARIANT, 1);
+			this.entityData.define(VARIANT, 1);
 		}
 	}
 
@@ -57,7 +57,7 @@ public abstract class BWHostileEntity extends Monster {
 	public void readAdditionalSaveData(CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
 		if (getVariants() > 1) {
-			entityData.set(VARIANT, nbt.getInt("Variant"));
+			this.entityData.set(VARIANT, nbt.getInt("Variant"));
 		}
 	}
 
@@ -65,7 +65,7 @@ public abstract class BWHostileEntity extends Monster {
 	public void addAdditionalSaveData(CompoundTag nbt) {
 		super.addAdditionalSaveData(nbt);
 		if (getVariants() > 1) {
-			nbt.putInt("Variant", entityData.get(VARIANT));
+			nbt.putInt("Variant", this.entityData.get(VARIANT));
 		}
 	}
 

@@ -22,7 +22,7 @@ public class LeonardEntityRenderer extends MobRenderer<LeonardEntity, LeonardEnt
 	}
 
 	@Override
-	public ResourceLocation getTexture(LeonardEntity entity) {
+	public ResourceLocation getTextureLocation(LeonardEntity entity) {
 		return TEXTURE;
 	}
 }

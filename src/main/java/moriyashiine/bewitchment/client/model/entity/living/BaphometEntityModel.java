@@ -126,7 +126,7 @@ public class BaphometEntityModel<T extends BaphometEntity> extends HumanoidModel
 	}
 
 	@Override
-	public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float realHeadYaw, float realHeadPitch) {
+	public void setupAnim(T entity, float limbAngle, float limbDistance, float animationProgress, float realHeadYaw, float realHeadPitch) {
 		entity.setItemInHand(InteractionHand.MAIN_HAND, CADUCEUS);
 		realArm = false;
 		super.setupAnim(entity, limbAngle, limbDistance, animationProgress, realHeadYaw, realHeadPitch);

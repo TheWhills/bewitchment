@@ -20,7 +20,7 @@ public class OwlEntityRenderer extends MobRenderer<OwlEntity, OwlEntityModel<Owl
 	}
 
 	@Override
-	public ResourceLocation getTexture(OwlEntity entity) {
+	public ResourceLocation getTextureLocation(OwlEntity entity) {
 		if (TEXTURES == null) {
 			int variants = entity.getVariants();
 			TEXTURES = new ResourceLocation[variants];

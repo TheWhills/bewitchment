@@ -20,7 +20,7 @@ public class HellhoundEntityRenderer extends MobRenderer<HellhoundEntity, Hellho
 	}
 
 	@Override
-	public ResourceLocation getTexture(HellhoundEntity entity) {
+	public ResourceLocation getTextureLocation(HellhoundEntity entity) {
 		if (TEXTURES == null) {
 			int variants = entity.getVariants();
 			TEXTURES = new ResourceLocation[variants];

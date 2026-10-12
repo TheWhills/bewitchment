@@ -134,7 +134,7 @@ public class HerneEntityModel<T extends HerneEntity> extends HumanoidModel<T> {
 	}
 
 	@Override
-	public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float realHeadYaw, float realHeadPitch) {
+	public void setupAnim(T entity, float limbAngle, float limbDistance, float animationProgress, float realHeadYaw, float realHeadPitch) {
 		entity.setItemInHand(InteractionHand.MAIN_HAND, HORNED_SPEAR);
 		realArm = false;
 		super.setupAnim(entity, limbAngle, limbDistance, animationProgress, realHeadYaw, realHeadPitch);

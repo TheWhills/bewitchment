@@ -4,6 +4,7 @@
 
 package moriyashiine.bewitchment.common.component.entity;
 
+import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.component.base.AutoSyncedComponent;
 import moriyashiine.bewitchment.common.component.base.ServerTickingComponent;
 import moriyashiine.bewitchment.common.registry.BWStatusEffects;

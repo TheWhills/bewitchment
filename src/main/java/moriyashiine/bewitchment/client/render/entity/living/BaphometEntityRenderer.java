@@ -42,7 +42,7 @@ public class BaphometEntityRenderer extends MobRenderer<BaphometEntity, Baphomet
 	}
 
 	@Override
-	public ResourceLocation getTexture(BaphometEntity entity) {
+	public ResourceLocation getTextureLocation(BaphometEntity entity) {
 		return TEXTURE;
 	}
 }

@@ -14,6 +14,7 @@
 	"BlocksAccessor",
 	"DamageEnchantmentMixin",
 	"EntityMixin",
+	"FireBlockAccessor",
 	"ExplosiveProjectileEntityMixin",
 	"HopperBlockEntityMixin",
 	"ItemStackArgumentMixin",

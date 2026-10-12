@@ -129,7 +129,7 @@ public class RitualRecipe implements Recipe<Container> {
 		}
 
 		@Override
-		public void write(FriendlyByteBuf buf, RitualRecipe recipe) {
+		public void toNetwork(FriendlyByteBuf buf, RitualRecipe recipe) {
 			buf.writeVarInt(recipe.input.size());
 			for (Ingredient ingredient : recipe.input) {
 				ingredient.toNetwork(buf);

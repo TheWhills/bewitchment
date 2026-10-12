@@ -18,7 +18,7 @@ public class DragonsBloodBroomEntityRenderer extends BroomEntityRenderer<BroomEn
 	}
 
 	@Override
-	public ResourceLocation getTexture(BroomEntity entity) {
+	public ResourceLocation getTextureLocation(BroomEntity entity) {
 		return TEXTURE;
 	}
 }

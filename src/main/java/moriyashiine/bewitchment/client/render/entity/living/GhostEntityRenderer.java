@@ -44,12 +44,12 @@ public class GhostEntityRenderer extends MobRenderer<GhostEntity, GhostEntityMod
 	}
 
 	@Override
-	public ResourceLocation getTexture(GhostEntity entity) {
+	public ResourceLocation getTextureLocation(GhostEntity entity) {
 		return EMPTY;
 	}
 
 	@Override
-	protected int getBlockLight(GhostEntity entity, BlockPos blockPos) {
+	protected int getBlockLightLevel(GhostEntity entity, BlockPos blockPos) {
 		return 15;
 	}
 }

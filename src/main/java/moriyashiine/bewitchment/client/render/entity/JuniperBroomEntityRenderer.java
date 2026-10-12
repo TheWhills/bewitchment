@@ -18,7 +18,7 @@ public class JuniperBroomEntityRenderer extends BroomEntityRenderer<BroomEntity>
 	}
 
 	@Override
-	public ResourceLocation getTexture(BroomEntity entity) {
+	public ResourceLocation getTextureLocation(BroomEntity entity) {
 		return TEXTURE;
 	}
 }

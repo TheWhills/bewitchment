@@ -22,7 +22,7 @@ public class HerneEntityRenderer extends MobRenderer<HerneEntity, HerneEntityMod
 	}
 
 	@Override
-	public ResourceLocation getTexture(HerneEntity entity) {
+	public ResourceLocation getTextureLocation(HerneEntity entity) {
 		return TEXTURE;
 	}
 }

@@ -18,7 +18,7 @@ public class SilverArrowEntityRenderer extends ArrowRenderer<SilverArrowEntity> 
 	}
 
 	@Override
-	public ResourceLocation getTexture(SilverArrowEntity entity) {
+	public ResourceLocation getTextureLocation(SilverArrowEntity entity) {
 		return TEXTURE;
 	}
 }

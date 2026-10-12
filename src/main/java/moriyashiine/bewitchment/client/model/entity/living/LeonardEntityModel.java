@@ -94,7 +94,7 @@ public class LeonardEntityModel<T extends LeonardEntity> extends HumanoidModel<T
 	}
 
 	@Override
-	public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float realHeadYaw, float realHeadPitch) {
+	public void setupAnim(T entity, float limbAngle, float limbDistance, float animationProgress, float realHeadYaw, float realHeadPitch) {
 		entity.setItemInHand(InteractionHand.MAIN_HAND, SCEPTER);
 		realArm = false;
 		super.setupAnim(entity, limbAngle, limbDistance, animationProgress, realHeadYaw, realHeadPitch);

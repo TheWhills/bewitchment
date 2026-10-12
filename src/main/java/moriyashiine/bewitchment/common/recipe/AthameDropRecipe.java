@@ -80,7 +80,7 @@ public class AthameDropRecipe implements Recipe<Container> {
 		}
 
 		@Override
-		public void write(FriendlyByteBuf buf, AthameDropRecipe recipe) {
+		public void toNetwork(FriendlyByteBuf buf, AthameDropRecipe recipe) {
 			buf.writeUtf(BuiltInRegistries.ENTITY_TYPE.getKey(recipe.entity_type).toString());
 			buf.writeItem(recipe.getResultItem(null));
 			buf.writeFloat(recipe.chance);

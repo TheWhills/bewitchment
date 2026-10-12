@@ -130,17 +130,17 @@ public class WerewolfEntity extends BWHostileEntity {
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData, @Nullable CompoundTag entityTag) {
 		SpawnGroupData data = super.finalizeSpawn(world, difficulty, spawnReason, entityData, entityTag);
-		if (entityData.get(VARIANT) != 0) {
+		if (this.entityData.get(VARIANT) != 0) {
 			Holder<Biome> biome = world.getBiome(blockPosition());
 			if (biome.is(BiomeTags.IS_FOREST)) {
-				entityData.set(VARIANT, random.nextBoolean() ? 1 : 2);
+				this.entityData.set(VARIANT, random.nextBoolean() ? 1 : 2);
 			} else if (biome.is(BiomeTags.IS_TAIGA)) {
-				entityData.set(VARIANT, random.nextBoolean() ? 3 : 4);
+				this.entityData.set(VARIANT, random.nextBoolean() ? 3 : 4);
 			}
 			if (biome.is(Tags.Biomes.IS_SNOWY)) {
-				entityData.set(VARIANT, random.nextBoolean() ? 5 : 6);
+				this.entityData.set(VARIANT, random.nextBoolean() ? 5 : 6);
 			} else {
-				entityData.set(VARIANT, random.nextInt(getVariants() - 1) + 1);
+				this.entityData.set(VARIANT, random.nextInt(getVariants() - 1) + 1);
 			}
 		}
 		if (spawnReason == MobSpawnType.NATURAL || spawnReason == MobSpawnType.SPAWN_EGG) {

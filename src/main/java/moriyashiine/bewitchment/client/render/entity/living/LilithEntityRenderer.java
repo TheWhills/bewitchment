@@ -22,7 +22,7 @@ public class LilithEntityRenderer extends MobRenderer<LilithEntity, LilithEntity
 	}
 
 	@Override
-	public ResourceLocation getTexture(LilithEntity entity) {
+	public ResourceLocation getTextureLocation(LilithEntity entity) {
 		return TEXTURE;
 	}
 }

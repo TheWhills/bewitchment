@@ -20,7 +20,7 @@ public class ToadEntityRenderer extends MobRenderer<ToadEntity, ToadEntityModel<
 	}
 
 	@Override
-	public ResourceLocation getTexture(ToadEntity entity) {
+	public ResourceLocation getTextureLocation(ToadEntity entity) {
 		if (TEXTURES == null) {
 			int variants = entity.getVariants();
 			TEXTURES = new ResourceLocation[variants];

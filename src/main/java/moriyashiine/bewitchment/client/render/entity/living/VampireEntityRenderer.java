@@ -20,7 +20,7 @@ public class VampireEntityRenderer extends MobRenderer<VampireEntity, VampireEnt
 	}
 
 	@Override
-	public ResourceLocation getTexture(VampireEntity entity) {
+	public ResourceLocation getTextureLocation(VampireEntity entity) {
 		if (TEXTURES == null) {
 			int variants = entity.getVariants();
 			TEXTURES = new ResourceLocation[variants];

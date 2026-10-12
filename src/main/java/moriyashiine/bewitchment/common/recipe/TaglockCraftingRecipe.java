@@ -43,7 +43,7 @@ public class TaglockCraftingRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public ItemStack craft(CraftingContainer inventory, RegistryAccess registryManager) {
+	public ItemStack assemble(CraftingContainer inventory, RegistryAccess registryManager) {
 		ItemStack taglock = null, craftedStack = null;
 		for (int i = 0; i < inventory.getContainerSize(); i++) {
 			ItemStack stack = inventory.getItem(i);

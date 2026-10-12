@@ -45,7 +45,7 @@ public class ScepterCraftingRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public ItemStack craft(CraftingContainer inventory, RegistryAccess registryManager) {
+	public ItemStack assemble(CraftingContainer inventory, RegistryAccess registryManager) {
 		ItemStack scepter = null, potion = null;
 		for (int i = 0; i < inventory.getContainerSize(); i++) {
 			ItemStack stack = inventory.getItem(i);

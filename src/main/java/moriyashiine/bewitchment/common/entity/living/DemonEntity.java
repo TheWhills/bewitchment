@@ -177,14 +177,14 @@ public class DemonEntity extends BWHostileEntity implements DemonMerchant {
 
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData, @Nullable CompoundTag entityTag) {
-		entityData.set(MALE, random.nextBoolean());
+		this.entityData.set(MALE, random.nextBoolean());
 		return super.finalizeSpawn(world, difficulty, spawnReason, entityData, entityTag);
 	}
 
 	@Override
 	public void readAdditionalSaveData(CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
-		entityData.set(MALE, nbt.getBoolean("Male"));
+		this.entityData.set(MALE, nbt.getBoolean("Male"));
 		if (nbt.contains("Offers")) {
 			offers.clear();
 			ListTag offersList = nbt.getList("Offers", Tag.TAG_COMPOUND);
@@ -198,7 +198,7 @@ public class DemonEntity extends BWHostileEntity implements DemonMerchant {
 	@Override
 	public void addAdditionalSaveData(CompoundTag nbt) {
 		super.addAdditionalSaveData(nbt);
-		nbt.putBoolean("Male", entityData.get(MALE));
+		nbt.putBoolean("Male", this.entityData.get(MALE));
 		if (!offers.isEmpty()) {
 			ListTag offersList = new ListTag();
 			for (DemonTradeOffer offer : offers) {
@@ -212,7 +212,7 @@ public class DemonEntity extends BWHostileEntity implements DemonMerchant {
 	@Override
 	protected void defineSynchedData() {
 		super.defineSynchedData();
-		entityData.define(MALE, false);
+		this.entityData.define(MALE, false);
 	}
 
 	@Override

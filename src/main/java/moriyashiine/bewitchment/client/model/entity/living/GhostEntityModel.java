@@ -53,7 +53,7 @@ public class GhostEntityModel<T extends GhostEntity> extends HumanoidModel<T> {
 	}
 
 	@Override
-	public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float realHeadYaw, float realHeadPitch) {
+	public void setupAnim(T entity, float limbAngle, float limbDistance, float animationProgress, float realHeadYaw, float realHeadPitch) {
 		realArm = false;
 		super.setupAnim(entity, limbAngle, limbDistance, animationProgress, realHeadYaw, realHeadPitch);
 		realArm = true;

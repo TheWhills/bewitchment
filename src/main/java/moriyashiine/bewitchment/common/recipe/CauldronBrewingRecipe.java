@@ -81,7 +81,7 @@ public class CauldronBrewingRecipe implements Recipe<Container> {
 		}
 
 		@Override
-		public void write(FriendlyByteBuf buf, CauldronBrewingRecipe recipe) {
+		public void toNetwork(FriendlyByteBuf buf, CauldronBrewingRecipe recipe) {
 			recipe.input.toNetwork(buf);
 			buf.writeUtf(BuiltInRegistries.MOB_EFFECT.getKey(recipe.output).toString());
 			buf.writeInt(recipe.time);

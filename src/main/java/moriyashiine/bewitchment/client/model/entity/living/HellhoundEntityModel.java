@@ -74,7 +74,7 @@ public class HellhoundEntityModel<T extends HellhoundEntity> extends EntityModel
 	}
 
 	@Override
-	public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+	public void setupAnim(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
 		neck.xRot = (float) (headPitch * (Math.PI / 180f));
 		neck.yRot = (float) (headYaw * (Math.PI / 180f)) * 2 / 3f;
 		lForeleg.xRot = Mth.cos(limbAngle * 2 / 3f) * 1.4f * limbDistance;

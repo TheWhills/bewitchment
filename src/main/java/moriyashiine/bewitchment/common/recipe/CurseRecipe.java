@@ -104,7 +104,7 @@ public class CurseRecipe implements Recipe<Container> {
 		}
 
 		@Override
-		public void write(FriendlyByteBuf buf, CurseRecipe recipe) {
+		public void toNetwork(FriendlyByteBuf buf, CurseRecipe recipe) {
 			buf.writeVarInt(recipe.input.size());
 			for (Ingredient ingredient : recipe.input) {
 				ingredient.toNetwork(buf);

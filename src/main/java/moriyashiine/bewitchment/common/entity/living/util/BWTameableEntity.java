@@ -24,7 +24,6 @@ import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.EntityGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
@@ -34,11 +33,6 @@ public abstract class BWTameableEntity extends TamableAnimal {
 
 	protected BWTameableEntity(EntityType<? extends TamableAnimal> type, Level world) {
 		super(type, world);
-	}
-
-	@Override
-	public EntityGetter level() {
-		return level();
 	}
 
 	@Override
@@ -66,12 +60,12 @@ public abstract class BWTameableEntity extends TamableAnimal {
 		if (variants > 1) {
 			if (hasShiny()) {
 				if (random.nextInt(8192) == 0) {
-					entityData.set(VARIANT, 0);
+					this.entityData.set(VARIANT, 0);
 				} else {
-					entityData.set(VARIANT, random.nextInt(variants - 1) + 1);
+					this.entityData.set(VARIANT, random.nextInt(variants - 1) + 1);
 				}
 			} else {
-				entityData.set(VARIANT, random.nextInt(variants));
+				this.entityData.set(VARIANT, random.nextInt(variants));
 			}
 		}
 	}
@@ -133,7 +127,7 @@ public abstract class BWTameableEntity extends TamableAnimal {
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		if (getVariants() > 1) {
-			entityData.define(VARIANT, 1);
+			this.entityData.define(VARIANT, 1);
 		}
 	}
 
@@ -141,7 +135,7 @@ public abstract class BWTameableEntity extends TamableAnimal {
 	public void readAdditionalSaveData(CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
 		if (getVariants() > 1) {
-			entityData.set(VARIANT, nbt.getInt("Variant"));
+			this.entityData.set(VARIANT, nbt.getInt("Variant"));
 		}
 	}
 
@@ -149,7 +143,7 @@ public abstract class BWTameableEntity extends TamableAnimal {
 	public void addAdditionalSaveData(CompoundTag nbt) {
 		super.addAdditionalSaveData(nbt);
 		if (getVariants() > 1) {
-			nbt.putInt("Variant", entityData.get(VARIANT));
+			nbt.putInt("Variant", this.entityData.get(VARIANT));
 		}
 	}
 

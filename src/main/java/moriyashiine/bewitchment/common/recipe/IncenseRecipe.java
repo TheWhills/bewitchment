@@ -91,7 +91,7 @@ public class IncenseRecipe implements Recipe<Container> {
 		}
 
 		@Override
-		public void write(FriendlyByteBuf buf, IncenseRecipe recipe) {
+		public void toNetwork(FriendlyByteBuf buf, IncenseRecipe recipe) {
 			buf.writeVarInt(recipe.input.size());
 			for (Ingredient ingredient : recipe.input) {
 				ingredient.toNetwork(buf);

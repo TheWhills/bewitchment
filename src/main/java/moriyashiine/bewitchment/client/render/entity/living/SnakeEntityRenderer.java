@@ -20,7 +20,7 @@ public class SnakeEntityRenderer extends MobRenderer<SnakeEntity, SnakeEntityMod
 	}
 
 	@Override
-	public ResourceLocation getTexture(SnakeEntity entity) {
+	public ResourceLocation getTextureLocation(SnakeEntity entity) {
 		if (TEXTURES == null) {
 			int variants = entity.getVariants();
 			TEXTURES = new ResourceLocation[variants];

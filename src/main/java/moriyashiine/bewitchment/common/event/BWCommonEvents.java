@@ -113,7 +113,8 @@ public final class BWCommonEvents {
 	/** Effects of killing something (familiar/contract heals, athame drops, boss summoning, blood bottles). */
 	private static void onLivingDeath(LivingDeathEvent event) {
 		LivingEntity killedEntity = event.getEntity();
-		if (!(killedEntity.level() instanceof ServerLevel world) || !(event.getSource().getEntity() instanceof LivingEntity entity)) {
+		Entity entity = event.getSource().getEntity();
+		if (!(killedEntity.level() instanceof ServerLevel world) || entity == null) {
 			return;
 		}
 		if (entity instanceof LivingEntity livingEntity) {

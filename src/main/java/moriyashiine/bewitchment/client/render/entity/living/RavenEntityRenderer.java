@@ -20,7 +20,7 @@ public class RavenEntityRenderer extends MobRenderer<RavenEntity, RavenEntityMod
 	}
 
 	@Override
-	public ResourceLocation getTexture(RavenEntity entity) {
+	public ResourceLocation getTextureLocation(RavenEntity entity) {
 		if (TEXTURES == null) {
 			int variants = entity.getVariants();
 			TEXTURES = new ResourceLocation[variants];

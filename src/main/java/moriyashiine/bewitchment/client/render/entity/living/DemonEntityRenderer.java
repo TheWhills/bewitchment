@@ -28,7 +28,7 @@ public class DemonEntityRenderer extends MobRenderer<DemonEntity, DemonEntityMod
 	}
 
 	@Override
-	public ResourceLocation getTexture(DemonEntity entity) {
+	public ResourceLocation getTextureLocation(DemonEntity entity) {
 		if (MALE_TEXTURES == null) {
 			int variants = entity.getVariants();
 			MALE_TEXTURES = new ResourceLocation[variants];

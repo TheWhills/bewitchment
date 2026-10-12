@@ -31,7 +31,7 @@ public class BroomEntityModel extends EntityModel<BroomEntity> {
 	}
 
 	@Override
-	public void setAngles(BroomEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+	public void setupAnim(BroomEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
 		broom.y = 24 + Mth.sin(animationProgress / 4);
 	}
 

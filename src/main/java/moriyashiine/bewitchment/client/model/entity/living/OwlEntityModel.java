@@ -82,7 +82,7 @@ public class OwlEntityModel<T extends OwlEntity> extends AgeableListModel<T> {
 	}
 
 	@Override
-	public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+	public void setupAnim(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
 		head.xRot = (float) (headPitch * (Math.PI / 180f));
 		head.yRot = (float) (headYaw * (Math.PI / 180f)) * 2 / 3f;
 		if (!entity.onGround()) {
