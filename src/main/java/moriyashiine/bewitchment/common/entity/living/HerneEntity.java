@@ -15,7 +15,6 @@ import moriyashiine.bewitchment.common.packet.TransformationAbilityPacket;
 import moriyashiine.bewitchment.common.registry.*;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.core.BlockPos;
-import net.minecraft.entity.ai.goal.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerBossEvent;

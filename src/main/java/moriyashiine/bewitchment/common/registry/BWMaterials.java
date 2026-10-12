@@ -4,7 +4,6 @@
 
 package moriyashiine.bewitchment.common.registry;
 
-import net.minecraft.item.*;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;

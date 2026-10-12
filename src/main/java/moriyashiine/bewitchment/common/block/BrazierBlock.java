@@ -8,7 +8,6 @@ import moriyashiine.bewitchment.api.block.WitchAltarBlock;
 import moriyashiine.bewitchment.api.block.entity.UsesAltarPower;
 import moriyashiine.bewitchment.common.block.entity.BrazierBlockEntity;
 import net.minecraft.ChatFormatting;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;

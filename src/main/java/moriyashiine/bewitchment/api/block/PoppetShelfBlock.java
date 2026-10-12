@@ -6,7 +6,6 @@ package moriyashiine.bewitchment.api.block;
 
 import moriyashiine.bewitchment.common.block.entity.PoppetShelfBlockEntity;
 import moriyashiine.bewitchment.common.world.BWWorldState;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;

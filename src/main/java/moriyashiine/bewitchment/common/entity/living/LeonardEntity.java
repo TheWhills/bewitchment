@@ -13,7 +13,6 @@ import moriyashiine.bewitchment.common.registry.BWPledges;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
 import moriyashiine.bewitchment.common.registry.BWStatusEffects;
 import net.minecraft.core.BlockPos;
-import net.minecraft.entity.ai.goal.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerBossEvent;

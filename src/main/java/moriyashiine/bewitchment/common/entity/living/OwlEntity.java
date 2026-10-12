@@ -8,8 +8,6 @@ import moriyashiine.bewitchment.common.entity.living.util.BWTameableEntity;
 import moriyashiine.bewitchment.common.registry.BWEntityTypes;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
 import net.minecraft.core.BlockPos;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;

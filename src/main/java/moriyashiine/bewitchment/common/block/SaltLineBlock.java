@@ -7,7 +7,6 @@ package moriyashiine.bewitchment.common.block;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;

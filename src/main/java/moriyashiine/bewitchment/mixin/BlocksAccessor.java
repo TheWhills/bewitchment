@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(Blocks.class)
 public interface BlocksAccessor {
-	@Invoker
+	@Invoker("leaves")
 	static LeavesBlock callCreateLeavesBlock(SoundType blockSoundGroup) {
 		throw new UnsupportedOperationException();
 	}

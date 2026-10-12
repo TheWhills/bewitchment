@@ -6,7 +6,6 @@ package moriyashiine.bewitchment.common.block.elder;
 
 import moriyashiine.bewitchment.common.block.entity.LockableBlockEntity;
 import moriyashiine.bewitchment.common.block.entity.interfaces.Lockable;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

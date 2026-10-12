@@ -4,7 +4,6 @@
 
 package moriyashiine.bewitchment.common.entity.living.util;
 
-import net.minecraft.entity.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;

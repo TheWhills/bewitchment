@@ -5,7 +5,6 @@
 package moriyashiine.bewitchment.mixin;
 
 import moriyashiine.bewitchment.common.registry.BWObjects;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
