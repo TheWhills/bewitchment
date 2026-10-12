@@ -1,0 +1,51 @@
+# One-shot job: migrates the Fabric source from Yarn to Mojang (official) mappings
+# using Loom, replaces src/main/java with the result, and commits it back to forge-port.
+# The full log is always committed to .ci/remap.log so it can be read from git.
+# The workflow deletes itself in the same commit once it succeeds.
+
+name: remap-to-mojmap
+on:
+  push:
+    branches: [forge-port]
+    paths: ['.github/workflows/remap.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  remap:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - run: chmod +x ./gradlew
+      - name: migrate mappings
+        id: migrate
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          mkdir -p .ci
+          ./gradlew migrateMappings --mappings "net.minecraft:mappings:1.20.1" --no-daemon --stacktrace 2>&1 | tee .ci/remap.log
+      - name: swap in remapped source
+        if: steps.migrate.outcome == 'success'
+        run: |
+          test -d remappedSrc
+          rm -rf src/main/java
+          mv remappedSrc src/main/java
+          git rm -q .github/workflows/remap.yml
+      - name: commit
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add -A src/main/java .ci .github
+          if [ "${{ steps.migrate.outcome }}" = "success" ]; then
+            git commit -m "Migrate Yarn to Mojmap (automated, Loom migrateMappings)"
+          else
+            git commit -m "CI: remap failed, see .ci/remap.log"
+          fi
+          git push
