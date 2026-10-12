@@ -50,7 +50,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SignItem;
-import net.minecraftforge.common.ForgeSoundType;
+import net.minecraftforge.common.util.ForgeSoundType;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.Level;
