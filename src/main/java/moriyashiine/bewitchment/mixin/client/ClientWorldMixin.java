@@ -44,7 +44,7 @@ public abstract class ClientWorldMixin extends Level {
 		return volume;
 	}
 
-	@ModifyVariable(method = "playSeededSound", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+	@ModifyVariable(method = "playSeededSound(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/core/Holder;Lnet/minecraft/sounds/SoundSource;FFJ)V", at = @At("HEAD"), ordinal = 0, argsOnly = true)
 	private float modifySound1(float volume, @Nullable Player except, Entity entity, Holder<SoundEvent> sound, SoundSource category) {
 		if (category != SoundSource.MASTER && category != SoundSource.VOICE) {
 			LocalPlayer clientPlayer = Minecraft.getInstance().player;

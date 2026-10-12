@@ -36,6 +36,10 @@ minecraft {
         }
         client {
             property 'forge.enabledGameTestNamespaces', mod_id
+            // CI: ./gradlew runClient -PclientSmokeTest loads the client, audits all mixins, then quits.
+            if (project.hasProperty('clientSmokeTest')) {
+                property 'bewitchment.clientSmokeTest', 'true'
+            }
         }
         server {
             property 'forge.enabledGameTestNamespaces', mod_id

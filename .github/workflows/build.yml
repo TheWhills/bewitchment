@@ -50,6 +50,18 @@ jobs:
           grep -q "required tests passed" gametest.log
           # Data problems (recipes, tags, loot, biome modifiers) only log and carry on; treat them as failures.
           if grep -E "(Could not decode|Couldn't parse|Couldn't load|Parsing error|Failed to load|Unknown type).*bewitchment" gametest.log; then exit 1; fi
+      - name: client smoke test
+        id: client
+        if: steps.build.outcome == 'success'
+        continue-on-error: true
+        timeout-minutes: 15
+        run: |
+          set -o pipefail
+          sudo apt-get install -y -qq xvfb libgl1-mesa-dri > /dev/null
+          export LIBGL_ALWAYS_SOFTWARE=1
+          xvfb-run -a -s "-screen 0 1280x720x24" ./gradlew runClient -PclientSmokeTest --console=plain 2>&1 | tee client.log
+          grep -q "BEWITCHMENT CLIENT SMOKE TEST PASSED" client.log
+          if grep -E "Mixin apply failed|InvalidInjectionException|Critical injection failure" client.log; then exit 1; fi
       - name: summarize
         if: always()
         run: |
@@ -60,6 +72,7 @@ jobs:
             echo "java errors: $(wc -l < errors.txt)"
             echo "files with errors: $(cut -d: -f1 errors.txt | sort -u | wc -l)"
             echo "gametests: ${{ steps.gametest.outcome || 'skipped' }}"
+            echo "client smoke test: ${{ steps.client.outcome || 'skipped' }}"
             if [ -f gametest.log ]; then
               echo "gametest summary: $(grep -E 'required tests (passed|failed)|GAME TESTS COMPLETE|Failed to start the minecraft server' gametest.log | sed -E 's/^\[[^]]*\] \[[^]]*\] \[[^]]*\]: //' | tail -3 | tr '\n' ' ')"
             fi
@@ -74,16 +87,16 @@ jobs:
       - name: publish log to ci-logs
         if: always()
         run: |
-          mkdir -p /tmp/out && mv build.log errors.txt status.txt /tmp/out/ && { [ -f gametest.log ] && mv gametest.log /tmp/out/ || true; } && { [ -f run/logs/latest.log ] && cp run/logs/latest.log /tmp/out/server-latest.log || true; }
+          mkdir -p /tmp/out && mv build.log errors.txt status.txt /tmp/out/ && { [ -f gametest.log ] && mv gametest.log /tmp/out/ || true; } && { [ -f client.log ] && mv client.log /tmp/out/ || true; } && { [ -f run/logs/latest.log ] && cp run/logs/latest.log /tmp/out/server-latest.log || true; }
           git config user.name "github-actions[bot]"
           git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
           git fetch origin ci-logs && git checkout -q -B ci-logs origin/ci-logs || git checkout -q --orphan ci-logs
           git rm -rq --cached . >/dev/null 2>&1 || true
           find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
           cp /tmp/out/* .
-          git add build.log errors.txt status.txt $(ls gametest.log server-latest.log 2>/dev/null)
+          git add build.log errors.txt status.txt $(ls gametest.log server-latest.log client.log 2>/dev/null)
           git commit -qm "build ${GITHUB_SHA::7}: ${{ steps.build.outcome }}"
           git push -q origin ci-logs
       - name: fail if build or gametests failed
-        if: steps.build.outcome != 'success' || steps.gametest.outcome == 'failure'
+        if: steps.build.outcome != 'success' || steps.gametest.outcome == 'failure' || steps.client.outcome == 'failure'
         run: exit 1

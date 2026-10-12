@@ -3,6 +3,7 @@
  */
 
 package moriyashiine.bewitchment.client;
+import moriyashiine.bewitchment.client.dev.ClientSmokeTest;
 import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.model.BoatModel;
 import moriyashiine.bewitchment.common.entity.boat.BWBoatType;
@@ -100,6 +101,7 @@ public class BewitchmentClient {
 		modBus.addListener(BewitchmentClient::onRegisterLayerDefinitions);
 		MinecraftForge.EVENT_BUS.addListener(TransformationAbilityEvent::onLevelTick);
 		MinecraftForge.EVENT_BUS.addListener(CauldronTeleportEvent::onClientChat);
+		ClientSmokeTest.registerIfEnabled();
 		if (ModList.get().isLoaded("appleskin")) {
 			BWAppleskinIntegration.register();
 		}
