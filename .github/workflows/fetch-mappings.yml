@@ -1,0 +1,39 @@
+# One-shot job: fetches the Yarn (official<->named) and Mojang (official<->mojmap)
+# mapping tables for 1.20.1 into .ci/mappings/ so mixin target strings can be
+# remapped precisely. Dev-only files; removed again once the remap is done.
+
+name: fetch-mappings
+on:
+  push:
+    branches: [forge-port]
+    paths: ['.github/workflows/fetch-mappings.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: download
+        run: |
+          set -euo pipefail
+          mkdir -p .ci/mappings && cd .ci/mappings
+          curl -fsSL -o yarn.jar https://maven.fabricmc.net/net/fabricmc/yarn/1.20.1+build.10/yarn-1.20.1+build.10-mergedv2.jar
+          unzip -p yarn.jar mappings/mappings.tiny > yarn.tiny && rm yarn.jar
+          ver=$(curl -fsSL https://piston-meta.mojang.com/mc/game/version_manifest_v2.json | jq -r '.versions[] | select(.id=="1.20.1") | .url')
+          curl -fsSL "$ver" > version.json
+          curl -fsSL -o client.txt "$(jq -r .downloads.client_mappings.url version.json)"
+          curl -fsSL -o server.txt "$(jq -r .downloads.server_mappings.url version.json)"
+          rm version.json
+          ls -la
+      - name: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git rm -q .github/workflows/fetch-mappings.yml
+          git add .ci/mappings
+          git commit -m "CI: fetch 1.20.1 Yarn + Mojang mapping tables (dev-only)"
+          git push
