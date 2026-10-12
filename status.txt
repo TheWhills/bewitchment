@@ -1,6 +1,7 @@
-commit: 8599f8e
+commit: 5b5de60
 result: success
 java errors: 0
 files with errors: 0
 gametests: success
+client smoke test: success
 gametest summary: ========= 23 GAME TESTS COMPLETE ====================== All 23 required tests passed :) 
