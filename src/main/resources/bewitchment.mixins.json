@@ -26,6 +26,7 @@
 	"SpawnHelperMixin",
 	"VillagerEntityMixin",
 	"WalkAnimationAccessor",
+	"component.ServerLevelComponentTickMixin",
 	"brew.ArrowEntityMixin",
 	"brew.BrewingRecipeRegistryMixin",
 	"brew.ItemStackMixin",
@@ -79,6 +80,7 @@
 	"vampirehack.RemoveFireInvulnerabilityMixin"
   ],
   "client": [
+	"component.ClientLevelComponentTickMixin",
 	"client.ClientWorldMixin",
 	"client.EntityRenderDispatcherMixin",
 	"client.GameRendererMixin",

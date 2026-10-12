@@ -4,8 +4,8 @@
 
 package moriyashiine.bewitchment.common.component.entity;
 
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+import moriyashiine.bewitchment.common.component.base.AutoSyncedComponent;
+import moriyashiine.bewitchment.common.component.base.ServerTickingComponent;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWCurses;
 import net.minecraft.nbt.CompoundTag;

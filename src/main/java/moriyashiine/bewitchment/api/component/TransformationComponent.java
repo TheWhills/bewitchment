@@ -6,8 +6,8 @@ package moriyashiine.bewitchment.api.component;
 
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+import moriyashiine.bewitchment.common.component.base.AutoSyncedComponent;
+import moriyashiine.bewitchment.common.component.base.ServerTickingComponent;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.api.event.AllowVampireBurn;
 import moriyashiine.bewitchment.api.event.AllowVampireHeal;

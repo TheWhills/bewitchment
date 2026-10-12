@@ -7,6 +7,8 @@ package moriyashiine.bewitchment.client.packet;
 import moriyashiine.bewitchment.api.registry.Contract;
 import moriyashiine.bewitchment.client.screen.DemonScreenHandler;
 import moriyashiine.bewitchment.common.block.entity.PoppetShelfBlockEntity;
+import moriyashiine.bewitchment.common.component.base.AutoSyncedComponent;
+import moriyashiine.bewitchment.common.component.base.ComponentKey;
 import moriyashiine.bewitchment.common.entity.projectile.HornedSpearEntity;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWRegistries;
@@ -112,5 +114,18 @@ public final class ClientPacketHandlers {
 		if (level.getBlockEntity(packet.pos()) instanceof PoppetShelfBlockEntity poppetShelf) {
 			poppetShelf.clientInventory = inventory;
 		}
+	}
+
+	static void syncComponent(SyncComponentPacket packet) {
+		ClientLevel level = Minecraft.getInstance().level;
+		ComponentKey<?> key = ComponentKey.byId(packet.componentId());
+		if (level == null || key == null) {
+			return;
+		}
+		key.maybeGet(level.getEntity(packet.entityId())).ifPresent(component -> {
+			if (component instanceof AutoSyncedComponent synced) {
+				synced.applySyncData(packet.data());
+			}
+		});
 	}
 }

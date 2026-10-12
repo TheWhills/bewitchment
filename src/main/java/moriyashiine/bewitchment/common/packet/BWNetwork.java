@@ -44,6 +44,7 @@ public final class BWNetwork {
 		CHANNEL.messageBuilder(SyncContractsPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT).encoder(SyncContractsPacket::encode).decoder(SyncContractsPacket::decode).consumerMainThread(SyncContractsPacket::handle).add();
 		CHANNEL.messageBuilder(SyncDemonTradesPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT).encoder(SyncDemonTradesPacket::encode).decoder(SyncDemonTradesPacket::decode).consumerMainThread(SyncDemonTradesPacket::handle).add();
 		CHANNEL.messageBuilder(SyncHornedSpearPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT).encoder(SyncHornedSpearPacket::encode).decoder(SyncHornedSpearPacket::decode).consumerMainThread(SyncHornedSpearPacket::handle).add();
+		CHANNEL.messageBuilder(SyncComponentPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT).encoder(SyncComponentPacket::encode).decoder(SyncComponentPacket::decode).consumerMainThread(SyncComponentPacket::handle).add();
 		CHANNEL.messageBuilder(SyncPoppetShelfPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT).encoder(SyncPoppetShelfPacket::encode).decoder(SyncPoppetShelfPacket::decode).consumerMainThread(SyncPoppetShelfPacket::handle).add();
 	}
 

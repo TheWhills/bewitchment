@@ -4,7 +4,7 @@
 
 package moriyashiine.bewitchment.common.component.entity;
 
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+import moriyashiine.bewitchment.common.component.base.AutoSyncedComponent;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;

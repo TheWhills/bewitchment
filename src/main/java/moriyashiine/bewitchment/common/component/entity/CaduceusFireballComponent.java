@@ -4,7 +4,7 @@
 
 package moriyashiine.bewitchment.common.component.entity;
 
-import dev.onyxstudios.cca.api.v3.component.Component;
+import moriyashiine.bewitchment.common.component.base.Component;
 import net.minecraft.nbt.CompoundTag;
 
 public class CaduceusFireballComponent implements Component {

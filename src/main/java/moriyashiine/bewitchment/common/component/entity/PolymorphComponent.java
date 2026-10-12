@@ -4,7 +4,7 @@
 
 package moriyashiine.bewitchment.common.component.entity;
 
-import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+import moriyashiine.bewitchment.common.component.base.ServerTickingComponent;
 import io.github.ladysnake.impersonate.Impersonator;
 import moriyashiine.bewitchment.common.registry.BWStatusEffects;
 import moriyashiine.bewitchment.common.statuseffect.PolymorphStatusEffect;

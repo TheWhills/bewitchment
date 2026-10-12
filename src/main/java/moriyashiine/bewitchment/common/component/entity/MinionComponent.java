@@ -4,7 +4,7 @@
 
 package moriyashiine.bewitchment.common.component.entity;
 
-import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+import moriyashiine.bewitchment.common.component.base.ServerTickingComponent;
 import moriyashiine.bewitchment.client.packet.SpawnSmokeParticlesPacket;
 import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.common.registry.BWComponents;

@@ -4,6 +4,7 @@
 
 package moriyashiine.bewitchment.common.registry;
 
+import moriyashiine.bewitchment.common.component.base.ComponentEvents;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -42,6 +43,10 @@ public final class BWRegistration {
 		modBus.addListener((FMLCommonSetupEvent event) -> event.enqueueWork(BWObjects::commonSetup));
 
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
+
+		BWComponents.init();
+		ComponentEvents.register(modBus, forgeBus);
+
 		forgeBus.addListener(BWObjects::onToolModification);
 		forgeBus.addListener(BWObjects::onFurnaceFuel);
 	}
