@@ -1,1 +1,0 @@
-src/main/java/moriyashiine/bewitchment/api/client/renderer/BroomEntityRenderer.java:31: error: cannot find symbol
