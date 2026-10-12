@@ -34,9 +34,16 @@ minecraft {
                 }
             }
         }
-        client {}
+        client {
+            property 'forge.enabledGameTestNamespaces', mod_id
+        }
         server {
+            property 'forge.enabledGameTestNamespaces', mod_id
             args '--nogui'
+        }
+        // Headless server that runs the GameTests in common/gametest and exits (used by CI).
+        gameTestServer {
+            property 'forge.enabledGameTestNamespaces', mod_id
         }
         data {
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')

@@ -38,6 +38,14 @@ jobs:
         run: |
           set -o pipefail
           ./gradlew build --stacktrace --console=plain 2>&1 | tee build.log
+      - name: gametest server
+        id: gametest
+        if: steps.build.outcome == 'success'
+        continue-on-error: true
+        timeout-minutes: 15
+        run: |
+          set -o pipefail
+          ./gradlew runGameTestServer --console=plain 2>&1 | tee gametest.log
       - name: summarize
         if: always()
         run: |
@@ -47,27 +55,31 @@ jobs:
             echo "result: ${{ steps.build.outcome }}"
             echo "java errors: $(wc -l < errors.txt)"
             echo "files with errors: $(cut -d: -f1 errors.txt | sort -u | wc -l)"
+            echo "gametests: ${{ steps.gametest.outcome || 'skipped' }}"
+            if [ -f gametest.log ]; then
+              echo "gametest summary: $(grep -E 'tests? (passed|failed)|All [0-9]+ required tests passed|required tests failed' gametest.log | tail -3 | tr '\n' ' ')"
+            fi
           } > status.txt
           cat status.txt
-      - name: publish log to ci-logs
-        if: always()
-        run: |
-          mkdir -p /tmp/out && mv build.log errors.txt status.txt /tmp/out/
-          git config user.name "github-actions[bot]"
-          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
-          git fetch origin ci-logs && git checkout -q -B ci-logs origin/ci-logs || git checkout -q --orphan ci-logs
-          git rm -rq --cached . >/dev/null 2>&1 || true
-          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
-          cp /tmp/out/* .
-          git add build.log errors.txt status.txt
-          git commit -qm "build ${GITHUB_SHA::7}: ${{ steps.build.outcome }}"
-          git push -q origin ci-logs
       - name: upload jar
         if: steps.build.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: bewitchment-forge
           path: build/libs/
-      - name: fail if build failed
-        if: steps.build.outcome != 'success'
+      - name: publish log to ci-logs
+        if: always()
+        run: |
+          mkdir -p /tmp/out && mv build.log errors.txt status.txt /tmp/out/ && { [ -f gametest.log ] && mv gametest.log /tmp/out/ || true; } && { [ -f run/logs/latest.log ] && cp run/logs/latest.log /tmp/out/server-latest.log || true; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git fetch origin ci-logs && git checkout -q -B ci-logs origin/ci-logs || git checkout -q --orphan ci-logs
+          git rm -rq --cached . >/dev/null 2>&1 || true
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp /tmp/out/* .
+          git add build.log errors.txt status.txt $(ls gametest.log server-latest.log 2>/dev/null)
+          git commit -qm "build ${GITHUB_SHA::7}: ${{ steps.build.outcome }}"
+          git push -q origin ci-logs
+      - name: fail if build or gametests failed
+        if: steps.build.outcome != 'success' || steps.gametest.outcome == 'failure'
         run: exit 1
