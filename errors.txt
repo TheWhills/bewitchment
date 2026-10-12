@@ -14,7 +14,6 @@ src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:15
 src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:16: error: package net.fabricmc.fabric.api.loot.v2 does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:17: error: package net.fabricmc.fabric.api.tag.convention.v1 does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:98: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:53: error: cannot find symbol
 src/main/java/moriyashiine/bewitchment/common/component/entity/PolymorphComponent.java:8: error: package io.github.ladysnake.impersonate does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:7: error: package com.terraformersmc.terraform.boat.api does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:8: error: package com.terraformersmc.terraform.boat.api does not exist

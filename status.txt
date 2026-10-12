@@ -1,4 +1,4 @@
-commit: 5c3e053
+commit: 6a30417
 result: failure
-java errors: 22
-files with errors: 10
+java errors: 21
+files with errors: 9
