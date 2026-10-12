@@ -37,14 +37,14 @@ Executing steps
  > Running 'listLibraries'
  > Running 'rename'
 Stopping at requested step: /home/runner/.gradle/caches/forge_gradle/mcp_repo/de/oceanlabs/mcp/mcp_config/1.20.1-20230612.114412/joined/rename/output.jar
-[14:21:15] [main/INFO]: Writing debug log file accesstransform.log
-[14:21:15] [main/INFO]: Access Transformer processor running version 8.2.14
-[14:21:15] [main/INFO]: Command line arguments [--inJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar, --outJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, --logFile, accesstransform.log, --atFile, /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg]
-[14:21:15] [main/INFO]: Reading from /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar
-[14:21:15] [main/INFO]: Writing to /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
-[14:21:15] [main/INFO]: Transformer file /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg
-[14:21:15] [main/WARN]: Found existing output jar /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, overwriting
-[14:21:19] [main/INFO]: JAR transformation complete /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
+[14:46:15] [main/INFO]: Writing debug log file accesstransform.log
+[14:46:15] [main/INFO]: Access Transformer processor running version 8.2.14
+[14:46:15] [main/INFO]: Command line arguments [--inJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar, --outJar, /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, --logFile, accesstransform.log, --atFile, /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg]
+[14:46:15] [main/INFO]: Reading from /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0/forge-1.20.1-47.3.0-injected.jar
+[14:46:15] [main/INFO]: Writing to /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
+[14:46:15] [main/INFO]: Transformer file /home/runner/work/bewitchment/bewitchment/build/_atJar_4/parent_at.cfg
+[14:46:15] [main/WARN]: Found existing output jar /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar, overwriting
+[14:46:19] [main/INFO]: JAR transformation complete /home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.3.0_mapped_parchment_2023.09.03-1.20.1.jar
 Creating SRG -> MCP TSRG
 Note: SpongePowered MIXIN Annotation Processor Version=0.8.5 (MixinGradle Version=0.7.38)
 Note: Supported obfuscation types: ObfuscationServiceMCP supports [notch] ObfuscationServiceFG3 supports [searge]
@@ -230,14 +230,8 @@ Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/comp
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/EntityMixin.java:27: warning: Unable to locate obfuscation mapping for @Shadow field
 	@Shadow
 	^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/BlocksAccessor.java:15: error: Could not locate @Invoker target createLeavesBlock in target net.minecraft.world.level.block.Blocks
-	@Invoker
-	^
 Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-refmap.json
 Note: Writing searge composite mappings to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-mappings.tsrg
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/AbstractBlockStateMixin.java:8: error: package net.minecraft.block does not exist
-import net.minecraft.block.*;
-^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/mixin/brew/LivingEntityMixin.java:11: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
                                             ^
@@ -440,21 +434,9 @@ public class CursesComponent implements ServerTickingComponent {
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/entity/WitchAltarBlockEntity.java:9: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
                                             ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/block/WitchAltarBlock.java:15: error: package net.minecraft.block does not exist
-import net.minecraft.block.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/entity/WitchAltarBlockEntity.java:10: error: package net.minecraft.block does not exist
-import net.minecraft.block.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/api/block/PoppetShelfBlock.java:9: error: package net.minecraft.block does not exist
-import net.minecraft.block.*;
-^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/misc/BWUtil.java:15: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
                                             ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/misc/BWUtil.java:18: error: package net.minecraft.item does not exist
-import net.minecraft.item.*;
-^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/item/HornedSpearItem.java:9: error: package com.jamieswhiteshirt.reachentityattributes does not exist
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
                                                  ^
@@ -559,60 +541,18 @@ public class SpecterBangleItem extends TrinketItem {
 	                                  ^
   symbol:   class SlotReference
   location: class SpecterBangleItem
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/ToadEntity.java:11: error: package net.minecraft.entity.ai.goal does not exist
-import net.minecraft.entity.ai.goal.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/util/BWTameableEntity.java:7: error: package net.minecraft.entity does not exist
-import net.minecraft.entity.*;
-^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/LilithEntity.java:15: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
                                             ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/LilithEntity.java:17: error: package net.minecraft.entity.ai.goal does not exist
-import net.minecraft.entity.ai.goal.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/DemonEntity.java:19: error: package net.minecraft.entity does not exist
-import net.minecraft.entity.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/DemonEntity.java:20: error: package net.minecraft.entity.ai.goal does not exist
-import net.minecraft.entity.ai.goal.*;
-^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/GhostEntity.java:14: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
                                             ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/GhostEntity.java:17: error: package net.minecraft.entity does not exist
-import net.minecraft.entity.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/GhostEntity.java:18: error: package net.minecraft.entity.ai.goal does not exist
-import net.minecraft.entity.ai.goal.*;
-^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/HerneEntity.java:16: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
                                             ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/HerneEntity.java:18: error: package net.minecraft.entity.ai.goal does not exist
-import net.minecraft.entity.ai.goal.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/LeonardEntity.java:16: error: package net.minecraft.entity.ai.goal does not exist
-import net.minecraft.entity.ai.goal.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/SnakeEntity.java:11: error: package net.minecraft.entity.ai.goal does not exist
-import net.minecraft.entity.ai.goal.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/VampireEntity.java:12: error: package net.minecraft.entity.ai.goal does not exist
-import net.minecraft.entity.ai.goal.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/RavenEntity.java:12: error: package net.minecraft.entity.ai.goal does not exist
-import net.minecraft.entity.ai.goal.*;
-^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/HellhoundEntity.java:14: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
                                             ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/HellhoundEntity.java:16: error: package net.minecraft.entity does not exist
-import net.minecraft.entity.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/HellhoundEntity.java:17: error: package net.minecraft.entity.ai.goal does not exist
-import net.minecraft.entity.ai.goal.*;
-^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:7: error: package com.jamieswhiteshirt.reachentityattributes does not exist
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
                                                  ^
@@ -625,21 +565,6 @@ import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:16: error: package net.fabricmc.fabric.api.tag.convention.v1 does not exist
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
                                                 ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:19: error: package net.minecraft.entity does not exist
-import net.minecraft.entity.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:20: error: package net.minecraft.entity.ai.goal does not exist
-import net.minecraft.entity.ai.goal.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/OwlEntity.java:11: error: package net.minecraft.entity.ai.goal does not exist
-import net.minecraft.entity.ai.goal.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/OwlEntity.java:12: error: package net.minecraft.entity.passive does not exist
-import net.minecraft.entity.passive.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/entity/living/BaphometEntity.java:22: error: package net.minecraft.entity.ai.goal does not exist
-import net.minecraft.entity.ai.goal.*;
-^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/packet/CauldronTeleportPacket.java:15: error: package net.fabricmc.fabric.api.client.networking.v1 does not exist
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
                                                    ^
@@ -708,9 +633,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 		                                                                                                                            ^
   symbol:   class PacketSender
   location: class Receiver
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/recipe/OilRecipe.java:13: error: package net.minecraft.recipe does not exist
-import net.minecraft.recipe.*;
-^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:13: error: package net.fabricmc.fabric.api.biome.v1 does not exist
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
                                        ^
@@ -764,23 +686,17 @@ import net.fabricmc.fabric.api.registry.FuelRegistry;
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:38: error: package net.fabricmc.fabric.api.registry does not exist
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
                                        ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:96: error: package net.fabricmc.fabric.api.object.builder.v1.block does not exist
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:94: error: package net.fabricmc.fabric.api.object.builder.v1.block does not exist
 import static net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings.copyOf;
                                                              ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:96: error: static import only from classes and interfaces
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:94: error: static import only from classes and interfaces
 import static net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings.copyOf;
 ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:432: error: cannot find symbol
+/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:430: error: cannot find symbol
 	private static Block[] createAltar(String name, FabricBlockSettings settings) {
 	                                                ^
   symbol:   class FabricBlockSettings
   location: class BWObjects
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:39: error: package net.minecraft.block does not exist
-import net.minecraft.block.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:43: error: package net.minecraft.item does not exist
-import net.minecraft.item.*;
-^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:7: error: package dev.onyxstudios.cca.api.v3.component does not exist
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
                                            ^
@@ -1051,9 +967,6 @@ import com.terraformersmc.terraform.boat.api.TerraformBoatTypeRegistry;
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:9: error: package com.terraformersmc.terraform.boat.api.item does not exist
 import com.terraformersmc.terraform.boat.api.item.TerraformBoatItemHelper;
                                                  ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/registry/BWMaterials.java:7: error: package net.minecraft.item does not exist
-import net.minecraft.item.*;
-^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:25: error: package net.fabricmc.fabric.api.command.v2 does not exist
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
                                          ^
@@ -1078,36 +991,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:32: error: package net.fabricmc.fabric.api.tag.convention.v1 does not exist
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
                                                 ^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/BrambleBlock.java:14: error: package net.minecraft.block does not exist
-import net.minecraft.block.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/BrambleBlock.java:19: error: package net.minecraft.registry.tag does not exist
-import net.minecraft.registry.tag.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/BrazierBlock.java:11: error: package net.minecraft.block does not exist
-import net.minecraft.block.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/WitchCauldronBlock.java:16: error: package net.minecraft.block does not exist
-import net.minecraft.block.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/SigilBlock.java:13: error: package net.minecraft.block does not exist
-import net.minecraft.block.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/elder/ElderDoorBlock.java:10: error: package net.minecraft.block does not exist
-import net.minecraft.block.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/elder/ElderTrapdoorBlock.java:9: error: package net.minecraft.block does not exist
-import net.minecraft.block.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/elder/ElderFenceGateBlock.java:9: error: package net.minecraft.block does not exist
-import net.minecraft.block.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/GlyphBlock.java:11: error: package net.minecraft.block does not exist
-import net.minecraft.block.*;
-^
-/home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/block/SaltLineBlock.java:10: error: package net.minecraft.block does not exist
-import net.minecraft.block.*;
-^
 /home/runner/work/bewitchment/bewitchment/src/main/java/moriyashiine/bewitchment/common/statuseffect/WednesdayStatusEffect.java:10: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
                                             ^
@@ -1424,11 +1307,11 @@ public class HellishBaubleRenderer implements TrinketRenderer {
 Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-refmap.json
 Note: Writing refmap to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-refmap.json
 Note: Writing searge composite mappings to /home/runner/work/bewitchment/bewitchment/build/tmp/compileJava/compileJava-mappings.tsrg
-340 errors
+301 errors
 60 warnings
 
 > Task :compileJava FAILED
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1791814535856.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1791816061979.json
 
 FAILURE: Build failed with an exception.
 
@@ -1633,5 +1516,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/8.10/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD FAILED in 6m 13s
+BUILD FAILED in 5m 46s
 4 actionable tasks: 4 executed

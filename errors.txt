@@ -1,5 +1,3 @@
-src/main/java/moriyashiine/bewitchment/mixin/BlocksAccessor.java:15: error: Could not locate @Invoker target createLeavesBlock in target net.minecraft.world.level.block.Blocks
-src/main/java/moriyashiine/bewitchment/mixin/AbstractBlockStateMixin.java:8: error: package net.minecraft.block does not exist
 src/main/java/moriyashiine/bewitchment/mixin/brew/LivingEntityMixin.java:11: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 src/main/java/moriyashiine/bewitchment/mixin/poppet/LivingEntityMixin.java:17: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 src/main/java/moriyashiine/bewitchment/mixin/trinket/LivingEntityMixin.java:7: error: package dev.emi.trinkets.api does not exist
@@ -57,11 +55,7 @@ src/main/java/moriyashiine/bewitchment/api/component/FortuneComponent.java:15: e
 src/main/java/moriyashiine/bewitchment/api/component/CursesComponent.java:7: error: package dev.onyxstudios.cca.api.v3.component.tick does not exist
 src/main/java/moriyashiine/bewitchment/api/component/CursesComponent.java:18: error: cannot find symbol
 src/main/java/moriyashiine/bewitchment/common/block/entity/WitchAltarBlockEntity.java:9: error: package net.fabricmc.fabric.api.networking.v1 does not exist
-src/main/java/moriyashiine/bewitchment/api/block/WitchAltarBlock.java:15: error: package net.minecraft.block does not exist
-src/main/java/moriyashiine/bewitchment/common/block/entity/WitchAltarBlockEntity.java:10: error: package net.minecraft.block does not exist
-src/main/java/moriyashiine/bewitchment/api/block/PoppetShelfBlock.java:9: error: package net.minecraft.block does not exist
 src/main/java/moriyashiine/bewitchment/common/misc/BWUtil.java:15: error: package net.fabricmc.fabric.api.networking.v1 does not exist
-src/main/java/moriyashiine/bewitchment/common/misc/BWUtil.java:18: error: package net.minecraft.item does not exist
 src/main/java/moriyashiine/bewitchment/common/item/HornedSpearItem.java:9: error: package com.jamieswhiteshirt.reachentityattributes does not exist
 src/main/java/moriyashiine/bewitchment/common/item/HornedSpearItem.java:14: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 src/main/java/moriyashiine/bewitchment/common/item/PricklyBeltItem.java:7: error: package dev.emi.trinkets.api does not exist
@@ -89,33 +83,14 @@ src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:12: er
 src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:17: error: cannot find symbol
 src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:18: error: cannot find symbol
 src/main/java/moriyashiine/bewitchment/common/item/SpecterBangleItem.java:23: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/entity/living/ToadEntity.java:11: error: package net.minecraft.entity.ai.goal does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/util/BWTameableEntity.java:7: error: package net.minecraft.entity does not exist
 src/main/java/moriyashiine/bewitchment/common/entity/living/LilithEntity.java:15: error: package net.fabricmc.fabric.api.networking.v1 does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/LilithEntity.java:17: error: package net.minecraft.entity.ai.goal does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/DemonEntity.java:19: error: package net.minecraft.entity does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/DemonEntity.java:20: error: package net.minecraft.entity.ai.goal does not exist
 src/main/java/moriyashiine/bewitchment/common/entity/living/GhostEntity.java:14: error: package net.fabricmc.fabric.api.networking.v1 does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/GhostEntity.java:17: error: package net.minecraft.entity does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/GhostEntity.java:18: error: package net.minecraft.entity.ai.goal does not exist
 src/main/java/moriyashiine/bewitchment/common/entity/living/HerneEntity.java:16: error: package net.fabricmc.fabric.api.networking.v1 does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/HerneEntity.java:18: error: package net.minecraft.entity.ai.goal does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/LeonardEntity.java:16: error: package net.minecraft.entity.ai.goal does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/SnakeEntity.java:11: error: package net.minecraft.entity.ai.goal does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/VampireEntity.java:12: error: package net.minecraft.entity.ai.goal does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/RavenEntity.java:12: error: package net.minecraft.entity.ai.goal does not exist
 src/main/java/moriyashiine/bewitchment/common/entity/living/HellhoundEntity.java:14: error: package net.fabricmc.fabric.api.networking.v1 does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/HellhoundEntity.java:16: error: package net.minecraft.entity does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/HellhoundEntity.java:17: error: package net.minecraft.entity.ai.goal does not exist
 src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:7: error: package com.jamieswhiteshirt.reachentityattributes does not exist
 src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:8: error: package dev.emi.stepheightentityattribute does not exist
 src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:15: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:16: error: package net.fabricmc.fabric.api.tag.convention.v1 does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:19: error: package net.minecraft.entity does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/WerewolfEntity.java:20: error: package net.minecraft.entity.ai.goal does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/OwlEntity.java:11: error: package net.minecraft.entity.ai.goal does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/OwlEntity.java:12: error: package net.minecraft.entity.passive does not exist
-src/main/java/moriyashiine/bewitchment/common/entity/living/BaphometEntity.java:22: error: package net.minecraft.entity.ai.goal does not exist
 src/main/java/moriyashiine/bewitchment/common/packet/CauldronTeleportPacket.java:15: error: package net.fabricmc.fabric.api.client.networking.v1 does not exist
 src/main/java/moriyashiine/bewitchment/common/packet/CauldronTeleportPacket.java:16: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 src/main/java/moriyashiine/bewitchment/common/packet/CauldronTeleportPacket.java:17: error: package net.fabricmc.fabric.api.networking.v1 does not exist
@@ -136,7 +111,6 @@ src/main/java/moriyashiine/bewitchment/common/packet/TogglePressingForwardPacket
 src/main/java/moriyashiine/bewitchment/common/packet/TogglePressingForwardPacket.java:14: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 src/main/java/moriyashiine/bewitchment/common/packet/TogglePressingForwardPacket.java:30: error: package ServerPlayNetworking does not exist
 src/main/java/moriyashiine/bewitchment/common/packet/TogglePressingForwardPacket.java:32: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/recipe/OilRecipe.java:13: error: package net.minecraft.recipe does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:13: error: package net.fabricmc.fabric.api.biome.v1 does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:14: error: package net.fabricmc.fabric.api.biome.v1 does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWWorldGenerators.java:15: error: package net.fabricmc.fabric.api.biome.v1 does not exist
@@ -154,11 +128,9 @@ src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:35: error:
 src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:36: error: package net.fabricmc.fabric.api.registry does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:37: error: package net.fabricmc.fabric.api.registry does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:38: error: package net.fabricmc.fabric.api.registry does not exist
-src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:96: error: package net.fabricmc.fabric.api.object.builder.v1.block does not exist
-src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:96: error: static import only from classes and interfaces
-src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:432: error: cannot find symbol
-src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:39: error: package net.minecraft.block does not exist
-src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:43: error: package net.minecraft.item does not exist
+src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:94: error: package net.fabricmc.fabric.api.object.builder.v1.block does not exist
+src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:94: error: static import only from classes and interfaces
+src/main/java/moriyashiine/bewitchment/common/registry/BWObjects.java:430: error: cannot find symbol
 src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:7: error: package dev.onyxstudios.cca.api.v3.component does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:8: error: package dev.onyxstudios.cca.api.v3.component does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWComponents.java:9: error: package dev.onyxstudios.cca.api.v3.entity does not exist
@@ -230,7 +202,6 @@ src/main/java/moriyashiine/bewitchment/common/block/entity/PoppetShelfBlockEntit
 src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:7: error: package com.terraformersmc.terraform.boat.api does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:8: error: package com.terraformersmc.terraform.boat.api does not exist
 src/main/java/moriyashiine/bewitchment/common/registry/BWBoatTypes.java:9: error: package com.terraformersmc.terraform.boat.api.item does not exist
-src/main/java/moriyashiine/bewitchment/common/registry/BWMaterials.java:7: error: package net.minecraft.item does not exist
 src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:25: error: package net.fabricmc.fabric.api.command.v2 does not exist
 src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:26: error: package net.fabricmc.fabric.api.entity.event.v1 does not exist
 src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:27: error: package net.fabricmc.fabric.api.entity.event.v1 does not exist
@@ -239,16 +210,6 @@ src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:29: error: packag
 src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:30: error: package net.fabricmc.fabric.api.event.player does not exist
 src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:31: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 src/main/java/moriyashiine/bewitchment/common/Bewitchment.java:32: error: package net.fabricmc.fabric.api.tag.convention.v1 does not exist
-src/main/java/moriyashiine/bewitchment/common/block/BrambleBlock.java:14: error: package net.minecraft.block does not exist
-src/main/java/moriyashiine/bewitchment/common/block/BrambleBlock.java:19: error: package net.minecraft.registry.tag does not exist
-src/main/java/moriyashiine/bewitchment/common/block/BrazierBlock.java:11: error: package net.minecraft.block does not exist
-src/main/java/moriyashiine/bewitchment/common/block/WitchCauldronBlock.java:16: error: package net.minecraft.block does not exist
-src/main/java/moriyashiine/bewitchment/common/block/SigilBlock.java:13: error: package net.minecraft.block does not exist
-src/main/java/moriyashiine/bewitchment/common/block/elder/ElderDoorBlock.java:10: error: package net.minecraft.block does not exist
-src/main/java/moriyashiine/bewitchment/common/block/elder/ElderTrapdoorBlock.java:9: error: package net.minecraft.block does not exist
-src/main/java/moriyashiine/bewitchment/common/block/elder/ElderFenceGateBlock.java:9: error: package net.minecraft.block does not exist
-src/main/java/moriyashiine/bewitchment/common/block/GlyphBlock.java:11: error: package net.minecraft.block does not exist
-src/main/java/moriyashiine/bewitchment/common/block/SaltLineBlock.java:10: error: package net.minecraft.block does not exist
 src/main/java/moriyashiine/bewitchment/common/statuseffect/WednesdayStatusEffect.java:10: error: package net.fabricmc.fabric.api.networking.v1 does not exist
 src/main/java/moriyashiine/bewitchment/common/statuseffect/PolymorphStatusEffect.java:8: error: package io.github.ladysnake.impersonate does not exist
 src/main/java/moriyashiine/bewitchment/client/event/TransformationAbilityEvent.java:7: error: package net.fabricmc.fabric.api.client.event.lifecycle.v1 does not exist

@@ -1,4 +1,4 @@
-commit: f47bb76
+commit: eb8065d
 result: failure
-java errors: 340
-files with errors: 106
+java errors: 301
+files with errors: 82
