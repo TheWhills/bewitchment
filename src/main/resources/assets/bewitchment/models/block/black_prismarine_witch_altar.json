@@ -1,4 +1,5 @@
 {
+  "render_type": "minecraft:cutout",
   "parent": "bewitchment:block/black_stone_witch_altar",
   "textures": {
 	"side": "bewitchment:block/prismarine_witch_altar",

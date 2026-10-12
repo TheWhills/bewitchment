@@ -5,9 +5,10 @@
 package moriyashiine.bewitchment.api.component;
 
 import moriyashiine.bewitchment.common.component.base.AutoSyncedComponent;
+import net.minecraftforge.common.MinecraftForge;
+import moriyashiine.bewitchment.api.event.BloodEvent;
 import moriyashiine.bewitchment.common.component.base.ServerTickingComponent;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
-import moriyashiine.bewitchment.api.event.BloodSetEvents;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWTags;
 import net.minecraft.nbt.CompoundTag;
@@ -47,13 +48,13 @@ public class BloodComponent implements AutoSyncedComponent, ServerTickingCompone
 	}
 
 	public void setBlood(int blood) {
-		BloodSetEvents.ON_BLOOD_SET.invoker().onSetBlood(obj, blood);
+		MinecraftForge.EVENT_BUS.post(new BloodEvent.Set(obj, blood));
 		this.blood = blood;
 		BWComponents.BLOOD_COMPONENT.sync(obj);
 	}
 
 	public boolean fillBlood(int amount, boolean simulate) {
-		BloodSetEvents.ON_BLOOD_FILL.invoker().onFillBlood(obj, amount, simulate);
+		MinecraftForge.EVENT_BUS.post(new BloodEvent.Fill(obj, amount, simulate));
 		if (getBlood() < MAX_BLOOD) {
 			if (!simulate) {
 				setBlood(Math.min(MAX_BLOOD, getBlood() + amount));
@@ -64,7 +65,7 @@ public class BloodComponent implements AutoSyncedComponent, ServerTickingCompone
 	}
 
 	public boolean drainBlood(int amount, boolean simulate) {
-		BloodSetEvents.ON_BLOOD_DRAIN.invoker().onDrainBlood(obj, amount, simulate);
+		MinecraftForge.EVENT_BUS.post(new BloodEvent.Drain(obj, amount, simulate));
 		if (getBlood() - amount >= 0) {
 			if (!simulate) {
 				setBlood(getBlood() - amount);

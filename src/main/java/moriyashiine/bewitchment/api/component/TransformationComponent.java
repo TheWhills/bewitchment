@@ -5,13 +5,14 @@
 package moriyashiine.bewitchment.api.component;
 
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
+import net.minecraftforge.common.MinecraftForge;
+import moriyashiine.bewitchment.api.event.TransformationSetEvent;
+import moriyashiine.bewitchment.api.event.VampireHealEvent;
+import moriyashiine.bewitchment.api.event.VampireSunlightEvent;
 import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
 import moriyashiine.bewitchment.common.component.base.AutoSyncedComponent;
 import moriyashiine.bewitchment.common.component.base.ServerTickingComponent;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
-import moriyashiine.bewitchment.api.event.AllowVampireBurn;
-import moriyashiine.bewitchment.api.event.AllowVampireHeal;
-import moriyashiine.bewitchment.api.event.OnTransformationSet;
 import moriyashiine.bewitchment.api.registry.Transformation;
 import moriyashiine.bewitchment.common.component.entity.AdditionalWerewolfDataComponent;
 import moriyashiine.bewitchment.common.misc.BWUtil;
@@ -85,12 +86,12 @@ public class TransformationComponent implements AutoSyncedComponent, ServerTicki
 			} else {
 				obj.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, -1, 0, true, false));
 			}
-			if (BWComponents.RESPAWN_TIMER_COMPONENT.get(obj).getRespawnTimer() <= 0 && obj.level().isDay() && !obj.level().isRaining() && obj.level().canSeeSky(obj.blockPosition()) && AllowVampireBurn.EVENT.invoker().allowBurn(obj)) {
+			if (BWComponents.RESPAWN_TIMER_COMPONENT.get(obj).getRespawnTimer() <= 0 && obj.level().isDay() && !obj.level().isRaining() && obj.level().canSeeSky(obj.blockPosition()) && !MinecraftForge.EVENT_BUS.post(new VampireSunlightEvent(obj))) {
 				obj.setSecondsOnFire(8);
 			}
 			FoodData hungerManager = obj.getFoodData();
 			if (BWComponents.BLOOD_COMPONENT.get(obj).getBlood() > 0) {
-				if (AllowVampireHeal.EVENT.invoker().allowHeal(obj, pledgedToLilith)) {
+				if (!MinecraftForge.EVENT_BUS.post(new VampireHealEvent(obj, pledgedToLilith))) {
 					if (obj.tickCount % (pledgedToLilith ? 30 : 40) == 0) {
 						if (obj.getHealth() < obj.getMaxHealth()) {
 							obj.heal(1);
@@ -158,7 +159,7 @@ public class TransformationComponent implements AutoSyncedComponent, ServerTicki
 	}
 
 	public void setTransformation(Transformation transformation) {
-		OnTransformationSet.EVENT.invoker().onTransformationSet(obj, transformation);
+		MinecraftForge.EVENT_BUS.post(new TransformationSetEvent(obj, transformation));
 		this.transformation = transformation;
 		BWComponents.TRANSFORMATION_COMPONENT.sync(obj);
 		updateAttributes();

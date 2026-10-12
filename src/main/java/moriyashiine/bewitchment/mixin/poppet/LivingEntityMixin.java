@@ -5,8 +5,9 @@
 package moriyashiine.bewitchment.mixin.poppet;
 
 import moriyashiine.bewitchment.api.BewitchmentAPI;
+import net.minecraftforge.common.MinecraftForge;
+import moriyashiine.bewitchment.api.event.PoppetReviveEvent;
 import moriyashiine.bewitchment.common.packet.BWNetwork;
-import moriyashiine.bewitchment.api.event.ReviveEvents;
 import moriyashiine.bewitchment.api.item.PoppetItem;
 import moriyashiine.bewitchment.api.misc.PoppetData;
 import moriyashiine.bewitchment.client.packet.SpawnSmokeParticlesPacket;
@@ -128,9 +129,9 @@ public abstract class LivingEntityMixin extends Entity {
 			if (!callbackInfo.getReturnValueZ()) {
 				boolean isPlayer = (Object) this instanceof Player;
 				PoppetData poppetData = BewitchmentAPI.getPoppet(level(), BWObjects.DEATH_PROTECTION_POPPET.get(), this);
-				if (!poppetData.stack().isEmpty() && !(isPlayer && ReviveEvents.CANCEL_REVIVE.invoker().shouldCancel((Player) (Object) this, source, poppetData.stack()))) {
+				if (!poppetData.stack().isEmpty() && !(isPlayer && MinecraftForge.EVENT_BUS.post(new PoppetReviveEvent.Pre((Player) (Object) this, source, poppetData.stack())))) {
 					if (isPlayer) {
-						ReviveEvents.ON_REVIVE.invoker().onRevive((Player) (Object) this, source, poppetData.stack());
+						MinecraftForge.EVENT_BUS.post(new PoppetReviveEvent.Post((Player) (Object) this, source, poppetData.stack()));
 					}
 					boolean sync = false;
 					if (poppetData.stack().hurt((Object) this instanceof Player player && BewitchmentAPI.getFamiliar(player) == EntityType.WOLF && random.nextBoolean() ? 0 : 1, random, null) && poppetData.stack().getDamageValue() >= poppetData.stack().getMaxDamage()) {

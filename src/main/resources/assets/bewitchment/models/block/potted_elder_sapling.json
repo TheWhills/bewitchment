@@ -1,4 +1,5 @@
 {
+  "render_type": "minecraft:cutout",
   "parent": "block/flower_pot_cross",
   "textures": {
 	"plant": "bewitchment:block/elder_sapling"

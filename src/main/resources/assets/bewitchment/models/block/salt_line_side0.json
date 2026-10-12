@@ -1,4 +1,5 @@
 {
+  "render_type": "minecraft:cutout",
   "parent": "bewitchment:block/salt_line_side",
   "textures": {
 	"line": "bewitchment:block/salt_line_line0"

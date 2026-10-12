@@ -1,7 +1,7 @@
 {
   "variants": {
 	"": {
-	  "model": "block/cobweb"
+	  "model": "bewitchment:block/temporary_cobweb"
 	}
   }
 }

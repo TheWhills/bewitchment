@@ -6,20 +6,23 @@ package moriyashiine.bewitchment.client.integration.appleskin;
 
 import moriyashiine.bewitchment.api.BewitchmentAPI;
 import net.minecraft.client.Minecraft;
-import squeek.appleskin.api.AppleSkinApi;
+import net.minecraftforge.common.MinecraftForge;
 import squeek.appleskin.api.event.HUDOverlayEvent;
 
-public class BWAppleskinIntegration implements AppleSkinApi {
-	@Override
-	public void registerEvents() {
-		HUDOverlayEvent.Saturation.EVENT.register(saturation -> {
+/** Hides AppleSkin's saturation and exhaustion overlays for vampires, who live on blood instead. Only loaded when AppleSkin is present. */
+public final class BWAppleskinIntegration {
+	private BWAppleskinIntegration() {
+	}
+
+	public static void register() {
+		MinecraftForge.EVENT_BUS.addListener((HUDOverlayEvent.Saturation event) -> {
 			if (BewitchmentAPI.isVampire(Minecraft.getInstance().player, true)) {
-				saturation.isCanceled = true;
+				event.setCanceled(true);
 			}
 		});
-		HUDOverlayEvent.Exhaustion.EVENT.register(exhaustion -> {
+		MinecraftForge.EVENT_BUS.addListener((HUDOverlayEvent.Exhaustion event) -> {
 			if (BewitchmentAPI.isVampire(Minecraft.getInstance().player, true)) {
-				exhaustion.isCanceled = true;
+				event.setCanceled(true);
 			}
 		});
 	}

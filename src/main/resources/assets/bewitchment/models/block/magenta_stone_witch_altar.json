@@ -1,4 +1,5 @@
 {
+  "render_type": "minecraft:cutout",
   "parent": "bewitchment:block/white_stone_witch_altar",
   "textures": {
 	"cloth_side": "bewitchment:block/magenta_altar_cloth",

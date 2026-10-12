@@ -4,16 +4,21 @@ import moriyashiine.bewitchment.api.entity.BroomEntity;
 import moriyashiine.bewitchment.client.BewitchmentClient;
 import moriyashiine.bewitchment.common.packet.TogglePressingForwardPacket;
 import moriyashiine.bewitchment.common.registry.BWComponents;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraftforge.event.TickEvent;
 import net.minecraft.world.entity.player.Player;
 
-public class TransformationAbilityEvent implements ClientTickEvents.EndWorldTick {
-	private int transformationAbilityCooldown = 0;
+/** Client: transformation ability key and broom forward input, checked at the end of each client level tick. */
+public final class TransformationAbilityEvent {
+	private static int transformationAbilityCooldown = 0;
 
-	@Override
-	public void onEndTick(ClientLevel world) {
+	private TransformationAbilityEvent() {
+	}
+
+	public static void onLevelTick(TickEvent.LevelTickEvent event) {
+		if (event.phase != TickEvent.Phase.END || !event.level.isClientSide) {
+			return;
+		}
 		Player player = Minecraft.getInstance().player;
 		if (player != null) {
 			if (transformationAbilityCooldown > 0) {

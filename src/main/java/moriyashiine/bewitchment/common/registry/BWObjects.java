@@ -4,6 +4,7 @@
 
 package moriyashiine.bewitchment.common.registry;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
+import moriyashiine.bewitchment.common.block.entity.BWChestBlockEntity;
 import moriyashiine.bewitchment.api.block.CandelabraBlock;
 import moriyashiine.bewitchment.api.block.PoppetShelfBlock;
 import moriyashiine.bewitchment.api.block.WitchAltarBlock;
@@ -143,8 +144,10 @@ public class BWObjects {
 	public static final RegistryObject<Block> JUNIPER_TRAPDOOR = create("juniper_trapdoor", () -> new JuniperTrapdoorBlock(copyOf(Blocks.OAK_TRAPDOOR)), true);
 	public static final RegistryObject<Block> JUNIPER_DOOR = create("juniper_door", () -> new JuniperDoorBlock(copyOf(Blocks.OAK_DOOR)), false);
 	public static final RegistryObject<Item> JUNIPER_DOOR_ITEM = create("juniper_door", () -> new DoubleHighBlockItem(JUNIPER_DOOR.get(), gen()));
-	public static final RegistryObject<Block> JUNIPER_CHEST = create("juniper_chest", () -> new JuniperChestBlock(copyOf(Blocks.CHEST), () -> BWBlockEntityTypes.JUNIPER_CHEST.get(), false), true);
-	public static final RegistryObject<Block> TRAPPED_JUNIPER_CHEST = create("trapped_juniper_chest", () -> new JuniperChestBlock(copyOf(Blocks.CHEST), () -> BWBlockEntityTypes.JUNIPER_CHEST.get(), true), true);
+	public static final RegistryObject<Block> JUNIPER_CHEST = create("juniper_chest", () -> new JuniperChestBlock(copyOf(Blocks.CHEST), () -> BWBlockEntityTypes.JUNIPER_CHEST.get(), false), false);
+	public static final RegistryObject<Item> JUNIPER_CHEST_ITEM = create("juniper_chest", () -> new BWChestItem(JUNIPER_CHEST.get(), gen(), BWChestBlockEntity.Type.JUNIPER, false));
+	public static final RegistryObject<Block> TRAPPED_JUNIPER_CHEST = create("trapped_juniper_chest", () -> new JuniperChestBlock(copyOf(Blocks.CHEST), () -> BWBlockEntityTypes.JUNIPER_CHEST.get(), true), false);
+	public static final RegistryObject<Item> TRAPPED_JUNIPER_CHEST_ITEM = create("trapped_juniper_chest", () -> new BWChestItem(TRAPPED_JUNIPER_CHEST.get(), gen(), BWChestBlockEntity.Type.JUNIPER, true));
 	public static final RegistryObject<Block> JUNIPER_SIGN = createSign("juniper", JUNIPER_WOOD_TYPE);
 	//cypress
 	public static final RegistryObject<Block> CYPRESS_LOG = create("cypress_log", () -> new RotatedPillarBlock(copyOf(JUNIPER_LOG.get())), true);
@@ -164,8 +167,10 @@ public class BWObjects {
 	public static final RegistryObject<Block> CYPRESS_TRAPDOOR = create("cypress_trapdoor", () -> new TrapDoorBlock(copyOf(JUNIPER_TRAPDOOR.get()), BlockSetType.OAK), true);
 	public static final RegistryObject<Block> CYPRESS_DOOR = create("cypress_door", () -> new DoorBlock(copyOf(JUNIPER_DOOR.get()), BlockSetType.OAK), false);
 	public static final RegistryObject<Item> CYPRESS_DOOR_ITEM = create("cypress_door", () -> new DoubleHighBlockItem(CYPRESS_DOOR.get(), gen()));
-	public static final RegistryObject<Block> CYPRESS_CHEST = create("cypress_chest", () -> new BWChestBlock(copyOf(JUNIPER_CHEST.get()), () -> BWBlockEntityTypes.BW_CHEST.get(), false), true);
-	public static final RegistryObject<Block> TRAPPED_CYPRESS_CHEST = create("trapped_cypress_chest", () -> new BWChestBlock(copyOf(JUNIPER_CHEST.get()), () -> BWBlockEntityTypes.BW_CHEST.get(), true), true);
+	public static final RegistryObject<Block> CYPRESS_CHEST = create("cypress_chest", () -> new BWChestBlock(copyOf(JUNIPER_CHEST.get()), () -> BWBlockEntityTypes.BW_CHEST.get(), false), false);
+	public static final RegistryObject<Item> CYPRESS_CHEST_ITEM = create("cypress_chest", () -> new BWChestItem(CYPRESS_CHEST.get(), gen(), BWChestBlockEntity.Type.CYPRESS, false));
+	public static final RegistryObject<Block> TRAPPED_CYPRESS_CHEST = create("trapped_cypress_chest", () -> new BWChestBlock(copyOf(JUNIPER_CHEST.get()), () -> BWBlockEntityTypes.BW_CHEST.get(), true), false);
+	public static final RegistryObject<Item> TRAPPED_CYPRESS_CHEST_ITEM = create("trapped_cypress_chest", () -> new BWChestItem(TRAPPED_CYPRESS_CHEST.get(), gen(), BWChestBlockEntity.Type.CYPRESS, true));
 	public static final RegistryObject<Block> CYPRESS_SIGN = createSign("cypress", CYPRESS_WOOD_TYPE);
 	//elder
 	public static final RegistryObject<Block> ELDER_LOG = create("elder_log", () -> new RotatedPillarBlock(copyOf(JUNIPER_LOG.get())), true);
@@ -185,8 +190,10 @@ public class BWObjects {
 	public static final RegistryObject<Block> ELDER_TRAPDOOR = create("elder_trapdoor", () -> new ElderTrapdoorBlock(copyOf(JUNIPER_TRAPDOOR.get())), true);
 	public static final RegistryObject<Block> ELDER_DOOR = create("elder_door", () -> new ElderDoorBlock(copyOf(JUNIPER_DOOR.get())), false);
 	public static final RegistryObject<Item> ELDER_DOOR_ITEM = create("elder_door", () -> new DoubleHighBlockItem(ELDER_DOOR.get(), gen()));
-	public static final RegistryObject<Block> ELDER_CHEST = create("elder_chest", () -> new ElderChestBlock(copyOf(JUNIPER_CHEST.get()), () -> BWBlockEntityTypes.ELDER_CHEST.get(), false), true);
-	public static final RegistryObject<Block> TRAPPED_ELDER_CHEST = create("trapped_elder_chest", () -> new ElderChestBlock(copyOf(JUNIPER_CHEST.get()), () -> BWBlockEntityTypes.ELDER_CHEST.get(), true), true);
+	public static final RegistryObject<Block> ELDER_CHEST = create("elder_chest", () -> new ElderChestBlock(copyOf(JUNIPER_CHEST.get()), () -> BWBlockEntityTypes.ELDER_CHEST.get(), false), false);
+	public static final RegistryObject<Item> ELDER_CHEST_ITEM = create("elder_chest", () -> new BWChestItem(ELDER_CHEST.get(), gen(), BWChestBlockEntity.Type.ELDER, false));
+	public static final RegistryObject<Block> TRAPPED_ELDER_CHEST = create("trapped_elder_chest", () -> new ElderChestBlock(copyOf(JUNIPER_CHEST.get()), () -> BWBlockEntityTypes.ELDER_CHEST.get(), true), false);
+	public static final RegistryObject<Item> TRAPPED_ELDER_CHEST_ITEM = create("trapped_elder_chest", () -> new BWChestItem(TRAPPED_ELDER_CHEST.get(), gen(), BWChestBlockEntity.Type.ELDER, true));
 	public static final RegistryObject<Block> ELDER_SIGN = createSign("elder", ELDER_WOOD_TYPE);
 	//dragons_blood
 	public static final RegistryObject<Block> DRAGONS_BLOOD_LOG = create("dragons_blood_log", () -> new DragonsBloodLogBlock(copyOf(JUNIPER_LOG.get()).randomTicks()), true);
@@ -206,8 +213,10 @@ public class BWObjects {
 	public static final RegistryObject<Block> DRAGONS_BLOOD_TRAPDOOR = create("dragons_blood_trapdoor", () -> new DragonsBloodTrapdoorBlock(copyOf(JUNIPER_TRAPDOOR.get())), true);
 	public static final RegistryObject<Block> DRAGONS_BLOOD_DOOR = create("dragons_blood_door", () -> new DragonsBloodDoorBlock(copyOf(JUNIPER_DOOR.get())), false);
 	public static final RegistryObject<Item> DRAGONS_BLOOD_DOOR_ITEM = create("dragons_blood_door", () -> new DoubleHighBlockItem(DRAGONS_BLOOD_DOOR.get(), gen()));
-	public static final RegistryObject<Block> DRAGONS_BLOOD_CHEST = create("dragons_blood_chest", () -> new DragonsBloodChestBlock(copyOf(JUNIPER_CHEST.get()), () -> BWBlockEntityTypes.DRAGONS_BLOOD_CHEST.get(), false), true);
-	public static final RegistryObject<Block> TRAPPED_DRAGONS_BLOOD_CHEST = create("trapped_dragons_blood_chest", () -> new DragonsBloodChestBlock(copyOf(JUNIPER_CHEST.get()), () -> BWBlockEntityTypes.DRAGONS_BLOOD_CHEST.get(), true), true);
+	public static final RegistryObject<Block> DRAGONS_BLOOD_CHEST = create("dragons_blood_chest", () -> new DragonsBloodChestBlock(copyOf(JUNIPER_CHEST.get()), () -> BWBlockEntityTypes.DRAGONS_BLOOD_CHEST.get(), false), false);
+	public static final RegistryObject<Item> DRAGONS_BLOOD_CHEST_ITEM = create("dragons_blood_chest", () -> new BWChestItem(DRAGONS_BLOOD_CHEST.get(), gen(), BWChestBlockEntity.Type.DRAGONS_BLOOD, false));
+	public static final RegistryObject<Block> TRAPPED_DRAGONS_BLOOD_CHEST = create("trapped_dragons_blood_chest", () -> new DragonsBloodChestBlock(copyOf(JUNIPER_CHEST.get()), () -> BWBlockEntityTypes.DRAGONS_BLOOD_CHEST.get(), true), false);
+	public static final RegistryObject<Item> TRAPPED_DRAGONS_BLOOD_CHEST_ITEM = create("trapped_dragons_blood_chest", () -> new BWChestItem(TRAPPED_DRAGONS_BLOOD_CHEST.get(), gen(), BWChestBlockEntity.Type.DRAGONS_BLOOD, true));
 	public static final RegistryObject<Block> DRAGONS_BLOOD_SIGN = createSign("dragons_blood", DRAGONS_BLOOD_WOOD_TYPE);
 	//other_plants
 	public static final RegistryObject<Block> GLOWING_BRAMBLE = create("glowing_bramble", () -> new BrambleBlock(BlockBehaviour.Properties.of().sound(SoundType.GRASS).strength(2, 3).noCollission().randomTicks().lightLevel(state -> 15)), true);
@@ -293,19 +302,19 @@ public class BWObjects {
 	public static final RegistryObject<Block> RED_COFFIN = create("red_coffin", () -> new CoffinBlock(DyeColor.RED, copyOf(CYPRESS_PLANKS.get()).noOcclusion()), true);
 	public static final RegistryObject<Block> BLACK_COFFIN = create("black_coffin", () -> new CoffinBlock(DyeColor.BLACK, copyOf(CYPRESS_PLANKS.get()).noOcclusion()), true);
 	//armor
-	public static final RegistryObject<Item> HEDGEWITCH_HOOD = create("hedgewitch_hood", () -> new ArmorItem(BWMaterials.HEDGEWITCH_ARMOR, ArmorItem.Type.HELMET, gen()));
-	public static final RegistryObject<Item> HEDGEWITCH_HAT = create("hedgewitch_hat", () -> new ArmorItem(BWMaterials.HEDGEWITCH_ARMOR, ArmorItem.Type.HELMET, gen()));
-	public static final RegistryObject<Item> HEDGEWITCH_ROBES = create("hedgewitch_robes", () -> new ArmorItem(BWMaterials.HEDGEWITCH_ARMOR, ArmorItem.Type.CHESTPLATE, gen()));
-	public static final RegistryObject<Item> HEDGEWITCH_PANTS = create("hedgewitch_pants", () -> new ArmorItem(BWMaterials.HEDGEWITCH_ARMOR, ArmorItem.Type.LEGGINGS, gen()));
-	public static final RegistryObject<Item> ALCHEMIST_HOOD = create("alchemist_hood", () -> new ArmorItem(BWMaterials.ALCHEMIST_ARMOR, ArmorItem.Type.HELMET, gen()));
-	public static final RegistryObject<Item> ALCHEMIST_HAT = create("alchemist_hat", () -> new ArmorItem(BWMaterials.ALCHEMIST_ARMOR, ArmorItem.Type.HELMET, gen()));
-	public static final RegistryObject<Item> ALCHEMIST_ROBES = create("alchemist_robes", () -> new ArmorItem(BWMaterials.ALCHEMIST_ARMOR, ArmorItem.Type.CHESTPLATE, gen()));
-	public static final RegistryObject<Item> ALCHEMIST_PANTS = create("alchemist_pants", () -> new ArmorItem(BWMaterials.ALCHEMIST_ARMOR, ArmorItem.Type.LEGGINGS, gen()));
-	public static final RegistryObject<Item> BESMIRCHED_HOOD = create("besmirched_hood", () -> new ArmorItem(BWMaterials.BESMIRCHED_ARMOR, ArmorItem.Type.HELMET, gen()));
-	public static final RegistryObject<Item> BESMIRCHED_HAT = create("besmirched_hat", () -> new ArmorItem(BWMaterials.BESMIRCHED_ARMOR, ArmorItem.Type.HELMET, gen()));
-	public static final RegistryObject<Item> BESMIRCHED_ROBES = create("besmirched_robes", () -> new ArmorItem(BWMaterials.BESMIRCHED_ARMOR, ArmorItem.Type.CHESTPLATE, gen()));
-	public static final RegistryObject<Item> BESMIRCHED_PANTS = create("besmirched_pants", () -> new ArmorItem(BWMaterials.BESMIRCHED_ARMOR, ArmorItem.Type.LEGGINGS, gen()));
-	public static final RegistryObject<Item> HARBINGER = create("harbinger", () -> new ArmorItem(BWMaterials.HARBINGER_ARMOR, ArmorItem.Type.BOOTS, gen().rarity(Rarity.RARE).durability(444).fireResistant()));
+	public static final RegistryObject<Item> HEDGEWITCH_HOOD = create("hedgewitch_hood", () -> new WitchArmorItem(BWMaterials.HEDGEWITCH_ARMOR, ArmorItem.Type.HELMET, gen(), Bewitchment.id("textures/entity/armor/hedgewitch.png"), false));
+	public static final RegistryObject<Item> HEDGEWITCH_HAT = create("hedgewitch_hat", () -> new WitchArmorItem(BWMaterials.HEDGEWITCH_ARMOR, ArmorItem.Type.HELMET, gen(), Bewitchment.id("textures/entity/armor/hedgewitch.png"), true));
+	public static final RegistryObject<Item> HEDGEWITCH_ROBES = create("hedgewitch_robes", () -> new WitchArmorItem(BWMaterials.HEDGEWITCH_ARMOR, ArmorItem.Type.CHESTPLATE, gen(), Bewitchment.id("textures/entity/armor/hedgewitch.png"), false));
+	public static final RegistryObject<Item> HEDGEWITCH_PANTS = create("hedgewitch_pants", () -> new WitchArmorItem(BWMaterials.HEDGEWITCH_ARMOR, ArmorItem.Type.LEGGINGS, gen(), Bewitchment.id("textures/entity/armor/hedgewitch.png"), false));
+	public static final RegistryObject<Item> ALCHEMIST_HOOD = create("alchemist_hood", () -> new WitchArmorItem(BWMaterials.ALCHEMIST_ARMOR, ArmorItem.Type.HELMET, gen(), Bewitchment.id("textures/entity/armor/alchemist.png"), false));
+	public static final RegistryObject<Item> ALCHEMIST_HAT = create("alchemist_hat", () -> new WitchArmorItem(BWMaterials.ALCHEMIST_ARMOR, ArmorItem.Type.HELMET, gen(), Bewitchment.id("textures/entity/armor/alchemist.png"), true));
+	public static final RegistryObject<Item> ALCHEMIST_ROBES = create("alchemist_robes", () -> new WitchArmorItem(BWMaterials.ALCHEMIST_ARMOR, ArmorItem.Type.CHESTPLATE, gen(), Bewitchment.id("textures/entity/armor/alchemist.png"), false));
+	public static final RegistryObject<Item> ALCHEMIST_PANTS = create("alchemist_pants", () -> new WitchArmorItem(BWMaterials.ALCHEMIST_ARMOR, ArmorItem.Type.LEGGINGS, gen(), Bewitchment.id("textures/entity/armor/alchemist.png"), false));
+	public static final RegistryObject<Item> BESMIRCHED_HOOD = create("besmirched_hood", () -> new WitchArmorItem(BWMaterials.BESMIRCHED_ARMOR, ArmorItem.Type.HELMET, gen(), Bewitchment.id("textures/entity/armor/besmirched.png"), false));
+	public static final RegistryObject<Item> BESMIRCHED_HAT = create("besmirched_hat", () -> new WitchArmorItem(BWMaterials.BESMIRCHED_ARMOR, ArmorItem.Type.HELMET, gen(), Bewitchment.id("textures/entity/armor/besmirched.png"), true));
+	public static final RegistryObject<Item> BESMIRCHED_ROBES = create("besmirched_robes", () -> new WitchArmorItem(BWMaterials.BESMIRCHED_ARMOR, ArmorItem.Type.CHESTPLATE, gen(), Bewitchment.id("textures/entity/armor/besmirched.png"), false));
+	public static final RegistryObject<Item> BESMIRCHED_PANTS = create("besmirched_pants", () -> new WitchArmorItem(BWMaterials.BESMIRCHED_ARMOR, ArmorItem.Type.LEGGINGS, gen(), Bewitchment.id("textures/entity/armor/besmirched.png"), false));
+	public static final RegistryObject<Item> HARBINGER = create("harbinger", () -> new WitchArmorItem(BWMaterials.HARBINGER_ARMOR, ArmorItem.Type.BOOTS, gen().rarity(Rarity.RARE).durability(444).fireResistant(), Bewitchment.id("textures/entity/armor/harbinger.png"), false));
 	//trinket
 	public static final RegistryObject<Item> NAZAR = create("nazar", () -> new TrinketItem(gen().stacksTo(1)));
 	public static final RegistryObject<Item> SPECTER_BANGLE = create("specter_bangle", () -> new SpecterBangleItem(gen().stacksTo(1)));
