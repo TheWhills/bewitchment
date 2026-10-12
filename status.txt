@@ -1,4 +1,6 @@
-commit: 58fcf8f
+commit: ba55a56
 result: success
 java errors: 0
 files with errors: 0
+gametests: failure
+gametest summary: 
