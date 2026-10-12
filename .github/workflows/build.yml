@@ -46,6 +46,8 @@ jobs:
         run: |
           set -o pipefail
           ./gradlew runGameTestServer --console=plain 2>&1 | tee gametest.log
+          # The task can exit 0 even when the server never started; require the GameTest verdict line.
+          grep -q "required tests passed" gametest.log
       - name: summarize
         if: always()
         run: |
@@ -57,7 +59,7 @@ jobs:
             echo "files with errors: $(cut -d: -f1 errors.txt | sort -u | wc -l)"
             echo "gametests: ${{ steps.gametest.outcome || 'skipped' }}"
             if [ -f gametest.log ]; then
-              echo "gametest summary: $(grep -E 'tests? (passed|failed)|All [0-9]+ required tests passed|required tests failed' gametest.log | tail -3 | tr '\n' ' ')"
+              echo "gametest summary: $(grep -E 'required tests (passed|failed)|GAME TESTS COMPLETE|Failed to start the minecraft server' gametest.log | sed -E 's/^\[[^]]*\] \[[^]]*\] \[[^]]*\]: //' | tail -3 | tr '\n' ' ')"
             fi
           } > status.txt
           cat status.txt

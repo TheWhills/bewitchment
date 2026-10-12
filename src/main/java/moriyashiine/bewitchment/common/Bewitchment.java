@@ -10,7 +10,6 @@ import moriyashiine.bewitchment.common.event.BWCommonEvents;
 import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.common.registry.*;
 
-import eu.midnightdust.lib.config.MidnightConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,6 +25,7 @@ public class Bewitchment {
 
 	public Bewitchment() {
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+		BWConfig.register(modBus);
 		BWRegistration.register(modBus);
 		BWNetwork.register();
 		modBus.addListener(this::commonSetup);
@@ -47,7 +47,6 @@ public class Bewitchment {
 	}
 
 	private void onInitialize() {
-		MidnightConfig.init(MOD_ID, BWConfig.class);
 		BWCommonEvents.register(MinecraftForge.EVENT_BUS);
 		BWScaleTypes.init();
 	}

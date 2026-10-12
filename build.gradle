@@ -91,7 +91,6 @@ dependencies {
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     implementation fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
     implementation fg.deobf("maven.modrinth:pehkui:${pehkui_version}")
-    implementation fg.deobf("maven.modrinth:midnightlib:${midnightlib_version}")
 
     // Optional integrations
     // full jar: the EMI integration uses EmiRenderHelper / EmiDrawContext, which are not in the api jar
