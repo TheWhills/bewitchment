@@ -35,7 +35,9 @@ import java.util.List;
 @GameTestHolder(Bewitchment.MOD_ID)
 @PrefixGameTestTemplate(false)
 public class BWGameTests {
-	private static final String PLATFORM = Bewitchment.MOD_ID + ":gametest_platform";
+	/** Annotated tests get the mod id prefixed by Forge (@GameTestHolder); generated tests need the full id. */
+	private static final String PLATFORM_NAME = "gametest_platform";
+	private static final String PLATFORM = Bewitchment.MOD_ID + ":" + PLATFORM_NAME;
 	private static final BlockPos SPAWN = new BlockPos(2, 1, 2);
 
 	/** One test per Bewitchment entity type: it must spawn, carry its components, and survive 20 ticks. */
@@ -67,7 +69,7 @@ public class BWGameTests {
 	}
 
 	/** Components attach by entity class, most specific registration first. */
-	@GameTest(template = PLATFORM)
+	@GameTest(template = PLATFORM_NAME)
 	public static void componentsAttachByClass(GameTestHelper helper) {
 		Villager villager = helper.spawn(EntityType.VILLAGER, SPAWN);
 		Pig pig = helper.spawn(EntityType.PIG, SPAWN);
@@ -80,7 +82,7 @@ public class BWGameTests {
 	}
 
 	/** Content registries and Bewitchment's own registries are populated. */
-	@GameTest(template = PLATFORM)
+	@GameTest(template = PLATFORM_NAME)
 	public static void registriesPopulated(GameTestHelper helper) {
 		check(helper, BWObjects.BLOCKS.getEntries().size() > 200, "expected 200+ blocks, got " + BWObjects.BLOCKS.getEntries().size());
 		check(helper, BWObjects.ITEMS.getEntries().size() > 200, "expected 200+ items, got " + BWObjects.ITEMS.getEntries().size());
