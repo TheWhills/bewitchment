@@ -48,6 +48,8 @@ jobs:
           ./gradlew runGameTestServer --console=plain 2>&1 | tee gametest.log
           # The task can exit 0 even when the server never started; require the GameTest verdict line.
           grep -q "required tests passed" gametest.log
+          # Data problems (recipes, tags, loot, biome modifiers) only log and carry on; treat them as failures.
+          if grep -E "(Could not decode|Couldn't parse|Couldn't load|Parsing error|Failed to load|Unknown type).*bewitchment" gametest.log; then exit 1; fi
       - name: summarize
         if: always()
         run: |
