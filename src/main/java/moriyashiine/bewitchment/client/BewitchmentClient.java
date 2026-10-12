@@ -33,7 +33,9 @@ import com.mojang.blaze3d.platform.InputConstants;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
@@ -78,8 +80,7 @@ public class BewitchmentClient {
 	public static final ModelLayerLocation LILITH_MODEL_LAYER = new ModelLayerLocation(Bewitchment.id("lilith"), "main");
 	public static final ModelLayerLocation HERNE_MODEL_LAYER = new ModelLayerLocation(Bewitchment.id("herne"), "main");
 
-	// TODO(forge-port): move to FMLClientSetupEvent / RegisterRenderers etc.
-	priva	/**
+	/**
 	 * Client entry point, reached only on the physical client (DistExecutor in the @Mod constructor).
 	 * Registration happens in Forge's client events; the Fabric API registries these replaced are
 	 * noted per method.
@@ -207,6 +208,8 @@ public class BewitchmentClient {
 		event.registerLayerDefinition(LILITH_MODEL_LAYER, LilithEntityModel::getTexturedModelData);
 		event.registerLayerDefinition(HERNE_MODEL_LAYER, HerneEntityModel::getTexturedModelData);
 	}
-getInstance().getEntityModels().bakeLayer(layer);
+
+	public static ModelPart getPart(ModelLayerLocation layer) {
+		return Minecraft.getInstance().getEntityModels().bakeLayer(layer);
 	}
 }
