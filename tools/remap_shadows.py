@@ -73,16 +73,24 @@ for f, l, kind, old, new in changes:
     print(f"ok   {os.path.basename(f)}:{l} {kind} {old} -> {new}")
 for p in problems:
     print("FAIL", p)
+STRING = re.compile(r'"(?:\\.|[^"\\])*"')
+
+def outside_strings(text, fn):
+    # apply fn only to code, never inside string literals (mixin targets live in strings)
+    out, pos = [], 0
+    for m in STRING.finditer(text):
+        out.append(fn(text[pos:m.start()])); out.append(m.group(0)); pos = m.end()
+    out.append(fn(text[pos:]))
+    return "".join(out)
+
 for f, renames in by_file.items():
     s = open(f).read()
     for kind, old, new in renames:
         if old == new: continue
         if kind == "field":
-            s = re.sub(r"(?<![\w.])" + old + r"\b(?!\s*\()", new, s)
-            s = re.sub(r"\bthis\." + old + r"\b", "this." + new, s)
+            s = outside_strings(s, lambda t: re.sub(r"\bthis\." + old + r"\b", "this." + new, re.sub(r"(?<![\w./])" + old + r"\b(?!\s*\()", new, t)))
         else:
-            s = re.sub(r"(?<![\w.])" + old + r"\(", new + "(", s)
-            s = re.sub(r"\bthis\." + old + r"\(", "this." + new + "(", s)
+            s = outside_strings(s, lambda t: re.sub(r"\bthis\." + old + r"\(", "this." + new + "(", re.sub(r"(?<![\w./])" + old + r"\(", new + "(", t)))
     if APPLY:
         open(f, "w").write(s)
 print(f"{len(changes)} resolved, {len(problems)} unresolved, write={APPLY}")
