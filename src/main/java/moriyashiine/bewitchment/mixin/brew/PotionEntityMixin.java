@@ -19,12 +19,9 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,14 +32,14 @@ public abstract class PotionEntityMixin extends ThrowableItemProjectile {
 		super(entityType, world);
 	}
 
-	@ModifyVariable(method = "makeAreaOfEffectCloud", at = @At(value = "INVOKE_ASSIGN", target = "Ljava/util/List;iterator()Ljava/util/Iterator;"))
-	private Iterator<MobEffectInstance> modifyIterator(Iterator<MobEffectInstance> iterator, ItemStack stack) {
-		if (stack.getTag().getBoolean("BewitchmentBrew")) {
-			List<MobEffectInstance> statusEffects = new ArrayList<>();
-			iterator.forEachRemaining(effect -> statusEffects.add(new MobEffectInstance(effect.getEffect(), effect.getDuration() / 4, effect.getAmplifier(), effect.isAmbient(), effect.isVisible(), effect.showIcon())));
-			return statusEffects.iterator();
+	// Redirects (call-site targets) instead of local-variable capture: production Minecraft has no
+	// local variable table, so local-based injectors that work in dev fail to apply there.
+	@Redirect(method = "makeAreaOfEffectCloud", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/AreaEffectCloud;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)V"))
+	private void modifyCloudEffect(AreaEffectCloud cloud, MobEffectInstance effect, ItemStack stack, Potion potion) {
+		if (stack.hasTag() && stack.getTag().getBoolean("BewitchmentBrew")) {
+			effect = new MobEffectInstance(effect.getEffect(), effect.getDuration() / 4, effect.getAmplifier(), effect.isAmbient(), effect.isVisible(), effect.showIcon());
 		}
-		return iterator;
+		cloud.addEffect(effect);
 	}
 
 	@Inject(method = "applySplash", at = @At("HEAD"))
@@ -59,8 +56,9 @@ public abstract class PotionEntityMixin extends ThrowableItemProjectile {
 		}
 	}
 
-	@Inject(method = "makeAreaOfEffectCloud", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/AreaEffectCloud;setPotion(Lnet/minecraft/world/item/alchemy/Potion;)V"), locals = LocalCapture.CAPTURE_FAILSOFT)
-	private void applyLingeringPotion(ItemStack stack, Potion potion, CallbackInfo callbackInfo, AreaEffectCloud cloud) {
+	@Redirect(method = "makeAreaOfEffectCloud", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/AreaEffectCloud;setPotion(Lnet/minecraft/world/item/alchemy/Potion;)V"))
+	private void applyLingeringPotion(AreaEffectCloud cloud, Potion cloudPotion, ItemStack stack, Potion potion) {
+		cloud.setPotion(cloudPotion);
 		if (stack.hasTag() && stack.getTag().contains("PolymorphUUID")) {
 			BWComponents.POLYMORPH_COMPONENT.maybeGet(cloud).ifPresent(polymorphComponent -> {
 				polymorphComponent.setUuid(stack.getTag().getUUID("PolymorphUUID"));

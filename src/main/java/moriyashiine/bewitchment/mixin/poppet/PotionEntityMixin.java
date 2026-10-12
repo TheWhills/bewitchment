@@ -21,7 +21,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
 
@@ -31,8 +30,10 @@ public abstract class PotionEntityMixin extends ThrowableItemProjectile {
 		super(entityType, world);
 	}
 
-	@Inject(method = "applySplash", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILSOFT)
-	private void applySplashPotion(List<MobEffectInstance> statusEffects, @Nullable Entity entity, CallbackInfo callbackInfo, AABB box) {
+	@Inject(method = "applySplash", at = @At("TAIL"))
+	private void applySplashPotion(List<MobEffectInstance> statusEffects, @Nullable Entity entity, CallbackInfo callbackInfo) {
+		// Same area vanilla uses for the splash (was a captured local; production has no local variable table).
+		AABB box = getBoundingBox().inflate(4.0, 2.0, 4.0);
 		if (BWConfig.disabledPoppets.contains("bewitchment:voodoo_poppet")) {
 			return;
 		}
