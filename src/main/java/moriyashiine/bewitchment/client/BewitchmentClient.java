@@ -3,6 +3,10 @@
  */
 
 package moriyashiine.bewitchment.client;
+import net.minecraft.client.model.ChestBoatModel;
+import net.minecraft.client.model.BoatModel;
+import moriyashiine.bewitchment.common.entity.boat.BWBoatType;
+import moriyashiine.bewitchment.client.render.entity.BWBoatRenderer;
 import moriyashiine.bewitchment.api.client.model.BroomEntityModel;
 import moriyashiine.bewitchment.client.integration.appleskin.BWAppleskinIntegration;
 import moriyashiine.bewitchment.client.event.CauldronTeleportEvent;
@@ -152,8 +156,10 @@ public class BewitchmentClient {
 		event.register((stack, tintIndex) -> tintIndex == 0 ? 0x7f0000 : 0xffffff, BWObjects.BOTTLE_OF_BLOOD.get());
 	}
 
-	/** Was BlockEntityRenderers / EntityRendererRegistry. Boat renderers are added in the boats step. */
+	/** Was BlockEntityRenderers / EntityRendererRegistry. */
 	private static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
+		event.registerEntityRenderer(BWEntityTypes.BOAT.get(), context -> new BWBoatRenderer(context, false));
+		event.registerEntityRenderer(BWEntityTypes.CHEST_BOAT.get(), context -> new BWBoatRenderer(context, true));
 		event.registerBlockEntityRenderer(BWBlockEntityTypes.BW_CHEST.get(), ChestRenderer::new);
 		event.registerBlockEntityRenderer(BWBlockEntityTypes.WITCH_ALTAR.get(), ctx -> new WitchAltarBlockEntityRenderer());
 		event.registerBlockEntityRenderer(BWBlockEntityTypes.WITCH_CAULDRON.get(), ctx -> new WitchCauldronBlockEntityRenderer());
@@ -186,6 +192,10 @@ public class BewitchmentClient {
 	/** Was EntityModelLayerRegistry. Block render layers moved to "render_type" in the block models;
 	 * chest items render through BWChestItem and witch armor through WitchArmorItem. */
 	private static void onRegisterLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+		for (BWBoatType type : BWBoatType.values()) {
+			event.registerLayerDefinition(BWBoatRenderer.layer(type, false), BoatModel::createBodyModel);
+			event.registerLayerDefinition(BWBoatRenderer.layer(type, true), ChestBoatModel::createBodyModel);
+		}
 		event.registerLayerDefinition(CONTRIBUTOR_HORNS_MODEL_LAYER, ContributorHornsModel::getTexturedModelData);
 		event.registerLayerDefinition(WITCH_ARMOR_MODEL_LAYER, WitchArmorModel::getTexturedModelData);
 		event.registerLayerDefinition(SPECTER_BANGLE_MODEL_LAYER, SpecterBangleModel::getTexturedModelData);

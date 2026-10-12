@@ -1,0 +1,13 @@
+{
+  "type": "bewitchment:add_spawn",
+  "biomes": {
+    "type": "forge:any",
+    "values": [
+      "#minecraft:is_taiga",
+      "#forge:is_plains"
+    ]
+  },
+  "entity": "bewitchment:vampire",
+  "config": "vampire",
+  "only_where_category_spawns": true
+}

@@ -1,0 +1,10 @@
+{
+  "type": "bewitchment:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": [
+    "bewitchment:ore_salt_upper",
+    "bewitchment:ore_salt_lower"
+  ],
+  "step": "underground_ores",
+  "enabled_by": "salt"
+}

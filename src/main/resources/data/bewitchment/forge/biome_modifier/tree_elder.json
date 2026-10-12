@@ -1,0 +1,6 @@
+{
+  "type": "bewitchment:add_features",
+  "biomes": "#minecraft:is_forest",
+  "features": "bewitchment:tree_elder",
+  "step": "vegetal_decoration"
+}

@@ -4,13 +4,10 @@
 
 package moriyashiine.bewitchment.common.packet;
 
-import io.github.ladysnake.pal.AbilitySource;
-import io.github.ladysnake.pal.Pal;
-import io.github.ladysnake.pal.VanillaAbilities;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.api.component.TransformationComponent;
 import moriyashiine.bewitchment.client.packet.SpawnSmokeParticlesPacket;
-import moriyashiine.bewitchment.common.Bewitchment;
+import moriyashiine.bewitchment.common.misc.VampireFlight;
 import moriyashiine.bewitchment.common.registry.*;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,8 +21,6 @@ import java.util.function.Supplier;
 
 /** Client to server: use the current transformation's ability (vampire bat form / werewolf form). */
 public record TransformationAbilityPacket() {
-
-	public static final AbilitySource VAMPIRE_FLIGHT_SOURCE = Pal.getAbilitySource(Bewitchment.id("vampire_flight"));
 
 	private static final float VAMPIRE_WIDTH = EntityType.BAT.getWidth() / EntityType.PLAYER.getWidth();
 	private static final float VAMPIRE_HEIGHT = EntityType.BAT.getHeight() / EntityType.PLAYER.getHeight();
@@ -74,13 +69,11 @@ public record TransformationAbilityPacket() {
 				if (isAlternateForm) {
 					width.setScale(width.getBaseScale() / VAMPIRE_WIDTH);
 					height.setScale(height.getBaseScale() / VAMPIRE_HEIGHT);
-					VAMPIRE_FLIGHT_SOURCE.revokeFrom(player, VanillaAbilities.ALLOW_FLYING);
-					VAMPIRE_FLIGHT_SOURCE.revokeFrom(player, VanillaAbilities.FLYING);
+					VampireFlight.revoke(player);
 				} else {
 					width.setScale(width.getBaseScale() * VAMPIRE_WIDTH);
 					height.setScale(height.getBaseScale() * VAMPIRE_HEIGHT);
-					VAMPIRE_FLIGHT_SOURCE.grantTo(player, VanillaAbilities.ALLOW_FLYING);
-					VAMPIRE_FLIGHT_SOURCE.grantTo(player, VanillaAbilities.FLYING);
+					VampireFlight.grant(player);
 				}
 			} else if (transformationComponent.getTransformation() == BWTransformations.WEREWOLF.get() && (forced || BewitchmentAPI.isPledged(player, BWPledges.HERNE))) {
 				BWNetwork.sendToTrackingAndSelf(player, new SpawnSmokeParticlesPacket(player));

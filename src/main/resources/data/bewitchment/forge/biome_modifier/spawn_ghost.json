@@ -1,0 +1,7 @@
+{
+  "type": "bewitchment:add_spawn",
+  "biomes": "#minecraft:is_overworld",
+  "entity": "bewitchment:ghost",
+  "config": "ghost",
+  "only_where_category_spawns": true
+}

@@ -13,10 +13,10 @@
 	  "item": "paper"
 	},
 	"A": {
-	  "tag": "c:silver_ingots"
+	  "tag": "forge:ingots/silver"
 	},
 	"B": {
-	  "tag": "c:salt_dusts"
+	  "tag": "forge:dusts/salt"
 	}
   },
   "result": {

@@ -81,6 +81,7 @@
 	"vampirehack.RemoveFireInvulnerabilityMixin"
   ],
   "client": [
+	"client.PolymorphSkinMixin",
 	"component.ClientLevelComponentTickMixin",
 	"client.ClientWorldMixin",
 	"client.EntityRenderDispatcherMixin",

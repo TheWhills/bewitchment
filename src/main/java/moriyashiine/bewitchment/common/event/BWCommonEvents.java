@@ -76,6 +76,8 @@ public final class BWCommonEvents {
 		forgeBus.addListener(BWCommonEvents::onEntityInteract);
 		forgeBus.addListener(BWCommonEvents::onSleepingTimeCheck);
 		forgeBus.addListener(BWCommonEvents::onSleepInBed);
+		forgeBus.addListener(BWCommonEvents::onNameFormat);
+		forgeBus.addListener(BWCommonEvents::onTabListNameFormat);
 	}
 
 	private static void onRegisterCommands(RegisterCommandsEvent event) {
@@ -227,6 +229,24 @@ public final class BWCommonEvents {
 				return;
 			}
 		}
+	}
+
+	/** Polymorphed players show their disguise's name over their head and in chat. */
+	private static void onNameFormat(PlayerEvent.NameFormat event) {
+		BWComponents.POLYMORPH_COMPONENT.maybeGet(event.getEntity()).ifPresent(polymorph -> {
+			if (polymorph.getUuid() != null && polymorph.getName() != null) {
+				event.setDisplayname(Component.literal(polymorph.getName()));
+			}
+		});
+	}
+
+	/** ...and in the tab list. */
+	private static void onTabListNameFormat(PlayerEvent.TabListNameFormat event) {
+		BWComponents.POLYMORPH_COMPONENT.maybeGet(event.getEntity()).ifPresent(polymorph -> {
+			if (polymorph.getUuid() != null && polymorph.getName() != null) {
+				event.setDisplayName(Component.literal(polymorph.getName()));
+			}
+		});
 	}
 
 	/** Called from {@code LivingEntityWakeMixin} when any living entity stops sleeping: apply nearby incense. */

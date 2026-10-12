@@ -5,6 +5,8 @@
 package moriyashiine.bewitchment.common.registry;
 
 import moriyashiine.bewitchment.common.component.base.ComponentEvents;
+import moriyashiine.bewitchment.common.world.AddTableLootModifier;
+import moriyashiine.bewitchment.common.world.BWBiomeModifiers;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -31,6 +33,8 @@ public final class BWRegistration {
 		BWRecipeTypes.RECIPE_SERIALIZERS.register(modBus);
 		BWRecipeTypes.RECIPE_TYPES.register(modBus);
 		BWScreenHandlerTypes.MENUS.register(modBus);
+		BWBiomeModifiers.SERIALIZERS.register(modBus);
+		AddTableLootModifier.SERIALIZERS.register(modBus);
 
 		BWRitualFunctions.RITUAL_FUNCTIONS.register(modBus);
 		BWSigils.SIGILS.register(modBus);
@@ -40,6 +44,7 @@ public final class BWRegistration {
 		BWCurses.CURSES.register(modBus);
 
 		modBus.addListener(BWEntityTypes::registerAttributes);
+		modBus.addListener(BWWorldGenerators::registerSpawnPlacements);
 		modBus.addListener((FMLCommonSetupEvent event) -> event.enqueueWork(BWObjects::commonSetup));
 
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;

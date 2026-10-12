@@ -6,7 +6,6 @@ package moriyashiine.bewitchment.common.item;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
-import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import moriyashiine.bewitchment.client.packet.SyncHornedSpearPacket;
 import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.common.entity.projectile.HornedSpearEntity;
@@ -28,6 +27,7 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeMod;
 import java.util.UUID;
 
 public class HornedSpearItem extends SwordItem {
@@ -41,7 +41,7 @@ public class HornedSpearItem extends SwordItem {
 	public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
 		Multimap<Attribute, AttributeModifier> map = LinkedHashMultimap.create(super.getDefaultAttributeModifiers(slot));
 		if (slot == EquipmentSlot.MAINHAND) {
-			map.put(ReachEntityAttributes.ATTACK_RANGE, REACH_MODIFIER);
+			map.put(ForgeMod.ENTITY_REACH.get(), REACH_MODIFIER);
 		}
 		return map;
 	}

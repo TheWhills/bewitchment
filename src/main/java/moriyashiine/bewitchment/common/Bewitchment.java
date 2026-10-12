@@ -49,10 +49,7 @@ public class Bewitchment {
 	private void onInitialize() {
 		MidnightConfig.init(MOD_ID, BWConfig.class);
 		BWCommonEvents.register(MinecraftForge.EVENT_BUS);
-		// TODO(forge-port): Pehkui scale types, Terraform boats and biome modifications are ported in later steps.
 		BWScaleTypes.init();
-		BWBoatTypes.init();
-		BWWorldGenerators.init();
 	}
 
 	public static ResourceLocation id(String value) {

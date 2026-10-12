@@ -1,0 +1,12 @@
+{
+  "type": "bewitchment:add_spawn",
+  "biomes": {
+    "type": "forge:any",
+    "values": [
+      "#minecraft:is_jungle",
+      "#forge:is_swamp"
+    ]
+  },
+  "entity": "bewitchment:toad",
+  "config": "toad"
+}

@@ -3,6 +3,9 @@
  */
 
 package moriyashiine.bewitchment.common.registry;
+import net.minecraft.world.level.block.DispenserBlock;
+import moriyashiine.bewitchment.common.item.BWBoatItem;
+import moriyashiine.bewitchment.common.entity.boat.BWBoatType;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.common.block.entity.BWChestBlockEntity;
 import moriyashiine.bewitchment.api.block.CandelabraBlock;
@@ -99,7 +102,7 @@ public class BWObjects {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Bewitchment.MOD_ID);
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Bewitchment.MOD_ID);
 	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Bewitchment.MOD_ID);
-	/** Boat items in creative-tab order; filled by {@link BWBoatTypes}. */
+	/** Boat items, listed last in the creative tab. */
 	public static final List<RegistryObject<? extends Item>> BOATS = new ArrayList<>();
 
 	public static final WoodType JUNIPER_WOOD_TYPE = WoodType.register(new WoodType(Bewitchment.MOD_ID + ":juniper", BlockSetType.OAK));
@@ -425,6 +428,12 @@ public class BWObjects {
 		return ITEMS.register(name, item);
 	}
 
+	private static RegistryObject<Item> createBoat(String name, BWBoatType boatType, boolean chest) {
+		RegistryObject<Item> boat = create(name, () -> new BWBoatItem(boatType, chest, gen().stacksTo(1)));
+		BOATS.add(boat);
+		return boat;
+	}
+
 	private static BlockBehaviour.Properties copyOf(BlockBehaviour block) {
 		return BlockBehaviour.Properties.copy(block);
 	}
@@ -468,6 +477,16 @@ public class BWObjects {
 		return () -> altars.stream().map(RegistryObject::get).toArray(Block[]::new);
 	}
 
+	//boats (were Terraform boat types)
+	public static final RegistryObject<Item> JUNIPER_BOAT = createBoat("juniper_boat", BWBoatType.JUNIPER, false);
+	public static final RegistryObject<Item> JUNIPER_CHEST_BOAT = createBoat("juniper_chest_boat", BWBoatType.JUNIPER, true);
+	public static final RegistryObject<Item> CYPRESS_BOAT = createBoat("cypress_boat", BWBoatType.CYPRESS, false);
+	public static final RegistryObject<Item> CYPRESS_CHEST_BOAT = createBoat("cypress_chest_boat", BWBoatType.CYPRESS, true);
+	public static final RegistryObject<Item> ELDER_BOAT = createBoat("elder_boat", BWBoatType.ELDER, false);
+	public static final RegistryObject<Item> ELDER_CHEST_BOAT = createBoat("elder_chest_boat", BWBoatType.ELDER, true);
+	public static final RegistryObject<Item> DRAGONS_BLOOD_BOAT = createBoat("dragons_blood_boat", BWBoatType.DRAGONS_BLOOD, false);
+	public static final RegistryObject<Item> DRAGONS_BLOOD_CHEST_BOAT = createBoat("dragons_blood_chest_boat", BWBoatType.DRAGONS_BLOOD, true);
+
 	public static final RegistryObject<CreativeModeTab> GROUP = CREATIVE_MODE_TABS.register(Bewitchment.MOD_ID, () -> CreativeModeTab.builder()
 			.title(Component.translatable("itemGroup." + Bewitchment.MOD_ID))
 			.icon(() -> ATHAME.get().getDefaultInstance())
@@ -500,6 +519,7 @@ public class BWObjects {
 
 	/** Flammability and compost chances; vanilla maps, so this must run on the main thread (enqueueWork). */
 	static void commonSetup() {
+		BOATS.forEach(boat -> DispenserBlock.registerBehavior(boat.get(), new BWBoatItem.DispenseBehavior()));
 		FireBlock fire = (FireBlock) Blocks.FIRE;
 		fire.setFlammable(STRIPPED_JUNIPER_LOG.get(), 5, 5);
 		fire.setFlammable(STRIPPED_JUNIPER_WOOD.get(), 5, 5);

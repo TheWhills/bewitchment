@@ -16,7 +16,7 @@
 	  "item": "lapis_lazuli"
 	},
 	"I": {
-	  "tag": "c:silver_ingots"
+	  "tag": "forge:ingots/silver"
 	}
   },
   "result": {

@@ -1,0 +1,12 @@
+{
+  "type": "bewitchment:add_features",
+  "biomes": {
+    "type": "forge:any",
+    "values": [
+      "#minecraft:is_taiga",
+      "#forge:is_swamp"
+    ]
+  },
+  "features": "bewitchment:tree_cypress",
+  "step": "vegetal_decoration"
+}

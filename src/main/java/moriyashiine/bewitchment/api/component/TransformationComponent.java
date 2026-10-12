@@ -4,12 +4,11 @@
 
 package moriyashiine.bewitchment.api.component;
 
-import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
+import moriyashiine.bewitchment.common.misc.VampireFlight;
 import net.minecraftforge.common.MinecraftForge;
 import moriyashiine.bewitchment.api.event.TransformationSetEvent;
 import moriyashiine.bewitchment.api.event.VampireHealEvent;
 import moriyashiine.bewitchment.api.event.VampireSunlightEvent;
-import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
 import moriyashiine.bewitchment.common.component.base.AutoSyncedComponent;
 import moriyashiine.bewitchment.common.component.base.ServerTickingComponent;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
@@ -30,6 +29,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.ForgeMod;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -80,6 +80,9 @@ public class TransformationComponent implements AutoSyncedComponent, ServerTicki
 	public void serverTick() {
 		boolean vampire = BewitchmentAPI.isVampire(obj, true);
 		if (vampire) {
+			if (isAlternateForm()) {
+				VampireFlight.maintain(obj);
+			}
 			boolean pledgedToLilith = BewitchmentAPI.isPledged(obj, BWPledges.LILITH);
 			if (obj.getItemBySlot(EquipmentSlot.HEAD).is(BWTags.SUN_GLASSES)) {
 				obj.removeEffect(MobEffects.NIGHT_VISION);
@@ -184,9 +187,9 @@ public class TransformationComponent implements AutoSyncedComponent, ServerTicki
 		AttributeInstance armorAttribute = obj.getAttribute(Attributes.ARMOR);
 		AttributeInstance armorToughnessAttribute = obj.getAttribute(Attributes.ARMOR_TOUGHNESS);
 		AttributeInstance movementSpeedAttribute = obj.getAttribute(Attributes.MOVEMENT_SPEED);
-		AttributeInstance attackRange = obj.getAttribute(ReachEntityAttributes.ATTACK_RANGE);
-		AttributeInstance reach = obj.getAttribute(ReachEntityAttributes.REACH);
-		AttributeInstance stepHeight = obj.getAttribute(StepHeightEntityAttributeMain.STEP_HEIGHT);
+		AttributeInstance attackRange = obj.getAttribute(ForgeMod.ENTITY_REACH.get());
+		AttributeInstance reach = obj.getAttribute(ForgeMod.BLOCK_REACH.get());
+		AttributeInstance stepHeight = obj.getAttribute(ForgeMod.STEP_HEIGHT_ADDITION.get());
 		boolean shouldHave = vampire && !BewitchmentAPI.isPledged(obj, BWPledges.LILITH);
 		if (shouldHave && !attackDamageAttribute.hasModifier(VAMPIRE_ATTACK_DAMAGE_MODIFIER_0)) {
 			attackDamageAttribute.addPermanentModifier(VAMPIRE_ATTACK_DAMAGE_MODIFIER_0);

@@ -4,8 +4,6 @@
 
 package moriyashiine.bewitchment.common.entity.living;
 
-import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
-import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.common.packet.BWNetwork;
 import moriyashiine.bewitchment.client.packet.SpawnSmokeParticlesPacket;
@@ -14,6 +12,7 @@ import moriyashiine.bewitchment.common.misc.BWUtil;
 import moriyashiine.bewitchment.common.registry.BWComponents;
 import moriyashiine.bewitchment.common.registry.BWSoundEvents;
 import net.minecraft.core.BlockPos;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.Tags;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.core.Holder;
@@ -56,7 +55,7 @@ public class WerewolfEntity extends BWHostileEntity {
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
-		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20).add(Attributes.ATTACK_DAMAGE, 15).add(Attributes.ARMOR, 20).add(Attributes.ARMOR_TOUGHNESS, 8).add(Attributes.MOVEMENT_SPEED, 0.4).add(ReachEntityAttributes.ATTACK_RANGE, 1).add(StepHeightEntityAttributeMain.STEP_HEIGHT, 1);
+		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20).add(Attributes.ATTACK_DAMAGE, 15).add(Attributes.ARMOR, 20).add(Attributes.ARMOR_TOUGHNESS, 8).add(Attributes.MOVEMENT_SPEED, 0.4).add(ForgeMod.ENTITY_REACH.get(), 4).add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1);
 	}
 
 	public static boolean canSpawn(EntityType<WerewolfEntity> type, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {

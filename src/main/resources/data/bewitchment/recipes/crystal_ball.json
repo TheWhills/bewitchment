@@ -13,7 +13,7 @@
 	  "item": "amethyst_shard"
 	},
 	"S": {
-	  "tag": "c:silver_ingots"
+	  "tag": "forge:ingots/silver"
 	}
   },
   "result": {

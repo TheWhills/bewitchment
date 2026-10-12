@@ -1,0 +1,10 @@
+{
+  "type": "bewitchment:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": [
+    "bewitchment:ore_silver",
+    "bewitchment:ore_silver_lower"
+  ],
+  "step": "underground_ores",
+  "enabled_by": "silver"
+}

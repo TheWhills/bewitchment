@@ -1,0 +1,12 @@
+{
+  "type": "bewitchment:add_spawn",
+  "biomes": {
+    "type": "forge:any",
+    "values": [
+      "#minecraft:is_taiga",
+      "#minecraft:is_forest"
+    ]
+  },
+  "entity": "bewitchment:owl",
+  "config": "owl"
+}

@@ -10,7 +10,7 @@
 	  "item": "bewitchment:juniper_planks"
 	},
 	"N": {
-	  "tag": "c:silver_nuggets"
+	  "tag": "forge:nuggets/silver"
 	}
   },
   "result": {

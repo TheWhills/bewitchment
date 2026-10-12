@@ -1,0 +1,13 @@
+{
+  "type": "bewitchment:add_spawn",
+  "biomes": {
+    "type": "forge:any",
+    "values": [
+      "#forge:is_plains",
+      "#minecraft:is_savanna",
+      "#forge:is_desert"
+    ]
+  },
+  "entity": "bewitchment:snake",
+  "config": "snake"
+}

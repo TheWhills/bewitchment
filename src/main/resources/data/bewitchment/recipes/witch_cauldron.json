@@ -10,7 +10,7 @@
 	  "tag": "bewitchment:barks"
 	},
 	"S": {
-	  "tag": "c:silver_ingots"
+	  "tag": "forge:ingots/silver"
 	},
 	"C": {
 	  "item": "cauldron"

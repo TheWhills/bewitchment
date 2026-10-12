@@ -4,6 +4,8 @@
 
 package moriyashiine.bewitchment.common.registry;
 
+import moriyashiine.bewitchment.common.entity.boat.BWBoat;
+import moriyashiine.bewitchment.common.entity.boat.BWChestBoat;
 import moriyashiine.bewitchment.api.entity.BroomEntity;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.entity.DragonsBloodBroomEntity;
@@ -28,6 +30,9 @@ public class BWEntityTypes {
 	public static final RegistryObject<EntityType<BroomEntity>> CYPRESS_BROOM = create("cypress_broom", () -> EntityType.Builder.<BroomEntity>of(BroomEntity::new, MobCategory.MISC).sized(0.5f, 0.5f).build(Bewitchment.id("cypress_broom").toString()));
 	public static final RegistryObject<EntityType<ElderBroomEntity>> ELDER_BROOM = create("elder_broom", () -> EntityType.Builder.<ElderBroomEntity>of(ElderBroomEntity::new, MobCategory.MISC).sized(0.5f, 0.5f).build(Bewitchment.id("elder_broom").toString()));
 	public static final RegistryObject<EntityType<DragonsBloodBroomEntity>> DRAGONS_BLOOD_BROOM = create("dragons_blood_broom", () -> EntityType.Builder.<DragonsBloodBroomEntity>of(DragonsBloodBroomEntity::new, MobCategory.MISC).sized(0.5f, 0.5f).build(Bewitchment.id("dragons_blood_broom").toString()));
+
+	public static final RegistryObject<EntityType<BWBoat>> BOAT = create("boat", () -> EntityType.Builder.<BWBoat>of(BWBoat::new, MobCategory.MISC).sized(1.375f, 0.5625f).clientTrackingRange(10).build(Bewitchment.id("boat").toString()));
+	public static final RegistryObject<EntityType<BWChestBoat>> CHEST_BOAT = create("chest_boat", () -> EntityType.Builder.<BWChestBoat>of(BWChestBoat::new, MobCategory.MISC).sized(1.375f, 0.5625f).clientTrackingRange(10).build(Bewitchment.id("chest_boat").toString()));
 
 	public static final RegistryObject<EntityType<SilverArrowEntity>> SILVER_ARROW = create("silver_arrow", () -> EntityType.Builder.<SilverArrowEntity>of(SilverArrowEntity::new, MobCategory.MISC).sized(0.5f, 0.5f).build(Bewitchment.id("silver_arrow").toString()));
 	public static final RegistryObject<EntityType<HornedSpearEntity>> HORNED_SPEAR = create("horned_spear", () -> EntityType.Builder.<HornedSpearEntity>of(HornedSpearEntity::new, MobCategory.MISC).sized(0.5f, 0.5f).build(Bewitchment.id("horned_spear").toString()));

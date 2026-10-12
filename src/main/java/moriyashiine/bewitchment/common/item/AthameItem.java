@@ -6,7 +6,6 @@ package moriyashiine.bewitchment.common.item;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
-import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import moriyashiine.bewitchment.api.BewitchmentAPI;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.block.dragonsblood.DragonsBloodLogBlock;
@@ -46,6 +45,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeMod;
 import java.util.UUID;
 
 public class AthameItem extends SwordItem {
@@ -135,7 +135,7 @@ public class AthameItem extends SwordItem {
 	public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
 		Multimap<Attribute, AttributeModifier> map = LinkedHashMultimap.create(super.getDefaultAttributeModifiers(slot));
 		if (slot == EquipmentSlot.MAINHAND) {
-			map.put(ReachEntityAttributes.ATTACK_RANGE, REACH_MODIFIER);
+			map.put(ForgeMod.ENTITY_REACH.get(), REACH_MODIFIER);
 		}
 		return map;
 	}

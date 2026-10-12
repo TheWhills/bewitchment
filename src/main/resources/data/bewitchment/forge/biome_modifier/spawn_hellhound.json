@@ -1,0 +1,6 @@
+{
+  "type": "bewitchment:add_spawn",
+  "biomes": "#minecraft:is_nether",
+  "entity": "bewitchment:hellhound",
+  "config": "hellhound"
+}

@@ -23,15 +23,15 @@ public class BWTags {
 	public static final TagKey<EntityType<?>> ENCOUNTER_FORTUNE = TagKey.create(Registries.ENTITY_TYPE, Bewitchment.id("encounter_fortune"));
 	public static final TagKey<EntityType<?>> INSANITY_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, Bewitchment.id("insanity_blacklist"));
 
-	public static final TagKey<Block> ORES = TagKey.create(Registries.BLOCK, new ResourceLocation("c", "ores"));
-	public static final TagKey<Item> SKULLS = TagKey.create(Registries.ITEM, new ResourceLocation("c", "skulls"));
+	public static final TagKey<Block> ORES = TagKey.create(Registries.BLOCK, new ResourceLocation("forge", "ores"));
+	public static final TagKey<Item> SKULLS = TagKey.create(Registries.ITEM, new ResourceLocation("forge", "heads"));
 	public static final TagKey<Block> GIVES_ALTAR_POWER = TagKey.create(Registries.BLOCK, Bewitchment.id("gives_altar_power"));
 	public static final TagKey<Block> HEATS_CAULDRON = TagKey.create(Registries.BLOCK, Bewitchment.id("heats_cauldron"));
 	public static final TagKey<Block> NATURAL_TERRAIN = TagKey.create(Registries.BLOCK, Bewitchment.id("natural_terrain"));
 	public static final TagKey<Block> UNDEAD_MASK = TagKey.create(Registries.BLOCK, Bewitchment.id("undead_mask"));
 
-	public static final TagKey<Item> SILVER_INGOTS = TagKey.create(Registries.ITEM, new ResourceLocation("c", "silver_ingots"));
-	public static final TagKey<Item> SILVER_NUGGETS = TagKey.create(Registries.ITEM, new ResourceLocation("c", "silver_nuggets"));
+	public static final TagKey<Item> SILVER_INGOTS = TagKey.create(Registries.ITEM, new ResourceLocation("forge", "ingots/silver"));
+	public static final TagKey<Item> SILVER_NUGGETS = TagKey.create(Registries.ITEM, new ResourceLocation("forge", "nuggets/silver"));
 	public static final TagKey<Item> BARKS = TagKey.create(Registries.ITEM, Bewitchment.id("barks"));
 	public static final TagKey<Item> WITCHBERRY_FOODS = TagKey.create(Registries.ITEM, Bewitchment.id("witchberry_foods"));
 

@@ -4,18 +4,23 @@
 
 package moriyashiine.bewitchment.common.component.entity;
 
+import moriyashiine.bewitchment.common.component.base.AutoSyncedComponent;
 import moriyashiine.bewitchment.common.component.base.ServerTickingComponent;
-import io.github.ladysnake.impersonate.Impersonator;
 import moriyashiine.bewitchment.common.registry.BWStatusEffects;
-import moriyashiine.bewitchment.common.statuseffect.PolymorphStatusEffect;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public class PolymorphComponent implements ServerTickingComponent {
+/**
+ * Who an entity is disguised as by the polymorph effect. On players this is synced so every
+ * client renders the disguise (skin via ClientPolymorph, names via NameFormat/TabListNameFormat);
+ * arrows and potion clouds only carry the target to whoever they hit.
+ */
+public class PolymorphComponent implements AutoSyncedComponent, ServerTickingComponent {
 	private final Entity obj;
 	private UUID uuid;
 	private String name;
@@ -29,6 +34,9 @@ public class PolymorphComponent implements ServerTickingComponent {
 		if (tag.contains("UUID")) {
 			uuid = tag.getUUID("UUID");
 			name = tag.getString("Name");
+		} else {
+			uuid = null;
+			name = null;
 		}
 	}
 
@@ -45,7 +53,16 @@ public class PolymorphComponent implements ServerTickingComponent {
 		if (obj instanceof Player player && getUuid() != null && !player.hasEffect(BWStatusEffects.POLYMORPH.get())) {
 			setUuid(null);
 			setName(null);
-			Impersonator.get(player).stopImpersonation(PolymorphStatusEffect.IMPERSONATE_IDENTIFIER);
+			refresh(player);
+		}
+	}
+
+	/** Push the current disguise (or its removal) to clients and refresh the player's names. */
+	public static void refresh(Player player) {
+		BWComponents.POLYMORPH_COMPONENT.sync(player);
+		player.refreshDisplayName();
+		if (player instanceof ServerPlayer serverPlayer) {
+			serverPlayer.refreshTabListName();
 		}
 	}
 
