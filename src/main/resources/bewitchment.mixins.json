@@ -28,6 +28,7 @@
 	"SpawnHelperMixin",
 	"VillagerEntityMixin",
 	"WalkAnimationAccessor",
+	"component.EntityComponentHolderMixin",
 	"component.ServerLevelComponentTickMixin",
 	"brew.ArrowEntityMixin",
 	"brew.BrewingRecipeRegistryMixin",

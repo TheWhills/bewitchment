@@ -40,6 +40,7 @@ public final class ComponentEvents {
 		ComponentContainer container = ComponentContainer.create(event.getObject());
 		if (container != null) {
 			event.addCapability(CONTAINER_ID, container);
+			((ComponentHolder) event.getObject()).bewitchment$setComponents(container);
 			event.addListener(container::invalidate);
 		}
 	}

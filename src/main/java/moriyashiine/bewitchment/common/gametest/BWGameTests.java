@@ -7,6 +7,7 @@ package moriyashiine.bewitchment.common.gametest;
 import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.component.base.ComponentContainer;
 import moriyashiine.bewitchment.common.registry.BWComponents;
+import moriyashiine.bewitchment.common.registry.BWEntityTypes;
 import moriyashiine.bewitchment.common.registry.BWObjects;
 import moriyashiine.bewitchment.common.registry.BWRegistries;
 import net.minecraft.core.BlockPos;
@@ -78,6 +79,20 @@ public class BWGameTests {
 		check(helper, BWComponents.MINION_COMPONENT.isProvidedBy(pig), "pig (a Mob) should have minion");
 		check(helper, !BWComponents.WEREWOLF_VILLAGER_COMPONENT.isProvidedBy(pig), "pig must not have werewolf_villager");
 		check(helper, !BWComponents.CONTRACTS_COMPONENT.isProvidedBy(pig), "pig must not have player-only contracts");
+		helper.succeed();
+	}
+
+	/**
+	 * Components must stay readable after an entity is removed: Bewitchment code keeps running for a
+	 * killed entity until the end of its tick (a vampire burning in sunlight crashed here).
+	 */
+	@GameTest(template = PLATFORM_NAME)
+	public static void componentsSurviveRemoval(GameTestHelper helper) {
+		Entity vampire = helper.spawn(BWEntityTypes.VAMPIRE.get(), SPAWN);
+		// What vanilla does when a dying mob finishes its death animation, mid-tick.
+		vampire.remove(Entity.RemovalReason.KILLED);
+		check(helper, BWComponents.FAKE_MOB_COMPONENT.isProvidedBy(vampire), "fake_mob should still be readable after removal");
+		vampire.setSecondsOnFire(5);
 		helper.succeed();
 	}
 

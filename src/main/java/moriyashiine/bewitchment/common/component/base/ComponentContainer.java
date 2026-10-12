@@ -59,9 +59,10 @@ public final class ComponentContainer implements ICapabilitySerializable<Compoun
 		return components.isEmpty() ? null : new ComponentContainer(components);
 	}
 
+	/** The entity's container; still available after the entity is removed (see {@link ComponentHolder}). */
 	@Nullable
 	public static ComponentContainer of(Entity entity) {
-		return entity.getCapability(CAPABILITY).resolve().orElse(null);
+		return ((ComponentHolder) entity).bewitchment$getComponents();
 	}
 
 	@Nullable
