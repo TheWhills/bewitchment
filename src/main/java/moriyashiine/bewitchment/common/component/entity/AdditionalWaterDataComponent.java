@@ -21,8 +21,8 @@ public class AdditionalWaterDataComponent implements AutoSyncedComponent, Server
 
 	@Override
 	public void readFromNbt(CompoundTag tag) {
-		setSubmerged(tag.getBoolean("Submerged"));
-		setWetTimer(tag.getInt("WetTimer"));
+		submerged = tag.getBoolean("Submerged");
+		wetTimer = tag.getInt("WetTimer");
 	}
 
 	@Override
@@ -46,16 +46,26 @@ public class AdditionalWaterDataComponent implements AutoSyncedComponent, Server
 	}
 
 	public void setSubmerged(boolean submerged) {
-		this.submerged = submerged;
-		BWComponents.ADDITIONAL_WATER_DATA_COMPONENT.sync(obj);
+		if (this.submerged != submerged) {
+			this.submerged = submerged;
+			BWComponents.ADDITIONAL_WATER_DATA_COMPONENT.sync(obj);
+		}
 	}
 
 	public int getWetTimer() {
 		return wetTimer;
 	}
 
+	/**
+	 * The client only needs to know whether the timer is running (Entity.isInWaterOrRain), so sync on
+	 * start, refresh and expiry rather than on every one-tick countdown step, which sent a packet per
+	 * wet entity per tick for up to 15 minutes after a rain ritual.
+	 */
 	public void setWetTimer(int wetTimer) {
+		boolean countdownStep = wetTimer == this.wetTimer - 1 && wetTimer > 0;
 		this.wetTimer = wetTimer;
-		BWComponents.ADDITIONAL_WATER_DATA_COMPONENT.sync(obj);
+		if (!countdownStep) {
+			BWComponents.ADDITIONAL_WATER_DATA_COMPONENT.sync(obj);
+		}
 	}
 }
